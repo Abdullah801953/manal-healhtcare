@@ -1,47 +1,327 @@
-# 🚀 Next.js Full-Stack Starter Project
+# 🏥 Manal Healthcare - Modern Healthcare Website
 
-A modern **Next.js 15+ App Router** based project set up with **TypeScript**, **ESLint**, and **PostCSS**.  
-This repository serves as a **clean, scalable starting point** for building full-stack web applications.
+A modern, responsive healthcare website built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**. This project showcases a complete healthcare platform with beautiful UI components, animations, and best practices for React and Next.js development.
+
+---
+
+## ✨ Features
+
+- 🎨 **Modern UI/UX** - Clean, professional design with Tailwind CSS v4
+- 📱 **Fully Responsive** - Mobile-first design that works on all devices
+- ⚡ **Fast Performance** - Optimized with Next.js 16 and App Router
+- 🎭 **Smooth Animations** - Framer Motion for engaging user experience
+- ♿ **Accessible** - Built with shadcn/ui for accessibility standards
+- 🔧 **Type Safe** - Full TypeScript support throughout
+- 🎯 **Component-Based** - Reusable, maintainable component architecture
+- 🔍 **SEO Optimized** - Next.js Image optimization and meta tags
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Next.js** (App Router)
-- **React**
-- **TypeScript**
-- **PostCSS**
-- **ESLint**
-- **Node.js**
+- **Next.js 16.1.1** - React framework with App Router
+- **React 19.2.3** - UI library
+- **TypeScript** - Type safety
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **shadcn/ui** - Accessible component library
+- **Framer Motion 12.25.0** - Animation library
+- **Lucide React** - Beautiful icon library
+- **Embla Carousel** - Touch-friendly carousel
 
 ---
 
 ## 📂 Project Structure
 
+```
+manal-healthcare/
+├── app/                          # Next.js App Router
+│   ├── components/               # React components
+│   │   ├── Header.tsx           # Main header container
+│   │   ├── TopBar.tsx           # Top contact bar
+│   │   ├── MainNav.tsx          # Desktop navigation
+│   │   ├── MobileNav.tsx        # Mobile menu
+│   │   ├── Hero.tsx             # Hero section with search
+│   │   ├── InfoCards.tsx        # Information cards grid
+│   │   ├── Services.tsx         # Services carousel
+│   │   ├── AboutSection.tsx     # About company section
+│   │   ├── ServicesMarquee.tsx  # Infinite scrolling banner
+│   │   ├── Testimonials.tsx     # Customer testimonials
+│   │   ├── LabTestBooking.tsx   # Lab test booking cards
+│   │   ├── DoctorsShowcase.tsx  # Doctors grid with filtering
+│   │   ├── NewsletterSection.tsx # Newsletter subscription
+│   │   ├── BlogSection.tsx      # Blog posts grid
+│   │   ├── FAQSection.tsx       # FAQ accordion
+│   │   └── Footer.tsx           # Site footer
+│   ├── globals.css              # Global styles
+│   ├── layout.tsx               # Root layout
+│   └── page.tsx                 # Homepage
+│
+├── components/                   # shadcn/ui components
+│   └── ui/
+│       ├── button.tsx
+│       ├── sheet.tsx
+│       ├── input.tsx
+│       ├── carousel.tsx
+│       └── accordion.tsx
+│
+├── public/                       # Static assets
+│   ├── doctor-img 1.png
+│   ├── doctor-img2 1.png
+│   ├── blog-1.jpg
+│   └── [other images]
+│
+├── lib/                          # Utility functions
+│   └── utils.ts
+│
+├── components.json               # shadcn/ui configuration
+├── next.config.ts                # Next.js configuration
+├── tailwind.config.ts            # Tailwind CSS configuration
+├── tsconfig.json                 # TypeScript configuration
+├── postcss.config.mjs            # PostCSS configuration
+├── eslint.config.mjs             # ESLint configuration
+└── package.json                  # Dependencies
+```
+
+---
+
+## 🎨 Components Overview
+
+### Header Components
+- **Header** - Main header wrapper with sticky positioning
+- **TopBar** - Contact information and social media links
+- **MainNav** - Desktop navigation with language selector
+- **MobileNav** - Responsive mobile menu with sheet drawer
+
+### Content Sections
+- **Hero** - Main hero section with search functionality and animations
+- **InfoCards** - Grid of information cards with hover effects
+- **Services** - Carousel of healthcare services
+- **AboutSection** - Company information with feature highlights
+- **ServicesMarquee** - Infinite scrolling services banner
+- **Testimonials** - Customer testimonials carousel
+- **LabTestBooking** - Lab test packages with booking options
+- **DoctorsShowcase** - Filterable grid of doctors by specialty
+- **NewsletterSection** - Newsletter subscription with email form
+- **BlogSection** - Latest news and articles grid
+- **FAQSection** - Frequently asked questions with accordion
+
+### UI Components (shadcn/ui)
+- Button - Multiple variants and sizes
+- Sheet - Drawer/dialog component
+- Input - Form input fields
+- Carousel - Touch-friendly image carousel
+- Accordion - Collapsible content sections
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js** 20+ 
+- **npm** or **yarn** or **pnpm**
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd manal-healthcare
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 📝 Available Scripts
+
 ```bash
-.
-├── app/                     # App Router (routes & layouts)
-│   ├── favicon.ico
-│   ├── globals.css          # Global styles
-│   ├── layout.tsx           # Root layout
-│   └── page.tsx             # Home page
-│
-├── public/                  # Static assets
-│   ├── file.svg
-│   ├── globe.svg
-│   ├── next.svg
-│   ├── vercel.svg
-│   └── window.svg
-│
-├── .next/                   # Build output (auto-generated)
-├── node_modules/            # Dependencies
-│
-├── .gitignore
-├── eslint.config.mjs        # ESLint configuration
-├── next-env.d.ts            # Next.js TypeScript types
-├── next.config.ts           # Next.js configuration
-├── postcss.config.mjs       # PostCSS configuration
-├── tsconfig.json            # TypeScript configuration
-├── package.json
-├── package-lock.json
-└── README.md
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
+
+---
+
+## 🎨 Customization
+
+### Adding New Components
+
+1. Create component in `app/components/`
+2. Use TypeScript interfaces for props
+3. Import in `app/page.tsx`
+4. Follow existing patterns for consistency
+
+### Styling
+
+- Uses **Tailwind CSS v4** utility classes
+- Custom colors in Tailwind config
+- Framer Motion for animations
+- Responsive breakpoints: `sm`, `md`, `lg`, `xl`, `2xl`
+
+### Images
+
+- Place images in `public/` folder
+- Use Next.js `Image` component for optimization
+- Format: `/image-name.png` or `/image-name.jpg`
+
+---
+
+## 🏗️ Component Patterns
+
+### Reusability
+All components follow these patterns:
+- **TypeScript interfaces** for type safety
+- **Default props** for flexibility
+- **Composition** over inheritance
+- **Framer Motion** for animations
+- **Responsive design** mobile-first
+
+Example:
+```tsx
+interface ComponentProps {
+  title?: string;
+  description?: string;
+}
+
+export function Component({ 
+  title = "Default Title",
+  description = "Default description" 
+}: ComponentProps) {
+  // Component logic
+}
+```
+
+---
+
+## 🔧 Configuration Files
+
+- **next.config.ts** - Next.js configuration
+- **tsconfig.json** - TypeScript compiler options
+- **tailwind.config.ts** - Tailwind CSS customization
+- **components.json** - shadcn/ui configuration
+- **eslint.config.mjs** - Code linting rules
+- **postcss.config.mjs** - PostCSS plugins
+
+---
+
+## 📦 Key Dependencies
+
+```json
+{
+  "next": "16.1.1",
+  "react": "19.2.3",
+  "typescript": "^5",
+  "tailwindcss": "^4",
+  "framer-motion": "^12.25.0",
+  "lucide-react": "^0.562.0",
+  "embla-carousel-react": "^8.6.0"
+}
+```
+
+---
+
+## 🌟 Features Breakdown
+
+### Animations
+- Scroll-triggered animations with Framer Motion
+- Hover effects on cards and buttons
+- Smooth transitions between sections
+- Staggered animations for lists
+
+### Responsive Design
+- Mobile-first approach
+- Breakpoint-specific layouts
+- Touch-friendly interactions
+- Optimized for all screen sizes
+
+### Performance
+- Next.js Image optimization
+- Code splitting with App Router
+- Lazy loading components
+- Optimized bundle size
+
+### Accessibility
+- Semantic HTML elements
+- ARIA labels where needed
+- Keyboard navigation support
+- Screen reader friendly
+
+---
+
+## 📱 Responsive Breakpoints
+
+```css
+sm: 640px   /* Small devices */
+md: 768px   /* Medium devices */
+lg: 1024px  /* Large devices */
+xl: 1280px  /* Extra large devices */
+2xl: 1536px /* 2X Extra large devices */
+```
+
+---
+
+## 🎯 Best Practices
+
+- ✅ Component-based architecture
+- ✅ TypeScript for type safety
+- ✅ Reusable component patterns
+- ✅ Clean code organization
+- ✅ Consistent naming conventions
+- ✅ Proper error handling
+- ✅ Performance optimization
+- ✅ Accessibility standards
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is private and proprietary.
+
+---
+
+## 👨‍💻 Developer
+
+Built with ❤️ using modern web technologies
+
+---
+
+## 📞 Support
+
+For support and questions, please contact the development team.
+
+---
+
+**Happy Coding! 🚀**

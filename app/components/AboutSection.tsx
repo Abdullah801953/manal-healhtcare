@@ -1,0 +1,222 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { Check, ArrowRight, Phone } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+// Feature item type
+export interface Feature {
+  id: number;
+  text: string;
+}
+
+// About section props
+interface AboutSectionProps {
+  badge?: string;
+  heading?: string;
+  description?: string;
+  features?: Feature[];
+  buttonText?: string;
+  buttonLink?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  phoneNumber?: string;
+  phoneLabel?: string;
+  showPhone?: boolean;
+}
+
+// Default features data
+const defaultFeatures: Feature[] = [
+  { id: 1, text: "AI-Powered Diagnostics" },
+  { id: 2, text: "Real-Time Monitoring" },
+  { id: 3, text: "Secure Data Encryption" },
+  { id: 4, text: "Evidence-Based Treatment" },
+  { id: 5, text: "AI-Powered Diagnostics" },
+  { id: 6, text: "Real-Time Monitoring" },
+  { id: 7, text: "Secure Data Encryption" },
+  { id: 8, text: "Evidence-Based Treatment" },
+];
+
+export const AboutSection = ({
+  badge = "About Mediko",
+  heading = "Advancing Medical Solutions for Health.",
+  description = "Experience comprehensive healthcare at Meca, where your well-being is our priority. We provide personalized, compassionate medical services, ensuring exceptional care tailored to your",
+  features = defaultFeatures,
+  buttonText = "More About Us",
+  buttonLink = "/about",
+  imageUrl = "/about-img.png",
+  imageAlt = "Medical professionals providing healthcare",
+  phoneNumber = "(808) 555-0111",
+  phoneLabel = "Need help?",
+  showPhone = true,
+}: AboutSectionProps) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+      },
+    },
+  };
+
+  // Split features into two columns
+  const leftFeatures = features.slice(0, Math.ceil(features.length / 2));
+  const rightFeatures = features.slice(Math.ceil(features.length / 2));
+
+  return (
+    <section className="py-16 lg:py-20 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Side - Image */}
+          <motion.div
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="relative"
+          >
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                width={600}
+                height={700}
+                className="w-full h-auto object-cover"
+                priority
+              />
+            </div>
+          </motion.div>
+
+          {/* Right Side - Content */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="space-y-6"
+          >
+            {/* Badge */}
+            <motion.p
+              variants={itemVariants}
+              className="text-green-600 font-semibold text-sm md:text-base"
+            >
+              {badge}
+            </motion.p>
+
+            {/* Heading */}
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+            >
+              {heading}
+            </motion.h2>
+
+            {/* Description */}
+            <motion.p
+              variants={itemVariants}
+              className="text-gray-600 text-base leading-relaxed"
+            >
+              {description}
+            </motion.p>
+
+            {/* Features Grid */}
+            <motion.div
+              variants={itemVariants}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4"
+            >
+              {/* Left Column */}
+              <div className="space-y-3">
+                {leftFeatures.map((feature) => (
+                  <FeatureItem key={feature.id} text={feature.text} />
+                ))}
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-3">
+                {rightFeatures.map((feature) => (
+                  <FeatureItem key={feature.id} text={feature.text} />
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Button and Phone Section */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-6 pt-4"
+            >
+              <Button
+                asChild
+                size="lg"
+                className="bg-green-600 hover:bg-green-700 text-white rounded-full px-8 py-6 font-medium transition-all duration-300 shadow-lg hover:shadow-xl group"
+              >
+                <Link href={buttonLink}>
+                  {buttonText}
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </Button>
+
+              {showPhone && (
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <Phone className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">{phoneLabel}</p>
+                    <Link
+                      href={`tel:${phoneNumber.replace(/\D/g, "")}`}
+                      className="text-gray-900 font-bold text-lg hover:text-green-600 transition-colors"
+                    >
+                      {phoneNumber}
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Reusable Feature Item Component
+interface FeatureItemProps {
+  text: string;
+}
+
+const FeatureItem = ({ text }: FeatureItemProps) => {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="shrink-0">
+        <Check className="w-5 h-5 text-green-600" />
+      </div>
+      <span className="text-gray-700 text-sm font-medium">{text}</span>
+    </div>
+  );
+};
