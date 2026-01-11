@@ -96,7 +96,7 @@ function BlogCard({ post }: BlogCardProps) {
         {/* Learn More Button */}
         <Button
           variant="outline"
-          className="rounded-full border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-300 px-6 h-12"
+          className="rounded-full border-gray-900 text-gray-900 hover:bg-green-600 hover:text-white transition-colors duration-300 px-6 h-12"
         >
           Learn More
           <ArrowRight className="ml-2 h-4 w-4" />
@@ -144,7 +144,7 @@ export function BlogSection({
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full px-8 py-6 h-auto text-base font-medium">
+            <Button className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-8 py-6 h-auto text-base font-medium">
               {viewAllText}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

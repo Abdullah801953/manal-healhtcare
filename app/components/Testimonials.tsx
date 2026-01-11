@@ -54,7 +54,7 @@ interface TestimonialsProps {
 }
 
 export const Testimonials = ({
-  badge = "Happy Patients",
+  badge = "Testimonials",
   heading = "Stories of Healing and Trust From Our Valued Patients",
   testimonials = defaultTestimonials,
   googleRating = 4.8,
@@ -111,7 +111,7 @@ export const Testimonials = ({
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-green-600 font-semibold text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-sm md:text-base"
             >
               {badge}
             </motion.p>
@@ -126,6 +126,17 @@ export const Testimonials = ({
 
             {/* Rating Stars */}
             <motion.div variants={itemVariants} className="flex items-center gap-1">
+              {[...Array(5)].map((_, index) => (
+                <Star
+                  key={index}
+                  className={`w-5 h-5 ${
+                    index < currentTestimonial.rating
+                      ? "fill-orange-400 text-orange-400"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </motion.div>   <motion.div variants={itemVariants} className="flex items-center gap-1">
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
@@ -192,15 +203,7 @@ export const Testimonials = ({
             className="space-y-6"
           >
             {/* Google Rating Card */}
-            <div className="bg-white rounded-3xl shadow-xl p-8 text-center max-w-sm mx-auto lg:mx-0">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Star className="w-8 h-8 fill-orange-400 text-orange-400" />
-                <span className="text-5xl font-bold text-gray-900">{googleRating}</span>
-              </div>
-              <p className="text-sm font-semibold text-gray-900 tracking-wide">
-                AVERAGE GOOGLE RATING
-              </p>
-            </div>
+      
 
             {/* Video Thumbnail */}
             {showVideo && (

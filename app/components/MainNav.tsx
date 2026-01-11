@@ -1,8 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Languages } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const navigationLinks = [
   { href: "/", label: "Home" },
@@ -18,27 +26,38 @@ const navigationLinks = [
 
 export const MainNav = () => {
   return (
-    <div className="hidden lg:flex items-center gap-6">
-      <nav className="flex items-center gap-7">
-        {navigationLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="text-gray-800 hover:text-green-600 transition-colors text-sm font-medium whitespace-nowrap"
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
-      <Button 
-        variant="outline" 
-        className="bg-white border-2 border-green-600 rounded-full pl-6 pr-3 py-2.5 hover:bg-green-50 transition-all text-gray-900 font-medium text-base h-auto flex items-center gap-3"
-      >
+    <div className="hidden lg:flex items-center gap-15">
+      
+      {/* NAVIGATION MENU */}
+      <NavigationMenu>
+        <NavigationMenuList className="gap-8">
+          {navigationLinks.map((link) => (
+            <NavigationMenuItem key={link.href}>
+              <Link href={link.href} legacyBehavior passHref>
+                <NavigationMenuLink
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    "bg-transparent text-md font-medium text-gray-900",
+                    "hover:text-[#209F00] hover:bg-transparent",
+                    "focus:bg-transparent"
+                  )}
+                >
+                  {link.label}
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      {/* LANGUAGE BUTTON */}
+         <Button variant="outline" className="h-11 rounded-full border-2 border-green-600 px-5 text-sm font-medium flex items-center gap-3 hover:bg-green-50" >
         Language
-        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-          <ArrowRight className="w-4 h-4 text-gray-900" />
-        </div>
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-green-100">
+          <Languages className="h-4 w-4 text-green-700" /> {/* ✅ World icon */}
+        </span>
       </Button>
+
     </div>
   );
 };

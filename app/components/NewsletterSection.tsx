@@ -41,7 +41,7 @@ export function NewsletterSection({
   };
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-8 lg:px-16 bg-white">
+    <section className="py-16 md:py-24 px-1 md:px-10 lg:px-20 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Side - Doctor Card */}
@@ -125,7 +125,7 @@ export function NewsletterSection({
                 />
                 <Button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white rounded-full px-6 py-3 h-12 font-medium"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#209F00] hover:bg-green-700 text-white rounded-full px-6 py-3 h-12 font-medium"
                 >
                   {subscribeButtonText}
                   <ArrowRight className="ml-2 h-5 w-5" />

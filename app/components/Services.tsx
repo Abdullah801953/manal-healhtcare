@@ -76,8 +76,8 @@ interface ServicesProps {
 }
 
 export const Services = ({
-  heading = "Our Services",
-  subheading = "Innovative Medical Services for Modern Healthcare",
+  heading = "Our Top Treatments",
+  subheading = "Innovative Medical Treatments for Modern Healthcare",
   services = defaultServices,
   showViewAll = true,
   viewAllLink = "/services",
@@ -119,7 +119,7 @@ export const Services = ({
           <div className="text-center space-y-3">
             <motion.p
               variants={itemVariants}
-              className="text-green-600 font-semibold text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-sm md:text-base"
             >
               {heading}
             </motion.p>
@@ -168,7 +168,7 @@ export const Services = ({
                 We have 8+ more Care Service including Emergency Department.{" "}
                 <Link
                   href={viewAllLink}
-                  className="text-green-600 font-semibold hover:text-green-700 transition-colors"
+                  className="text-[#209F00] font-semibold hover:text-green-700 transition-colors"
                 >
                   View All
                 </Link>
@@ -197,7 +197,7 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
       {/* Icon */}
       <div className="mb-6">
         <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-          <Icon className="w-6 h-6 text-green-600" />
+          <Icon className="w-6 h-6 text-[#209F00]" />
         </div>
       </div>
 
@@ -214,7 +214,7 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
       {/* Button */}
       <Button
         asChild
-        className="bg-green-600 hover:bg-green-700 text-white rounded-full w-full py-6 font-medium transition-all duration-300 group"
+        className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-6 font-medium transition-all duration-300 group"
       >
         <Link href={service.link}>
           Learn More

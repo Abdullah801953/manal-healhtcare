@@ -164,7 +164,7 @@ export const DoctorsShowcase = ({
             <div className="space-y-3">
               <motion.p
                 variants={itemVariants}
-                className="text-green-600 font-semibold text-sm md:text-base"
+                className="text-[#209F00] font-semibold text-sm md:text-base"
               >
                 {badge}
               </motion.p>
@@ -197,7 +197,7 @@ export const DoctorsShowcase = ({
                   onClick={() => setSelectedCategory(category.name)}
                   className={`rounded-full px-6 py-2 font-medium transition-all ${
                     selectedCategory === category.name
-                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      ? "bg-[#209F00] hover:bg-green-700 text-white"
                       : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
                   }`}
                 >
@@ -257,7 +257,7 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
     >
       {/* Doctor Image */}
-      <div className="relative aspect-[3/4] bg-gray-100">
+      <div className="relative  bg-gray-100">
         <Image
           src={doctor.image}
           alt={doctor.name}

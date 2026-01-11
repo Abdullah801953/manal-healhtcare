@@ -15,24 +15,24 @@ export const TopBar = () => {
               href="tel:0087578456820" 
               className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
             >
-              <Phone className="w-4 h-4 text-green-600" />
+              <Phone className="w-4 h-4 text-[#209F00]" />
               <span>(00) 875 784 5682</span>
             </Link>
             <Link 
               href="mailto:togetoinfo@gmail.com" 
               className="flex items-center gap-2 text-gray-700 hover:text-primary transition-colors"
             >
-              <Mail className="w-4 h-4 text-green-600" />
+              <Mail className="w-4 h-4 text-[#209F00]" />
               <span>togetoinfo@gmail.com</span>
             </Link>
             <div className="flex items-center gap-2 text-gray-700">
-              <MapPin className="w-4 h-4 text-green-600" />
+              <MapPin className="w-4 h-4 text-[#209F00]" />
               <span>238, Arimantab, Moska - USA.</span>
             </div>
           </div>
 
           {/* Right side - Support & Social */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center ">
             <span className="text-gray-700">Help / Support / Contact</span>
             <div className="flex items-center gap-3">
               <Link 
@@ -42,7 +42,7 @@ export const TopBar = () => {
                 className="text-gray-700 hover:text-primary transition-colors"
                 aria-label="Facebook"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-4 h-4 text-blue-700" />
               </Link>
               <Link 
                 href="https://instagram.com" 
@@ -51,7 +51,7 @@ export const TopBar = () => {
                 className="text-gray-700 hover:text-primary transition-colors"
                 aria-label="Instagram"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-4 h-4 text-red-900" />
               </Link>
               <Link 
                 href="https://twitter.com" 
@@ -60,7 +60,7 @@ export const TopBar = () => {
                 className="text-gray-700 hover:text-primary transition-colors"
                 aria-label="X (Twitter)"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4 text-black" />
               </Link>
               <Link 
                 href="https://linkedin.com" 
@@ -69,7 +69,7 @@ export const TopBar = () => {
                 className="text-gray-700 hover:text-primary transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-4 h-4 text-blue-800" />
               </Link>
             </div>
           </div>

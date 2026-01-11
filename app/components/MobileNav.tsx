@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronRight, ArrowRight, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -24,34 +24,79 @@ export const MobileNav = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden hover:bg-gray-100">
-          <Menu className="h-6 w-6 text-gray-900" />
-          <span className="sr-only">Toggle menu</span>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="md:hidden hover:bg-gray-100"
+          aria-label="Toggle mobile menu"
+        >
+          <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-gray-900" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-75 sm:w-100">
-        <nav className="flex flex-col gap-4 mt-8">
+      <SheetContent 
+        side="right" 
+        className="w-[85vw] max-w-sm sm:w-96 md:w-[400 px] p-4 sm:p-6"
+      >
+        {/* Close button for mobile */}
+
+        <nav className="flex flex-col gap-3 mt-10 sm:mt-12 md:mt-14">
           {mobileNavigationLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="flex items-center justify-between py-2 text-lg font-medium text-gray-700 hover:text-green-600 transition-colors"
+              className="flex items-center justify-between py-2.5 sm:py-3 text-base sm:text-lg font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-2 rounded-lg hover:bg-gray-50"
             >
-              {link.label}
-              <ChevronRight className="w-5 h-5" />
+              <span className="truncate">{link.label}</span>
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400  shrink-0 ml-2" />
             </Link>
           ))}
+          
+          {/* Language Button - Responsive */}
           <Button 
             variant="outline" 
-            className="mt-4 bg-white border-2 border-green-600 rounded-full pl-6 pr-3 py-2.5 hover:bg-green-50 text-gray-900 font-medium text-base h-auto flex items-center justify-between w-full"
+            className="mt-6 bg-white border-2 border-green-600 rounded-full px-4 sm:px-6 py-3 sm:py-3.5 hover:bg-green-50 text-gray-900 font-medium text-sm sm:text-base h-auto flex items-center justify-between w-full transition-all duration-200"
           >
-            Language
-            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
-              <ArrowRight className="w-4 h-4 text-gray-900" />
+            <span className="truncate">Language</span>
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center shrink-0 ml-3 transition-colors">
+              <Languages/>
             </div>
           </Button>
+
+          {/* Additional responsive elements */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <div className="flex flex-col gap-3 sm:gap-4">
+              <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-3.5 text-sm sm:text-base rounded-full font-medium">
+                Book Consultation
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full border-gray-300 hover:bg-gray-50 text-gray-800 py-3 sm:py-3.5 text-sm sm:text-base rounded-full font-medium"
+              >
+                Emergency Contact
+              </Button>
+            </div>
+            
+            {/* Contact info for tablet/desktop */}
+            <div className="hidden sm:block mt-6 text-center">
+              <p className="text-sm text-gray-600">24/7 Support Available</p>
+              <a 
+                href="tel:+911234567890" 
+                className="text-green-600 font-semibold text-lg hover:underline mt-1 inline-block"
+              >
+                +91 123 456 7890
+              </a>
+            </div>
+          </div>
         </nav>
+
+        {/* Bottom info for mobile */}
+        <div className="absolute bottom-6 left-0 right-0 px-6 sm:hidden">
+          <div className="text-center border-t border-gray-200 pt-4">
+            <p className="text-xs text-gray-500">© 2024 Manal Healthcare</p>
+            <p className="text-xs text-gray-500 mt-1">All rights reserved</p>
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );

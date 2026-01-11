@@ -39,9 +39,9 @@ const defaultFeatures: Feature[] = [
   { id: 8, text: "Evidence-Based Treatment" },
 ];
 
-export const AboutSection = ({
-  badge = "About Us",
-  heading = "Advancing Medical Solutions for Health.",
+export const OurServices = ({
+  badge = "Our Serives",
+  heading = "Advancing Medical Treatments for Health.",
   description = "Experience comprehensive healthcare at Meca, where your well-being is our priority. We provide personalized, compassionate medical services, ensuring exceptional care tailored to your",
   features = defaultFeatures,
   buttonText = "More About Us",
@@ -94,27 +94,7 @@ export const AboutSection = ({
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Side - Image */}
-          <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="relative"
-          >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <Image
-                src={imageUrl}
-                alt={imageAlt}
-                width={600}
-                height={700}
-                className="w-full h-auto object-cover"
-                priority
-              />
-            </div>
-          </motion.div>
-
-          {/* Right Side - Content */}
-          <motion.div
+        <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -173,7 +153,7 @@ export const AboutSection = ({
               <Button
                 asChild
                 size="lg"
-                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-8 py-6 font-medium transition-all duration-300 shadow-lg hover:shadow-xl group"
+                className="bg-green-600 hover:bg-green-700 text-white rounded-full px-8 py-6 font-medium transition-all duration-300 shadow-lg hover:shadow-xl group"
               >
                 <Link href={buttonLink}>
                   {buttonText}
@@ -198,6 +178,26 @@ export const AboutSection = ({
                 </div>
               )}
             </motion.div>
+          </motion.div>
+
+          {/* Right Side - Content */}
+             <motion.div
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="relative"
+          >
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                width={600}
+                height={700}
+                className="w-full h-auto object-cover"
+                priority
+              />
+            </div>
           </motion.div>
         </div>
       </div>

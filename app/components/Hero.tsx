@@ -5,14 +5,22 @@ import Image from "next/image";
 import { ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"; // ✅ shadcn Select
 import { useState } from "react";
 
 export const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchCategory, setSearchCategory] = useState("treatments"); // ✅ default category
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
+    console.log("Searching for:", searchQuery, "in category:", searchCategory);
     // Add search logic here
   };
 
@@ -64,42 +72,42 @@ export const Hero = () => {
 
   return (
     <section className="relative bg-linear-to-br from-blue-50 via-white to-blue-100 overflow-hidden">
-      <div className="container mx-auto px-4 py-16 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16 items-center">
           {/* Left Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-6"
+            className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-8"
           >
-            <motion.div variants={itemVariants} className="space-y-2">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Enhancing Lives,
+            <motion.div className="space-y-3 sm:space-y-4 md:space-y-5">
+              {/* Main Hero Heading - single H1 for SEO */}
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight sm:leading-snug md:leading-tight lg:leading-tight text-gray-900">
+                Enhancing Lives, Reviving <span className="text-[#209F00]">Health</span> for a <span className="text-[#209F00]">Better</span> Tomorrow
               </h1>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-black">
-                Reviving <span className="text-green-600">Health</span>
-              </h1>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                for <span className="text-green-600">Better</span> Tomorrow.
-              </h1>
+
+              {/* Subheading / tagline */}
+              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-800 leading-relaxed">
+                Your trusted partner in Medical Tourism in India, connecting you with top hospitals and experienced doctors.
+              </h2>
+
+              {/* Description paragraph */}
+              <motion.p
+                variants={itemVariants}
+                className="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed"
+              >
+                Discover world-class healthcare services where your well-being comes first. At Manal Healthcare, we provide personalized, compassionate medical care and seamless medical tourism services in India, ensuring safe, affordable, and high-quality treatment for every patient.
+              </motion.p>
             </motion.div>
 
-            <motion.p
-              variants={itemVariants}
-              className="text-gray-600 text-base md:text-lg max-w-xl leading-relaxed"
-            >
-              Discover a world of holistic healthcare where your well-being comes first. At Meca, we deliver
-              personalized, compassionate medical services designed to
-            </motion.p>
-
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} className="pt-2 sm:pt-3 md:pt-4">
               <Button
                 size="lg"
-                className="bg-green-600 hover:bg-green-700 text-white rounded-full px-8 py-6 text-base font-medium transition-all duration-300 shadow-lg hover:shadow-xl group"
+                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-6 sm:px-7 md:px-8 py-4 sm:py-5 md:py-6 text-sm sm:text-base font-medium transition-all duration-300 shadow-lg hover:shadow-xl group w-full sm:w-auto"
               >
                 Get a quote
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
           </motion.div>
@@ -109,9 +117,9 @@ export const Hero = () => {
             variants={imageVariants}
             initial="hidden"
             animate="visible"
-            className="relative flex justify-center lg:justify-end"
+            className="relative flex justify-center lg:justify-end order-first lg:order-last"
           >
-            <div className="relative w-full max-w-lg">
+            <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
               <Image
                 src="/doctor.png"
                 alt="Professional Healthcare Doctor"
@@ -119,6 +127,7 @@ export const Hero = () => {
                 height={700}
                 className="w-full h-auto object-contain"
                 priority
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
               />
             </div>
           </motion.div>
@@ -129,33 +138,60 @@ export const Hero = () => {
           variants={searchBarVariants}
           initial="hidden"
           animate="visible"
-          className="mt-12 lg:mt-16 max-w-4xl mx-auto"
+          className="mt-8 sm:mt-10 md:mt-12 lg:mt-14 xl:mt-16 max-w-4xl lg:max-w-5xl mx-auto"
         >
           <form onSubmit={handleSearch} className="relative">
-            <div className="flex items-center bg-white rounded-full shadow-xl overflow-hidden border border-gray-200">
+            <div className="flex flex-col sm:flex-row items-center bg-white rounded-2xl sm:rounded-full shadow-xl overflow-hidden border border-gray-200 sm:border-gray-400">
+              
+              {/* ✅ Dropdown with default value */}
+              <Select
+                onValueChange={(val) => setSearchCategory(val)}
+                defaultValue="treatments"
+              >
+                <SelectTrigger className="w-full sm:w-40 border-0 px-4 sm:px-6 py-4 sm:py-6 focus:ring-0 focus:ring-offset-0 rounded-none sm:rounded-l-full text-sm sm:text-base">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="treatments" className="text-sm sm:text-base">Treatments</SelectItem>
+                  <SelectItem value="hospitals" className="text-sm sm:text-base">Hospitals</SelectItem>
+                  <SelectItem value="doctors" className="text-sm sm:text-base">Doctors</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* ✅ Input */}
               <Input
                 type="text"
-                placeholder="Search here .."
+                placeholder="Type treatments, doctors, hospitals name"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-8 py-6 text-base placeholder:text-gray-400"
+                className="flex-1 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-4 sm:px-8 py-4 sm:py-6 text-sm sm:text-base placeholder:text-gray-400 rounded-none w-full"
               />
+
+              {/* ✅ Button */}
               <Button
                 type="submit"
                 size="lg"
-                className="bg-green-600 hover:bg-green-700 text-white rounded-full px-8 py-6 mr-1 my-1 font-medium transition-all duration-300"
+                className="bg-[#209F00] hover:bg-green-700 text-white text-sm sm:text-base rounded-none sm:rounded-full px-4 sm:px-8 py-4 sm:py-6 mt-1 sm:mt-0 mr-0 sm:mr-1 my-0 sm:my-1 font-medium transition-all duration-300 w-full sm:w-auto"
               >
-                Search
-                <Search className="ml-2 w-5 h-5" />
+                <span className="hidden sm:inline">Search</span>
+                <span className="sm:hidden">Search Now</span>
+                <Search className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </div>
           </form>
+          
+          {/* Quick Search Tips - Mobile Only */}
+          <div className="mt-3 sm:hidden text-center">
+            <p className="text-xs text-gray-500">
+              Try: "Heart Surgery", "Orthopedic", "Cancer Treatment"
+            </p>
+          </div>
         </motion.div>
       </div>
 
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-30 -z-10" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-green-100 rounded-full filter blur-3xl opacity-30 -z-10" />
+      <div className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-blue-100 rounded-full filter blur-3xl opacity-30 -z-10" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-green-100 rounded-full filter blur-3xl opacity-30 -z-10" />
     </section>
   );
 };

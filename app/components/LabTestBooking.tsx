@@ -124,7 +124,7 @@ export const LabTestBooking = ({
           <div className="text-center space-y-3">
             <motion.p
               variants={itemVariants}
-              className="text-green-600 font-semibold text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-sm md:text-base"
             >
               {badge}
             </motion.p>
@@ -234,12 +234,12 @@ const LabTestCard = ({ test }: LabTestCardProps) => {
 
       {/* Price */}
       <p className="text-gray-600 text-sm mb-2">Starting From</p>
-      <p className="text-4xl font-bold text-green-600 mb-6">${test.price}</p>
+      <p className="text-4xl font-bold text-[#209F00] mb-6">${test.price}</p>
 
       {/* Book Button */}
       <Button
         asChild
-        className="bg-green-600 hover:bg-green-700 text-white rounded-full w-full py-6 mb-6 font-medium transition-all duration-300 group"
+        className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-6 mb-6 font-medium transition-all duration-300 group"
       >
         <Link href={test.link}>
           Book A Test

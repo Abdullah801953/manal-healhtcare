@@ -1,120 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-// FAQ Item interface
-export interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-}
-
-// Default FAQ data
-const defaultFAQs: FAQItem[] = [
+// SEO FAQ data
+const faqs = [
   {
-    id: "item-1",
-    question: "How do you ensure your strategies are effective?",
+    question: "What is Medical Tourism in India?",
     answer:
-      "We combine in-depth market research, cutting-edge design, and targeted content creation to deliver strategies that generate engagement and drive conversions.",
+      "Medical Tourism in India allows patients from around the world to access high-quality medical treatments, top hospitals, and experienced doctors at affordable costs. Manal Healthcare organizes your entire medical journey seamlessly.",
   },
   {
-    id: "item-2",
-    question: "Can you help improve our current digital presence?",
+    question: "How can I find top hospitals and doctors through Manal Healthcare?",
     answer:
-      "Yes, we analyze your existing digital presence and create customized strategies to enhance your online visibility, engagement, and conversion rates.",
+      "Manal Healthcare connects you with certified hospitals and highly experienced doctors across India. You can browse hospitals, read patient reviews, and book appointments directly through our platform.",
   },
   {
-    id: "item-3",
-    question: "What makes your approach different?",
+    question: "Are the medical treatments affordable?",
     answer:
-      "Our approach combines data-driven insights with creative excellence, ensuring every strategy is tailored to your unique business goals and target audience.",
+      "Our medical tourism services are cost-effective without compromising quality. Compare treatment packages and choose one that suits your budget and needs.",
   },
   {
-    id: "item-4",
-    question: "Who can benefit from your services?",
+    question: "Does Manal Healthcare assist with travel and accommodation?",
     answer:
-      "Our services are designed for businesses of all sizes looking to enhance their digital presence, from startups to established enterprises across various industries.",
+      "We provide end-to-end support including visa guidance, travel arrangements, airport transfers, and hospital stays to make your medical journey stress-free.",
   },
   {
-    id: "item-5",
-    question: "How involved will we be in the creative process?",
+    question: "How do I get started with Manal Healthcare?",
     answer:
-      "We believe in collaborative partnerships. You'll be involved at every key stage, providing input and feedback to ensure the final result aligns perfectly with your vision.",
+      "Contact us via our website or phone, and our team will guide you through selecting the right hospital, doctor, and treatment plan tailored to your needs.",
+  },
+  {
+    question: "Is it safe to travel to India for medical treatment?",
+    answer:
+      "India has internationally accredited hospitals and experienced medical staff. We provide travel safety guidelines and local assistance to ensure a safe experience.",
+  },
+  {
+    question: "Which medical specialties does Manal Healthcare cover?",
+    answer:
+      "We cover a wide range of specialties including Cardiology, Orthopedics, Neuro Surgery, Dental Care, Ophthalmology, Prenatal Care, and more.",
+  },
+  {
+    question: "Can I get a cost estimate before traveling?",
+    answer:
+      "Our team provides detailed treatment cost estimates, including hospital fees, doctor charges, and optional travel assistance, so you can plan your medical trip in advance.",
+  },
+  {
+    question: "How long does it take to arrange treatment in India?",
+    answer:
+      "Depending on the procedure and hospital availability, we typically arrange appointments and travel within 1-2 weeks. Our team ensures a smooth, quick process.",
+  },
+  {
+    question: "Does Manal Healthcare support international patients?",
+    answer:
+      "We specialize in assisting international patients with treatment, travel, accommodation, and post-treatment follow-up. Your comfort and safety are our priority.",
   },
 ];
 
-interface FAQSectionProps {
-  primaryButtonText?: string;
-  secondaryButtonText?: string;
-  faqs?: FAQItem[];
-  defaultOpenItem?: string;
-}
-
-export function FAQSection({
-  primaryButtonText = "Get Started",
-  secondaryButtonText = "Learn More",
-  faqs = defaultFAQs,
-  defaultOpenItem = "item-1",
-}: FAQSectionProps) {
+export const FAQSection = () => {
   return (
-    <section className="py-16 md:py-24 px-4 md:px-8 lg:px-16 bg-white">
-      <div className="max-w-4xl mx-auto">
-        {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-12"
-        >
-          <Button className="bg-gray-900 hover:bg-gray-800 text-white rounded-full px-10 py-6 h-auto text-base font-medium">
-            {primaryButtonText}
-          </Button>
-          <Button
-            variant="outline"
-            className="border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white rounded-full px-10 py-6 h-auto text-base font-medium"
-          >
-            {secondaryButtonText}
-          </Button>
-        </motion.div>
+    <section className="container mx-auto px-4 py-12" aria-labelledby="faq-heading">
+      {/* Section Heading */}
+      <h2 id="faq-heading" className="text-3xl md:text-4xl font-bold mb-8 text-gray-900">
+        Frequently Asked Questions
+      </h2>
 
-        {/* FAQ Accordion */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <Accordion
-            type="single"
-            collapsible
-            defaultValue={defaultOpenItem}
-            className="space-y-4"
-          >
-            {faqs.map((faq) => (
-              <AccordionItem
-                key={faq.id}
-                value={faq.id}
-                className="bg-gray-50 rounded-2xl border-none px-6 py-2"
-              >
-                <AccordionTrigger className="text-left text-lg font-semibold text-gray-900 hover:no-underline">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-600 text-base leading-relaxed pt-2 pb-4">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
-      </div>
+      {/* ShadCN Accordion */}
+      <Accordion type="single" collapsible className="space-y-4">
+        {faqs.map((faq, index) => (
+          <AccordionItem value={`item-${index}`} key={index} className="border rounded-md">
+            <AccordionTrigger className="text-left text-lg font-semibold text-gray-900">
+              {faq.question}
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-600 mt-2">
+              {faq.answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
+          }),
+        }}
+      />
     </section>
   );
-}
+};
