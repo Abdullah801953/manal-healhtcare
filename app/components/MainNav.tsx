@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Languages } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -9,7 +8,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/app/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
 
 const navigationLinks = [
@@ -33,8 +32,9 @@ export const MainNav = () => {
         <NavigationMenuList className="gap-8">
           {navigationLinks.map((link) => (
             <NavigationMenuItem key={link.href}>
-              <Link href={link.href} legacyBehavior passHref>
-                <NavigationMenuLink
+              <NavigationMenuLink asChild>
+                <Link
+                  href={link.href}
                   className={cn(
                     navigationMenuTriggerStyle(),
                     "bg-transparent text-md font-medium text-gray-900",
@@ -43,20 +43,15 @@ export const MainNav = () => {
                   )}
                 >
                   {link.label}
-                </NavigationMenuLink>
-              </Link>
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           ))}
         </NavigationMenuList>
       </NavigationMenu>
 
-      {/* LANGUAGE BUTTON */}
-         <Button variant="outline" className="h-11 rounded-full border-2 border-green-600 px-5 text-sm font-medium flex items-center gap-3 hover:bg-green-50" >
-        Language
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-green-100">
-          <Languages className="h-4 w-4 text-green-700" /> {/* ✅ World icon */}
-        </span>
-      </Button>
+      {/* LANGUAGE SWITCHER */}
+      <LanguageSwitcher />
 
     </div>
   );

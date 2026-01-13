@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { InfoCards } from "./components/InfoCards";
 import { Services } from "./components/Services";
@@ -14,6 +12,7 @@ import { BlogSection } from "./components/BlogSection";
 import { FAQSection } from "./components/FAQSection";
 import { OurServices } from "./components/OurServices";
 import { Testimonials } from "./components/Testimonials";
+import { QueryFormModal } from "./components/QueryFormModal";
 
 /* =======================
    PAGE LEVEL SEO
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
 const Page = () => {
   return (
     <>
-      <Header />
+      <QueryFormModal />
 
       <main id="main-content">
         {/* ✅ SINGLE H1 FOR SEO */}
@@ -52,7 +51,7 @@ const Page = () => {
         <FAQSection />
       </main>
 
-      <Footer />
+     
     </>
   );
 };

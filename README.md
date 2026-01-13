@@ -1,6 +1,6 @@
 # 🏥 Manal Healthcare - Modern Healthcare Website
 
-A modern, responsive healthcare website built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**. This project showcases a complete healthcare platform with beautiful UI components, animations, and best practices for React and Next.js development.
+A modern, responsive healthcare website built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**. This project showcases a complete healthcare platform with beautiful UI components, multi-language support, dynamic query forms, and best practices for React and Next.js development.
 
 ---
 
@@ -10,6 +10,12 @@ A modern, responsive healthcare website built with **Next.js 16**, **TypeScript*
 - 📱 **Fully Responsive** - Mobile-first design that works on all devices
 - ⚡ **Fast Performance** - Optimized with Next.js 16 and App Router
 - 🎭 **Smooth Animations** - Framer Motion for engaging user experience
+- 🌍 **Multi-Language Support** - Integrated language translation system
+- 📝 **Query Form Modal** - Auto-popup consultation form for user engagement
+- 🏥 **Doctors Directory** - Searchable and filterable doctor listings
+- 🏨 **Hospitals Directory** - Comprehensive hospital information and filtering
+- 💬 **Testimonials System** - Patient reviews with pagination
+- 🔬 **Treatments Catalog** - Detailed treatment information and pricing
 - ♿ **Accessible** - Built with shadcn/ui for accessibility standards
 - 🔧 **Type Safe** - Full TypeScript support throughout
 - 🎯 **Component-Based** - Reusable, maintainable component architecture
@@ -35,7 +41,35 @@ A modern, responsive healthcare website built with **Next.js 16**, **TypeScript*
 ```
 manal-healthcare/
 ├── app/                          # Next.js App Router
-│   ├── components/               # React components
+│   ├── about/                    # About page with team & mission
+│   │   ├── page.tsx
+│   │   └── components/           # About page components
+│   ├── contact/                  # Contact page
+│   │   ├── page.tsx
+│   │   └── components/           # Contact form & info
+│   ├── doctors/                  # Doctors directory
+│   │   ├── page.tsx             # Doctors listing
+│   │   ├── [id]/                # Individual doctor pages
+│   │   ├── data.ts              # Doctor data
+│   │   └── components/          # Doctor components
+│   ├── hospitals/                # Hospitals directory
+│   │   ├── page.tsx             # Hospitals listing
+│   │   ├── [id]/                # Individual hospital pages
+│   │   ├── data.ts              # Hospital data
+│   │   └── components/          # Hospital components
+│   ├── treatments/               # Treatments catalog
+│   │   ├── page.tsx             # Treatments listing
+│   │   ├── [id]/                # Individual treatment pages
+│   │   ├── data.ts              # Treatment data
+│   │   └── components/          # Treatment components
+│   ├── testimonials/             # Patient testimonials
+│   │   ├── page.tsx
+│   │   ├── data.ts
+│   │   └── components/          # Testimonial components
+│   ├── api/                      # API routes
+│   │   ├── languages/           # Language options
+│   │   └── translate/           # Translation endpoint
+│   ├── components/               # Shared React components
 │   │   ├── Header.tsx           # Main header container
 │   │   ├── TopBar.tsx           # Top contact bar
 │   │   ├── MainNav.tsx          # Desktop navigation
@@ -51,7 +85,17 @@ manal-healthcare/
 │   │   ├── NewsletterSection.tsx # Newsletter subscription
 │   │   ├── BlogSection.tsx      # Blog posts grid
 │   │   ├── FAQSection.tsx       # FAQ accordion
+│   │   ├── QueryFormModal.tsx   # Popup consultation form
+│   │   ├── LanguageSwitcher.tsx # Language selector
+│   │   ├── GoogleTranslateWidget.tsx # Google Translate integration
+│   │   ├── PageTranslator.tsx   # Page translation component
 │   │   └── Footer.tsx           # Site footer
+│   ├── contexts/                 # React Context providers
+│   │   └── LanguageContext.tsx  # Language state management
+│   ├── lib/                      # Utility functions
+│   │   └── i18n/                # Internationalization
+│   │       ├── languages.ts     # Language definitions
+│   │       └── translations.ts  # Translation data
 │   ├── globals.css              # Global styles
 │   ├── layout.tsx               # Root layout
 │   └── page.tsx                 # Homepage
@@ -62,7 +106,10 @@ manal-healthcare/
 │       ├── sheet.tsx
 │       ├── input.tsx
 │       ├── carousel.tsx
-│       └── accordion.tsx
+│       ├── accordion.tsx
+│       ├── dialog.tsx
+│       ├── select.tsx
+│       └── navigation-menu.tsx
 │
 ├── public/                       # Static assets
 │   ├── doctor-img 1.png
@@ -79,6 +126,7 @@ manal-healthcare/
 ├── tsconfig.json                 # TypeScript configuration
 ├── postcss.config.mjs            # PostCSS configuration
 ├── eslint.config.mjs             # ESLint configuration
+├── LANGUAGE_SETUP.md             # Language setup documentation
 └── package.json                  # Dependencies
 ```
 
@@ -91,6 +139,7 @@ manal-healthcare/
 - **TopBar** - Contact information and social media links
 - **MainNav** - Desktop navigation with language selector
 - **MobileNav** - Responsive mobile menu with sheet drawer
+- **LanguageSwitcher** - Multi-language support dropdown
 
 ### Content Sections
 - **Hero** - Main hero section with search functionality and animations
@@ -104,6 +153,42 @@ manal-healthcare/
 - **NewsletterSection** - Newsletter subscription with email form
 - **BlogSection** - Latest news and articles grid
 - **FAQSection** - Frequently asked questions with accordion
+- **QueryFormModal** - Auto-popup consultation form with file upload
+
+### Page Components
+
+#### Doctors Directory
+- **HeroBanner** - Doctors page hero section
+- **DoctorCard** - Individual doctor display card
+- **CategoryFilter** - Filter doctors by specialty
+- **Pagination** - Navigate through doctor listings
+
+#### Hospitals Directory
+- **HospitalHero** - Hospitals page hero section
+- **HospitalCard** - Individual hospital display card
+- **AdvancedFilters** - Multi-criteria hospital filtering
+- **Pagination** - Navigate through hospital listings
+
+#### Treatments Catalog
+- Treatment listing and detail pages
+- Treatment categories and pricing
+- Related treatments suggestions
+
+#### Testimonials
+- **TestimonialsHero** - Testimonials page hero
+- **TestimonialCard** - Individual testimonial display
+- **TestimonialFilters** - Filter by rating and category
+- **WhyTrustUs** - Trust indicators section
+- **CTASection** - Call-to-action for submissions
+
+#### Contact & About Pages
+- **ContactForm** - Multi-step contact form
+- **ContactInfo** - Contact details and map
+- **SocialConnect** - Social media integration
+- **AboutHero** - About page hero section
+- **TeamSection** - Team members showcase
+- **MissionVision** - Company mission and vision
+- **ValuesSection** - Core values display
 
 ### UI Components (shadcn/ui)
 - Button - Multiple variants and sizes
@@ -111,6 +196,9 @@ manal-healthcare/
 - Input - Form input fields
 - Carousel - Touch-friendly image carousel
 - Accordion - Collapsible content sections
+- Dialog - Modal dialogs
+- Select - Dropdown selections
+- Navigation Menu - Accessible navigation
 
 ---
 
@@ -242,6 +330,50 @@ export function Component({
 ---
 
 ## 🌟 Features Breakdown
+
+### Query Form Modal
+- Auto-popup after 2 seconds on homepage
+- Required fields: Name, Country, WhatsApp Number, Problem Description
+- Optional fields: Email, Medical Reports (file upload)
+- Single-session display (shows once per visit)
+- Hidden scrollbar for clean UI
+- Red close button for easy dismissal
+- Form submission with loading states
+
+### Multi-Language Support
+- Language switcher in navigation
+- Context-based language management
+- API routes for translation
+- Google Translate widget integration
+- Persistent language selection
+- Support for multiple languages
+
+### Doctors Directory
+- Searchable doctor database
+- Filter by specialty (Cardiology, Neurology, Orthopedics, etc.)
+- Detailed doctor profiles with experience and qualifications
+- Pagination for easy navigation
+- Individual doctor detail pages
+
+### Hospitals Directory
+- Comprehensive hospital listings
+- Advanced filtering system (location, specialties, services)
+- Hospital ratings and reviews
+- Facility information and contact details
+- Individual hospital detail pages
+
+### Treatments Catalog
+- Detailed treatment information
+- Pricing and duration details
+- Related treatments suggestions
+- Category-based organization
+
+### Testimonials System
+- Patient reviews and ratings
+- Filter by rating (1-5 stars)
+- Pagination support
+- Trust indicators
+- Call-to-action for new testimonials
 
 ### Animations
 - Scroll-triggered animations with Framer Motion
