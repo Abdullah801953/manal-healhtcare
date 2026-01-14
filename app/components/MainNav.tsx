@@ -72,9 +72,11 @@ export const MainNav = () => {
 
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
-              Treatments
-            </NavigationMenuTrigger>
+            <Link href="/treatments" legacyBehavior passHref>
+              <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                Treatments
+              </NavigationMenuTrigger>
+            </Link>
             <NavigationMenuContent>
               <div className="w-[400px] p-4 bg-[#2D2D2D]  text-gray-900 bg-transparent max-h-[500px] overflow-y-auto">
                 {treatmentCategories.map((treatment) => (

@@ -17,7 +17,7 @@ export function ExpertiseSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {expertiseAreas.map((area, index) => (
           <div key={index} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl hover:bg-teal-50 transition-colors">
-            <CheckCircle className="w-6 h-6 text-teal-500 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="w-6 h-6 text-[#209f00] flex-shrink-0 mt-0.5" />
             <span className="text-gray-700 font-medium">{area}</span>
           </div>
         ))}

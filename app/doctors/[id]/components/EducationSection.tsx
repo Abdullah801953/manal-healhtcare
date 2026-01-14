@@ -26,11 +26,10 @@ export function EducationSection() {
   ];
 
   const colorClasses = {
-    blue: 'bg-blue-50 text-blue-600',
-    teal: 'bg-teal-50 text-teal-600',
-    purple: 'bg-purple-50 text-purple-600',
+    emerald: 'bg-emerald-50 text-emerald-600',
+    teal: '[#209f00] bg-teal-50 text-teal-600',
+    green: 'bg-green-600 text-green-600',
   };
-
   return (
     <div className="bg-white rounded-3xl shadow-sm p-8 mb-8">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Education & Certifications</h2>
@@ -39,7 +38,7 @@ export function EducationSection() {
         {education.map((item, index) => {
           const Icon = item.icon;
           return (
-            <div key={index} className="flex items-start gap-4 p-4 border border-gray-200 rounded-xl hover:border-teal-300 transition-colors">
+            <div key={index} className="flex items-start gap-4 p-4 border border-gray-200 rounded-xl hover:border-[#209f00] transition-colors">
               <div className={`p-3 rounded-lg ${colorClasses[item.color as keyof typeof colorClasses]}`}>
                 <Icon className="w-6 h-6" />
               </div>

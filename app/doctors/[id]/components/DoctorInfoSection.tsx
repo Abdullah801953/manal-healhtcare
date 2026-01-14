@@ -13,7 +13,7 @@ export function DoctorInfoSection({ specialty }: DoctorInfoSectionProps) {
         {/* Experience */}
         <div className="flex items-start gap-4 p-4 bg-blue-50 rounded-xl">
           <div className="p-3 bg-blue-100 rounded-lg">
-            <Award className="w-6 h-6 text-blue-600" />
+            <Award className="w-6 h-6 text-[#209f00]" />
           </div>
           <div>
             <p className="text-sm text-gray-600">Experience</p>
@@ -24,7 +24,7 @@ export function DoctorInfoSection({ specialty }: DoctorInfoSectionProps) {
         {/* Specialty */}
         <div className="flex items-start gap-4 p-4 bg-teal-50 rounded-xl">
           <div className="p-3 bg-teal-100 rounded-lg">
-            <GraduationCap className="w-6 h-6 text-teal-600" />
+            <GraduationCap className="w-6 h-6 text-[#209f00]" />
           </div>
           <div>
             <p className="text-sm text-gray-600">Specialty</p>

@@ -64,7 +64,7 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
               </p>
               
               <div className="space-y-3">
-                <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white rounded-full py-6">
+                <Button className="w-full bg-[#209f00] hover:bg-green-600 text-white rounded-full py-6">
                   Book Now
                 </Button>
                 <Button variant="outline" className="w-full rounded-full py-6">

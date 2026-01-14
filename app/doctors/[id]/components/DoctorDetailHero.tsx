@@ -9,7 +9,7 @@ interface DoctorDetailHeroProps {
 
 export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
   return (
-    <div className="relative w-full rounded-3xl overflow-hidden bg-linear-to-r from-blue-400 via-blue-300 to-blue-200 mb-12">
+    <div className="relative w-full rounded-3xl overflow-hidden bg-linear-to-r from-emerald-500 via-[#209f00] to-green-600  mb-12">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/clouds.svg')] opacity-20 bg-cover bg-center"></div>
       
@@ -51,7 +51,7 @@ export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Button className="bg-teal-500 hover:bg-teal-600 text-white rounded-full px-8 py-6 text-lg shadow-lg">
+              <Button className="bg-green-500 hover:bg-[#209f00] text-white rounded-full px-8 py-6 text-lg shadow-lg">
                 <Calendar className="w-5 h-5 mr-2" />
                 Book Appointment
               </Button>
