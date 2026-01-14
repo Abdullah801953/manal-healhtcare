@@ -21,7 +21,7 @@ export function CategoryFilter({
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-12">
       {/* Categories */}
       <div className="flex flex-wrap items-center gap-3">
-        <span className="text-sm font-medium text-gray-700 whitespace-nowrap">Doctors Category:</span>
+        <span className="text-sm font-medium text-white whitespace-nowrap">Doctors Category:</span>
         <div className="flex flex-wrap gap-2">
           {DOCTOR_CATEGORIES.map((category) => (
             <button
@@ -29,8 +29,8 @@ export function CategoryFilter({
               onClick={() => onCategoryChange(category)}
               className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedCategory === category
-                  ? 'bg-teal-500 text-white shadow-md'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:border-teal-300 hover:bg-teal-50'
+                  ? 'bg-[#209F00] text-white shadow-md'
+                  : 'bg-white hover:text-white border border-gray-200 hover:border-[#209F00] hover:bg-[#209F00]'
               }`}
             >
               {category}

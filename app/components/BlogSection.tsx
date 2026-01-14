@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Calendar, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Calendar, Tag, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { blogsData } from "@/app/blogs/data";
+import { formatDate } from "@/app/blogs/utils";
 
 // Blog post interface
 export interface BlogPost {
@@ -15,93 +18,78 @@ export interface BlogPost {
   slug: string;
 }
 
-// Default blog posts
-const defaultBlogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Selecting the Best Sunscreen for Your Skin Type",
-    category: "Skin Care",
-    date: "05 July 2025",
-    image: "/blog-1.jpg",
-    slug: "selecting-best-sunscreen",
-  },
-  {
-    id: 2,
-    title: "Selecting the Best Sunscreen for Your Skin Type",
-    category: "Skin Care",
-    date: "05 July 2025",
-    image: "/blog-1.jpg",
-    slug: "selecting-best-sunscreen-2",
-  },
-  {
-    id: 3,
-    title: "Selecting the Best Sunscreen for Your Skin Type",
-    category: "Skin Care",
-    date: "05 July 2025",
-    image: "/blog-1.jpg",
-    slug: "selecting-best-sunscreen-3",
-  },
-];
+// Blog post interface
+export interface BlogPost {
+  id: number;
+  title: string;
+  category: string;
+  date: string;
+  image: string;
+  slug: string;
+}
 
 interface BlogSectionProps {
   badge?: string;
   heading?: string;
   viewAllText?: string;
-  blogPosts?: BlogPost[];
 }
 
 // Blog Card Component
 interface BlogCardProps {
-  post: BlogPost;
+  blog: typeof blogsData[0];
 }
 
-function BlogCard({ post }: BlogCardProps) {
+function BlogCard({ blog }: BlogCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="bg-gray-50 rounded-3xl overflow-hidden hover:shadow-lg transition-shadow duration-300"
     >
-      {/* Image */}
-      <div className="relative h-64 w-full">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          className="object-cover"
-        />
-      </div>
-
-      {/* Content */}
-      <div className="p-6 space-y-4">
-        {/* Date and Category */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-gray-600">
-            <Calendar className="h-4 w-4" />
-            <span className="text-sm">{post.date}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-600" />
-            <span className="text-sm text-gray-700">{post.category}</span>
-          </div>
+      <Link
+        href={`/blogs/${blog.id}`}
+        className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block"
+      >
+        {/* Image */}
+        <div className="relative h-56 overflow-hidden">
+          <Image
+            src={blog.image}
+            alt={blog.title}
+            fill
+            className="object-cover group-hover:scale-110 transition-transform duration-500"
+          />
         </div>
 
-        {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 leading-snug">
-          {post.title}
-        </h3>
+        {/* Content */}
+        <div className="p-6 space-y-3">
+          {/* Meta Info */}
+          <div className="flex items-center gap-3 text-sm text-gray-500">
+            <div className="flex items-center gap-1">
+              <Calendar className="w-4 h-4" />
+              <span>{formatDate(blog.date)}</span>
+            </div>
+            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+            <div className="flex items-center gap-1">
+              <Tag className="w-4 h-4" />
+              <span>{blog.category}</span>
+            </div>
+          </div>
 
-        {/* Learn More Button */}
-        <Button
-          variant="outline"
-          className="rounded-full border-gray-900 text-gray-900 hover:bg-green-600 hover:text-white transition-colors duration-300 px-6 h-12"
-        >
-          Learn More
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
+          {/* Title */}
+          <h3 className="text-lg font-bold text-gray-900 group-hover:text-[#209F00] transition-colors line-clamp-2 min-h-14">
+            {blog.title}
+          </h3>
+
+          {/* Learn More Link */}
+          <div className="flex items-center gap-2 font-semibold text-sm group-hover:gap-3 transition-all">
+            <span className="border rounded-full p-4 flex gap-5">
+              <span>Learn More</span>
+              <ArrowRight className="w-5 h-5 rounded-full text-white bg-[#209F00]" />
+            </span>
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
 }
@@ -110,8 +98,10 @@ export function BlogSection({
   badge = "Latest News & Articles",
   heading = "Trending Topics in Medicine and Wellness",
   viewAllText = "View All Blogs",
-  blogPosts = defaultBlogPosts,
 }: BlogSectionProps) {
+  // Get first 3 blogs from blogsData
+  const displayBlogs = blogsData.slice(0, 3);
+
   return (
     <section className="py-16 md:py-24 px-4 md:px-8 lg:px-16 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -144,17 +134,19 @@ export function BlogSection({
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <Button className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-8 py-6 h-auto text-base font-medium">
-              {viewAllText}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/blogs">
+              <Button className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-6 py-4 h-auto text-base font-medium">
+                {viewAllText}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
 
         {/* Blog Cards Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <BlogCard key={post.id} post={post} />
+          {displayBlogs.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} />
           ))}
         </div>
       </div>

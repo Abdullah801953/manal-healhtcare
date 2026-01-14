@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export function HeroBanner() {
   return (
-    <div className="relative w-full h-80 rounded-3xl overflow-hidden bg-linear-to-r from-blue-400 via-blue-300 to-blue-200 mb-16">
+    <div className="relative w-full h-80 rounded-3xl overflow-hidden bg-linear-to-r from-emerald-500 via-[#209f00] to-green-600 mb-16">
       {/* Background Pattern/Clouds */}
       <div className="absolute inset-0 bg-[url('/clouds.svg')] opacity-20 bg-cover bg-center"></div>
 
@@ -20,7 +20,7 @@ export function HeroBanner() {
           <p className="text-xl text-white/90 font-medium mb-6">
             Experts Team
           </p>
-          <Button className="bg-white text-teal-600 hover:bg-gray-50 rounded-full px-6 py-3 font-medium shadow-lg">
+          <Button className="bg-white text-[#209F00] hover:bg-gray-50 rounded-full px-6 py-3 font-medium shadow-lg">
             Schedule Meeting
           </Button>
         </div>

@@ -14,17 +14,43 @@ export interface Treatment {
 
 export type TreatmentCategory = 
   | 'All Treatments'
-  | 'Cardiology'
-  | 'Orthopedics'
-  | 'Neurology'
-  | 'Urology'
-  | 'General Surgery';
+  | 'Brain and Spine Surgery'
+  | 'Cancer Treatment'
+  | 'Cardiac Surgery'
+  | 'Cosmetic Surgery'
+  | 'Dental Treatment'
+  | 'Ear Nose Throat Surgery'
+  | 'Eye Treatment'
+  | 'Gastroenterology Surgery'
+  | 'General Surgery'
+  | 'Gynaecology Treatment'
+  | 'Nephrology Treatment'
+  | 'Neurology Treatment'
+  | 'Organ Transplant Surgery'
+  | 'Orthopedic Surgery'
+  | 'Robotic Surgery'
+  | 'Stem Cell Therapy'
+  | 'Urology Surgery'
+  | 'Weight Loss Treatment';
 
 export const TREATMENT_CATEGORIES: TreatmentCategory[] = [
   'All Treatments',
-  'Cardiology',
-  'Orthopedics',
-  'Neurology',
-  'Urology',
+  'Brain and Spine Surgery',
+  'Cancer Treatment',
+  'Cardiac Surgery',
+  'Cosmetic Surgery',
+  'Dental Treatment',
+  'Ear Nose Throat Surgery',
+  'Eye Treatment',
+  'Gastroenterology Surgery',
   'General Surgery',
+  'Gynaecology Treatment',
+  'Nephrology Treatment',
+  'Neurology Treatment',
+  'Organ Transplant Surgery',
+  'Orthopedic Surgery',
+  'Robotic Surgery',
+  'Stem Cell Therapy',
+  'Urology Surgery',
+  'Weight Loss Treatment',
 ];

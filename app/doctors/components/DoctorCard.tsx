@@ -57,12 +57,12 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
           <Link href={`/doctors/${doctor.id}`} className="flex-1">
             <Button
               variant="outline"
-              className="w-full border-teal-500 text-teal-600 hover:bg-teal-50 rounded-full"
+              className="w-full border-[#209F00] text-[#209F00] hover:bg-[#209F00] rounded-full"
             >
               View Details
             </Button>
           </Link>
-          <Button className="flex-1 bg-teal-500 hover:bg-teal-600 text-white rounded-full">
+          <Button className="flex-1 bg-[#209F00] hover:bg-[#209F00] text-white rounded-full">
             Book Appointment
           </Button>
         </div>
