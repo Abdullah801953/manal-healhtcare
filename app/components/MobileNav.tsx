@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronRight, ArrowRight, Languages } from "lucide-react";
+import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -14,12 +14,25 @@ const mobileNavigationLinks = [
   { href: "/hospitals", label: "Hospitals" },
   { href: "/doctors", label: "Doctors" },
   { href: "/testimonials", label: "Testimonials" },
-  { href: "/info", label: "Info" },
   { href: "/contact", label: "Contact Us" },
+];
+
+const infoSubmenu = [
+  { href: "/info/plan-your-travel", label: "Plan Your Travel" },
+  { href: "/info/medical-tourism-india", label: "Medical Tourism in India" },
+  { href: "/info/advantages-medical-tourism", label: "Advantages of Medical Tourism" },
+  { href: "/info/halal-certification", label: "Halal Certification" },
+  { href: "/info/second-opinion", label: "Second Opinion" },
+  { href: "/info/faqs-for-patient", label: "FAQs for Patient" },
+  { href: "/info/medical-tourism", label: "Medical Tourism" },
+  { href: "/info/best-hospital", label: "Best Hospital" },
+  { href: "/info/privacy-policy", label: "Privacy Policy" },
+  { href: "/info/terms-conditions", label: "Terms & Conditions" },
 ];
 
 export const MobileNav = () => {
   const [open, setOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -39,7 +52,7 @@ export const MobileNav = () => {
       >
         {/* Close button for mobile */}
 
-        <nav className="flex flex-col gap-3 mt-10 sm:mt-12 md:mt-14">
+        <nav className="flex flex-col gap-3 mt-10 sm:mt-12 md:mt-14 overflow-y-auto max-h-[calc(100vh-200px)]">
           {mobileNavigationLinks.map((link) => (
             <Link
               key={link.href}
@@ -51,6 +64,36 @@ export const MobileNav = () => {
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400  shrink-0 ml-2" />
             </Link>
           ))}
+
+          {/* Info Menu with Submenu */}
+          <div>
+            <button
+              onClick={() => setInfoOpen(!infoOpen)}
+              className="flex items-center justify-between py-2.5 sm:py-3 text-base sm:text-lg font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-2 rounded-lg hover:bg-gray-50 w-full"
+            >
+              <span className="truncate">Info</span>
+              {infoOpen ? (
+                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0 ml-2" />
+              ) : (
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0 ml-2" />
+              )}
+            </button>
+            
+            {infoOpen && (
+              <div className="ml-4 mt-1 flex flex-col gap-1">
+                {infoSubmenu.map((subLink) => (
+                  <Link
+                    key={subLink.href}
+                    href={subLink.href}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center py-2 sm:py-2.5 text-sm sm:text-base font-normal text-gray-700 hover:text-green-600 transition-colors duration-200 px-2 rounded-lg hover:bg-gray-50"
+                  >
+                    <span className="truncate">{subLink.label}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           
           {/* Language Button - Responsive */}
           <Button 

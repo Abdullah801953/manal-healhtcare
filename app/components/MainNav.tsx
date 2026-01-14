@@ -72,11 +72,9 @@ export const MainNav = () => {
 
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
-            <Link href="/treatments" legacyBehavior passHref>
-              <NavigationMenuTrigger className="bg-transparent text-md font-medium text-gray-900 hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
-                Treatments
-              </NavigationMenuTrigger>
-            </Link>
+            <NavigationMenuTrigger className="bg-transparent text-md font-medium text-gray-900 hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+              Treatments
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="w-[400px] p-4 bg-[#2D2D2D] text-gray-900 bg-transparent max-h-[500px] overflow-y-auto">
                 {treatmentCategories.map((treatment) => (
@@ -142,20 +140,95 @@ export const MainNav = () => {
             </NavigationMenuLink>
           </NavigationMenuItem>
 
+          {/* Info Dropdown */}
           <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-              <Link
-                href="/info"
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
-                  "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
-                )}
-              >
-                Info
-              </Link>
-            </NavigationMenuLink>
+            <NavigationMenuTrigger className="bg-transparent text-md font-medium text-gray-900 hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+              Info
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div className="w-[320px] p-4 bg-[#2D2D2D] text-gray-900 bg-transparent max-h-[500px] overflow-y-auto">
+                <Link
+                  href="/info/plan-your-travel"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Plan Your Travel
+                  </span>
+                </Link>
+                <Link
+                  href="/info/medical-tourism-india"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Medical Tourism in India
+                  </span>
+                </Link>
+                <Link
+                  href="/info/advantages-medical-tourism"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Advantages of Medical Tourism
+                  </span>
+                </Link>
+                <Link
+                  href="/info/halal-certification"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Halal Certification
+                  </span>
+                </Link>
+                <Link
+                  href="/info/second-opinion"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Second Opinion
+                  </span>
+                </Link>
+                <Link
+                  href="/info/faqs-for-patient"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    FAQs for Patient
+                  </span>
+                </Link>
+                <Link
+                  href="/info/medical-tourism"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Medical Tourism
+                  </span>
+                </Link>
+                <Link
+                  href="/info/best-hospital"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Best Hospital
+                  </span>
+                </Link>
+                <Link
+                  href="/info/privacy-policy"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Privacy Policy
+                  </span>
+                </Link>
+                <Link
+                  href="/info/terms-conditions"
+                  className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors"
+                >
+                  <span className="text-sm font-medium tracking-wide">
+                    Terms & Conditions
+                  </span>
+                </Link>
+              </div>
+            </NavigationMenuContent>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
