@@ -10,10 +10,10 @@ import {
   NavigationMenuContent,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { LanguageSwitcher } from "@/app/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
 import { treatmentCategories } from "@/app/lib/treatments";
-import { Plus } from "lucide-react";
+import { Plus, Languages } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const MainNav = () => {
   return (
@@ -21,15 +21,15 @@ export const MainNav = () => {
       
       {/* NAVIGATION MENU */}
       <NavigationMenu viewport={false}>
-        <NavigationMenuList className="gap-8">
-          <NavigationMenuItem>
+        <NavigationMenuList className="gap-8 ">
+          <NavigationMenuItem >
             <NavigationMenuLink asChild>
               <Link
                 href="/"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
-                  "hover:text-[#209F00] hover:bg-transparent",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "hover:text-[#209F00] hover:bg-transparent text-[18px]",
                   "focus:bg-transparent"
                 )}
               >
@@ -44,7 +44,7 @@ export const MainNav = () => {
                 href="/about"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -60,7 +60,7 @@ export const MainNav = () => {
                 href="/blogs"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -73,17 +73,17 @@ export const MainNav = () => {
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
             <Link href="/treatments" legacyBehavior passHref>
-              <NavigationMenuTrigger className="bg-transparent text-md font-medium text-gray-900 hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+              <NavigationMenuTrigger className="bg-transparent  font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
                 Treatments
               </NavigationMenuTrigger>
             </Link>
             <NavigationMenuContent>
-              <div className="w-[400px] p-4 bg-[#2D2D2D] text-gray-900 bg-transparent max-h-[500px] overflow-y-auto">
+              <div className="w-[400px] p-4 bg-[#2D2D2D]  text-gray-900 bg-transparent max-h-[500px] overflow-y-auto">
                 {treatmentCategories.map((treatment) => (
                   <Link
                     key={treatment.id}
                     href={`/treatments/${treatment.id}`}
-                    className="flex items-center justify-between py-3 px-4 hover:bg-emerald-500 transition-colors "
+                    className="flex items-center justify-between py-3 px-4 text-[18px] hover:bg-emerald-500 transition-colors "
                   >
                     <span className="text-sm font-medium tracking-wide">
                       {treatment.name}
@@ -100,7 +100,7 @@ export const MainNav = () => {
                 href="/hospitals"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -116,7 +116,7 @@ export const MainNav = () => {
                 href="/doctors"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -132,7 +132,7 @@ export const MainNav = () => {
                 href="/testimonials"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -148,7 +148,7 @@ export const MainNav = () => {
                 href="/info"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -164,7 +164,7 @@ export const MainNav = () => {
                 href="/contact"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-md font-medium text-gray-900",
+                  "bg-transparent text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent"
                 )}
@@ -176,9 +176,14 @@ export const MainNav = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      {/* LANGUAGE SWITCHER */}
-      <LanguageSwitcher />
-
+      {/* LANGUAGE BUTTON */}
+      <Button
+        variant="outline"
+        className="gap-2 border-2 border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white font-medium rounded-full px-8 py-3 text-lg"
+      >
+        <Languages className="w-6 h-6" />
+        Language
+      </Button>
     </div>
   );
 };

@@ -3,10 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { LanguageProvider } from "./contexts/LanguageContext";
-import { GoogleTranslateWidget } from "./components/GoogleTranslateWidget";
-import { PageTranslator } from "./components/PageTranslator";
 import { QueryFormModal } from "./components/QueryFormModal";
+import { WhatsAppButton } from "./components/WhatsAppButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -97,14 +95,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LanguageProvider>
-          <GoogleTranslateWidget />
-          <PageTranslator />
-          <QueryFormModal />
-          <Header />
-          {children}
-          <Footer />
-        </LanguageProvider>
+        <QueryFormModal />
+        <WhatsAppButton />
+        <Header />
+        {children}
+        <Footer />
       </body>
     </html>
   );

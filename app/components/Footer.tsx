@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, MapPin, Phone, Mail } from "lucide-react";
-
+import logo from "@/public/logo.png";
 // Footer data organized for reusability
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -38,7 +38,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
               <Image
-                src="/logo.svg"
+                src={logo}
                 alt="Manal Healthcare Logo"
                 width={120}
                 height={40}
