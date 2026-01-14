@@ -15,26 +15,23 @@ const infoCards = [
   {
     id: 1,
     icon: happ,
-    title: "Visitor Information",
+    title: "300+ Happy Patients",
     description:
       "View all information of the visitors and follow all terms & conditions.",
-    link: "/visitor-info",
   },
   {
     id: 2,
     icon: hosp,
-    title: "Hospital Information",
+    title: "200+ Hospitals",
     description:
       "Find complete hospital details, departments and medical services.",
-    link: "/hospitals",
   },
   {
     id: 3,
     icon: doc,
-    title: "Doctor Consultation",
+    title: "500+ Doctors",
     description:
       "Connect with experienced doctors and book your appointments.",
-    link: "/doctors",
   },
   {
     id: 4,
@@ -42,15 +39,13 @@ const infoCards = [
     title: "Destinations",
     description:
       "Explore healthcare destinations and treatment locations.",
-    link: "/destinations",
   },
   {
     id: 5,
     icon: sav,
-    title: "Save & Care",
+    title: "Low Cost Care",
     description:
       "Affordable healthcare plans and patient support services.",
-    link: "/care",
   },
 ];
 
@@ -123,13 +118,7 @@ export const InfoCards = () => {
               </p>
 
               {/* Link */}
-              <Link
-                href={card.link}
-                className="inline-flex items-center text-sm font-semibold text-gray-900 hover:text-green-600 transition-colors group"
-              >
-                Learn More
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+             
             </motion.div>
           ))}
         </motion.div>

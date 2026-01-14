@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"; // ✅ shadcn Select
 import { useState } from "react";
-
+import doctor from "@/public/doctor.png";
 export const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("treatments"); // ✅ default category
@@ -85,7 +85,7 @@ export const Hero = () => {
               {/* Main Hero Heading */}
               <motion.h1 
                 variants={itemVariants}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold leading-tight text-gray-900"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900"
               >
                 Enhancing Lives, Reviving <span className="text-[#209F00]">Health</span> for a <span className="text-[#209F00]">Better</span> Tomorrow
               </motion.h1>
@@ -93,7 +93,7 @@ export const Hero = () => {
               {/* Subheading */}
               <motion.h2 
                 variants={itemVariants}
-                className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 leading-relaxed"
+                className="text-lg sm:text-xl md:text-2xl font-medium text-gray-800 leading-relaxed"
               >
                 Your trusted partner in Medical Tourism in India, connecting you with top hospitals and experienced doctors.
               </motion.h2>
@@ -101,7 +101,7 @@ export const Hero = () => {
               {/* Description */}
               <motion.p
                 variants={itemVariants}
-                className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0"
+                className="text-gray-500 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0"
               >
                 Discover world-class healthcare services where your well-being comes first. At Manal Healthcare, we provide personalized, compassionate medical care and seamless medical tourism services in India, ensuring safe, affordable, and high-quality treatment for every patient.
               </motion.p>
@@ -110,7 +110,8 @@ export const Hero = () => {
             <motion.div variants={itemVariants} className="pt-2">
               <Button
                 size="lg"
-                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-8 py-6 text-base font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group w-full sm:w-auto"
+                onClick={() => window.dispatchEvent(new Event('openQueryModal'))}
+                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-8 py-6 text-base font-medium transition-all duration-300 shadow-lg hover:shadow-xl group w-full sm:w-auto"
               >
                 Get a quote
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -127,7 +128,7 @@ export const Hero = () => {
           >
             <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg">
               <Image
-                src="/doctor.png"
+                src={doctor}
                 alt="Professional Healthcare Doctor"
                 width={600}
                 height={700}

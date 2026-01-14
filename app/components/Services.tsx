@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Phone, ArrowRight, ChevronLeft, ChevronRight, Activity, Heart, Brain, Eye, Bone, Stethoscope } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { treatmentCategories } from "@/app/lib/treatments";
 
 // Service card data type
 export interface ServiceCard {
@@ -21,51 +22,36 @@ export interface ServiceCard {
   link: string;
 }
 
-// Default services data
-const defaultServices: ServiceCard[] = [
-  {
-    id: 1,
-    icon: Phone,
-    title: "Ophthalmology",
-    description: "View all information of the visitors and follow all terms & conditions.",
-    link: "/services/ophthalmology",
-  },
-  {
-    id: 2,
-    icon: Phone,
-    title: "Ophthalmology",
-    description: "View all information of the visitors and follow all terms & conditions.",
-    link: "/services/ophthalmology",
-  },
-  {
-    id: 3,
-    icon: Phone,
-    title: "Ophthalmology",
-    description: "View all information of the visitors and follow all terms & conditions.",
-    link: "/services/ophthalmology",
-  },
-  {
-    id: 4,
-    icon: Phone,
-    title: "Ophthalmology",
-    description: "View all information of the visitors and follow all terms & conditions.",
-    link: "/services/ophthalmology",
-  },
-  {
-    id: 5,
-    icon: Phone,
-    title: "Cardiology",
-    description: "View all information of the visitors and follow all terms & conditions.",
-    link: "/services/cardiology",
-  },
-  {
-    id: 6,
-    icon: Phone,
-    title: "Neurology",
-    description: "View all information of the visitors and follow all terms & conditions.",
-    link: "/services/neurology",
-  },
-];
+// Icon mapping for treatments
+const treatmentIcons: Record<string, React.ElementType> = {
+  "Cardiac Surgery": Heart,
+  "Orthopedic Surgery": Bone,
+  "Brain and Spine Surgery": Brain,
+  "Eye Treatment": Eye,
+  "Neurology Treatment": Brain,
+  "Cancer Treatment": Activity,
+  "General Surgery": Stethoscope,
+  "Urology Surgery": Activity,
+  "Cosmetic Surgery": Activity,
+  "Dental Treatment": Activity,
+  "Ear Nose Throat Surgery": Activity,
+  "Gastroenterology Surgery": Activity,
+  "Gynaecology Treatment": Activity,
+  "Nephrology Treatment": Activity,
+  "Organ Transplant Surgery": Activity,
+  "Robotic Surgery": Activity,
+  "Stem Cell Therapy": Activity,
+  "Weight Loss Treatment": Activity,
+};
+
+// Convert treatment categories to services
+const treatmentServices: ServiceCard[] = treatmentCategories.map((treatment, index) => ({
+  id: parseInt(treatment.id),
+  icon: treatmentIcons[treatment.category] || Activity,
+  title: treatment.category,
+  description: `Expert ${treatment.category.toLowerCase()} services with world-class facilities and experienced medical professionals.`,
+  link: `/treatments/${treatment.id}`,
+}));
 
 interface ServicesProps {
   heading?: string;
@@ -78,9 +64,9 @@ interface ServicesProps {
 export const Services = ({
   heading = "Our Top Treatments",
   subheading = "Innovative Medical Treatments for Modern Healthcare",
-  services = defaultServices,
+  services = treatmentServices,
   showViewAll = true,
-  viewAllLink = "/services",
+  viewAllLink = "/treatments",
 }: ServicesProps) => {
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -165,7 +151,7 @@ export const Services = ({
               className="text-center"
             >
               <p className="text-gray-700 text-sm md:text-base">
-                We have 8+ more Care Service including Emergency Department.{" "}
+                We have {treatmentCategories.length}+ specialized treatment services available.{" "}
                 <Link
                   href={viewAllLink}
                   className="text-[#209F00] font-semibold hover:text-green-700 transition-colors"
@@ -192,7 +178,7 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
-      className="bg-gray-50 rounded-2xl p-6 h-full flex flex-col"
+      className="bg-[#f1f8ef] rounded-2xl p-6 h-full flex flex-col"
     >
       {/* Icon */}
       <div className="mb-6">

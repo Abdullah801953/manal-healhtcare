@@ -106,7 +106,7 @@ export const AboutSection = ({
                 src={imageUrl}
                 alt={imageAlt}
                 width={600}
-                height={700}
+                height={200}
                 className="w-full h-auto object-cover"
                 priority
               />

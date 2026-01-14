@@ -48,7 +48,7 @@ export const MobileNav = () => {
       </SheetTrigger>
       <SheetContent 
         side="right" 
-        className="w-[85vw] max-w-sm sm:w-96 md:w-[400 px] p-4 sm:p-6"
+        className="w-[85vw] max-w-sm sm:w-96 md:w-[400px] p-4 sm:p-6"
       >
         {/* Close button for mobile */}
 
@@ -95,19 +95,20 @@ export const MobileNav = () => {
             )}
           </div>
           
-          {/* Language Button - Responsive */}
+          {/* Language Button */}
           <Button 
             variant="outline" 
-            className="mt-6 bg-white border-2 border-green-600 rounded-full px-4 sm:px-6 py-3 sm:py-3.5 hover:bg-green-50 text-gray-900 font-medium text-sm sm:text-base h-auto flex items-center justify-between w-full transition-all duration-200"
+            className="mt-4 bg-white border-2 border-green-600 rounded-full px-8 sm:px-10 py-5 sm:py-5.5 hover:bg-green-50 text-gray-900 font-medium text-lg sm:text-xl h-auto flex items-center justify-between w-full transition-all duration-200"
           >
             <span className="truncate">Language</span>
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center shrink-0 ml-3 transition-colors">
-              <Languages/>
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center shrink-0 ml-3 transition-colors">
+              <Languages className="w-6 h-6" />
             </div>
           </Button>
+        </nav>
 
-          {/* Additional responsive elements */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
+        {/* Additional responsive elements */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
             <div className="flex flex-col gap-3 sm:gap-4">
               <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-3.5 text-sm sm:text-base rounded-full font-medium">
                 Book Consultation
@@ -131,7 +132,6 @@ export const MobileNav = () => {
               </a>
             </div>
           </div>
-        </nav>
 
         {/* Bottom info for mobile */}
         <div className="absolute bottom-6 left-0 right-0 px-6 sm:hidden">

@@ -58,7 +58,7 @@ const faqs = [
 
 export const FAQSection = () => {
   return (
-    <section className="container mx-auto px-4 py-12" aria-labelledby="faq-heading">
+    <section className="container mx-auto px-4 py-12 max-w-8xl " aria-labelledby="faq-heading">
       {/* Section Heading */}
       <h2 id="faq-heading" className="text-3xl md:text-4xl font-bold mb-8 text-gray-900">
         Frequently Asked Questions
@@ -67,8 +67,8 @@ export const FAQSection = () => {
       {/* ShadCN Accordion */}
       <Accordion type="single" collapsible className="space-y-4">
         {faqs.map((faq, index) => (
-          <AccordionItem value={`item-${index}`} key={index} className="border rounded-md">
-            <AccordionTrigger className="text-left text-lg font-semibold text-gray-900">
+          <AccordionItem value={`item-${index}`} key={index} className="border rounded-md  p-0.5">
+            <AccordionTrigger className="text-left text-md font-semibold text-gray-900">
               {faq.question}
             </AccordionTrigger>
             <AccordionContent className="text-gray-600 mt-2">
