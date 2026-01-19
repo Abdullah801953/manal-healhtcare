@@ -134,7 +134,7 @@ export const treatmentsData: Treatment[] = [
   {
     id: '6',
     title: 'Coronary Artery Bypass',
-    category: 'Cardiology',
+    category: 'Cardiac Surgery',
     description: 'Life-saving open-heart surgery to improve blood flow to the heart muscle. Our cardiac surgeons perform both traditional and minimally invasive bypass procedures, creating new routes around blocked arteries using healthy blood vessels from other parts of the body. Comprehensive cardiac rehabilitation ensures optimal recovery.',
     shortDescription: 'Heart bypass surgery for blocked arteries',
     image: '/doctor-img2 1.png',
@@ -160,7 +160,7 @@ export const treatmentsData: Treatment[] = [
   {
     id: '7',
     title: 'Spinal Fusion Surgery',
-    category: 'Orthopedics',
+    category: 'Orthopedic Surgery',
     description: 'Surgical procedure to permanently connect two or more vertebrae in the spine, eliminating motion between them. Using advanced techniques including minimally invasive approaches, our spine surgeons treat conditions like degenerative disc disease, spinal stenosis, and scoliosis, providing lasting pain relief and stability.',
     shortDescription: 'Spine stabilization and pain relief surgery',
     image: '/doctor.png',

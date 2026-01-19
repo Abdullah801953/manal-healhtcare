@@ -17,7 +17,6 @@ import {
   AlertCircle,
   CheckCircle2,
   Calendar,
-  Passport,
   Banknote,
   Building2,
   MessageSquare,

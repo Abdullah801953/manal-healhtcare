@@ -64,13 +64,13 @@ export const Hero = () => {
           .filter(
             (d) =>
               d.name.toLowerCase().includes(query) ||
-              d.specialty.toLowerCase().includes(query)
+              d.specialty?.toLowerCase().includes(query)
           )
           .slice(0, 5)
           .map((d) => ({
             id: d.id,
             title: d.name,
-            subtitle: d.specialty,
+            subtitle: d.specialty || d.specialization?.[0] || "",
             url: `/doctors/${d.id}`,
           }));
         break;

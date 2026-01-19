@@ -27,7 +27,7 @@ export default function DepartmentsSection({ hospital }: DepartmentsSectionProps
           <div className="mb-12">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Medical Specialties</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {hospital.specialty.map((spec, index) => (
+              {hospital.specialties.map((spec, index) => (
                 <div
                   key={index}
                   className="flex items-center gap-3 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
@@ -42,10 +42,11 @@ export default function DepartmentsSection({ hospital }: DepartmentsSectionProps
           </div>
 
           {/* Departments */}
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Clinical Departments</h3>
-            <div className="grid md:grid-cols-2 gap-4">
-              {hospital.departments.map((dept, index) => (
+          {hospital.departments && hospital.departments.length > 0 && (
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">Clinical Departments</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {hospital.departments.map((dept, index) => (
                 <div
                   key={index}
                   className="flex items-start gap-3 bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow"
@@ -68,6 +69,7 @@ export default function DepartmentsSection({ hospital }: DepartmentsSectionProps
               ))}
             </div>
           </div>
+          )}
         </div>
       </div>
     </section>

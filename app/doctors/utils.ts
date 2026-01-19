@@ -1,4 +1,4 @@
-import { Doctor } from '../types';
+import { Doctor } from './types';
 
 // Helper function to get doctor by ID
 export function getDoctorById(id: string, doctors: Doctor[]): Doctor | undefined {

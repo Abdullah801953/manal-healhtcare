@@ -20,6 +20,7 @@ export interface Hospital {
   featured: boolean;
   expertise?: string[];
   infrastructure?: string[];
+  departments?: string[];
 }
 
 export type HospitalType = 
