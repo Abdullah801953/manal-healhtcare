@@ -118,7 +118,7 @@ export default async function HospitalDetailPage({
       <AccreditationsSection hospital={hospital} />
 
       {/* Visiting Information */}
-      <VisitingInfo />
+      {/* <VisitingInfo /> */}
 
       {/* SEO Content */}
       <HospitalSEOContent hospital={hospital} />

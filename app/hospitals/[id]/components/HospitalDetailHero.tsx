@@ -19,7 +19,7 @@ export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps
       <div className="container mx-auto px-4 relative z-10">
         {/* Back Button */}
         <Link href="/hospitals">
-          <Button variant="ghost" className="mb-6 text-white hover:bg-white/20 hover:text-white">
+          <Button variant="ghost" className="mb-6 text-white hover:bg-white/20 hover:text-white cursor-pointer">
             <ArrowLeft className="mr-2 w-4 h-4" />
             Back to Hospitals
           </Button>

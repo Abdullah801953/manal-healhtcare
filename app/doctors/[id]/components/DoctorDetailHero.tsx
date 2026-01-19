@@ -1,6 +1,6 @@
 import { Doctor } from '../../types';
 import { Button } from '@/components/ui/button';
-import { Star, Calendar } from 'lucide-react';
+import { MapPin, Calendar, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 
 interface DoctorDetailHeroProps {
@@ -9,7 +9,7 @@ interface DoctorDetailHeroProps {
 
 export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
   return (
-    <div className="relative w-full rounded-3xl overflow-hidden bg-linear-to-r from-blue-400 via-blue-300 to-blue-200 mb-12">
+    <div className="relative w-full rounded-3xl overflow-hidden bg-linear-to-r from-emerald-500 via-[#209f00] to-green-600 mb-12">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/clouds.svg')] opacity-20 bg-cover bg-center"></div>
       
@@ -20,7 +20,7 @@ export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
           <div className="shrink-0">
             <div className="relative w-72 h-72 rounded-full overflow-hidden border-8 border-white shadow-2xl">
               <Image
-                src={doctor.image}
+                src={doctor.image || '/doctor.png'}
                 alt={doctor.name}
                 fill
                 className="object-cover"
@@ -33,30 +33,34 @@ export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
           {/* Right: Doctor Info */}
           <div className="flex-1 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 bg-white/90 px-4 py-2 rounded-full mb-4">
-              <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-              <span className="text-lg font-bold text-gray-900">{doctor.rating}</span>
-              <span className="text-gray-600">Rating</span>
+              <Briefcase className="w-5 h-5 text-[#209f00]" />
+              <span className="text-sm font-medium text-gray-700">Experice:{doctor.experienceYears}Years</span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
               {doctor.name}
             </h1>
             
-            <p className="text-2xl text-white/95 font-medium mb-6">
-              {doctor.specialty}
+            <p className="text-2xl text-white/95 font-medium mb-3">
+              {doctor.designation}
             </p>
 
-            <p className="text-lg text-white/90 mb-8 max-w-2xl">
-              {doctor.bio}
-            </p>
+            <div className="flex items-center gap-2 text-white/90 mb-6 justify-center lg:justify-start">
+              <MapPin className="w-5 h-5" />
+              <span className="text-lg">{doctor.hospital}</span>
+            </div>
+
+            {/* <p className="text-lg text-white/90 mb-8 max-w-2xl">
+              {doctor.overview}
+            </p> */}
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Button className="bg-teal-500 hover:bg-teal-600 text-white rounded-full px-8 py-6 text-lg shadow-lg">
+              <Button className="bg-white hover:bg-gray-50 text-[#209f00] rounded-full px-8 py-6 text-lg shadow-lg font-semibold cursor-pointer">
                 <Calendar className="w-5 h-5 mr-2" />
                 Book Appointment
               </Button>
-              <Button variant="outline" className="bg-white hover:bg-gray-50 text-gray-900 rounded-full px-8 py-6 text-lg border-2">
-                Contact Doctor
+              <Button variant="outline" className="bg-transparent hover:bg-white/10 text-white border-white border-2 rounded-full px-8 py-6 text-lg cursor-pointer">
+                Contact
               </Button>
             </div>
           </div>

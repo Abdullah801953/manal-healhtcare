@@ -18,6 +18,8 @@ export interface Hospital {
   emergency: boolean;
   parking: boolean;
   featured: boolean;
+  expertise?: string[];
+  infrastructure?: string[];
 }
 
 export type HospitalType = 
