@@ -9,7 +9,7 @@ export default function AccreditationsSection({ hospital }: AccreditationsProps)
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 bg-[#209f00]/10 rounded-xl">

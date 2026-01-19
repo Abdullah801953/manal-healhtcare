@@ -49,9 +49,9 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            <DoctorInfoSection specialty={doctor.specialty} />
-            <ExpertiseSection />
-            <EducationSection />
+            <DoctorInfoSection doctor={doctor} />
+            <ExpertiseSection doctor={doctor} />
+            <EducationSection doctor={doctor} />
           </div>
 
           {/* Sidebar */}

@@ -32,7 +32,7 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
                 className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group"
               >
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden bg-gray-100">
+                <div className="relative h-100 overflow-hidden bg-gray-100">
                   <img
                     src={hospital.image}
                     alt={hospital.name}
@@ -72,7 +72,7 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
                   <Link href={`/hospitals/${hospital.id}`}>
                     <Button 
                       variant="outline" 
-                      className="w-full group/btn hover:bg-[#209f00] hover:text-white hover:border-[#209f00] transition-all duration-300"
+                      className="w-full group/btn hover:bg-[#209f00] hover:text-white hover:border-[#209f00] transition-all duration-300 cursor-pointer"
                     >
                       View Details
                       <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -86,7 +86,7 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
           {/* View All Link */}
           <div className="text-center mt-12">
             <Link href="/hospitals">
-              <Button size="lg" className="bg-[#209f00] hover:bg-[#1a8000] text-white">
+              <Button size="lg" className="bg-[#209f00] hover:bg-[#1a8000] text-white cursor-pointer">
                 View All Hospitals
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
