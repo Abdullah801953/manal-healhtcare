@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { treatmentsData } from './data';
 import { TreatmentCategory } from './types';
 import TreatmentCard from './components/TreatmentCard';
@@ -11,9 +12,18 @@ import Pagination from './components/Pagination';
 const ITEMS_PER_PAGE = 9;
 
 export default function TreatmentsPage() {
+  const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<TreatmentCategory>('All Treatments');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Set search query from URL on component mount
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+    }
+  }, [searchParams]);
 
   // Filter treatments based on category and search
   const filteredTreatments = useMemo(() => {

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { hospitalsData } from './data';
 import { FilterOptions } from './types';
 import HospitalCard from './components/HospitalCard';
@@ -11,6 +12,7 @@ import Pagination from './components/Pagination';
 const ITEMS_PER_PAGE = 6;
 
 export default function HospitalsPage() {
+  const searchParams = useSearchParams();
   const [filters, setFilters] = useState<FilterOptions>({
     type: 'All Hospitals',
     emergency: null,
@@ -21,6 +23,14 @@ export default function HospitalsPage() {
   });
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Set search query from URL on component mount
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+    }
+  }, [searchParams]);
 
   // Filter hospitals based on all criteria
   const filteredHospitals = useMemo(() => {

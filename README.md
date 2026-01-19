@@ -1,25 +1,55 @@
 # 🏥 Manal Healthcare - Modern Healthcare Website
 
-A modern, responsive healthcare website built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**. This project showcases a complete healthcare platform with beautiful UI components, multi-language support, dynamic query forms, and best practices for React and Next.js development.
+A modern, responsive healthcare website built with **Next.js 16**, **TypeScript**, **Tailwind CSS v4**, and **shadcn/ui**. This project showcases a complete healthcare platform with beautiful UI components, **11-language translation system**, dynamic query forms, intelligent search functionality, and best practices for React and Next.js development.
 
 ---
 
 ## ✨ Features
 
-- 🎨 **Modern UI/UX** - Clean, professional design with Tailwind CSS v4
-- 📱 **Fully Responsive** - Mobile-first design that works on all devices
-- ⚡ **Fast Performance** - Optimized with Next.js 16 and App Router
-- 🎭 **Smooth Animations** - Framer Motion for engaging user experience
-- 🌍 **Multi-Language Support** - Integrated language translation system
-- 📝 **Query Form Modal** - Auto-popup consultation form for user engagement
-- 🏥 **Doctors Directory** - Searchable and filterable doctor listings
-- 🏨 **Hospitals Directory** - Comprehensive hospital information and filtering
-- 💬 **Testimonials System** - Patient reviews with pagination
-- 🔬 **Treatments Catalog** - Detailed treatment information and pricing
-- ♿ **Accessible** - Built with shadcn/ui for accessibility standards
-- 🔧 **Type Safe** - Full TypeScript support throughout
-- 🎯 **Component-Based** - Reusable, maintainable component architecture
-- 🔍 **SEO Optimized** - Next.js Image optimization and meta tags
+### 🎨 **Design & UI/UX**
+- Clean, professional healthcare design with Tailwind CSS v4
+- Fully responsive mobile-first design (optimized for all screen sizes)
+- Smooth animations and transitions with Framer Motion
+- Modern glassmorphism effects and gradient backgrounds
+- Accessible components built with shadcn/ui
+
+### 🌍 **Multi-Language Translation System (NEW!)**
+- **11 languages supported** with SEO optimization
+- Static translation dictionary (instant, free, no API limits)
+- Languages: English, Arabic, Russian, Bengali, Hindi, French, Spanish, Portuguese, German, Chinese, Italian
+- Country flags and search functionality
+- Persistent language preference (localStorage)
+- Automatic hreflang tags for SEO
+- Translation demo page at `/translation-demo`
+
+### 🔍 **Smart Search System**
+- Unified search across treatments, doctors, and hospitals
+- Real-time suggestions with auto-complete
+- URL parameter support for direct search links
+- Category-specific filtering
+- Optimized search performance
+
+### 📱 **Fully Responsive Design**
+- Mobile, tablet, and desktop optimized
+- Adaptive typography and spacing
+- Touch-friendly navigation
+- Optimized images for all screen sizes
+
+### 🏥 **Core Features**
+- **Doctors Directory** - Searchable listings with specialty filters
+- **Hospitals Directory** - Advanced filtering (type, beds, emergency, parking)
+- **Treatments Catalog** - 18+ medical treatments with detailed information
+- **Testimonials System** - Patient reviews with carousel navigation
+- **Blog Section** - Healthcare articles and news
+- **Contact Forms** - Multiple query forms for patient engagement
+- **WhatsApp Integration** - Direct messaging button
+
+### ⚡ **Performance & Optimization**
+- Next.js 16 App Router for optimal performance
+- Image optimization with next/image
+- Lazy loading and code splitting
+- SEO meta tags and structured data
+- Lighthouse score optimized
 
 ---
 
@@ -44,21 +74,25 @@ manal-healthcare/
 │   ├── about/                    # About page with team & mission
 │   │   ├── page.tsx
 │   │   └── components/           # About page components
+│   ├── blogs/                    # Blog section
+│   │   ├── page.tsx
+│   │   ├── [id]/                # Individual blog posts
+│   │   └── data.ts              # Blog data
 │   ├── contact/                  # Contact page
 │   │   ├── page.tsx
 │   │   └── components/           # Contact form & info
 │   ├── doctors/                  # Doctors directory
-│   │   ├── page.tsx             # Doctors listing
+│   │   ├── page.tsx             # Doctors listing with filters
 │   │   ├── [id]/                # Individual doctor pages
 │   │   ├── data.ts              # Doctor data
 │   │   └── components/          # Doctor components
 │   ├── hospitals/                # Hospitals directory
-│   │   ├── page.tsx             # Hospitals listing
+│   │   ├── page.tsx             # Hospitals listing with filters
 │   │   ├── [id]/                # Individual hospital pages
 │   │   ├── data.ts              # Hospital data
 │   │   └── components/          # Hospital components
 │   ├── treatments/               # Treatments catalog
-│   │   ├── page.tsx             # Treatments listing
+│   │   ├── page.tsx             # Treatments listing (18+ treatments)
 │   │   ├── [id]/                # Individual treatment pages
 │   │   ├── data.ts              # Treatment data
 │   │   └── components/          # Treatment components
@@ -66,38 +100,44 @@ manal-healthcare/
 │   │   ├── page.tsx
 │   │   ├── data.ts
 │   │   └── components/          # Testimonial components
-│   ├── api/                      # API routes
-│   │   ├── languages/           # Language options
-│   │   └── translate/           # Translation endpoint
+│   ├── translation-demo/         # Translation feature demo (NEW!)
+│   │   └── page.tsx             # Interactive translation examples
+│   ├── info/                     # Information pages
+│   │   ├── medical-tourism/
+│   │   ├── plan-your-travel/
+│   │   ├── privacy-policy/
+│   │   └── terms-conditions/
 │   ├── components/               # Shared React components
 │   │   ├── Header.tsx           # Main header container
-│   │   ├── TopBar.tsx           # Top contact bar
-│   │   ├── MainNav.tsx          # Desktop navigation
-│   │   ├── MobileNav.tsx        # Mobile menu
-│   │   ├── Hero.tsx             # Hero section with search
+│   │   ├── TopBar.tsx           # Top contact bar with social links
+│   │   ├── MainNav.tsx          # Desktop navigation with search
+│   │   ├── MobileNav.tsx        # Mobile hamburger menu
+│   │   ├── Hero.tsx             # Hero section with smart search (NEW!)
 │   │   ├── InfoCards.tsx        # Information cards grid
 │   │   ├── Services.tsx         # Services carousel
+│   │   ├── OurServices.tsx      # About services section
 │   │   ├── AboutSection.tsx     # About company section
 │   │   ├── ServicesMarquee.tsx  # Infinite scrolling banner
-│   │   ├── Testimonials.tsx     # Customer testimonials
+│   │   ├── Testimonials.tsx     # Customer testimonials carousel
 │   │   ├── LabTestBooking.tsx   # Lab test booking cards
-│   │   ├── DoctorsShowcase.tsx  # Doctors grid with filtering
+│   │   ├── DoctorsShowcase.tsx  # Doctors grid showcase
 │   │   ├── NewsletterSection.tsx # Newsletter subscription
 │   │   ├── BlogSection.tsx      # Blog posts grid
 │   │   ├── FAQSection.tsx       # FAQ accordion
 │   │   ├── QueryFormModal.tsx   # Popup consultation form
-│   │   ├── LanguageSwitcher.tsx # Language selector
-│   │   ├── GoogleTranslateWidget.tsx # Google Translate integration
-│   │   ├── PageTranslator.tsx   # Page translation component
+│   │   ├── LanguageSelector.tsx # Language selector modal (NEW!)
+│   │   ├── Translate.tsx        # Translation wrapper component (NEW!)
+│   │   ├── SEOMetaTags.tsx      # SEO hreflang tags (NEW!)
+│   │   ├── WhatsAppButton.tsx   # Floating WhatsApp button
 │   │   └── Footer.tsx           # Site footer
-│   ├── contexts/                 # React Context providers
-│   │   └── LanguageContext.tsx  # Language state management
+│   ├── contexts/                 # React Context providers (NEW!)
+│   │   └── LanguageContext.tsx  # Language state & translation logic
+│   ├── data/                     # Static data (NEW!)
+│   │   └── translations.ts      # Translation dictionary (11 languages)
 │   ├── lib/                      # Utility functions
-│   │   └── i18n/                # Internationalization
-│   │       ├── languages.ts     # Language definitions
-│   │       └── translations.ts  # Translation data
-│   ├── globals.css              # Global styles
-│   ├── layout.tsx               # Root layout
+│   │   └── treatments.ts        # Treatment categories with icons
+│   ├── globals.css              # Global styles & Tailwind config
+│   ├── layout.tsx               # Root layout with providers
 │   └── page.tsx                 # Homepage
 │
 ├── components/                   # shadcn/ui components
@@ -105,28 +145,37 @@ manal-healthcare/
 │       ├── button.tsx
 │       ├── sheet.tsx
 │       ├── input.tsx
+│       ├── select.tsx
+│       ├── dialog.tsx
+│       ├── card.tsx
 │       ├── carousel.tsx
 │       ├── accordion.tsx
-│       ├── dialog.tsx
-│       ├── select.tsx
 │       └── navigation-menu.tsx
 │
 ├── public/                       # Static assets
-│   ├── doctor-img 1.png
-│   ├── doctor-img2 1.png
-│   ├── blog-1.jpg
+│   ├── logo.png                 # Brand logo
+│   ├── doctor.png               # Hero doctor image
+│   ├── about-img.png            # About section image
+│   ├── facebook.svg, instagram.svg, etc. # Social icons
 │   └── [other images]
 │
-├── lib/                          # Utility functions
-│   └── utils.ts
+├── lib/                          # Shared utilities
+│   └── utils.ts                 # Helper functions
+│
+├── Documentation Files (NEW!)    # Comprehensive guides
+│   ├── TRANSLATION_GUIDE.md     # Complete translation system guide
+│   ├── TRANSLATION_USAGE_GUIDE.md # How to use translations
+│   ├── TRANSLATION_EXAMPLE.md   # Real-world examples
+│   ├── SETUP_COMPLETE.md        # Setup summary
+│   ├── LANGUAGE_TRANSLATION.md  # Technical docs
+│   └── TRANSLATION_SETUP_COMPLETE.md # Setup checklist
 │
 ├── components.json               # shadcn/ui configuration
 ├── next.config.ts                # Next.js configuration
-├── tailwind.config.ts            # Tailwind CSS configuration
+├── tailwind.config.ts            # Tailwind CSS v4 configuration
 ├── tsconfig.json                 # TypeScript configuration
 ├── postcss.config.mjs            # PostCSS configuration
 ├── eslint.config.mjs             # ESLint configuration
-├── LANGUAGE_SETUP.md             # Language setup documentation
 └── package.json                  # Dependencies
 ```
 
@@ -135,70 +184,84 @@ manal-healthcare/
 ## 🎨 Components Overview
 
 ### Header Components
-- **Header** - Main header wrapper with sticky positioning
-- **TopBar** - Contact information and social media links
-- **MainNav** - Desktop navigation with language selector
+- **Header** - Main header wrapper with sticky positioning and backdrop blur
+- **TopBar** - Contact information, location, and social media links
+- **MainNav** - Desktop navigation with dropdowns and search
 - **MobileNav** - Responsive mobile menu with sheet drawer
-- **LanguageSwitcher** - Multi-language support dropdown
+- **LanguageSelector** - 11-language selector modal with search (NEW!)
 
 ### Content Sections
-- **Hero** - Main hero section with search functionality and animations
-- **InfoCards** - Grid of information cards with hover effects
-- **Services** - Carousel of healthcare services
-- **AboutSection** - Company information with feature highlights
+- **Hero** - Hero section with smart search and auto-suggestions (UPDATED!)
+- **InfoCards** - Grid of information cards (300+ patients, 200+ hospitals)
+- **Services** - Carousel of 18+ medical treatments with icons
+- **OurServices** - About services with feature list
+- **AboutSection** - Company information with animations
 - **ServicesMarquee** - Infinite scrolling services banner
-- **Testimonials** - Customer testimonials carousel
-- **LabTestBooking** - Lab test packages with booking options
-- **DoctorsShowcase** - Filterable grid of doctors by specialty
-- **NewsletterSection** - Newsletter subscription with email form
-- **BlogSection** - Latest news and articles grid
-- **FAQSection** - Frequently asked questions with accordion
-- **QueryFormModal** - Auto-popup consultation form with file upload
+- **Testimonials** - Patient testimonials with carousel navigation
+- **LabTestBooking** - Lab test packages with pricing
+- **DoctorsShowcase** - Featured doctors showcase
+- **NewsletterSection** - Newsletter subscription form
+- **BlogSection** - Latest healthcare articles
+- **FAQSection** - Frequently asked questions accordion
+- **QueryFormModal** - Auto-popup consultation form
+
+### Translation Components (NEW!)
+- **Translate** - Wrapper component for translatable text
+- **LanguageSelector** - Language picker with 11 languages
+- **SEOMetaTags** - Automatic hreflang tags for SEO
+- **LanguageContext** - Global language state management
 
 ### Page Components
 
 #### Doctors Directory
 - **HeroBanner** - Doctors page hero section
-- **DoctorCard** - Individual doctor display card
-- **CategoryFilter** - Filter doctors by specialty
-- **Pagination** - Navigate through doctor listings
+- **DoctorCard** - Individual doctor display card with specialty
+- **CategoryFilter** - Filter doctors by 15+ specialties
+- **SearchBar** - Search doctors by name or specialty
+- **Pagination** - Navigate through doctor listings (9 per page)
 
 #### Hospitals Directory
 - **HospitalHero** - Hospitals page hero section
-- **HospitalCard** - Individual hospital display card
-- **AdvancedFilters** - Multi-criteria hospital filtering
-- **Pagination** - Navigate through hospital listings
+- **HospitalCard** - Individual hospital card with facilities
+- **AdvancedFilters** - Filter by type, beds, emergency, parking
+- **SearchBar** - Search hospitals by name, city, or type
+- **Pagination** - Navigate through hospital listings (6 per page)
 
 #### Treatments Catalog
-- Treatment listing and detail pages
-- Treatment categories and pricing
-- Related treatments suggestions
+- **TreatmentHero** - Treatments page hero
+- **TreatmentCard** - Treatment card with pricing and description
+- **CategoryFilter** - Filter by 18+ treatment categories
+- **SearchBar** - Search treatments by name
+- **Pagination** - Navigate through treatment listings (9 per page)
 
 #### Testimonials
 - **TestimonialsHero** - Testimonials page hero
-- **TestimonialCard** - Individual testimonial display
+- **TestimonialCard** - Patient review card with rating
 - **TestimonialFilters** - Filter by rating and category
 - **WhyTrustUs** - Trust indicators section
-- **CTASection** - Call-to-action for submissions
+- **CTASection** - Call-to-action for patient stories
 
 #### Contact & About Pages
-- **ContactForm** - Multi-step contact form
-- **ContactInfo** - Contact details and map
-- **SocialConnect** - Social media integration
+- **ContactForm** - Multi-step contact form with validation
+- **ContactInfo** - Contact details, address, and hours
+- **SocialConnect** - Social media links and integration
 - **AboutHero** - About page hero section
-- **TeamSection** - Team members showcase
-- **MissionVision** - Company mission and vision
-- **ValuesSection** - Core values display
+- **TeamSection** - Medical team showcase
+- **MissionVision** - Company mission, vision, and values
+- **StatsSection** - Company statistics and achievements
+- **Accreditations** - Medical certifications and awards
 
 ### UI Components (shadcn/ui)
-- Button - Multiple variants and sizes
-- Sheet - Drawer/dialog component
-- Input - Form input fields
-- Carousel - Touch-friendly image carousel
-- Accordion - Collapsible content sections
-- Dialog - Modal dialogs
-- Select - Dropdown selections
-- Navigation Menu - Accessible navigation
+- **Button** - Multiple variants (default, outline, ghost, etc.)
+- **Sheet** - Drawer/dialog for mobile menu
+- **Input** - Form input fields with validation
+- **Select** - Dropdown select component
+- **Dialog** - Modal dialogs and popups
+- **Card** - Content container with variants
+- **Carousel** - Touch-friendly image/content carousel
+- **Accordion** - Collapsible FAQ sections
+- **NavigationMenu** - Accessible dropdown navigation
+- **NavigationMenu** - Accessible dropdown navigation
 
 ---
 
@@ -206,14 +269,15 @@ manal-healthcare/
 
 ### Prerequisites
 
-- **Node.js** 20+ 
+- **Node.js** 20+
 - **npm** or **yarn** or **pnpm**
+- **Git** for version control
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/your-username/manal-healthcare.git
    cd manal-healthcare
    ```
 
@@ -243,11 +307,68 @@ manal-healthcare/
 ## 📝 Available Scripts
 
 ```bash
-npm run dev      # Start development server
+npm run dev      # Start development server (hot reload)
 npm run build    # Build for production
 npm run start    # Start production server
-npm run lint     # Run ESLint
+npm run lint     # Run ESLint for code quality
+npm run type-check # Run TypeScript type checking
 ```
+
+---
+
+## 🌍 Using the Translation System
+
+### Quick Start
+
+1. **Wrap text with Translate component**
+   ```tsx
+   import { Translate } from '@/app/components/Translate';
+   
+   <h1><Translate>Welcome to Manal Healthcare</Translate></h1>
+   <p><Translate>Your trusted medical tourism partner</Translate></p>
+   ```
+
+2. **User changes language**
+   - Click "Language" button in navigation
+   - Select from 11 available languages
+   - Text translates instantly
+
+3. **Add new translations**
+   Edit `app/data/translations.ts`:
+   ```typescript
+   "Your New Text": {
+     hi: "आपका नया पाठ",
+     ar: "النص الجديد الخاص بك",
+     ru: "Ваш новый текст",
+     // ... other languages
+   }
+   ```
+
+### Supported Languages
+
+| Language | Code | Target Market |
+|----------|------|---------------|
+| 🇺🇸 English | `en` | Global |
+| 🇸🇦 Arabic | `ar` | Middle East |
+| 🇷🇺 Russian | `ru` | Russia & CIS |
+| 🇧🇩 Bengali | `bn` | Bangladesh |
+| 🇮🇳 Hindi | `hi` | India |
+| 🇫🇷 French | `fr` | France & Africa |
+| 🇪🇸 Spanish | `es` | Spain & Latin America |
+| 🇵🇹 Portuguese | `pt` | Portugal & Brazil |
+| 🇩🇪 German | `de` | Germany |
+| 🇨🇳 Chinese | `zh` | China |
+| 🇮🇹 Italian | `it` | Italy |
+
+### Translation Features
+
+- ✅ **Zero Cost** - No API fees or subscriptions
+- ✅ **Instant Translation** - No loading time
+- ✅ **SEO Optimized** - hreflang tags for search engines
+- ✅ **Persistent** - Language preference saved in localStorage
+- ✅ **Demo Page** - View examples at `/translation-demo`
+
+📖 **Full Documentation**: See `TRANSLATION_GUIDE.md` for complete details
 
 ---
 
@@ -257,21 +378,28 @@ npm run lint     # Run ESLint
 
 1. Create component in `app/components/`
 2. Use TypeScript interfaces for props
-3. Import in `app/page.tsx`
-4. Follow existing patterns for consistency
+3. Add translations to `app/data/translations.ts`
+4. Import in your page
+5. Follow existing patterns for consistency
 
 ### Styling
 
 - Uses **Tailwind CSS v4** utility classes
-- Custom colors in Tailwind config
-- Framer Motion for animations
+- Custom brand colors: `#209F00` (primary green)
+- Framer Motion for smooth animations
 - Responsive breakpoints: `sm`, `md`, `lg`, `xl`, `2xl`
+- Mobile-first design approach
 
 ### Images
 
 - Place images in `public/` folder
 - Use Next.js `Image` component for optimization
-- Format: `/image-name.png` or `/image-name.jpg`
+- Formats supported: `.png`, `.jpg`, `.webp`, `.svg`
+- Automatic image optimization and lazy loading
+- Recommended sizes:
+  - Hero images: 1920x1080px
+  - Doctor/Hospital images: 800x800px
+  - Icons: 64x64px (SVG preferred)
 
 ---
 
@@ -279,11 +407,13 @@ npm run lint     # Run ESLint
 
 ### Reusability
 All components follow these patterns:
-- **TypeScript interfaces** for type safety
-- **Default props** for flexibility
-- **Composition** over inheritance
-- **Framer Motion** for animations
-- **Responsive design** mobile-first
+- **TypeScript interfaces** for type safety and autocomplete
+- **Default props** for flexibility and reusability
+- **Composition** over inheritance (React best practices)
+- **Framer Motion** for smooth animations and transitions
+- **Responsive design** with mobile-first approach
+- **Accessibility** (ARIA labels, keyboard navigation)
+- **SEO friendly** (semantic HTML, proper headings)
 
 Example:
 ```tsx

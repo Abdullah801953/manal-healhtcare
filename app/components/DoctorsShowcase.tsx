@@ -149,28 +149,28 @@ export const DoctorsShowcase = ({
   };
 
   return (
-    <section className="py-16 lg:py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="space-y-12"
+          className="space-y-8 sm:space-y-10 lg:space-y-12"
         >
           {/* Header and Filters */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
             {/* Left: Heading */}
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <motion.p
                 variants={itemVariants}
-                className="text-[#209F00] font-semibold text-sm md:text-base"
+                className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base"
               >
                 {badge}
               </motion.p>
               <motion.h2
                 variants={itemVariants}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-2xl"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-2xl"
               >
                 {heading}
               </motion.h2>
@@ -179,11 +179,11 @@ export const DoctorsShowcase = ({
             {/* Right: Category Filters */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-wrap items-center gap-3"
+              className="flex flex-wrap items-center gap-2 sm:gap-3"
             >
               <Button
                 onClick={() => setSelectedCategory("all")}
-                className={`rounded-full px-6 py-2 font-medium transition-all ${
+                className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
                   selectedCategory === "all"
                     ? "bg-green-600 hover:bg-green-700 text-white"
                     : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
@@ -195,7 +195,7 @@ export const DoctorsShowcase = ({
                 <Button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.name)}
-                  className={`rounded-full px-6 py-2 font-medium transition-all ${
+                  className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
                     selectedCategory === category.name
                       ? "bg-[#209F00] hover:bg-green-700 text-white"
                       : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
@@ -209,7 +209,7 @@ export const DoctorsShowcase = ({
 
           {/* Doctors Grid with Navigation */}
           <motion.div variants={itemVariants} className="relative">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
               {displayedDoctors.map((doctor, index) => (
                 <DoctorCard key={doctor.id} doctor={doctor} index={index} />
               ))}
@@ -221,16 +221,16 @@ export const DoctorsShowcase = ({
                 <Button
                   onClick={handlePrevious}
                   size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-900 shadow-lg z-10"
+                  className="hidden lg:flex absolute left-0 lg:left-4 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-900 shadow-lg z-10"
                 >
-                  <ChevronLeft className="w-6 h-6" />
+                  <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
                 </Button>
                 <Button
                   onClick={handleNext}
                   size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-900 shadow-lg z-10 hidden lg:flex"
+                  className="hidden lg:flex absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-900 shadow-lg z-10"
                 >
-                  <ChevronRight className="w-6 h-6" />
+                  <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
                 </Button>
               </>
             )}
@@ -254,10 +254,10 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
+      className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
     >
       {/* Doctor Image */}
-      <div className="relative  bg-gray-100">
+      <div className="relative h-48 sm:h-56 lg:h-64 bg-gray-100">
         <Image
           src={doctor.image}
           alt={doctor.name}
@@ -267,9 +267,9 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       </div>
 
       {/* Doctor Info */}
-      <div className="p-6 text-center">
-        <h3 className="text-xl font-bold text-gray-900 mb-1">{doctor.name}</h3>
-        <p className="text-gray-600 text-sm">{doctor.specialty}</p>
+      <div className="p-4 sm:p-5 lg:p-6 text-center">
+        <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-1">{doctor.name}</h3>
+        <p className="text-gray-600 text-xs sm:text-sm">{doctor.specialty}</p>
       </div>
     </motion.div>
   );

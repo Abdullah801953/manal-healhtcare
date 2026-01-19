@@ -8,7 +8,7 @@ import { MobileNav } from "./MobileNav";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full bg-blurred backdrop-blur">
+    <header className="sticky top-0 z-50 w-full bg-blurred backdrop-blur-lg">
       {/* Top Bar - Hidden on mobile */}
       <TopBar />
 
@@ -21,8 +21,8 @@ const Header = () => {
               <Image
                 src={logo}
                 alt="Manal Healthcare Logo"
-                width={120}
-                height={120}
+                width={150}
+                height={150}
                 priority
              
               />

@@ -97,21 +97,21 @@ export const Testimonials = ({
   };
 
   return (
-    <section className="py-16 lg:py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
           {/* Left Side - Testimonial Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-6"
+            className="space-y-4 sm:space-y-5 lg:space-y-6"
           >
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base"
             >
               {badge}
             </motion.p>
@@ -119,7 +119,7 @@ export const Testimonials = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
             >
               {heading}
             </motion.h2>
@@ -129,18 +129,7 @@ export const Testimonials = ({
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
-                  className={`w-5 h-5 ${
-                    index < currentTestimonial.rating
-                      ? "fill-orange-400 text-orange-400"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))}
-            </motion.div>   <motion.div variants={itemVariants} className="flex items-center gap-1">
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  className={`w-5 h-5 ${
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${
                     index < currentTestimonial.rating
                       ? "fill-orange-400 text-orange-400"
                       : "text-gray-300"
@@ -156,7 +145,7 @@ export const Testimonials = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5 }}
-              className="text-gray-600 text-base leading-relaxed"
+              className="text-gray-600 text-sm sm:text-base leading-relaxed"
             >
               {currentTestimonial.description}
             </motion.p>
@@ -167,29 +156,29 @@ export const Testimonials = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="pt-4"
+              className="pt-2 sm:pt-4"
             >
-              <h4 className="text-xl font-bold text-gray-900">
+              <h4 className="text-lg sm:text-xl font-bold text-gray-900">
                 {currentTestimonial.authorName}
               </h4>
-              <p className="text-sm text-gray-600">{currentTestimonial.authorTitle}</p>
+              <p className="text-xs sm:text-sm text-gray-600">{currentTestimonial.authorTitle}</p>
             </motion.div>
 
             {/* Navigation Buttons */}
-            <motion.div variants={itemVariants} className="flex items-center gap-4 pt-4">
+            <motion.div variants={itemVariants} className="flex items-center gap-3 sm:gap-4 pt-2 sm:pt-4">
               <Button
                 onClick={handlePrevious}
                 size="icon"
-                className="w-12 h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
               <Button
                 onClick={handleNext}
                 size="icon"
-                className="w-12 h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
             </motion.div>
           </motion.div>
@@ -200,14 +189,14 @@ export const Testimonials = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6"
           >
             {/* Google Rating Card */}
       
 
             {/* Video Thumbnail */}
             {showVideo && (
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl group cursor-pointer">
+              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl group cursor-pointer">
                 <Image
                   src={videoThumbnail}
                   alt="Patient testimonial video"
@@ -220,9 +209,9 @@ export const Testimonials = ({
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-20 h-20 bg-blue-900/90 rounded-full flex items-center justify-center"
+                    className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-900/90 rounded-full flex items-center justify-center"
                   >
-                    <Play className="w-10 h-10 text-green-500 fill-green-500 ml-1" />
+                    <Play className="w-8 h-8 sm:w-10 sm:h-10 text-green-500 fill-green-500 ml-1" />
                   </motion.div>
                 </div>
               </div>

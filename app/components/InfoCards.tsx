@@ -71,8 +71,8 @@ export const InfoCards = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-14 lg:py-16 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -84,7 +84,7 @@ export const InfoCards = () => {
             sm:grid-cols-2 
             md:grid-cols-3 
             lg:grid-cols-5 
-            gap-6
+            gap-4 sm:gap-5 lg:gap-6
           "
         >
           {infoCards.map((card) => (
@@ -92,28 +92,28 @@ export const InfoCards = () => {
               key={card.id}
               variants={cardVariants}
               whileHover={{ y: -8 }}
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col"
+              className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col"
             >
               {/* Icon */}
-              <div className="mb-6">
-                <div className=" ">
+              <div className="mb-4 sm:mb-5 lg:mb-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-green-50 rounded-full flex items-center justify-center">
                   <Image
                     src={card.icon}
                     alt={card.title}
                     width={60}
                     height={60}
-                    className="object-contain"
+                    className="object-contain w-12 h-12 sm:w-14 sm:h-14 lg:w-[60px] lg:h-[60px]"
                   />
                 </div>
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-bold text-gray-900 mb-4">
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4">
                 {card.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600 text-sm leading-relaxed mb-6 grow">
+              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 grow">
                 {card.description}
               </p>
 

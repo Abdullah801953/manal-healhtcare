@@ -111,26 +111,26 @@ export const LabTestBooking = ({
   };
 
   return (
-    <section className="py-16 lg:py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="space-y-12"
+          className="space-y-8 sm:space-y-10 lg:space-y-12"
         >
           {/* Header */}
-          <div className="text-center space-y-3">
+          <div className="text-center space-y-2 sm:space-y-3 px-2 sm:px-0">
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base"
             >
               {badge}
             </motion.p>
             <motion.h2
               variants={itemVariants}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-4xl mx-auto"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-4xl mx-auto"
             >
               {heading}
             </motion.h2>
@@ -139,10 +139,10 @@ export const LabTestBooking = ({
           {/* Content Grid */}
           <motion.div
             variants={itemVariants}
-            className="grid lg:grid-cols-[1fr_auto_1.5fr] gap-8 items-center"
+            className="grid lg:grid-cols-[1fr_auto_1.5fr] gap-6 sm:gap-8 items-center"
           >
             {/* Left Image */}
-            <div className="relative rounded-3xl overflow-hidden shadow-xl">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
@@ -173,7 +173,7 @@ export const LabTestBooking = ({
             </div>
 
             {/* Test Cards */}
-            <div className="grid sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6">
               {displayedTests.map((test) => (
                 <LabTestCard key={test.id} test={test} />
               ))}
@@ -187,7 +187,7 @@ export const LabTestBooking = ({
                 variant="ghost"
                 className="w-10 h-10 hover:bg-gray-200"
               >
-                <ChevronLeft className="w-6 h-6 text-gray-900" />
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-900" />
               </Button>
               <Button
                 onClick={handleNext}
@@ -195,7 +195,7 @@ export const LabTestBooking = ({
                 variant="ghost"
                 className="w-10 h-10 hover:bg-gray-200"
               >
-                <ChevronRight className="w-6 h-6 text-gray-900" />
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-gray-900" />
               </Button>
             </div>
           </motion.div>
@@ -215,35 +215,35 @@ const LabTestCard = ({ test }: LabTestCardProps) => {
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center text-center"
+      className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center text-center"
     >
       {/* Test Name */}
-      <h3 className="text-xl font-bold text-gray-900 mb-6">{test.name}</h3>
+      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-4 sm:mb-5 lg:mb-6">{test.name}</h3>
 
       {/* Icon with Discount Badge */}
-      <div className="relative mb-6">
+      <div className="relative mb-4 sm:mb-5 lg:mb-6">
         {test.discount && (
           <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
             {test.discount}
           </div>
         )}
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
-          <span className="text-4xl">{test.icon}</span>
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center">
+          <span className="text-3xl sm:text-4xl">{test.icon}</span>
         </div>
       </div>
 
       {/* Price */}
-      <p className="text-gray-600 text-sm mb-2">Starting From</p>
-      <p className="text-4xl font-bold text-[#209F00] mb-6">${test.price}</p>
+      <p className="text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2">Starting From</p>
+      <p className="text-3xl sm:text-4xl font-bold text-[#209F00] mb-4 sm:mb-5 lg:mb-6">${test.price}</p>
 
       {/* Book Button */}
       <Button
         asChild
-        className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-6 mb-6 font-medium transition-all duration-300 group"
+        className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-4 sm:py-5 lg:py-6 mb-4 sm:mb-5 lg:mb-6 font-medium transition-all duration-300 group text-sm sm:text-base"
       >
         <Link href={test.link}>
           Book A Test
-          <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </Button>
 
