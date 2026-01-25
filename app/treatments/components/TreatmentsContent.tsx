@@ -25,6 +25,14 @@ export default function TreatmentsContent() {
     }
   }, [searchParams]);
 
+  // Get unique categories from treatments data
+  const categories = useMemo(() => {
+    const uniqueCategories = Array.from(
+      new Set(treatmentsData.map((treatment) => treatment.category))
+    ).sort();
+    return ['All Treatments', ...uniqueCategories];
+  }, []);
+
   // Filter treatments based on category and search
   const filteredTreatments = useMemo(() => {
     let filtered = treatmentsData;
@@ -79,6 +87,7 @@ export default function TreatmentsContent() {
                   onCategoryChange={setSelectedCategory}
                   searchQuery={searchQuery}
                   onSearchChange={setSearchQuery}
+                  categories={categories}
                 />
                 
                 {/* Results Count */}
