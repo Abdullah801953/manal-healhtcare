@@ -12,7 +12,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { treatmentCategories } from "@/app/lib/treatments";
 import { treatmentsData } from "../treatments/data";
 import {
   Languages,
@@ -128,7 +127,7 @@ export const MainNav = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [infoSearchQuery, setInfoSearchQuery] = useState("");
 
-  const filteredTreatments = treatmentCategories.filter((treatment) =>
+  const filteredTreatments = treatmentsData.filter((treatment) =>
     treatment.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
