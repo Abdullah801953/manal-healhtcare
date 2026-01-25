@@ -12,15 +12,10 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-<<<<<<< HEAD
 import { treatmentCategories } from "@/app/lib/treatments";
+import { treatmentsData } from "../treatments/data";
 import {
   Languages,
-=======
-import { treatmentsData } from "../treatments/data"
-import { 
-  Languages, 
->>>>>>> 7fef644516cecb026fb8e2f0375a1ef87542a449
   Search,
   Brain,
   Activity,
@@ -117,12 +112,6 @@ const infoMenuItems = [
     label: "Medical Tourism",
     icon: "Stethoscope",
   },
-=======
-  { href: "/info/medical-tourism-india", label: "Medical Tourism in India", icon: "Globe" },
-  { href: "/info/advantages-medical-tourism", label: "Advantages of Medical Tourism", icon: "TrendingUp" },
-  { href: "/info/faqs-for-patient", label: "FAQs for Patient", icon: "HelpCircle" },
-  { href: "/info/medical-tourism", label: "Medical Tourism", icon: "Stethoscope" },
->>>>>>> 7fef644516cecb026fb8e2f0375a1ef87542a449
   { href: "/info/best-hospital", label: "Best Hospital", icon: "Building2" },
   {
     href: "/info/privacy-policy",
@@ -139,15 +128,9 @@ const infoMenuItems = [
 export const MainNav = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [infoSearchQuery, setInfoSearchQuery] = useState("");
-<<<<<<< HEAD
 
   const filteredTreatments = treatmentCategories.filter((treatment) =>
-    treatment.category.toLowerCase().includes(searchQuery.toLowerCase()),
-=======
-  
-  const filteredTreatments = treatmentsData.filter((treatment) =>
     treatment.category.toLowerCase().includes(searchQuery.toLowerCase())
->>>>>>> 7fef644516cecb026fb8e2f0375a1ef87542a449
   );
 
   const filteredInfoItems = infoMenuItems.filter((item) =>
@@ -209,13 +192,8 @@ export const MainNav = () => {
 
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
-<<<<<<< HEAD
             <Link href="/treatments" legacyBehavior passHref>
               <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-base xl:text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-4">
-=======
-            <Link href="/treatments">
-              <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
->>>>>>> 7fef644516cecb026fb8e2f0375a1ef87542a449
                 Treatments
               </NavigationMenuTrigger>
             </Link>
