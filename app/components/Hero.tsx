@@ -16,7 +16,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import doctor from "@/public/doctor.png";
-import { treatmentCategories } from "@/app/lib/treatments";
+import { treatmentsData } from "../treatments/data"
 import { doctorsData } from "@/app/doctors/data";
 import { hospitalsData } from "@/app/hospitals/data";
 import { Translate } from "./Translate";
@@ -49,7 +49,7 @@ export const Hero = () => {
 
     switch (searchCategory) {
       case "treatments":
-        results = treatmentCategories
+        results = treatmentsData
           .filter((t) => t.category.toLowerCase().includes(query))
           .slice(0, 5)
           .map((t) => ({

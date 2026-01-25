@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Hospital } from '../types';
 import { MapPin, Bed, Star, Award, Clock, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface HospitalCardProps {
   hospital: Hospital;
@@ -13,9 +14,10 @@ export default function HospitalCard({ hospital }: HospitalCardProps) {
       <div className="flex flex-col sm:flex-row">
         {/* Image Section */}
         <div className="relative sm:w-80 h-64 sm:h-auto shrink-0 overflow-hidden bg-gray-100">
-          <img
+          <Image
             src={hospital.image}
             alt={hospital.name}
+            fill
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           {hospital.featured && (

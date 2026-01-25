@@ -3,6 +3,7 @@ import { Doctor } from './types';
 export const doctorsData: Doctor[]= [
    {
     id: "1",
+    slug: "dr-anshuman-agarwal",
     name: "Dr Anshuman Agarwal",
     designation: "Senior Consultant Urologist & Robotic Surgeon",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -33,6 +34,7 @@ export const doctorsData: Doctor[]= [
   },
   {
     id: "2",
+    slug: "dr-dipanjan-panda",
     name: "Dr Dipanjan Panda",
     designation: "Senior Consultant Medical Oncologist",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -64,6 +66,7 @@ export const doctorsData: Doctor[]= [
   },
   {
     id: "3",
+    slug: "dr-gaurav-tyagi",
     name: "Dr Gaurav Tyagi",
     designation: "Consultant Neurosurgeon",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -93,6 +96,7 @@ export const doctorsData: Doctor[]= [
   },
 {
   id: "4",
+  slug: "dr-harsh-rastogi",
   name: "Dr Harsh Rastogi",
   designation: "Senior Consultant & Clinical Co-ordinator (Radiology)",
   hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -132,6 +136,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "4",
+    slug: "dr-narasimhan-subramanian",
     name: "Dr Narasimhan Subramanian",
     designation: "Senior Consultant Urologist & Renal Transplant Surgeon",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -162,6 +167,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "5",
+    slug: "dr-niti-chadha-negi",
     name: "Dr Niti Chadha Negi",
     designation: "Senior Consultant Cardiologist & Head of Electrophysiology",
     hospital: "Metro Heart Hospital, New Delhi",
@@ -192,6 +198,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "6",
+    slug: "dr-nitish-anchal",
     name: "Dr Nitish Anchal",
     designation: "Senior Consultant Vascular & Endovascular Surgeon",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -222,6 +229,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "7",
+    slug: "dr-pushpendra-nath-renjen",
     name: "Dr Pushpendra Nath Renjen",
     designation: "Senior Consultant Neurologist",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -250,6 +258,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "8",
+    slug: "dr-rajendra-prasad",
     name: "Dr Rajendra Prasad",
     designation: "Senior Consultant Neurosurgeon & Spine Surgeon",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -279,6 +288,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "9",
+    slug: "dr-yogesh-batra",
     name: "Dr Yogesh Batra",
     designation: "Senior Consultant Gastroenterologist & Hepatologist",
     hospital: "Indraprastha Apollo Hospitals, New Delhi",
@@ -308,6 +318,7 @@ export const doctorsData: Doctor[]= [
 
   {
     id: "10",
+    slug: "dr-vishal-dhir",
     name: "Dr Vishal Dhir",
     designation: "Senior Cardiothoracic & Vascular Surgeon",
     hospital: "New Delhi",

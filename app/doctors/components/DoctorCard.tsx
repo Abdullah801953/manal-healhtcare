@@ -70,7 +70,7 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
 
         {/* Action Buttons */}
         <div className="flex gap-3 mt-auto">
-          <Link href={`/doctors/${doctor.id}`} className="flex-1">
+          <Link href={`/doctors/${doctor.slug}`} className="flex-1">
             <Button
               variant="outline"
               className="w-full border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white rounded-full transition-colors"

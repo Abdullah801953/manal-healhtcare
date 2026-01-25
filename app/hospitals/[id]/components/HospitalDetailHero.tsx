@@ -2,6 +2,7 @@ import { Hospital } from '../../types';
 import { ArrowLeft, Star, MapPin, Bed, Award, Clock, Car, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface HospitalDetailHeroProps {
   hospital: Hospital;
@@ -94,10 +95,12 @@ export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps
           {/* Right: Image */}
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img
+              <Image
                 src={hospital.image}
                 alt={hospital.name}
                 className="w-full h-125 object-cover"
+                width={235}
+                height={300}
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
             </div>

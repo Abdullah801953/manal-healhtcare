@@ -1,128 +1,314 @@
+
 import { Treatment } from './types';
+import cardiology from "@/public/cardio.jpeg"
+import Bone from "@/public/Bone Marrow Transplant.jpg"
+import aoratic from "@/public/aoratic.jpeg"
+import congenital from "@/public/congenital.jpg"
+import gastro from "@/public/gastro.jpg"
+import gyna from "@/public/gyna.jpg"
+import ivf from "@/public/ivf.jpg"
+import Neurology from "@/public/Neurology.webp"
+import Oncology from "@/public/Oncology.jpeg"
+
+
+
+
+
+
+
+
 
 export const treatmentsData: Treatment[] = [
   {
-    id: '1',
-    title: 'Cardiac Catheterization',
-    category: 'Cardiac Surgery',
-    description: 'A minimally invasive procedure to diagnose and treat cardiovascular conditions. Our state-of-the-art cardiac catheterization lab uses advanced imaging technology to guide thin, flexible tubes through blood vessels to the heart. This procedure helps identify blockages, measure pressure, and assess heart function with precision and safety.',
-    shortDescription: 'Minimally invasive heart diagnostic and treatment procedure',
-    image: '/doctor.png',
-    duration: '1-2 hours',
-    price: '$3,500 - $8,000',
+    id: "1",
+    slug: "bone-marrow-transplant",
+    title: "Bone Marrow Transplant",
+    category: "Stem Cell Therapy",
+    description: `# Bone Marrow Transplant`,
+    overview: `Bone Marrow Transplant is a medical condition that treats unhealthy blood cells. A Bone Marrow Transplant in India is also known as a stem cell transplant. The treatment involves replacing bone marrow that does not develop enough healthy blood cells, also the transplant helps to produce healthy blood forming stem cells into the body. The bone marrow transplant treatment is performed when the bone marrow does not work properly or is unable to produce healthy blood cells.`,
+    types: `- **Allogeneic stem cell transplant:** The transplant used from the donor is known as allogeneic transplant.\n- **Autologous stem cell transplant:** The cells that are used for the transplant are consumed from your own body that is called autologous transplant.`,
+    purpose: `- The bone marrow transplant treatment allows high dose chemotherapy and radiation therapy to be infused safely by replacing or rescuing the affected bone marrow.\n- Removes the cells that are not in use with the new stem cells.\n- Infuses new stem cells and kills the cancer cells directly.`,
+    diseasesTreated: `- Acute leukemia\n- Adrenoleukodystrophy\n- Aplastic anemia\n- Bone marrow failure syndromes\n- Chronic leukemia\n- Hemoglobinopathies\n- Hodgkin's lymphoma\n- Immune deficiencies\n- Inborn errors of metabolism\n- Multiple myeloma\n- Myelodysplastic syndromes\n- Neuroblastoma\n- Non-Hodgkin's lymphoma\n- Plasma cell disorders\n- POEMS syndrome\n- Primary amyloidosis`,
+    risks: `- Graft versus host disease (GVHD) that only affects the people with allogeneic transplant\n- Stem cell failure\n- Organ damage\n- Infection\n- Cataracts\n- Infertility\n- New cancers\n- Death`,
+    gvhd: `GVHD is a type of risk that can occur any time after the transplant, especially in allogeneic transplants. It happens when donor stem cells attack the recipient's tissues and organs.\n- **Acute GVHD:** Mostly takes place during the first month of the transplant.\n- **Chronic GVHD:** Hits many organs and mostly occurs later.`,
+    gvhdSymptoms: `- Joint pain\n- Muscle pain\n- Breathing problem\n- Continuous cough\n- Scarring under the skin or skin stiffness\n- Rash\n- Yellowing of the skin and eye whites\n- Dry mouth\n- Mouth sores\n- Diarrhea\n- Nausea\n- Vomiting`,
+    preTransplant: `Tests and procedures are conducted to diagnose and prepare for the transplant, including insertion of a central line for infusions. Delhi offers affordable and advanced procedures for faster healing.`,
+    autologous: `In autologous transplants, stem cells are collected from your own blood using apheresis after growth factor injections. The cells are then frozen for later use.`,
+    conditioning: `After evaluation, conditioning (chemotherapy/radiation) is performed to kill cancer cells, prepare the bone marrow, and control the immune system. Risks include nausea, vomiting, diarrhea, hair loss, mouth sores, ulcers, infection, bleeding, infertility, anemia, fatigue, cataracts, and organ failure.`,
+    summary: `Bone Marrow Transplant helps cure many diseases, aiming to extend life, improve health, and control disease spread. Outcomes depend on individual conditions and side effects. Top specialists in India are globally recognized for their expertise and advanced hospital facilities.`,
+    shortDescription: "Advanced treatment for blood and bone marrow diseases using stem cell transplantation",
+    image: Bone,
+    duration: "Varies by transplant type and patient condition",
+    price: "Affordable compared to Western countries; varies by procedure complexity",
     featured: true,
     benefits: [
-      'Accurate diagnosis of heart conditions',
-      'Minimally invasive with faster recovery',
-      'Real-time imaging and assessment',
-      'Can treat blockages during same procedure',
-      'Lower risk compared to open surgery',
+      "Cures or controls many blood cancers and disorders",
+      "Access to advanced stem cell and transplant technology",
+      "Multidisciplinary care from transplant specialists",
+      "Internationally recognized expertise and facilities"
     ],
     procedures: [
-      'Patient preparation and local anesthesia',
-      'Catheter insertion through blood vessel',
-      'Navigation to heart using X-ray guidance',
-      'Diagnostic imaging and measurements',
-      'Treatment if necessary (angioplasty/stent)',
-      'Recovery and monitoring',
-    ],
+      "Pre-transplant evaluation and central line placement",
+      "Stem cell harvesting (apheresis or donor collection)",
+      "Conditioning (chemotherapy/radiation)",
+      "Stem cell infusion",
+      "Post-transplant monitoring and supportive care",
+      "GVHD management and long-term follow-up"
+    ]
   },
   {
-    id: '2',
-    title: 'Joint Replacement Surgery',
-    category: 'Orthopedic Surgery',
-    description: 'Advanced joint replacement procedures using cutting-edge prosthetic technology and minimally invasive surgical techniques. Our orthopedic surgeons specialize in hip, knee, and shoulder replacements, providing customized solutions to restore mobility and eliminate chronic pain. We use the latest materials and computer-assisted surgery for optimal outcomes.',
-    shortDescription: 'Restore mobility with advanced joint replacement',
-    image: '/doctor-img 1.png',
-    duration: '2-3 hours',
-    price: '$15,000 - $35,000',
+    id: "2",
+    slug: "cardiology",
+    title: "Cardiology",
+    category: "Cardiology",
+    description: `# Cardiology`,
+    overview: `Cardiology is the medical specialty that deals with diseases of the heart and blood vessels. It includes problems related to the heart muscle, heart arteries, heart valves, heart rhythm, and major blood vessels. In India, cardiology care is provided in structured hospital departments where doctors use detailed heart tests to clearly understand each patient's condition. Treatment is planned step by step and may include medicines, procedures, or surgery, with continued follow-up to support recovery and long-term heart care.`,
+    types: `- **Preventive cardiology:** Heart risk assessment, screening, lifestyle guidance, metabolic care, and long-term prevention of cardiovascular disease.\n- **Clinical cardiology:** Evaluation of heart-related symptoms, diagnostic testing, and ongoing medical management.\n- **Interventional cardiology:** Image-guided catheter-based procedures for diagnosis and targeted treatment.\n- **Electrophysiology and device therapy:** Evaluation and management of heart rhythm and conduction disorders, including implantable devices.\n- **Structural heart care:** Assessment and correction of heart valve disease and congenital structural abnormalities.\n- **Cardiac surgery:** Open and minimally invasive surgical correction of coronary, valvular, congenital, and aortic diseases.\n- **Heart failure and advanced cardiac care:** Management of reduced or advanced cardiac function.\n- **Cardiac rehabilitation:** Recovery support, functional improvement, and secondary prevention programs.`,
+    purpose: `To prevent, diagnose, treat, and manage a wide range of cardiovascular diseases, improving heart function, alleviating symptoms, preventing complications, and enhancing quality of life.`,
+    diseasesTreated: `- **Coronary and vascular conditions:** Chest pain syndromes, coronary artery disease, heart attack, peripheral arterial disease, aortic disorders.\n- **Heart muscle and pumping disorders:** Heart failure, weak heart pumping function, inflammatory heart muscle disease.\n- **Heart rhythm and conduction disorders:** Atrial fibrillation, abnormally fast or slow heart rhythms, ventricular rhythm disorders.\n- **Heart valve and structural disorders:** Narrowed or leaking heart valves, degenerative, rheumatic, and infective valve disease.\n- **Congenital heart diseases:** Abnormal heart connections, holes in heart walls, congenital valve problems.\n- **Inflammatory and infiltrative heart disorders:** Myocarditis, pericardial disease, endocarditis.\n- **Lung-related and pressure-related heart disorders:** Pulmonary hypertension, right-sided heart failure.`,
+    risks: `Varies by specific condition and procedure; may include bleeding, infection, arrhythmias, blood clots, stroke, heart attack, or reactions to medications or contrast dye.`,
+    summary: `Cardiology in India offers comprehensive, multidisciplinary care with advanced diagnostics, interventional procedures, and cardiac surgery. International patients benefit from high-quality, cost-effective treatment, experienced specialists, and streamlined support services.`,
+    shortDescription: "Comprehensive diagnosis and treatment of heart and blood vessel diseases",
+    image: cardiology,
+    duration: "Varies from outpatient consultations to complex surgeries",
+    price: "Cost-effective; varies by procedure complexity",
     featured: true,
     benefits: [
-      'Pain relief and improved mobility',
-      'Long-lasting prosthetic joints',
-      'Customized implant fitting',
-      'Minimally invasive techniques',
-      'Comprehensive rehabilitation program',
+      "Advanced diagnostic imaging and testing",
+      "Minimally invasive interventional procedures",
+      "Expert cardiac surgical teams",
+      "Integrated rehabilitation and long-term care"
     ],
     procedures: [
-      'Pre-operative assessment and planning',
-      'Surgical removal of damaged joint',
-      'Precise implant positioning',
-      'Computer-assisted alignment',
-      'Post-operative care and monitoring',
-      'Physical therapy and rehabilitation',
-    ],
+      "Clinical consultation and risk assessment",
+      "Diagnostic testing (ECG, Echo, Stress Test, Angiography)",
+      "Medical management and optimization",
+      "Interventional procedures (angioplasty, stenting, ablation)",
+      "Cardiac surgery (CABG, valve repair/replacement)",
+      "Rehabilitation and follow-up care"
+    ]
   },
   {
-    id: '3',
-    title: 'Brain Tumor Surgery',
-    category: 'Brain and Spine Surgery',
-    description: 'Expert neurosurgical treatment for brain tumors using advanced techniques including microsurgery, neuronavigation, and intraoperative monitoring. Our neurosurgery team combines precision technology with extensive experience to safely remove tumors while preserving critical brain functions. We offer comprehensive care from diagnosis through recovery.',
-    shortDescription: 'Advanced neurosurgical brain tumor treatment',
-    image: '/doctor-img2 1.png',
-    duration: '4-8 hours',
-    price: '$50,000 - $100,000',
-    featured: true,
-    benefits: [
-      'Precision tumor removal',
-      'Brain function preservation',
-      'Advanced imaging guidance',
-      'Minimized surgical trauma',
-      'Multidisciplinary care team',
-    ],
-    procedures: [
-      'Comprehensive neurological evaluation',
-      'Advanced imaging and mapping',
-      'Craniotomy and tumor access',
-      'Microsurgical tumor removal',
-      'Intraoperative monitoring',
-      'Intensive care and recovery',
-    ],
-  },
-  {
-    id: '4',
-    title: 'Kidney Stone Removal',
-    category: 'Urology Surgery',
-    description: 'Modern minimally invasive treatments for kidney stones including laser lithotripsy, ureteroscopy, and extracorporeal shock wave lithotripsy (ESWL). Our urologists use the latest technology to safely and effectively remove stones of all sizes, providing rapid pain relief and preventing future complications.',
-    shortDescription: 'Minimally invasive kidney stone treatment',
-    image: '/doctor.png',
-    duration: '1-3 hours',
-    price: '$5,000 - $12,000',
+    id: "3",
+    slug: "aortic-surgery",
+    title: "Aortic Surgery",
+    category: "Cardiac Surgery",
+    description: `# Clinical Guide to Aortic Surgery in India`,
+    overview: `The aorta is the body's main and largest artery, carrying oxygen-rich blood from the heart to all vital organs. When the aorta becomes weakened, enlarged, or damaged due to disease, injury, or age-related changes, it can seriously affect blood circulation and overall cardiovascular health. Aortic surgery includes carefully planned procedures used to repair or replace affected sections of the aorta, either through open surgical techniques or minimally invasive endovascular approaches, based on detailed specialist evaluation.`,
+    types: `- **Open aortic surgery:** Traditional surgical approach for complex repairs.\n- **Endovascular aortic repair (EVAR/TEVAR):** Minimally invasive catheter-based procedures.\n- **Hybrid approaches:** Combination of surgical and catheter-based techniques.`,
+    purpose: `To repair or replace diseased sections of the aorta (aneurysms, dissections, trauma) to prevent rupture, restore normal blood flow, and reduce risk of life-threatening complications.`,
+    diseasesTreated: `- Aortic aneurysms (thoracic, abdominal)\n- Aortic dissections\n- Aortic trauma\n- Aortic valve disease requiring root replacement\n- Connective tissue disorders affecting the aorta (e.g., Marfan syndrome)`,
+    risks: `- Bleeding\n- Infection\n- Stroke\n- Kidney injury\n- Spinal cord injury (risk of paralysis)\n- Graft complications\n- Heart attack\n- Death`,
+    summary: `Aortic surgery in India is performed at leading cardiac centers adhering to international safety protocols. It offers substantial cost advantages compared to Western countries while maintaining high-quality outcomes. A structured pathway supports international patients from remote consultation to post-discharge coordination.`,
+    shortDescription: "Surgical repair or replacement of the body's main artery",
+    image: aoratic,
+    duration: "Several hours for surgery; recovery varies",
+    price: "Cost-effective compared to Western countries",
     featured: false,
     benefits: [
-      'Quick pain relief',
-      'Minimally invasive procedures',
-      'No major incisions required',
-      'Fast recovery time',
-      'Prevention guidance included',
+      "Prevents life-threatening aortic rupture",
+      "Restores normal blood flow to vital organs",
+      "Minimally invasive endovascular options available",
+      "JCI/NABH accredited high-quality centers"
     ],
     procedures: [
-      'Diagnostic imaging and stone analysis',
-      'Procedure selection based on stone size',
-      'Minimally invasive stone fragmentation',
-      'Stone removal or passage',
-      'Post-procedure monitoring',
-      'Follow-up care and prevention plan',
-    ],
+      "Diagnostic imaging (CT angiography, MRI, Echocardiography)",
+      "Pre-operative evaluation and planning",
+      "Surgical procedure (open or endovascular)",
+      "Intensive care unit recovery",
+      "Post-operative monitoring and rehabilitation",
+      "Long-term surveillance imaging"
+    ]
   },
   {
-    id: '5',
-    title: 'Laparoscopic Surgery',
-    category: 'General Surgery',
-    description: 'Minimally invasive surgical procedures performed through small incisions using specialized instruments and camera systems. Our general surgeons are experts in laparoscopic techniques for gallbladder removal, hernia repair, appendectomy, and other abdominal procedures, resulting in less pain, smaller scars, and faster recovery.',
-    shortDescription: 'Minimally invasive surgical procedures',
-    image: '/doctor-img 1.png',
-    duration: '1-4 hours',
-    price: '$8,000 - $20,000',
-    featured: true,
+    id: "4",
+    slug: "congenital-heart-defect-repair",
+    title: "Congenital Heart Defect Repair",
+    category: "Cardiac Surgery",
+    description: `# Clinical Guide to Congenital Heart Defect Repair in India`,
+    overview: `A Congenital Heart Defect (CHD) refers to one or more structural abnormalities of the heart present at birth. They may affect the heart walls, valves, or blood vessels, and can change how blood flows through the heart and body. CHDs range from simple conditions that may only require monitoring to complex defects that may need long-term clinical management and, in some cases, surgical repair. Advances in pediatric cardiac surgery and interventional cardiology have transformed outcomes for children born with heart defects. Many children who receive appropriate treatment go on to live full, active lives. India has developed specialized pediatric cardiac centers with expertise in treating the full spectrum of congenital heart conditions.`,
+    types: `- **Catheter-based interventions:** Minimally invasive techniques to close holes, widen narrow valves, or place devices.\n- **Surgical repair:** Open-heart surgery or minimally invasive techniques to correct structural abnormalities.\n- **Clinical management:** Monitoring, symptom control, and supportive therapies for mild conditions or pre/post-procedure care.`,
+    purpose: `To correct structural heart abnormalities, restore normal blood flow, prevent complications, and enable children to lead healthy, active lives.`,
+    diseasesTreated: `- Atrial Septal Defect (ASD)\n- Ventricular Septal Defect (VSD)\n- Patent Ductus Arteriosus (PDA)\n- Tetralogy of Fallot\n- Transposition of the Great Arteries\n- Coarctation of the Aorta\n- Congenital valve disorders (e.g., pulmonary stenosis, aortic stenosis)\n- Complex single ventricle defects`,
+    risks: `- Bleeding\n- Infection\n- Arrhythmias\n- Blood clots\n- Stroke\n- Heart block requiring pacemaker\n- Need for reoperation\n- Death`,
+    summary: `India offers specialized pediatric cardiac centers with evidence-based protocols for congenital heart defect repair. Treatment is tailored to the specific defect and patient's health. International patients benefit from a regulated pathway including e-Medical Visa support, pre-arrival coordination, and continuity of care plans.`,
+    shortDescription: "Surgical or catheter-based correction of heart defects present from birth",
+    image: congenital,
+    duration: "Varies from short procedures to complex multi-stage surgeries",
+    price: "Transparent pricing based on clinical complexity",
+    featured: false,
     benefits: [
-      'Smaller incisions and scars',
-      'Reduced post-operative pain',
-      'Faster recovery time',
-      'Lower infection risk',
-      'Shorter hospital stay',
+      "Corrects abnormal heart structure and blood flow",
+      "Enables normal growth and development",
+      "Minimally invasive catheter options for eligible defects",
+      "Multidisciplinary pediatric cardiac team"
     ],
     procedures: [
+      "Diagnostic evaluation (Echocardiogram, ECG, Cardiac MRI/Cath)",
+      "Multidisciplinary team planning",
+      "Surgical repair or catheter intervention",
+      "Post-operative Pediatric ICU care",
+      "Recovery and rehabilitation",
+      "Long-term cardiac follow-up"
+    ]
+  },
+  {
+    id: "5",
+    slug: "gastroenterology",
+    title: "Gastroenterology",
+    category: "Gastroenterology",
+    description: `# Gastroenterology`,
+    overview: `Gastroenterology is a field of medicine that diagnoses and treats the digestive system's function and diseases. It deals with severe diseases related to the digestive system such as the esophagus, stomach, liver, pancreas, intestine, gallbladder and bile ducts. A digestive system is an important part of the body that plays an important role for good health and well being. Any kind of discomfort in the digestive system can lead to medical attention. Top Gastroenterologists in India have a global exposure in their field. They have extreme experience in treating or diagnosing a wide variety of digestive issues from mild to severe.`,
+    types: `- **Diagnostic endoscopy:** Upper GI endoscopy, colonoscopy.\n- **Therapeutic endoscopy:** Polyp removal, stricture dilation, stent placement.\n- **Hepatology:** Management of liver diseases.\n- **Pancreatology:** Management of pancreatic disorders.\n- **Motility disorders:** Management of esophageal and intestinal motility issues.`,
+    purpose: `To diagnose, treat, and manage disorders of the gastrointestinal tract and associated organs, relieving symptoms, treating disease, and improving digestive health and nutrition.`,
+    diseasesTreated: `- Gastroesophageal Reflux Disease (GERD)\n- Irritable Bowel Syndrome (IBS)\n- Inflammatory Bowel Disease (IBD: Crohn's, Ulcerative Colitis)\n- Peptic ulcer disease\n- Gastric and esophageal cancers\n- Colorectal polyps and cancer\n- Pancreatitis and pancreatic cancer\n- Hepatitis, cirrhosis, fatty liver disease\n- Gallstones and biliary tract disease\n- Celiac disease\n- Achalasia\n- Barrett's esophagus`,
+    risks: `Varies by procedure; endoscopic procedures carry risks of bleeding, perforation, infection, or sedation-related complications.`,
+    summary: `Gastroenterology treatment in India is performed with utmost care and excellence. Hospitals are equipped with advanced technology, accredited (NABH, NABL, JCI), and staffed by skilled specialists. International patients receive comprehensive services including visa assistance, accommodation, and interpreter services.`,
+    shortDescription: "Diagnosis and treatment of digestive system disorders",
+    image: gastro,
+    duration: "Outpatient to inpatient care depending on condition",
+    price: "Affordable for international patients",
+    featured: false,
+    benefits: [
+      "Comprehensive care for entire GI tract and accessory organs",
+      "Advanced diagnostic and therapeutic endoscopy",
+      "Expert management of complex liver and pancreatic diseases",
+      "Multidisciplinary approach including nutrition support"
+    ],
+    procedures: [
+      "Clinical consultation and history review",
+      "Diagnostic imaging (Ultrasound, CT, MRI)",
+      "Endoscopic procedures (Gastroscopy, Colonoscopy, ERCP)",
+      "Biopsy and histopathological analysis",
+      "Medical management (medications, diet plans)",
+      "Surgical referral if required"
+    ]
+  },
+  {
+    id: "6",
+    slug: "gynaecology",
+    title: "Gynaecology",
+    category: "Gynaecology",
+    description: `# Understanding Gynaecology`,
+    overview: `Gynaecology is a medical condition that treats the female reproductive system. Gynecology is also responsible for conceiving pregnancy, females who are not able to conceive naturally are somehow connected to issues in their reproductive system. Gynecology in India treats female reproductive health issues through both the procedure that is medicine and surgical. Some of the issues like hormonal imbalance, gynaecological illness can be treated with medicine, but some pharmacological issues like cancers, fibroids need surgical attention. The main parts of the body that come under gynaecology are the uterus, ovaries, vagina and breasts. The initial problems start from puberty through menopause that also covers reproductive issues, sexual health and pregnancy.`,
+    types: `- **General gynaecology:** Routine care, screenings, menstrual disorders.\n- **Reproductive endocrinology & infertility:** Management of infertility, PCOS, hormonal disorders.\n- **Gynaecological oncology:** Diagnosis and treatment of cancers of the reproductive system.\n- **Urogynaecology:** Treatment of pelvic floor disorders, urinary incontinence.\n- **Minimally invasive gynaecological surgery:** Laparoscopic and robotic surgeries.`,
+    purpose: `To maintain and restore health of the female reproductive system, manage menstrual and hormonal disorders, treat infections and cancers, support fertility, and care for women through all life stages.`,
+    diseasesTreated: `- Menstrual disorders (heavy bleeding, irregular periods, amenorrhea)\n- Polycystic Ovary Syndrome (PCOS/PCOD)\n- Endometriosis\n- Uterine fibroids\n- Ovarian cysts\n- Pelvic inflammatory disease (PID)\n- Pelvic organ prolapse\n- Gynecological cancers (cervical, ovarian, uterine, vulvar)\n- Female infertility\n- Sexually transmitted infections (STIs)\n- Menopausal symptoms and osteoporosis\n- Pregnancy-related conditions (gestational diabetes, hypertension, etc.)`,
+    risks: `Varies by procedure; surgical risks include bleeding, infection, damage to surrounding organs, anesthesia risks, and scarring.`,
+    summary: `Gynaecology in India offers a vast range of diagnostic and therapeutic procedures performed by experienced specialists. Hospitals provide advanced minimally invasive and robotic surgical options, comprehensive cancer care, and fertility treatments, all within accredited facilities with international patient support services.`,
+    shortDescription: "Comprehensive care for the female reproductive system",
+    image: gyna,
+    duration: "Varies from outpatient visits to major surgeries",
+    price: "Varies by condition and procedure",
+    featured: false,
+    benefits: [
+      "Complete reproductive health care from adolescence to menopause",
+      "Advanced laparoscopic and robotic surgical techniques",
+      "Fertility treatment and reproductive endocrinology",
+      "Comprehensive cancer screening and oncology care"
+    ],
+    procedures: [
+      "Clinical examination and Pap test/HPV screening",
+      "Diagnostic imaging (Ultrasound, Hysteroscopy)",
+      "Medical management (hormonal therapy, antibiotics)",
+      "Minimally invasive surgery (Laparoscopy, Hysteroscopy)",
+      "Major surgical procedures (Hysterectomy, Myomectomy, Oophorectomy)",
+      "Fertility treatments (IUI, IVF coordination)",
+      "Cancer treatment (surgery, chemotherapy, radiation)"
+    ]
+  },
+  {
+    id: "7",
+    slug: "in-vitro-fertilization-ivf",
+    title: "In-Vitro Fertilization (IVF)",
+    category: "IVF",
+    description: `# In-Vitro Fertilization (IVF)`,
+    overview: `In-Vitro Fertilization, also commonly known as IVF, is a medical treatment that treats infertility. Infertility is a condition that prevents a person from conceiving pregnancy. IVF in India is gaining popularity day by day, as the couples who are trying to conceive pregnancy from the long run, but are unable to conceive IVF treatment is like a ray of hope. There can be several reasons for infertility, before considering any treatment it is important to identify and diagnose the cause of infertility. The IVF is a complex series of procedures where mature eggs are extracted from the ovaries and are fertilized with the sperm in the laboratory. Once the eggs are fertilized, they are known as embryos. When the embryo is formed they are placed back in the uterus where babies are developed. A single cycle of IVF takes about 2 to 3 weeks to complete. IVF in Delhi is considered to be one of the best treatments for infertility issues.`,
+    types: `- **Conventional IVF:** Eggs and sperm are mixed together in a lab dish.\n- **ICSI (Intracytoplasmic Sperm Injection):** A single sperm is injected directly into an egg.\n- **Donor egg/sperm/embryo IVF:** Using donor genetic material.\n- **Frozen embryo transfer (FET):** Using previously frozen embryos.\n- **PGT (Preimplantation Genetic Testing):** Testing embryos for genetic disorders before transfer.`,
+    purpose: `To help individuals and couples achieve pregnancy when natural conception is not possible due to various medical reasons such as blocked tubes, male factor infertility, ovulation disorders, endometriosis, unexplained infertility, or genetic concerns.`,
+    diseasesTreated: `Primary and secondary infertility caused by:\n- Damaged or blocked fallopian tubes\n- Ovulation disorders\n- Endometriosis\n- Uterine fibroids\n- Male factor infertility (low sperm count, poor motility/morphology)\n- Unexplained infertility\n- Genetic disorders requiring PGT\n- Fertility preservation for medical reasons (e.g., prior to cancer treatment)`,
+    risks: `- Ovarian hyperstimulation syndrome (OHSS)\n- Multiple pregnancy\n- Ectopic pregnancy\n- Miscarriage\n- Birth defects (slightly increased risk)\n- Stress and emotional burden\n- Complications from egg retrieval procedure (bleeding, infection)\n- Potential long-term risks (ongoing research)`,
+    summary: `IVF in India is a safe, secure, and increasingly popular option offering high success rates at affordable costs. Clinics are equipped with advanced technology, staffed by internationally experienced specialists, and provide comprehensive support services for international patients, including visa and travel assistance.`,
+    shortDescription: "Assisted reproductive technology to achieve pregnancy",
+    image:ivf,
+    duration: "Approximately 2-3 weeks per cycle",
+    price: "Affordable treatment for international patients",
+    featured: true,
+    benefits: [
+      "Treatment for a wide range of infertility causes",
+      "Option for genetic screening of embryos (PGT)",
+      "Fertility preservation for cancer patients",
+      "High success rates in accredited Indian clinics"
+    ],
+    procedures: [
+      "Ovarian reserve testing and semen analysis",
+      "Ovarian stimulation with hormone injections",
+      "Monitoring via ultrasound and blood tests",
+      "Egg retrieval procedure",
+      "Fertilization in the lab (IVF or ICSI)",
+      "Embryo culture and development",
+      "Embryo transfer",
+      "Pregnancy test and early pregnancy support"
+    ]
+  },
+  {
+    id: "8",
+    slug: "neurology",
+    title: "Neurology",
+    category: "Neurology",
+    description: `# Neurology`,
+    overview: `Neurology is a branch of medicine that diagnoses and treats disorders of the nervous system. Main parts of the nervous system include the brain, spinal cord, and peripheral nerves. These parts control movement and thought. Neurological treatment in India is very affordable and has immense facilities. Neurological disorder treats the conditions that affect the brain, spinal cord, and nervous system. Some of the common reasons to get affected include high blood pressure, air pollution, high fasting plasma glucose, high body mass index and poor diet. Not only these, sometimes other reasons can also affect the brain system such as infection, congenital anomalies, genetic issues, traumatic injuries or environmental factors.`,
+    types: `- **Clinical neurology:** Diagnosis and medical management of neurological conditions.\n- **Neurophysiology:** EEG, EMG, nerve conduction studies.\n- **Stroke neurology:** Acute management and prevention of stroke.\n- **Movement disorders:** Management of Parkinson's, tremors, dystonia.\n- **Headache and pain neurology.**\n- **Neuroimmunology:** Management of multiple sclerosis, neuroinflammatory disorders.\n- **Neurorehabilitation.**`,
+    purpose: `To diagnose, treat, and manage disorders of the brain, spinal cord, nerves, and muscles, aiming to alleviate symptoms, slow disease progression, improve function, and enhance quality of life.`,
+    diseasesTreated: `- Alzheimer's disease and other dementias\n- Parkinson's disease and other movement disorders\n- Stroke (ischemic and hemorrhagic)\n- Epilepsy and seizure disorders\n- Multiple sclerosis\n- Migraine and other headache disorders\n- Neuropathies (e.g., diabetic neuropathy)\n- Myasthenia gravis\n- Guillain-Barré syndrome\n- Bell's Palsy\n- Brain and spinal cord tumors\n- Infections (meningitis, encephalitis)\n- Traumatic brain and spinal cord injuries`,
+    risks: `Varies by condition and treatment; diagnostic procedures like lumbar puncture carry risks of headache, bleeding, or infection; medications have side effects.`,
+    summary: `Neurology in India provides affordable, high-quality care with access to advanced diagnostic tools (CT, MRI, neurophysiology) and treatments. The concept of neuroplasticity is harnessed in recovery programs. Hospitals are accredited and offer comprehensive international patient services.`,
+    shortDescription: "Diagnosis and treatment of nervous system disorders",
+    image:Neurology,
+    duration: "Varies from chronic management to acute intervention",
+    price: "Affordable treatment with comprehensive services",
+    featured: false,
+    benefits: [
+      "Expert management of complex brain and nerve disorders",
+      "Advanced diagnostic neuroimaging and testing",
+      "Integrated neurorehabilitation programs",
+      "Focus on neuroplasticity for recovery"
+    ],
+    procedures: [
+      "Detailed neurological history and examination",
+      "Diagnostic testing (CT, MRI, EEG, EMG/NCS, Lumbar Puncture)",
+      "Medical management with specific neurology medications",
+      "Acute intervention (e.g., thrombolysis for stroke)",
+      "Botulinum toxin injections for movement disorders/spasticity",
+      "Referral for neurosurgery if needed",
+      "Neurorehabilitation therapy"
+    ]
+  },
+  {
+    id: "9",
+    slug: "oncology",
+    title: "Oncology",
+    category: "Oncology",
+    description: `# Oncology`,
+    overview: `Oncology is a medical condition that treats cancer diseases. The treatment of oncology considers diagnosing, treating and preventing cancer. Cancer develops when abnormal cells reproduce and spread throughout the body. The abnormal cells became uncontrollable and spread in other parts that made the disease to be treated at earliest. As science has achieved immense success in the medical field, now the cancers are curable and can be treated. The healthcare professionals who treat cancer are known as Oncologists. Sometimes the treatment needs a team that includes surgeons, radiologists, pathologists, nurses, and other social activists. All the team of highly professionals are committed to care.`,
+    types: `- **Medical Oncology:** Treatment with chemotherapy, immunotherapy, targeted therapy, hormone therapy.\n- **Surgical Oncology:** Surgical removal of tumors and cancerous tissue.\n- **Radiation Oncology:** Treatment with radiation therapy.\n- **Gynecologic Oncology:** Cancers of the female reproductive system.\n- **Pediatric Hematology-Oncology:** Cancers in children.\n- **Hematologic Oncology:** Blood cancers (leukemia, lymphoma, myeloma).`,
+    purpose: `To diagnose cancer accurately, provide curative or life-prolonging treatment, manage symptoms, prevent recurrence, and offer palliative care to improve quality of life.`,
+    diseasesTreated: `- Carcinomas (e.g., lung, breast, colorectal, prostate, skin cancers)\n- Sarcomas (bone, soft tissue)\n- Leukemias (blood and bone marrow cancers)\n- Lymphomas (Hodgkin's and Non-Hodgkin's)\n- Central nervous system cancers (brain and spinal cord tumors)\n- Gynecological cancers (cervical, ovarian, uterine)\n- Gastrointestinal cancers (stomach, pancreatic, liver)\n- Head and neck cancers\n- Genitourinary cancers (bladder, kidney, testicular)`,
+    risks: `Treatment risks vary:\n- **Surgery:** Bleeding, infection, organ damage.\n- **Chemotherapy:** Nausea, fatigue, hair loss, low blood counts, increased infection risk, organ toxicity.\n- **Radiation:** Skin irritation, fatigue, damage to nearby tissues, secondary cancers.\n- **Immunotherapy/Targeted therapy:** Unique side effects like autoimmune reactions.`,
+    summary: `Oncology in India offers a wide range of treatments using advanced technology, including robotic surgery, precision radiation, and novel systemic therapies. Care is delivered by multidisciplinary teams in accredited hospitals. India is a preferred destination for international patients due to high-quality, affordable care and comprehensive support services.`,
+    shortDescription: "Comprehensive diagnosis, treatment, and care for cancer",
+    image: Oncology,
+    duration: "Varies from short-term to long-term/lifelong management",
+    price: "High-quality treatment at most affordable cost",
+    featured: true,
+    benefits: [
+      "Multidisciplinary team approach for personalized care",
+      "Access to latest treatments (immunotherapy, targeted therapy)",
+      "Advanced surgical techniques including robotic surgery",
+      "Precision radiation therapy and palliative care support"
+    ],
+    procedures: [
+<<<<<<< HEAD
       'Pre-operative preparation',
       'Small incision creation',
       'Camera and instrument insertion',
@@ -574,3 +760,16 @@ export const treatmentsData: Treatment[] = [
     ],
   },
 ];
+=======
+      "Diagnosis and staging (Biopsy, CT/PET-CT, MRI, Blood markers)",
+      "Multidisciplinary tumor board discussion",
+      "Treatment planning (surgery, chemotherapy, radiation, immunotherapy)",
+      "Surgical resection of tumor",
+      "Administration of systemic therapy",
+      "Radiation therapy sessions",
+      "Supportive care and management of side effects",
+      "Follow-up surveillance and survivorship care"
+    ]
+  }
+]
+>>>>>>> 7fef644516cecb026fb8e2f0375a1ef87542a449

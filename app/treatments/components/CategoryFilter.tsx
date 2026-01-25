@@ -1,4 +1,4 @@
-import { TreatmentCategory, TREATMENT_CATEGORIES } from '../types';
+import { TreatmentCategory } from '../types';
 import { Search } from 'lucide-react';
 
 interface CategoryFilterProps {
@@ -6,6 +6,7 @@ interface CategoryFilterProps {
   onCategoryChange: (category: TreatmentCategory) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  categories: string[];
 }
 
 export default function CategoryFilter({
@@ -13,6 +14,7 @@ export default function CategoryFilter({
   onCategoryChange,
   searchQuery,
   onSearchChange,
+  categories,
 }: CategoryFilterProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
@@ -45,7 +47,7 @@ export default function CategoryFilter({
           Categories
         </label>
         <div className="space-y-2">
-          {TREATMENT_CATEGORIES.map((category) => (
+          {categories.map((category) => (
             <button
               key={category}
               onClick={() => onCategoryChange(category)}

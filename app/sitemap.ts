@@ -69,7 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Dynamic treatment pages
   const treatmentPages: MetadataRoute.Sitemap = treatmentsData.map((treatment) => ({
-    url: `${baseUrl}/treatments/${treatment.id}`,
+    url: `${baseUrl}/treatments/${treatment.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.8,
@@ -77,7 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Dynamic doctor pages
   const doctorPages: MetadataRoute.Sitemap = doctorsData.map((doctor) => ({
-    url: `${baseUrl}/doctors/${doctor.id}`,
+    url: `${baseUrl}/doctors/${doctor.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,

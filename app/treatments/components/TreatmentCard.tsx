@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Treatment } from '../types';
 import { Clock, DollarSign, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface TreatmentCardProps {
   treatment: Treatment;
@@ -13,9 +14,11 @@ export default function TreatmentCard({ treatment }: TreatmentCardProps) {
       <div className="flex flex-col sm:flex-row">
         {/* Image Section */}
         <div className="relative sm:w-64 h-52 sm:h-auto shrink-0 overflow-hidden bg-gray-100">
-          <img
+          <Image
             src={treatment.image}
             alt={treatment.title}
+            width={256}
+            height={208}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           {treatment.featured && (
@@ -54,7 +57,7 @@ export default function TreatmentCard({ treatment }: TreatmentCardProps) {
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-3 mt-4">
-            <Link href={`/treatments/${treatment.id}`} className="flex-1 min-w-50">
+            <Link href={`/treatments/${treatment.slug}`} className="flex-1 min-w-50">
               <Button 
                 className="w-full bg-[#209f00] hover:bg-[#1a8000] text-white"
               >
