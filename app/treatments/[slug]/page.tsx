@@ -24,9 +24,11 @@ interface TreatmentDetailPageProps {
 
 // Generate static paths for all treatments
 export async function generateStaticParams() {
-  return treatmentsData.map((treatment) => ({
-    slug: treatment.slug,
-  }));
+  return treatmentsData
+    .filter((treatment) => treatment.slug)
+    .map((treatment) => ({
+      slug: treatment.slug,
+    }));
 }
 
 // Generate metadata for SEO
