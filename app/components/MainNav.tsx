@@ -85,7 +85,6 @@ const iconMap: Record<string, LucideIcon> = {
 
 const infoMenuItems = [
   { href: "/info/plan-your-travel", label: "Plan Your Travel", icon: "Plane" },
-<<<<<<< HEAD
   {
     href: "/info/medical-tourism-india",
     label: "Medical Tourism in India",
