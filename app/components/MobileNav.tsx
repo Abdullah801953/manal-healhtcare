@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Languages, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { treatmentCategories } from "@/app/lib/treatments";
+import { treatmentsData } from "@/app/treatments/data";
 
 const mobileNavigationLinks = [
   { href: "/", label: "Home" },
@@ -108,14 +108,14 @@ export const MobileNav = () => {
                   <span>View All Treatments</span>
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
-                {treatmentCategories.slice(0, 10).map((treatment) => (
+                {treatmentsData.slice(0, 10).map((treatment) => (
                   <Link
                     key={treatment.id}
-                    href={`/treatments?category=${encodeURIComponent(treatment.category)}`}
+                    href={`/treatments/${treatment.id}`}
                     onClick={() => setOpen(false)}
                     className="flex items-center py-2 text-sm text-gray-700 hover:text-green-600 transition-colors duration-200 px-4 hover:bg-gray-100"
                   >
-                    <span>{treatment.category}</span>
+                    <span>{treatment.name}</span>
                   </Link>
                 ))}
               </div>
