@@ -39,8 +39,8 @@ export default function DoctorsPage() {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter((doctor) => 
         doctor.name.toLowerCase().includes(query) ||
-        doctor.specialty.toLowerCase().includes(query) ||
-        doctor.bio.toLowerCase().includes(query)
+        doctor.specialty?.toLowerCase().includes(query) ||
+        doctor.bio?.toLowerCase().includes(query)
       );
     }
 

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Hospital } from '../../types';
 import { ArrowRight, Star, Bed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface RelatedHospitalsProps {
   hospitals: Hospital[];
@@ -33,10 +34,11 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
               >
                 {/* Image */}
                 <div className="relative h-100 overflow-hidden bg-gray-100">
-                  <img
+                  <Image
                     src={hospital.image}
                     alt={hospital.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    fill
                   />
                   {hospital.featured && (
                     <div className="absolute top-3 right-3 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">

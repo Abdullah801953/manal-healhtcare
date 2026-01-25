@@ -11,7 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { treatmentCategories } from "@/app/lib/treatments";
+import { treatmentsData } from "../treatments/data"
 
 // Service card data type
 export interface ServiceCard {
@@ -45,12 +45,12 @@ const treatmentIcons: Record<string, React.ElementType> = {
 };
 
 // Convert treatment categories to services
-const treatmentServices: ServiceCard[] = treatmentCategories.map((treatment, index) => ({
+const treatmentServices: ServiceCard[] = treatmentsData.map((treatment, index) => ({
   id: parseInt(treatment.id),
   icon: treatmentIcons[treatment.category] || Activity,
   title: treatment.category,
   description: `Expert ${treatment.category.toLowerCase()} services with world-class facilities and experienced medical professionals.`,
-  link: `/treatments/${treatment.id}`,
+  link: `/treatments/${treatment.slug}`,
 }));
 
 interface ServicesProps {
@@ -151,7 +151,7 @@ export const Services = ({
               className="text-center px-2 sm:px-0"
             >
               <p className="text-gray-700 text-xs sm:text-sm md:text-base">
-                We have {treatmentCategories.length}+ specialized treatment services available.{" "}
+                We have {treatmentsData.length}+ specialized treatment services available.{" "}
                 <Link
                   href={viewAllLink}
                   className="text-[#209F00] font-semibold hover:text-green-700 transition-colors"

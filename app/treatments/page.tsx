@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { treatmentsData } from './data';
-import { TreatmentCategory } from './types';
+import { TreatmentCategory, getTreatmentCategories } from './types';
 import TreatmentCard from './components/TreatmentCard';
 import CategoryFilter from './components/CategoryFilter';
 import TreatmentHero from './components/TreatmentHero';
@@ -13,6 +13,7 @@ const ITEMS_PER_PAGE = 9;
 
 export default function TreatmentsPage() {
   const searchParams = useSearchParams();
+  const categories = useMemo(() => getTreatmentCategories(treatmentsData), []);
   const [selectedCategory, setSelectedCategory] = useState<TreatmentCategory>('All Treatments');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,10 +30,10 @@ export default function TreatmentsPage() {
   const filteredTreatments = useMemo(() => {
     let filtered = treatmentsData;
 
-    // Filter by category
+    // Filter by category (title)
     if (selectedCategory !== 'All Treatments') {
       filtered = filtered.filter(
-        (treatment) => treatment.category === selectedCategory
+        (treatment) => treatment.title === selectedCategory
       );
     }
 
@@ -79,6 +80,7 @@ export default function TreatmentsPage() {
                   onCategoryChange={setSelectedCategory}
                   searchQuery={searchQuery}
                   onSearchChange={setSearchQuery}
+                  categories={categories}
                 />
                 
                 {/* Results Count */}

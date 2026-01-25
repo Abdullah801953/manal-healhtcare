@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Treatment } from '../../types';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface RelatedTreatmentsProps {
   treatments: Treatment[];
@@ -33,10 +34,11 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden bg-gray-100">
-                  <img
+                  <Image
                     src={treatment.image}
                     alt={treatment.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    fill
                   />
                   {treatment.featured && (
                     <div className="absolute top-3 right-3 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -57,7 +59,7 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
                     {treatment.shortDescription}
                   </p>
                   
-                  <Link href={`/treatments/${treatment.id}`}>
+                  <Link href={`/treatments/${treatment.slug}`}>
                     <Button 
                       variant="outline" 
                       className="w-full group/btn hover:bg-[#209f00] hover:text-white hover:border-[#209f00] transition-all duration-300"

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { doctorsData } from '../data';
-import { getDoctorById, getRelatedDoctors } from '../utils';
+import { getDoctorBySlug, getRelatedDoctors } from '../utils';
 import { DoctorDetailHero } from './components/DoctorDetailHero';
 import { DoctorInfoSection } from './components/DoctorInfoSection';
 import { ExpertiseSection } from './components/ExpertiseSection';
@@ -12,13 +12,13 @@ import { Button } from '@/components/ui/button';
 
 interface DoctorDetailPageProps {
   params: Promise<{
-    id: string;
+    slug: string;
   }>;
 }
 
 export default async function DoctorDetailPage({ params }: DoctorDetailPageProps) {
-  const { id } = await params;
-  const doctor = getDoctorById(id, doctorsData);
+  const { slug } = await params;
+  const doctor = getDoctorBySlug(slug, doctorsData);
 
   // If doctor not found, show 404
   if (!doctor) {
@@ -103,14 +103,14 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
 // Generate static params for all doctors
 export async function generateStaticParams() {
   return doctorsData.map((doctor) => ({
-    id: doctor.id,
+    slug: doctor.slug,
   }));
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: DoctorDetailPageProps) {
-  const { id } = await params;
-  const doctor = getDoctorById(id, doctorsData);
+  const { slug } = await params;
+  const doctor = getDoctorBySlug(slug, doctorsData);
 
   if (!doctor) {
     return {

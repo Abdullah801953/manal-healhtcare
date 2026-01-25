@@ -12,7 +12,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { treatmentCategories } from "@/app/lib/treatments";
+import { treatmentsData } from "../treatments/data"
 import { 
   Languages, 
   Search,
@@ -85,8 +85,6 @@ const infoMenuItems = [
   { href: "/info/plan-your-travel", label: "Plan Your Travel", icon: "Plane" },
   { href: "/info/medical-tourism-india", label: "Medical Tourism in India", icon: "Globe" },
   { href: "/info/advantages-medical-tourism", label: "Advantages of Medical Tourism", icon: "TrendingUp" },
-  { href: "/info/halal-certification", label: "Halal Certification", icon: "Award" },
-  { href: "/info/second-opinion", label: "Second Opinion", icon: "FileText" },
   { href: "/info/faqs-for-patient", label: "FAQs for Patient", icon: "HelpCircle" },
   { href: "/info/medical-tourism", label: "Medical Tourism", icon: "Stethoscope" },
   { href: "/info/best-hospital", label: "Best Hospital", icon: "Building2" },
@@ -98,7 +96,7 @@ export const MainNav = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [infoSearchQuery, setInfoSearchQuery] = useState("");
   
-  const filteredTreatments = treatmentCategories.filter((treatment) =>
+  const filteredTreatments = treatmentsData.filter((treatment) =>
     treatment.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
   
@@ -162,7 +160,7 @@ export const MainNav = () => {
 
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
-            <Link href="/treatments" legacyBehavior passHref>
+            <Link href="/treatments">
               <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
                 Treatments
               </NavigationMenuTrigger>
@@ -186,11 +184,11 @@ export const MainNav = () => {
               <div className="w-[420px] max-h-[420px] overflow-y-auto scrollbar-hide ">
                 {filteredTreatments.length > 0 ? (
                   filteredTreatments.map((treatment) => {
-                    const Icon = iconMap[treatment.icon];
+                    const Icon = iconMap[treatment.image as string] || Brain;
                     return (
                       <Link
                         key={treatment.id}
-                        href={`/treatments/${treatment.id}`}
+                        href={`/treatments/${treatment.slug}`}
                         className="group flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-all duration-150"
                       >
                         <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors">

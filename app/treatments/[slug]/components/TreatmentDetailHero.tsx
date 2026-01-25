@@ -2,6 +2,7 @@ import { Treatment } from '../../types';
 import { ArrowLeft, Clock, DollarSign, Star } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface TreatmentDetailHeroProps {
   treatment: Treatment;
@@ -68,10 +69,11 @@ export default function TreatmentDetailHero({ treatment }: TreatmentDetailHeroPr
           {/* Right: Image */}
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img
+              <Image
                 src={treatment.image}
                 alt={treatment.title}
                 className="w-full h-[500px] object-cover"
+                fill
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
             </div>
