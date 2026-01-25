@@ -58,41 +58,43 @@ const faqs = [
 
 export const FAQSection = () => {
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14 max-w-8xl" aria-labelledby="faq-heading">
-      {/* Section Heading */}
-      <h2 id="faq-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-gray-900">
-        Frequently Asked Questions
-      </h2>
+    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10" aria-labelledby="faq-heading">
+        {/* Section Heading */}
+        <h2 id="faq-heading" className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-gray-900">
+          Frequently Asked Questions
+        </h2>
 
-      {/* ShadCN Accordion */}
-      <Accordion type="single" collapsible className="space-y-3 sm:space-y-4">
-        {faqs.map((faq, index) => (
-          <AccordionItem value={`item-${index}`} key={index} className="border rounded-md p-0.5">
-            <AccordionTrigger className="text-left text-sm sm:text-base md:text-md font-semibold text-gray-900 px-2 sm:px-4">
-              {faq.question}
-            </AccordionTrigger>
-            <AccordionContent className="text-gray-600 mt-2 text-xs sm:text-sm px-2 sm:px-4">
-              {faq.answer}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+        {/* ShadCN Accordion */}
+        <Accordion type="single" collapsible className="space-y-3 sm:space-y-4">
+          {faqs.map((faq, index) => (
+            <AccordionItem value={`item-${index}`} key={index} className="border rounded-md p-0.5">
+              <AccordionTrigger className="text-left text-sm sm:text-base md:text-md font-semibold text-gray-900 px-2 sm:px-4">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600 mt-2 text-xs sm:text-sm px-2 sm:px-4">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
 
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: { "@type": "Answer", text: faq.answer },
-            })),
-          }),
-        }}
-      />
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqs.map((faq) => ({
+                "@type": "Question",
+                name: faq.question,
+                acceptedAnswer: { "@type": "Answer", text: faq.answer },
+              })),
+            }),
+          }}
+        />
+      </div>
     </section>
   );
 };

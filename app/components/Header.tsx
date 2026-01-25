@@ -1,10 +1,11 @@
 "use client";
-import logo from "@/public/logo.png"; 
+import logo from "@/public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { TopBar } from "./TopBar";
 import { MainNav } from "./MainNav";
 import { MobileNav } from "./MobileNav";
+import { LanguageSelector } from "./LanguageSelector";
 
 const Header = () => {
   return (
@@ -14,27 +15,31 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20 gap-5 ">
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="flex items-center justify-between h-16 sm:h-20 gap-3 md:gap-0">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-2.5 shrink-0">
               <Image
                 src={logo}
                 alt="Manal Healthcare Logo"
-                width={150}
-                height={150}
+                width={120}
+                height={120}
+                className="w-[100px] sm:w-[120px] lg:w-[150px] h-auto"
                 priority
-             
               />
             </Link>
 
-            {/* Desktop Navigation - visible on md and up */}
-            <div className="hidden md:flex items-center gap-8">
+            {/* Desktop Navigation - visible on lg and up */}
+            <div className="hidden lg:flex items-center gap-8">
               <MainNav />
             </div>
 
-            {/* Mobile Navigation - visible on small screens only */}
-            <div className="md:hidden">
+            <div className="hidden lg:block">
+              <LanguageSelector />
+            </div>
+
+            {/* Mobile Navigation - visible on screens below lg */}
+            <div className="lg:hidden bg-green-400 rounded-full text-white hover:bg-green-500 transition-colors duration-200 ">
               <MobileNav />
             </div>
           </div>

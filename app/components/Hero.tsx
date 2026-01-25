@@ -171,8 +171,8 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative bg-linear-to-br from-blue-50 via-white to-blue-100 overflow-visible pb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-10 md:py-14 lg:py-16 xl:py-20 overflow-visible">
+    <section className="relative bg-linear-to-br from-blue-50 via-white to-blue-100 overflow-visible pb-32 sm:pb-40 lg:pb-48">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10 md:py-14 lg:py-16 xl:py-20 overflow-visible">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
@@ -245,7 +245,7 @@ export const Hero = () => {
           variants={searchBarVariants}
           initial="hidden"
           animate="visible"
-          className="mt-6 sm:mt-8 lg:mt-10 xl:mt-14 max-w-5xl mx-auto px-2 sm:px-0"
+          className="mt-6 sm:mt-8 lg:mt-10 xl:mt-14 max-w-5xl mx-auto px-2 sm:px-0 mb-4-12 sm:mb-16 lg:mb-20"
           ref={searchRef}
         >
           <form onSubmit={handleSearch} className="relative">
@@ -325,6 +325,153 @@ export const Hero = () => {
             </p>
           </div>
         </motion.div>
+      </div>
+
+      {/* Query Form Section - Positioned to overlap */}
+      <div className="absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="max-w-lg mx-auto"
+          >
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+              {/* Form Header */}
+              <div className="bg-gradient-to-r from-[#209F00] to-[#1a8000] px-6 py-5">
+                <h3 className="text-xl sm:text-2xl font-bold text-white text-center">
+                  <Translate>Get Free Consultation</Translate>
+                </h3>
+                <p className="text-white/90 text-sm text-center mt-1.5">
+                  <Translate>Fill out the form and our team will contact you within 24 hours</Translate>
+                </p>
+              </div>
+
+              {/* Form Body */}
+              <div className="p-6 sm:p-8">
+                <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Name */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="hero-name" className="text-sm font-medium text-gray-700">
+                      <Translate>Full Name</Translate> <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="hero-name"
+                      type="text"
+                      placeholder="Enter your full name"
+                      required
+                      className="h-10 text-sm rounded-full border-gray-300 focus:border-[#209F00] focus:ring-[#209F00]"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="hero-email" className="text-sm font-medium text-gray-700">
+                      <Translate>Email Address</Translate> <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="hero-email"
+                      type="email"
+                      placeholder="Enter your email"
+                      required
+                      className="h-10 text-sm rounded-full border-gray-300 focus:border-[#209F00] focus:ring-[#209F00]"
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="hero-phone" className="text-sm font-medium text-gray-700">
+                      <Translate>WhatsApp Number</Translate> <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="hero-phone"
+                      type="tel"
+                      placeholder="Enter WhatsApp number"
+                      required
+                      className="h-10 text-sm rounded-full border-gray-300 focus:border-[#209F00] focus:ring-[#209F00]"
+                    />
+                  </div>
+
+                  {/* Country */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="hero-country" className="text-sm font-medium text-gray-700">
+                      <Translate>Country</Translate> <span className="text-red-500">*</span>
+                    </label>
+                    <Select required>
+                      <SelectTrigger 
+                        id="hero-country"
+                        className="h-10 text-sm rounded-full border-gray-300 focus:border-[#209F00] focus:ring-[#209F00]"
+                      >
+                        <SelectValue placeholder="Select country" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[300px]">
+                        <SelectItem value="saudi-arabia">Saudi Arabia</SelectItem>
+                        <SelectItem value="uae">United Arab Emirates</SelectItem>
+                        <SelectItem value="qatar">Qatar</SelectItem>
+                        <SelectItem value="kuwait">Kuwait</SelectItem>
+                        <SelectItem value="oman">Oman</SelectItem>
+                        <SelectItem value="bahrain">Bahrain</SelectItem>
+                        <SelectItem value="iraq">Iraq</SelectItem>
+                        <SelectItem value="yemen">Yemen</SelectItem>
+                        <SelectItem value="jordan">Jordan</SelectItem>
+                        <SelectItem value="lebanon">Lebanon</SelectItem>
+                        <SelectItem value="palestine">Palestine</SelectItem>
+                        <SelectItem value="syria">Syria</SelectItem>
+                        <SelectItem value="egypt">Egypt</SelectItem>
+                        <SelectItem value="morocco">Morocco</SelectItem>
+                        <SelectItem value="algeria">Algeria</SelectItem>
+                        <SelectItem value="tunisia">Tunisia</SelectItem>
+                        <SelectItem value="libya">Libya</SelectItem>
+                        <SelectItem value="sudan">Sudan</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Medical Condition */}
+                  <div className="space-y-1.5 sm:col-span-2">
+                    <label htmlFor="hero-condition" className="text-sm font-medium text-gray-700">
+                      <Translate>Medical Condition / Treatment Required</Translate> <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      id="hero-condition"
+                      rows={3}
+                      placeholder="Describe your medical condition or treatment"
+                      required
+                      className="w-full px-3 py-2.5 text-sm rounded-lg border border-gray-300 focus:border-[#209F00] focus:ring-2 focus:ring-[#209F00] focus:ring-offset-0 outline-none transition-colors resize-none"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="sm:col-span-2 pt-2">
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full bg-gradient-to-r from-[#209F00] to-[#1a8000] hover:from-green-700 hover:to-green-800 text-white rounded-full px-8 py-5 text-base font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group"
+                    >
+                      <Translate>Submit Query</Translate>
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+
+                  {/* Privacy Note */}
+                  <div className="sm:col-span-2 text-center pt-1">
+                    <p className="text-xs text-gray-500">
+                      <Translate>By submitting this form, you agree to our</Translate>{" "}
+                      <Link href="/info/privacy-policy" className="text-[#209F00] hover:underline font-medium">
+                        <Translate>Privacy Policy</Translate>
+                      </Link>{" "}
+                      <Translate>and</Translate>{" "}
+                      <Link href="/info/terms-conditions" className="text-[#209F00] hover:underline font-medium">
+                        <Translate>Terms & Conditions</Translate>
+                      </Link>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Background decorative elements */}

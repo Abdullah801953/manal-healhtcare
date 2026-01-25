@@ -91,7 +91,7 @@ export const OurServices = ({
 
   return (
     <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16">
           {/* Left Side - Image */}
         <motion.div

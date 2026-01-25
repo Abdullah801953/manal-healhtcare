@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Languages } from "lucide-react";
+import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Languages, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { treatmentCategories } from "@/app/lib/treatments";
 
 const mobileNavigationLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/blogs", label: "Our Blogs" },
-  { href: "/treatments", label: "Treatments" },
+];
+
+const afterTreatmentsLinks = [
   { href: "/hospitals", label: "Hospitals" },
   { href: "/doctors", label: "Doctors" },
   { href: "/testimonials", label: "Testimonials" },
@@ -33,6 +36,7 @@ const infoSubmenu = [
 export const MobileNav = () => {
   const [open, setOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [treatmentsOpen, setTreatmentsOpen] = useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -40,104 +44,153 @@ export const MobileNav = () => {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="md:hidden hover:bg-gray-100"
+          className="xl:hidden hover:bg-gray-100"
           aria-label="Toggle mobile menu"
         >
-          <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-gray-900" />
+          <Menu className="h-6 w-6 text-gray-900" />
         </Button>
       </SheetTrigger>
       <SheetContent 
         side="right" 
-        className="w-[85vw] max-w-sm sm:w-96 md:w-[400px] p-4 sm:p-6"
+        className="w-[90vw] max-w-[400px] p-0 overflow-hidden"
       >
-        {/* Close button for mobile */}
+        {/* Header with contact info */}
+        <div className="bg-gradient-to-r from-green-600 to-green-700 p-4 text-white">
+          <h2 className="text-lg font-semibold mb-3">Manal Healthcare</h2>
+          <div className="space-y-2 text-sm">
+            <a href="tel:0087578456820" className="flex items-center gap-2 hover:text-green-200 transition-colors">
+              <Phone className="w-4 h-4" />
+              <span>(00) 875 784 5682</span>
+            </a>
+            <a href="mailto:togetoinfo@gmail.com" className="flex items-center gap-2 hover:text-green-200 transition-colors">
+              <Mail className="w-4 h-4" />
+              <span>togetoinfo@gmail.com</span>
+            </a>
+          </div>
+        </div>
 
-        <nav className="flex flex-col gap-3 mt-10 sm:mt-12 md:mt-14 overflow-y-auto max-h-[calc(100vh-200px)]">
+        {/* Navigation Links */}
+        <nav className="flex flex-col overflow-y-auto max-h-[calc(100vh-280px)] p-4">
+          {/* Main links before treatments */}
           {mobileNavigationLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="flex items-center justify-between py-2.5 sm:py-3 text-base sm:text-lg font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-2 rounded-lg hover:bg-gray-50"
+              className="flex items-center justify-between py-3 text-base font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-3 rounded-lg hover:bg-gray-50 border-b border-gray-100"
             >
-              <span className="truncate">{link.label}</span>
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400  shrink-0 ml-2" />
+              <span>{link.label}</span>
+              <ChevronRight className="w-5 h-5 text-gray-400" />
             </Link>
           ))}
 
-          {/* Info Menu with Submenu */}
-          <div>
+          {/* Treatments Menu with Submenu */}
+          <div className="border-b border-gray-100">
             <button
-              onClick={() => setInfoOpen(!infoOpen)}
-              className="flex items-center justify-between py-2.5 sm:py-3 text-base sm:text-lg font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-2 rounded-lg hover:bg-gray-50 w-full"
+              onClick={() => setTreatmentsOpen(!treatmentsOpen)}
+              className="flex items-center justify-between py-3 text-base font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-3 rounded-lg hover:bg-gray-50 w-full"
             >
-              <span className="truncate">Info</span>
-              {infoOpen ? (
-                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0 ml-2" />
+              <span>Treatments</span>
+              {treatmentsOpen ? (
+                <ChevronDown className="w-5 h-5 text-green-600" />
               ) : (
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 shrink-0 ml-2" />
+                <ChevronRight className="w-5 h-5 text-gray-400" />
               )}
             </button>
             
-            {infoOpen && (
-              <div className="ml-4 mt-1 flex flex-col gap-1">
-                {infoSubmenu.map((subLink) => (
+            {treatmentsOpen && (
+              <div className="ml-2 mb-2 flex flex-col bg-gray-50 rounded-lg max-h-[200px] overflow-y-auto">
+                <Link
+                  href="/treatments"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center py-2.5 text-sm font-medium text-green-600 hover:text-green-700 transition-colors duration-200 px-4 border-b border-gray-200"
+                >
+                  <span>View All Treatments</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+                {treatmentCategories.slice(0, 10).map((treatment) => (
                   <Link
-                    key={subLink.href}
-                    href={subLink.href}
+                    key={treatment.id}
+                    href={`/treatments?category=${encodeURIComponent(treatment.category)}`}
                     onClick={() => setOpen(false)}
-                    className="flex items-center py-2 sm:py-2.5 text-sm sm:text-base font-normal text-gray-700 hover:text-green-600 transition-colors duration-200 px-2 rounded-lg hover:bg-gray-50"
+                    className="flex items-center py-2 text-sm text-gray-700 hover:text-green-600 transition-colors duration-200 px-4 hover:bg-gray-100"
                   >
-                    <span className="truncate">{subLink.label}</span>
+                    <span>{treatment.category}</span>
                   </Link>
                 ))}
               </div>
             )}
           </div>
-          
-          {/* Language Button */}
-          <Button 
-            variant="outline" 
-            className="mt-4 bg-white border-2 border-green-600 rounded-full px-8 sm:px-10 py-5 sm:py-5.5 hover:bg-green-50 text-gray-900 font-medium text-lg sm:text-xl h-auto flex items-center justify-between w-full transition-all duration-200"
-          >
-            <span className="truncate">Language</span>
-            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center shrink-0 ml-3 transition-colors">
-              <Languages className="w-6 h-6" />
-            </div>
-          </Button>
+
+          {/* Links after treatments */}
+          {afterTreatmentsLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between py-3 text-base font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-3 rounded-lg hover:bg-gray-50 border-b border-gray-100"
+            >
+              <span>{link.label}</span>
+              <ChevronRight className="w-5 h-5 text-gray-400" />
+            </Link>
+          ))}
+
+          {/* Info Menu with Submenu */}
+          <div className="border-b border-gray-100">
+            <button
+              onClick={() => setInfoOpen(!infoOpen)}
+              className="flex items-center justify-between py-3 text-base font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-3 rounded-lg hover:bg-gray-50 w-full"
+            >
+              <span>Info</span>
+              {infoOpen ? (
+                <ChevronDown className="w-5 h-5 text-green-600" />
+              ) : (
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              )}
+            </button>
+            
+            {infoOpen && (
+              <div className="ml-2 mb-2 flex flex-col bg-gray-50 rounded-lg max-h-[200px] overflow-y-auto">
+                {infoSubmenu.map((subLink) => (
+                  <Link
+                    key={subLink.href}
+                    href={subLink.href}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center py-2 text-sm text-gray-700 hover:text-green-600 transition-colors duration-200 px-4 hover:bg-gray-100"
+                  >
+                    <span>{subLink.label}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Additional responsive elements */}
-        <div className="mt-8 pt-6 border-t border-gray-200">
-            <div className="flex flex-col gap-3 sm:gap-4">
-              <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-3.5 text-sm sm:text-base rounded-full font-medium">
-                Book Consultation
+        {/* Bottom Actions */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
+          <div className="flex flex-col gap-3">
+            <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium">
+              Book Consultation
+            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                className="flex-1 border-gray-300 hover:bg-gray-50 text-gray-800 py-2.5 text-sm rounded-full font-medium"
+              >
+                <Languages className="w-4 h-4 mr-2" />
+                Language
               </Button>
               <Button 
                 variant="outline" 
-                className="w-full border-gray-300 hover:bg-gray-50 text-gray-800 py-3 sm:py-3.5 text-sm sm:text-base rounded-full font-medium"
+                className="flex-1 border-green-600 text-green-600 hover:bg-green-50 py-2.5 text-sm rounded-full font-medium"
+                asChild
               >
-                Emergency Contact
+                <a href="tel:0087578456820">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Call Now
+                </a>
               </Button>
             </div>
-            
-            {/* Contact info for tablet/desktop */}
-            <div className="hidden sm:block mt-6 text-center">
-              <p className="text-sm text-gray-600">24/7 Support Available</p>
-              <a 
-                href="tel:+911234567890" 
-                className="text-green-600 font-semibold text-lg hover:underline mt-1 inline-block"
-              >
-                +91 123 456 7890
-              </a>
-            </div>
-          </div>
-
-        {/* Bottom info for mobile */}
-        <div className="absolute bottom-6 left-0 right-0 px-6 sm:hidden">
-          <div className="text-center border-t border-gray-200 pt-4">
-            <p className="text-xs text-gray-500">© 2024 Manal Healthcare</p>
-            <p className="text-xs text-gray-500 mt-1">All rights reserved</p>
           </div>
         </div>
       </SheetContent>

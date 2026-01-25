@@ -41,7 +41,7 @@ const defaultFeatures: Feature[] = [
 
 export const AboutSection = ({
   badge = "About Us",
-  heading = "Advancing Medical Solutions for Health.",
+  heading = "Leading Medical Tourism Services for World-Class Healthcare in India",
   description = "Experience comprehensive healthcare at Meca, where your well-being is our priority. We provide personalized, compassionate medical services, ensuring exceptional care tailored to your",
   features = defaultFeatures,
   buttonText = "More About Us",
@@ -91,22 +91,22 @@ export const AboutSection = ({
 
   return (
     <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16">
+      <div className="px-4 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Side - Image */}
           <motion.div
             variants={imageVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="relative"
+            className="relative flex items-center justify-center lg:justify-start lg:col-span-1"
           >
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl w-full max-w-xs sm:max-w-sm lg:max-w-md">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
-                width={600}
-                height={200}
+                width={450}
+                height={450}
                 className="w-full h-auto object-cover"
                 priority
               />
@@ -119,12 +119,12 @@ export const AboutSection = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-4 sm:space-y-5 lg:space-y-6"
+            className="space-y-4 sm:space-y-5 lg:space-y-6 flex flex-col justify-start lg:col-span-2"
           >
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-sm sm:text-base uppercase tracking-wide"
             >
               {badge}
             </motion.p>
@@ -132,7 +132,7 @@ export const AboutSection = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
             >
               {heading}
             </motion.h2>
@@ -140,7 +140,7 @@ export const AboutSection = ({
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-gray-600 text-sm sm:text-base leading-relaxed"
+              className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed"
             >
               {description}
             </motion.p>
@@ -148,17 +148,17 @@ export const AboutSection = ({
             {/* Features Grid */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2 sm:pt-4"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
             >
               {/* Left Column */}
-              <div className="space-y-2 sm:space-y-3">
+              <div className="space-y-4 sm:space-y-5">
                 {leftFeatures.map((feature) => (
                   <FeatureItem key={feature.id} text={feature.text} />
                 ))}
               </div>
 
               {/* Right Column */}
-              <div className="space-y-2 sm:space-y-3">
+              <div className="space-y-4 sm:space-y-5">
                 {rightFeatures.map((feature) => (
                   <FeatureItem key={feature.id} text={feature.text} />
                 ))}
@@ -168,12 +168,12 @@ export const AboutSection = ({
             {/* Button and Phone Section */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-4 sm:gap-6 pt-2 sm:pt-4"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 pt-4 sm:pt-6"
             >
               <Button
                 asChild
                 size="lg"
-                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-6 sm:px-8 py-4 sm:py-5 lg:py-6 font-medium transition-all duration-300 shadow-lg hover:shadow-xl group text-sm sm:text-base w-full sm:w-auto"
+                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-6 sm:px-8 lg:px-10 py-5 sm:py-6 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group text-sm sm:text-base w-full sm:w-auto"
               >
                 <Link href={buttonLink}>
                   {buttonText}
@@ -182,15 +182,15 @@ export const AboutSection = ({
               </Button>
 
               {showPhone && (
-                <div className="flex items-center gap-3 justify-center sm:justify-start">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#209F00]" />
+                <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start bg-gray-50 px-4 sm:px-5 py-3 sm:py-4 rounded-2xl w-full sm:w-auto">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-md">
+                    <Phone className="w-6 h-6 sm:w-7 sm:h-7 text-[#209F00]" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">{phoneLabel}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 font-medium">{phoneLabel}</p>
                     <Link
                       href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-                      className="text-gray-900 font-bold text-base sm:text-lg hover:text-[#209F00] transition-colors"
+                      className="text-gray-900 font-bold text-base sm:text-lg lg:text-xl hover:text-[#209F00] transition-colors"
                     >
                       {phoneNumber}
                     </Link>
@@ -212,11 +212,11 @@ interface FeatureItemProps {
 
 const FeatureItem = ({ text }: FeatureItemProps) => {
   return (
-    <div className="flex items-center gap-2">
-      <div className="shrink-0 w-6 h-6 sm:w-7 sm:h-7 bg-green-100 rounded-full flex items-center justify-center">
-        <Check className="w-3 h-3 sm:w-4 sm:h-4 text-[#209F00]" />
+    <div className="flex items-center gap-3">
+      <div className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-sm">
+        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[#209F00] stroke-[2.5]" />
       </div>
-      <span className="text-gray-700 text-xs sm:text-sm font-medium">{text}</span>
+      <span className="text-gray-700 text-sm sm:text-base font-medium">{text}</span>
     </div>
   );
 };

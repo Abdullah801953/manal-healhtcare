@@ -39,8 +39,8 @@ export const LanguageSelector = () => {
           size="lg"
           className="gap-2 border-2 border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white font-medium rounded-full px-11 py-6 text-lg"
         >
-          <Languages className="w-6 h-6" />
-          Language
+          <Languages className="w-6 h-6" size={"40"}/>
+          <span className="hidden md:hidden xl:block">Language</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-hidden flex flex-col">

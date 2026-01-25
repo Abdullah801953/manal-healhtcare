@@ -103,8 +103,8 @@ export function BlogSection({
   const displayBlogs = blogsData.slice(0, 3);
 
   return (
-    <section className="py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 bg-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 sm:gap-6 mb-8 sm:mb-10 lg:mb-12">
           <div>

@@ -41,8 +41,8 @@ export function NewsletterSection({
   };
 
   return (
-    <section className="py-12 sm:py-14 md:py-16 lg:py-20 xl:py-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 bg-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Side - Doctor Card */}
           <motion.div
@@ -75,7 +75,7 @@ export function NewsletterSection({
                 </h3>
                 <Button
                   variant="secondary"
-                  className="bg-white text-gray-900 hover:bg-gray-100 rounded-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-6 text-xs sm:text-sm lg:text-base font-medium h-auto w-full sm:w-auto"
+                  className="bg-white text-gray-900 hover:bg-gray-100 rounded-full px-4 sm:px-6 lg:px-10 py-3 sm:py-4 lg:py-6 text-xs sm:text-sm lg:text-base font-medium h-auto w-full sm:w-auto"
                 >
                   {ctaButtonText}
                   <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />

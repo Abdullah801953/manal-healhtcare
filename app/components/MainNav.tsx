@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { treatmentCategories } from "@/app/lib/treatments";
-import { 
-  Languages, 
+import {
+  Languages,
   Search,
   Brain,
   Activity,
@@ -44,7 +44,8 @@ import {
   Building2,
   ShieldCheck,
   ScrollText,
-  LucideIcon
+  LucideIcon,
+  MessageCircleMore,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -83,44 +84,71 @@ const iconMap: Record<string, LucideIcon> = {
 
 const infoMenuItems = [
   { href: "/info/plan-your-travel", label: "Plan Your Travel", icon: "Plane" },
-  { href: "/info/medical-tourism-india", label: "Medical Tourism in India", icon: "Globe" },
-  { href: "/info/advantages-medical-tourism", label: "Advantages of Medical Tourism", icon: "TrendingUp" },
-  { href: "/info/halal-certification", label: "Halal Certification", icon: "Award" },
+  {
+    href: "/info/medical-tourism-india",
+    label: "Medical Tourism in India",
+    icon: "Globe",
+  },
+  {
+    href: "/info/advantages-medical-tourism",
+    label: "Advantages of Medical Tourism",
+    icon: "TrendingUp",
+  },
+  {
+    href: "/info/halal-certification",
+    label: "Halal Certification",
+    icon: "Award",
+  },
   { href: "/info/second-opinion", label: "Second Opinion", icon: "FileText" },
-  { href: "/info/faqs-for-patient", label: "FAQs for Patient", icon: "HelpCircle" },
-  { href: "/info/medical-tourism", label: "Medical Tourism", icon: "Stethoscope" },
+  {
+    href: "/info/faqs-for-patient",
+    label: "FAQs for Patient",
+    icon: "HelpCircle",
+  },
+  {
+    href: "/info/medical-tourism",
+    label: "Medical Tourism",
+    icon: "Stethoscope",
+  },
   { href: "/info/best-hospital", label: "Best Hospital", icon: "Building2" },
-  { href: "/info/privacy-policy", label: "Privacy Policy", icon: "ShieldCheck" },
-  { href: "/info/terms-conditions", label: "Terms & Conditions", icon: "ScrollText" },
+  {
+    href: "/info/privacy-policy",
+    label: "Privacy Policy",
+    icon: "ShieldCheck",
+  },
+  {
+    href: "/info/terms-conditions",
+    label: "Terms & Conditions",
+    icon: "ScrollText",
+  },
 ];
 
 export const MainNav = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [infoSearchQuery, setInfoSearchQuery] = useState("");
-  
+
   const filteredTreatments = treatmentCategories.filter((treatment) =>
-    treatment.category.toLowerCase().includes(searchQuery.toLowerCase())
+    treatment.category.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-  
+
   const filteredInfoItems = infoMenuItems.filter((item) =>
-    item.label.toLowerCase().includes(infoSearchQuery.toLowerCase())
+    item.label.toLowerCase().includes(infoSearchQuery.toLowerCase()),
   );
 
   return (
-    <div className="hidden lg:flex items-center gap-15">
-      
+    <div className="hidden lg:flex items-center gap-0 ">
       {/* NAVIGATION MENU */}
       <NavigationMenu viewport={false}>
-        <NavigationMenuList className="gap-3">
-          <NavigationMenuItem >
+        <NavigationMenuList className="gap-3 ">
+          <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
                 href="/"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 Home
@@ -134,9 +162,9 @@ export const MainNav = () => {
                 href="/about"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 About Us
@@ -150,9 +178,9 @@ export const MainNav = () => {
                 href="/blogs"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 Our Blogs
@@ -163,7 +191,7 @@ export const MainNav = () => {
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
             <Link href="/treatments" legacyBehavior passHref>
-              <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+              <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-base xl:text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-4">
                 Treatments
               </NavigationMenuTrigger>
             </Link>
@@ -181,7 +209,7 @@ export const MainNav = () => {
                   />
                 </div>
               </div>
-              
+
               {/* Treatments List */}
               <div className="w-[420px] max-h-[420px] overflow-y-auto scrollbar-hide ">
                 {filteredTreatments.length > 0 ? (
@@ -194,7 +222,9 @@ export const MainNav = () => {
                         className="group flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-all duration-150"
                       >
                         <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors">
-                          {Icon && <Icon className="w-4 h-4 text-emerald-600 group-hover:text-emerald-700 transition-colors" />}
+                          {Icon && (
+                            <Icon className="w-4 h-4 text-emerald-600 group-hover:text-emerald-700 transition-colors" />
+                          )}
                         </div>
                         <span className="text-sm font-normal text-gray-700 group-hover:text-gray-900 transition-colors flex-1">
                           {treatment.category}
@@ -217,9 +247,9 @@ export const MainNav = () => {
                 href="/hospitals"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 Hospitals
@@ -233,9 +263,9 @@ export const MainNav = () => {
                 href="/doctors"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 Doctors
@@ -249,9 +279,9 @@ export const MainNav = () => {
                 href="/testimonials"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 Testimonials
@@ -261,7 +291,7 @@ export const MainNav = () => {
 
           {/* Info Dropdown */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-base xl:text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-4">
               Info
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -278,7 +308,7 @@ export const MainNav = () => {
                   />
                 </div>
               </div>
-              
+
               {/* Info List */}
               <div className="w-[420px] max-h-[420px] overflow-y-auto scrollbar-hide">
                 {filteredInfoItems.length > 0 ? (
@@ -291,7 +321,9 @@ export const MainNav = () => {
                         className="group flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-all duration-150"
                       >
                         <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors">
-                          {Icon && <Icon className="w-4 h-4 text-emerald-600 group-hover:text-emerald-700 transition-colors" />}
+                          {Icon && (
+                            <Icon className="w-4 h-4 text-emerald-600 group-hover:text-emerald-700 transition-colors" />
+                          )}
                         </div>
                         <span className="text-sm font-normal text-gray-700 group-hover:text-gray-900 transition-colors flex-1">
                           {item.label}
@@ -314,9 +346,9 @@ export const MainNav = () => {
                 href="/contact"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent"
+                  "focus:bg-transparent px-2 xl:px-4",
                 )}
               >
                 Contact Us
@@ -325,9 +357,17 @@ export const MainNav = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-
+{/* 
+      <Button
+        variant="outline"
+        size="lg"
+        className="border-2 border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white font-medium rounded-full px-11 py-6 text-lg "
+      >
+        <MessageCircleMore size={"40"}/>
+        <span>Get a Query</span>
+      </Button> */}
       {/* LANGUAGE BUTTON */}
-      <LanguageSelector />
+      {/* <LanguageSelector /> */}
     </div>
   );
 };

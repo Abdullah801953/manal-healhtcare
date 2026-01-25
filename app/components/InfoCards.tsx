@@ -71,8 +71,8 @@ export const InfoCards = () => {
   };
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="pt-64 sm:pt-72 lg:pt-80 pb-12 sm:pb-14 lg:pb-16 bg-gray-50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
