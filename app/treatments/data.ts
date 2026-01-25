@@ -760,16 +760,3 @@ export const treatmentsData: Treatment[] = [
     ],
   },
 ];
-=======
-      "Diagnosis and staging (Biopsy, CT/PET-CT, MRI, Blood markers)",
-      "Multidisciplinary tumor board discussion",
-      "Treatment planning (surgery, chemotherapy, radiation, immunotherapy)",
-      "Surgical resection of tumor",
-      "Administration of systemic therapy",
-      "Radiation therapy sessions",
-      "Supportive care and management of side effects",
-      "Follow-up surveillance and survivorship care"
-    ]
-  }
-]
->>>>>>> 7fef644516cecb026fb8e2f0375a1ef87542a449
