@@ -111,11 +111,11 @@ export const MobileNav = () => {
                 {treatmentsData.slice(0, 10).map((treatment) => (
                   <Link
                     key={treatment.id}
-                    href={`/treatments/${treatment.id}`}
+                    href={`/treatments/${treatment.slug || treatment.id}`}
                     onClick={() => setOpen(false)}
                     className="flex items-center py-2 text-sm text-gray-700 hover:text-green-600 transition-colors duration-200 px-4 hover:bg-gray-100"
                   >
-                    <span>{treatment.name}</span>
+                    <span>{treatment.title}</span>
                   </Link>
                 ))}
               </div>
