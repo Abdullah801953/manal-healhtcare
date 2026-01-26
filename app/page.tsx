@@ -12,7 +12,6 @@ import { BlogSection } from "./components/BlogSection";
 import { FAQSection } from "./components/FAQSection";
 import { OurServices } from "./components/OurServices";
 import { Testimonials } from "./components/Testimonials";
-import { QueryFormModal } from "./components/QueryFormModal";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 
 /* =======================
@@ -95,7 +94,6 @@ const Page = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
-      <QueryFormModal />
       <WhatsAppButton />
 
       <main id="main-content">

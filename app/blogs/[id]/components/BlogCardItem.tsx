@@ -11,7 +11,7 @@ interface BlogCardProps {
 export function BlogCardItem({ blog }: BlogCardProps) {
   return (
     <Link
-      href={`/blogs/${blog.id}`}
+      href={`/blogs/${blog.slug}`}
       className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
     >
       {/* Image */}

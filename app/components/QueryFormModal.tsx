@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import { X, Send, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSettings } from '../contexts/SettingsContext';
 
 export function QueryFormModal() {
+  const { settings } = useSettings();
   const [isOpen, setIsOpen] = useState(false);
-  const [hasBeenClosed, setHasBeenClosed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -17,41 +18,95 @@ export function QueryFormModal() {
     reports: null as File | null,
   });
 
-  // Show modal after 2 seconds on every page load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!hasBeenClosed) {
-        setIsOpen(true);
-      }
-    }, 2000);
-    
-    return () => clearTimeout(timer);
-  }, [hasBeenClosed]);
+  // Auto-open functionality removed - modal will only open on user action
 
   const handleClose = () => {
     setIsOpen(false);
-    setHasBeenClosed(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      alert('Thank you! We will contact you soon.');
-      setFormData({
-        name: '',
-        country: '',
-        whatsapp: '',
-        email: '',
-        problem: '',
-        reports: null,
+    try {
+      let reportUrl = '';
+      
+      // Upload medical report if provided
+      if (formData.reports) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', formData.reports);
+        uploadFormData.append('type', 'medical');
+        
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadFormData,
+        });
+        
+        const uploadData = await uploadResponse.json();
+        if (uploadData.success) {
+          reportUrl = uploadData.url;
+        } else {
+          alert('Failed to upload medical report: ' + uploadData.message);
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      // Save inquiry to database
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.whatsapp,
+          country: formData.country,
+          medicalCondition: formData.problem,
+          medicalReport: reportUrl,
+          status: 'new',
+        }),
       });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Prepare WhatsApp message
+        const message = `Hello! I'm ${formData.name} from ${formData.country}.
+
+Medical Condition: ${formData.problem}
+
+${formData.email ? `Email: ${formData.email}` : ''}
+${reportUrl ? `Medical Report: ${window.location.origin}${reportUrl}` : 'No medical report attached'}
+
+I would like to discuss my treatment options.`;
+
+        // Redirect to WhatsApp
+        const phoneNumber = settings?.whatsappNumber?.replace(/\D/g, '') || '918287508755';
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+
+        // Reset form
+        setFormData({
+          name: '',
+          country: '',
+          whatsapp: '',
+          email: '',
+          problem: '',
+          reports: null,
+        });
+        
+        handleClose();
+      } else {
+        alert('Failed to submit inquiry. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred. Please try again.');
+    } finally {
       setIsSubmitting(false);
-      handleClose();
-    }, 1000);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

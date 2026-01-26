@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getTreatmentBySlug, getRelatedTreatments } from '../utils';
-import { treatmentsData } from '../data';
 import TreatmentDetailHero from './components/TreatmentDetailHero';
 import TreatmentOverview from './components/TreatmentOverview';
 import BenefitsSection from './components/BenefitsSection';
@@ -22,13 +20,44 @@ interface TreatmentDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Generate static paths for all treatments
-export async function generateStaticParams() {
-  return treatmentsData
-    .filter((treatment) => treatment.slug)
-    .map((treatment) => ({
-      slug: treatment.slug,
-    }));
+// Fetch treatment by slug from API
+async function getTreatmentBySlug(slug: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/treatments/slug/${slug}`, {
+      cache: 'no-store'
+    });
+    
+    if (!response.ok) {
+      return null;
+    }
+    
+    const data = await response.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.error('Error fetching treatment:', error);
+    return null;
+  }
+}
+
+// Fetch all treatments for related treatments
+async function getAllTreatments() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/treatments`, {
+      cache: 'no-store'
+    });
+    
+    if (!response.ok) {
+      return [];
+    }
+    
+    const data = await response.json();
+    return data.success ? data.data.filter((t: any) => t.status === 'active') : [];
+  } catch (error) {
+    console.error('Error fetching treatments:', error);
+    return [];
+  }
 }
 
 // Generate metadata for SEO
@@ -36,7 +65,7 @@ export async function generateMetadata({
   params,
 }: TreatmentDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const treatment = getTreatmentBySlug(slug);
+  const treatment = await getTreatmentBySlug(slug);
 
   if (!treatment) {
     return {
@@ -73,7 +102,7 @@ export async function generateMetadata({
       locale: 'en_US',
       images: [
         {
-          url: typeof treatment.image === 'string' ? treatment.image : treatment.image.src,
+          url: treatment.image || '/default-treatment.jpg',
           width: 1200,
           height: 630,
           alt: treatment.title,
@@ -86,7 +115,7 @@ export async function generateMetadata({
       description: treatment.shortDescription,
       images: [
         {
-          url: typeof treatment.image === 'string' ? treatment.image : treatment.image.src,
+          url: treatment.image || '/default-treatment.jpg',
           alt: treatment.title,
         },
       ],
@@ -113,18 +142,17 @@ export default async function TreatmentDetailPage({
   params,
 }: TreatmentDetailPageProps) {
   const { slug } = await params;
-  const treatment = getTreatmentBySlug(slug);
+  const treatment = await getTreatmentBySlug(slug);
 
   if (!treatment) {
     notFound();
   }
 
-  // Get related treatments in the same category
-  const relatedTreatments = getRelatedTreatments(
-    treatment.slug,
-    treatment.category,
-    3
-  );
+  // Get all treatments and filter for related ones
+  const allTreatments = await getAllTreatments();
+  const relatedTreatments = allTreatments
+    .filter((t: any) => t.slug !== treatment.slug && t.category === treatment.category)
+    .slice(0, 3);
 
   return (
     <main className="min-h-screen bg-white">
@@ -132,7 +160,15 @@ export default async function TreatmentDetailPage({
         <section className="max-w-7xl mx-auto">
           {/* HERO SECTION */}
           <div className="bg-linear-to-br from-[#e6f9ed] to-[#d2f5e3] rounded-3xl shadow-lg p-8 mb-8 flex flex-col md:flex-row items-center gap-8 border border-[#209f00]/20">
-            <Image src={treatment.image} alt={treatment.title} className="rounded-2xl w-40 h-40 object-cover border-4 border-white shadow-md" />
+            {treatment.image && (
+              <Image 
+                src={treatment.image} 
+                alt={treatment.title} 
+                width={160}
+                height={160}
+                className="rounded-2xl w-40 h-40 object-cover border-4 border-white shadow-md" 
+              />
+            )}
             <div className="flex-1">
               <div className="flex flex-wrap gap-2 mb-2">
                 <span className="bg-[#209f00]/90 text-white text-xs font-semibold px-3 py-1 rounded-full">{treatment.category}</span>

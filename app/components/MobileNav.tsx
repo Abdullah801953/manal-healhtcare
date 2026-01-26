@@ -6,6 +6,7 @@ import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Languages, Phone, Mail,
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { treatmentsData } from "@/app/treatments/data";
+import { LanguageSelector } from "./LanguageSelector";
 
 const mobileNavigationLinks = [
   { href: "/", label: "Home" },
@@ -173,13 +174,9 @@ export const MobileNav = () => {
               Book Consultation
             </Button>
             <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                className="flex-1 border-gray-300 hover:bg-gray-50 text-gray-800 py-2.5 text-sm rounded-full font-medium"
-              >
-                <Languages className="w-4 h-4 mr-2" />
-                Language
-              </Button>
+              <div className="flex-1">
+                <LanguageSelector />
+              </div>
               <Button 
                 variant="outline" 
                 className="flex-1 border-green-600 text-green-600 hover:bg-green-50 py-2.5 text-sm rounded-full font-medium"

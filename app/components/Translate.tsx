@@ -4,43 +4,42 @@ import { useEffect, useState, ReactNode } from 'react';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 
 interface TranslateProps {
-  children: string | ReactNode;
+  text?: string;
+  children?: string | ReactNode;
   className?: string;
 }
 
-export const Translate: React.FC<TranslateProps> = ({ children, className }) => {
+const Translate: React.FC<TranslateProps> = ({ text, children, className }) => {
   const { translateText, currentLanguage } = useLanguage();
   const [translatedText, setTranslatedText] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const textToTranslate = text || (typeof children === 'string' ? children : '');
+
   useEffect(() => {
     const translate = async () => {
-      if (typeof children === 'string') {
+      if (textToTranslate) {
         setIsLoading(true);
-        const translated = await translateText(children);
+        const translated = await translateText(textToTranslate);
         setTranslatedText(translated);
         setIsLoading(false);
       }
     };
 
     translate();
-  }, [children, currentLanguage, translateText]);
+  }, [textToTranslate, currentLanguage, translateText]);
 
-  // If children is not a string, return as is
-  if (typeof children !== 'string') {
+  // If children is not a string and no text prop, return as is
+  if (!textToTranslate && children) {
     return <>{children}</>;
   }
 
-  // Show loading state or translated text
+  // Show original text while loading
   if (isLoading && currentLanguage.code !== 'en') {
-    return <span className={className}>{children}</span>;
+    return <span className={className}>{textToTranslate}</span>;
   }
 
-  return <span className={className}>{translatedText || children}</span>;
+  return <span className={className}>{translatedText || textToTranslate}</span>;
 };
 
-// Hook for translating text programmatically
-export const useTranslate = () => {
-  const { translateText } = useLanguage();
-  return translateText;
-};
+export default Translate;

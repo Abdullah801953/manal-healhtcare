@@ -1,24 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Save, Globe, Mail, Phone, MapPin } from "lucide-react";
+import { Save, Globe, Phone, Loader2 } from "lucide-react";
 
 export default function SettingsPage() {
   const [formData, setFormData] = useState({
-    siteName: "Manal Healthcare",
-    siteEmail: "info@manalhealthcare.com",
-    sitePhone: "+91 123 456 7890",
-    whatsappNumber: "+91 987 654 3210",
-    address: "123 Healthcare Street, New Delhi, India",
-    facebook: "https://facebook.com/manalhealthcare",
-    twitter: "https://twitter.com/manalhealthcare",
-    instagram: "https://instagram.com/manalhealthcare",
-    linkedin: "https://linkedin.com/company/manalhealthcare",
-    youtube: "https://youtube.com/@manalhealthcare",
+    siteName: "",
+    siteEmail: "",
+    sitePhone: "",
+    whatsappNumber: "",
+    address: "",
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
+    youtube: "",
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/settings');
+      const data = await response.json();
+
+      if (data.success) {
+        setFormData({
+          siteName: data.data.siteName || '',
+          siteEmail: data.data.siteEmail || '',
+          sitePhone: data.data.sitePhone || '',
+          whatsappNumber: data.data.whatsappNumber || '',
+          address: data.data.address || '',
+          facebook: data.data.facebook || '',
+          twitter: data.data.twitter || '',
+          instagram: data.data.instagram || '',
+          linkedin: data.data.linkedin || '',
+          youtube: data.data.youtube || '',
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -27,12 +60,41 @@ export default function SettingsPage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Saving settings:", formData);
-    // Add API call to save settings
-    alert("Settings saved successfully!");
+    setSaving(true);
+
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Settings saved successfully!");
+      } else {
+        alert(data.error || "Failed to save settings");
+      }
+    } catch (error) {
+      console.error("Error saving settings:", error);
+      alert("Failed to save settings");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -214,9 +276,18 @@ export default function SettingsPage() {
                 <CardTitle>Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
-                  <Save className="w-4 h-4 mr-2" />
-                  Save All Settings
+                <Button type="submit" disabled={saving} className="w-full bg-green-600 hover:bg-green-700">
+                  {saving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4 mr-2" />
+                      Save All Settings
+                    </>
+                  )}
                 </Button>
                 <Button type="button" variant="outline" className="w-full">
                   Reset to Default

@@ -1,17 +1,39 @@
 "use client";
 
-import { useState } from 'react';
-import { testimonials } from './data';
+import { useState, useEffect } from 'react';
 import { TestimonialsHero } from './components/TestimonialsHero';
 import { TestimonialCard } from './components/TestimonialCard';
 import { Pagination } from './components/Pagination';
 import { WhyTrustUs } from './components/WhyTrustUs';
 import { CTASection } from './components/CTASection';
+import { Loader2 } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 9;
 
 export default function TestimonialsPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  const fetchTestimonials = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/testimonials?status=approved');
+      const data = await response.json();
+
+      if (data.success) {
+        setTestimonials(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Pagination
   const totalPages = Math.ceil(testimonials.length / ITEMS_PER_PAGE);
@@ -39,23 +61,42 @@ export default function TestimonialsPage() {
             </h2>
           </div>
 
-          {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {paginatedTestimonials.map((testimonial) => (
-              <TestimonialCard
-                key={testimonial.id}
-                testimonial={testimonial}
-              />
-            ))}
-          </div>
+          {/* Loading State */}
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+            </div>
+          ) : (
+            <>
+              {/* Testimonials Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                {paginatedTestimonials.length === 0 ? (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-gray-500">No testimonials found</p>
+                  </div>
+                ) : (
+                  paginatedTestimonials.map((testimonial) => (
+                    <TestimonialCard
+                      key={testimonial._id}
+                      testimonial={{
+                        ...testimonial,
+                        id: testimonial._id,
+                        date: new Date(testimonial.date).toISOString().split('T')[0]
+                      }}
+                    />
+                  ))
+                )}
+              </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </>
           )}
         </div>
       </section>

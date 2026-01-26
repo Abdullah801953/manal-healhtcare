@@ -3,10 +3,11 @@
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
-import { QueryFormModal } from "./QueryFormModal";
 import { WhatsAppButton } from "./WhatsAppButton";
 import { LanguageProvider } from "../contexts/LanguageContext";
+import { SettingsProvider } from "../contexts/SettingsContext";
 import { SEOMetaTags } from "./SEOMetaTags";
+import { AutoTranslate } from "./AutoTranslate";
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,13 +20,15 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
 
   // Regular website - with header, footer, and modals
   return (
-    <LanguageProvider>
-      <SEOMetaTags />
-      <QueryFormModal />
-      <WhatsAppButton />
-      <Header />
-      {children}
-      <Footer />
-    </LanguageProvider>
+    <SettingsProvider>
+      <LanguageProvider>
+        <AutoTranslate />
+        <SEOMetaTags />
+        <WhatsAppButton />
+        <Header />
+        {children}
+        <Footer />
+      </LanguageProvider>
+    </SettingsProvider>
   );
 }

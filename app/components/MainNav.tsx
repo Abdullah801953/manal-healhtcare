@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,7 +12,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { treatmentsData } from "../treatments/data";
 import {
   Languages,
   Search,
@@ -126,8 +125,34 @@ const infoMenuItems = [
 export const MainNav = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [infoSearchQuery, setInfoSearchQuery] = useState("");
+  const [treatments, setTreatments] = useState<any[]>([]);
 
-  const filteredTreatments = treatmentsData.filter((treatment) =>
+  // Fetch treatments from API
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      try {
+        const response = await fetch('/api/treatments');
+        const data = await response.json();
+        
+        if (data.success) {
+          // Get unique categories from active treatments
+          const activeTreatments = data.data.filter((t: any) => t.status === 'active');
+          const uniqueCategories = Array.from(
+            new Map(
+              activeTreatments.map((t: any) => [t.category, t])
+            ).values()
+          );
+          setTreatments(uniqueCategories);
+        }
+      } catch (error) {
+        console.error('Error fetching treatments:', error);
+      }
+    };
+
+    fetchTreatments();
+  }, []);
+
+  const filteredTreatments = treatments.filter((treatment) =>
     treatment.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -189,7 +214,7 @@ export const MainNav = () => {
           </NavigationMenuItem>
 
           {/* Treatments Dropdown */}
-          <NavigationMenuItem>
+          <NavigationMenuItem>_
             <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-base xl:text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-4">
               Treatments
             </NavigationMenuTrigger>

@@ -1,4 +1,5 @@
 export interface Doctor {
+  _id?: string;
   id: string;
   slug: string;
   name: string;
@@ -10,6 +11,9 @@ export interface Doctor {
   experienceYears: string;
   specialization: string[];
   clinicalFocus: string[];
+  status?: 'active' | 'inactive';
+  createdAt?: Date;
+  updatedAt?: Date;
   
   // Optional legacy fields for backward compatibility
   specialty?: string;

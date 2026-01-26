@@ -1,6 +1,6 @@
 "use client";
 
-import { Translate } from '@/app/components/Translate';
+import Translate from '@/app/components/Translate';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

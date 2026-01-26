@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getTranslation } from '@/app/data/translations';
 
 export interface Language {
   code: string;
@@ -37,12 +36,17 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 // Translation cache to avoid repeated API calls
 const translationCache = new Map<string, string>();
 
+// Pending translation requests to avoid duplicate calls
+const pendingTranslations = new Map<string, Promise<string>>();
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>(languages[0]);
   const [isTranslating, setIsTranslating] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Load saved language from localStorage
+  // Load saved language from localStorage on mount
   useEffect(() => {
+    setMounted(true);
     const savedLangCode = localStorage.getItem('preferredLanguage');
     if (savedLangCode) {
       const savedLang = languages.find(lang => lang.code === savedLangCode);
@@ -71,13 +75,49 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       return translationCache.get(cacheKey)!;
     }
 
-    // Use static translation dictionary (SEO-friendly, instant, free)
-    const translatedText = getTranslation(text, currentLanguage.code);
-    
-    // Cache the result
-    translationCache.set(cacheKey, translatedText);
-    
-    return translatedText;
+    // Check if translation is already in progress for this text
+    if (pendingTranslations.has(cacheKey)) {
+      return pendingTranslations.get(cacheKey)!;
+    }
+
+    // Create new translation promise
+    const translationPromise = (async () => {
+      try {
+        setIsTranslating(true);
+        const response = await fetch('/api/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text,
+            targetLang: currentLanguage.code,
+            sourceLang: 'en',
+          }),
+        });
+
+        const data = await response.json();
+        
+        if (data.success && data.translatedText) {
+          translationCache.set(cacheKey, data.translatedText);
+          return data.translatedText;
+        }
+      } catch (error) {
+        console.error('Translation error:', error);
+      } finally {
+        setIsTranslating(false);
+        // Remove from pending after completion
+        pendingTranslations.delete(cacheKey);
+      }
+
+      // If translation fails, return original text
+      return text;
+    })();
+
+    // Store pending translation
+    pendingTranslations.set(cacheKey, translationPromise);
+
+    return translationPromise;
   };
 
   return (

@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, MapPin, Phone, Mail } from "lucide-react";
+import { ChevronRight, MapPin, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 import logo from "@/public/logo.png";
+import { useSettings } from "../contexts/SettingsContext";
 // Footer data organized for reusability
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -30,6 +31,8 @@ const services = [
 ];
 
 const Footer = () => {
+  const { settings } = useSettings();
+
   return (
     <footer className="bg-gray-100 border-t">
       <div className="container mx-auto px-4 py-12">
@@ -88,13 +91,7 @@ const Footer = () => {
                 <h4 className="font-semibold text-gray-900 mb-2">Location</h4>
                 <div className="flex items-start gap-2 text-sm text-gray-600">
                   <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-                  <span>
-                    1615 Lyon Avenue
-                    <br />
-                    Framingham, MA
-                    <br />
-                    01702
-                  </span>
+                  <span>{settings?.address || 'Loading...'}</span>
                 </div>
               </div>
 
@@ -105,23 +102,82 @@ const Footer = () => {
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Phone className="w-4 h-4 shrink-0" />
                     <Link
-                      href="tel:5088727876"
+                      href={`tel:${settings?.sitePhone?.replace(/\D/g, '')}`}
                       className="hover:text-primary transition-colors"
                     >
-                      508-872-7876
+                      {settings?.sitePhone || 'Loading...'}
                     </Link>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Mail className="w-4 h-4 shrink-0" />
                     <Link
-                      href="mailto:monvit@gmail.com"
+                      href={`mailto:${settings?.siteEmail}`}
                       className="hover:text-primary transition-colors"
                     >
-                      monvit@gmail.com
+                      {settings?.siteEmail || 'Loading...'}
                     </Link>
                   </div>
                 </div>
               </div>
+
+              {/* Social Media */}
+              {(settings?.facebook || settings?.twitter || settings?.instagram || settings?.linkedin || settings?.youtube) && (
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Follow Us</h4>
+                  <div className="flex items-center gap-3">
+                    {settings?.facebook && (
+                      <Link
+                        href={settings.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-[#1877F2] transition-colors"
+                      >
+                        <Facebook className="w-5 h-5" />
+                      </Link>
+                    )}
+                    {settings?.twitter && (
+                      <Link
+                        href={settings.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-[#1DA1F2] transition-colors"
+                      >
+                        <Twitter className="w-5 h-5" />
+                      </Link>
+                    )}
+                    {settings?.instagram && (
+                      <Link
+                        href={settings.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-[#E4405F] transition-colors"
+                      >
+                        <Instagram className="w-5 h-5" />
+                      </Link>
+                    )}
+                    {settings?.linkedin && (
+                      <Link
+                        href={settings.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-[#0A66C2] transition-colors"
+                      >
+                        <Linkedin className="w-5 h-5" />
+                      </Link>
+                    )}
+                    {settings?.youtube && (
+                      <Link
+                        href={settings.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-[#FF0000] transition-colors"
+                      >
+                        <Youtube className="w-5 h-5" />
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

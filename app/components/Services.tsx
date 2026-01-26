@@ -46,7 +46,7 @@ const treatmentIcons: Record<string, React.ElementType> = {
 
 // Convert treatment categories to services
 const treatmentServices: ServiceCard[] = treatmentsData.map((treatment, index) => ({
-  id: parseInt(treatment.id),
+  id: index, // Use index to ensure unique IDs
   icon: treatmentIcons[treatment.category] || Activity,
   title: treatment.category,
   description: `Expert ${treatment.category.toLowerCase()} services with world-class facilities and experienced medical professionals.`,

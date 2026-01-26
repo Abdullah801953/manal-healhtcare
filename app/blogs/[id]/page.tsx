@@ -1,6 +1,4 @@
 import { notFound } from "next/navigation";
-import { blogsData } from "@/app/blogs/data";
-import { getBlogById } from "@/app/blogs/utils";
 import BlogHero from "@/app/blogs/[id]/components/BlogHero";
 import { BlogNavigating } from "@/app/blogs/[id]/components/BlogNavigating";
 import RelatedArticles from "@/app/blogs/[id]/components/RelatedArticles";
@@ -13,26 +11,63 @@ interface BlogDetailPageProps {
   }>;
 }
 
+// Fetch blog by slug
+async function getBlogBySlug(slug: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blogs/slug/${slug}`, {
+      cache: 'no-store'
+    });
+    const data = await response.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.error('Error fetching blog:', error);
+    return null;
+  }
+}
+
+// Fetch all published blogs
+async function getAllBlogs() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/blogs?status=published`, {
+      cache: 'no-store'
+    });
+    const data = await response.json();
+    return data.success ? data.data : [];
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    return [];
+  }
+}
+
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { id } = await params;
-  const blog = getBlogById(id);
+  const blog = await getBlogBySlug(id);
 
-  if (!blog) {
+  if (!blog || blog.status !== 'published') {
     notFound();
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="px-4 py-8">
-        <BlogHero title={blog.title} image={blog.image} />
+        <BlogHero 
+          title={blog.title} 
+          image={blog.image || '/blog-hero.jpg'} 
+        />
         
-        <div className="mt-10  p-6 md:p-10 max-w-6xl mx-auto">
-          <BlogNavigating blog={blog} />
+        <div className="mt-10 p-6 md:p-10 max-w-6xl mx-auto">
+          <BlogNavigating blog={{
+            ...blog,
+            id: blog._id,
+            image: blog.image || '/blog-hero.jpg',
+          }} />
         </div>
         
-        <RelatedArticles currentId={blog.id} />
+        <RelatedArticles currentId={blog._id} />
         
-               <BlogListCTA />
+        <BlogListCTA />
        
       </div>
     </div>
@@ -43,8 +78,10 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
    STATIC GENERATION
 ========================= */
 export async function generateStaticParams() {
-  return blogsData.map((blog) => ({
-    id: blog.id,
+  const blogs = await getAllBlogs();
+  
+  return blogs.map((blog: any) => ({
+    id: blog.slug,
   }));
 }
 
@@ -53,7 +90,7 @@ export async function generateStaticParams() {
 ========================= */
 export async function generateMetadata({ params }: BlogDetailPageProps) {
   const { id } = await params;
-  const blog = getBlogById(id);
+  const blog = await getBlogBySlug(id);
 
   return {
     title: blog ? blog.title : "Blog | Healthcare",
@@ -61,7 +98,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps) {
     openGraph: {
       title: blog ? blog.title : "Blog",
       description: blog ? blog.excerpt : "Healthcare blog article",
-      images: blog ? [blog.image.src] : [],
+      images: blog ? [blog.image] : [],
     },
   };
 }

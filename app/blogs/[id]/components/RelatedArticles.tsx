@@ -1,10 +1,48 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { blogsData } from "../../data";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 
 const RelatedArticles = ({ currentId }: { currentId: string }) => {
-  const related = blogsData.filter((blog) => blog.id !== currentId).slice(0, 3);
+  const [related, setRelated] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchRelatedBlogs();
+  }, [currentId]);
+
+  const fetchRelatedBlogs = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/blogs?status=published');
+      const data = await response.json();
+
+      if (data.success) {
+        const filtered = data.data
+          .filter((blog: any) => blog._id !== currentId)
+          .slice(0, 3);
+        setRelated(filtered);
+      }
+    } catch (error) {
+      console.error('Error fetching related blogs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
+  if (related.length === 0) {
+    return null;
+  }
 
   return (
     <section className="mt-16 px-4 py-8 max-w-7xl mx-auto">
@@ -25,14 +63,14 @@ const RelatedArticles = ({ currentId }: { currentId: string }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {related.map((item) => (
           <Link
-            key={item.id}
-            href={`/blogs/${item.id}`}
+            key={item._id}
+            href={`/blogs/${item.slug}`}
             className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
           >
             {/* Image */}
             <div className="relative h-48 overflow-hidden">
               <Image
-                src={item.image}
+                src={item.image || '/blog-hero.jpg'}
                 alt={item.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"

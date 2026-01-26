@@ -148,7 +148,7 @@ export const AboutSection = ({
             {/* Features Grid */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
             >
               {/* Left Column */}
               <div className="space-y-4 sm:space-y-5">
