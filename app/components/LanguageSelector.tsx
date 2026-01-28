@@ -37,10 +37,11 @@ export const LanguageSelector = () => {
         <Button
           variant="outline"
           size="lg"
-          className="gap-2 border-2 border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white font-medium rounded-full px-11 py-6 text-lg"
+          className="gap-2 border-2 border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white font-medium rounded-full px-11 py-6 text-lg w-full lg:w-auto"
         >
-          <Languages className="w-6 h-6" size={"40"}/>
-          <span className="hidden md:hidden xl:block">Language</span>
+          <Languages className="w-5 h-5 lg:w-6 lg:h-6"/>
+          <span className="lg:hidden">Language</span>
+          <span className="hidden lg:hidden xl:block">Language</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-hidden flex flex-col">

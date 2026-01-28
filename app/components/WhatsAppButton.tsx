@@ -3,11 +3,14 @@
 import whatsapp from "@/public/whatsapp.svg";                  
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useSettings } from "../contexts/SettingsContext";
 
 export function WhatsAppButton() {
+  const { settings } = useSettings();
+
   const handleClick = () => {
-    // Replace with your WhatsApp number (with country code, no + or spaces)
-    const phoneNumber = "918287508755"; // Changed to include country code 91
+    // Use WhatsApp number from settings
+    const phoneNumber = settings?.whatsappNumber?.replace(/\D/g, '') || "918287508755";
     const message = "Hello! I'm interested in your healthcare services.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");

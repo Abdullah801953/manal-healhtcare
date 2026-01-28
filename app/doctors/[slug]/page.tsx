@@ -1,14 +1,13 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { doctorsData } from '../data';
-import { getDoctorBySlug, getRelatedDoctors } from '../utils';
 import { DoctorDetailHero } from './components/DoctorDetailHero';
 import { DoctorInfoSection } from './components/DoctorInfoSection';
 import { ExpertiseSection } from './components/ExpertiseSection';
 import { EducationSection } from './components/EducationSection';
 import { RelatedDoctors } from './components/RelatedDoctors';
 import { Button } from '@/components/ui/button';
+import { Doctor } from '../types';
 
 interface DoctorDetailPageProps {
   params: Promise<{
@@ -16,9 +15,60 @@ interface DoctorDetailPageProps {
   }>;
 }
 
+// Fetch doctor by slug from API
+async function getDoctorBySlug(slug: string): Promise<Doctor | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/doctors/slug/${slug}`, {
+      cache: 'no-store'
+    });
+    
+    if (!response.ok) {
+      return null;
+    }
+    
+    const result = await response.json();
+    return result.success ? result.data : null;
+  } catch (error) {
+    console.error('Error fetching doctor:', error);
+    return null;
+  }
+}
+
+// Fetch all doctors for related section
+async function getAllDoctors(): Promise<Doctor[]> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/doctors`, {
+      cache: 'no-store'
+    });
+    
+    if (!response.ok) {
+      return [];
+    }
+    
+    const result = await response.json();
+    return result.success ? result.data : [];
+  } catch (error) {
+    console.error('Error fetching doctors:', error);
+    return [];
+  }
+}
+
+// Get related doctors based on specialization
+function getRelatedDoctors(currentDoctor: Doctor, allDoctors: Doctor[], limit: number = 3): Doctor[] {
+  const currentId = currentDoctor._id || currentDoctor.id;
+  return allDoctors
+    .filter(d => {
+      const docId = d._id || d.id;
+      return docId !== currentId;
+    })
+    .slice(0, limit);
+}
+
 export default async function DoctorDetailPage({ params }: DoctorDetailPageProps) {
   const { slug } = await params;
-  const doctor = getDoctorBySlug(slug, doctorsData);
+  const doctor = await getDoctorBySlug(slug);
 
   // If doctor not found, show 404
   if (!doctor) {
@@ -26,7 +76,8 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
   }
 
   // Get related doctors
-  const relatedDoctors = getRelatedDoctors(doctor, doctorsData, 3);
+  const allDoctors = await getAllDoctors();
+  const relatedDoctors = getRelatedDoctors(doctor, allDoctors, 3);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -100,17 +151,10 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
   );
 }
 
-// Generate static params for all doctors
-export async function generateStaticParams() {
-  return doctorsData.map((doctor) => ({
-    slug: doctor.slug,
-  }));
-}
-
 // Generate metadata for SEO
 export async function generateMetadata({ params }: DoctorDetailPageProps) {
   const { slug } = await params;
-  const doctor = getDoctorBySlug(slug, doctorsData);
+  const doctor = await getDoctorBySlug(slug);
 
   if (!doctor) {
     return {
@@ -119,7 +163,7 @@ export async function generateMetadata({ params }: DoctorDetailPageProps) {
   }
 
   return {
-    title: `${doctor.name} - ${doctor.specialty} | Healthcare`,
-    description: doctor.bio,
+    title: `${doctor.name} - ${doctor.designation} | Healthcare`,
+    description: doctor.overview,
   };
 }

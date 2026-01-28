@@ -2,6 +2,7 @@ import mongoose, { Schema, Model } from 'mongoose';
 
 export interface IDoctor {
   name: string;
+  slug: string;
   designation: string;
   hospital: string;
   overview: string;
@@ -20,6 +21,11 @@ const DoctorSchema = new Schema<IDoctor>({
   name: { 
     type: String, 
     required: true 
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true
   },
   designation: { 
     type: String, 

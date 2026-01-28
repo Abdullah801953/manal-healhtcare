@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import { Linkedin, Mail } from 'lucide-react';
+import Image from "next/image";
+import { Linkedin, Mail } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -11,28 +11,28 @@ interface TeamMember {
 export function TeamSection() {
   const team: TeamMember[] = [
     {
-      name: 'Dr. Sarah Johnson',
-      role: 'Chief Medical Officer',
-      image: '/doctor.png',
-      bio: 'Leading our medical team with 20+ years of healthcare experience',
+      name: "Dr. Sarah Johnson",
+      role: "Chief Medical Officer",
+      image: "/doctor.png",
+      bio: "Leading our medical team with 20+ years of healthcare experience",
     },
     {
-      name: 'Dr. Michael Chen',
-      role: 'Director of Operations',
-      image: '/doctor-img 1.png',
-      bio: 'Ensuring operational excellence and patient satisfaction',
+      name: "Dr. Michael Chen",
+      role: "Director of Operations",
+      image: "/doctor-img 1.png",
+      bio: "Ensuring operational excellence and patient satisfaction",
     },
     {
-      name: 'Dr. Emily Roberts',
-      role: 'Head of Research',
-      image: '/doctor-img2 1.png',
-      bio: 'Pioneering medical research and innovative treatments',
+      name: "Dr. Emily Roberts",
+      role: "Head of Research",
+      image: "/doctor-img2 1.png",
+      bio: "Pioneering medical research and innovative treatments",
     },
     {
-      name: 'Dr. James Wilson',
-      role: 'Patient Care Director',
-      image: '/doctor.png',
-      bio: 'Dedicated to delivering compassionate patient-centered care',
+      name: "Dr. James Wilson",
+      role: "Patient Care Director",
+      image: "/doctor.png",
+      bio: "Dedicated to delivering compassionate patient-centered care",
     },
   ];
 
@@ -41,10 +41,13 @@ export function TeamSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Meet Our Leadership
+            Meet Our Team
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Experienced professionals dedicated to your health and wellbeing
+            Our team consists of experienced patient care coordinators and
+            healthcare professionals dedicated to your well-being. With
+            multilingual support, we ensure clear communication from your first
+            enquiry to post-treatment follow-up in India.
           </p>
         </div>
 
@@ -75,9 +78,7 @@ export function TeamSection() {
                 <p className="text-[#209f00] font-semibold mb-3">
                   {member.role}
                 </p>
-                <p className="text-gray-600 text-sm mb-4">
-                  {member.bio}
-                </p>
+                <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
 
                 <div className="flex justify-center gap-3">
                   <button className="p-2 bg-gray-200 hover:bg-[#209f00] hover:text-white rounded-full transition-colors">

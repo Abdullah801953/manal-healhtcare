@@ -1,36 +1,49 @@
-import { CheckCircle, Shield, Clock, Users, Award, Stethoscope } from 'lucide-react';
+import {
+  CheckCircle,
+  Shield,
+  Clock,
+  Users,
+  Award,
+  Stethoscope,
+} from "lucide-react";
 
 export function WhyChooseUs() {
   const reasons = [
     {
       icon: Shield,
-      title: 'Advanced Medical Technology',
-      description: 'State-of-the-art equipment and cutting-edge medical technology ensure accurate diagnosis and effective treatment for all our patients.',
+      title: "Advanced Medical Technology",
+      description:
+        "State-of-the-art equipment and cutting-edge medical technology ensure accurate diagnosis and effective treatment for all our patients.",
     },
     {
       icon: Users,
-      title: 'Expert Medical Team',
-      description: 'Board-certified physicians and healthcare professionals with decades of combined experience in specialized medical fields.',
+      title: "Expert Medical Team",
+      description:
+        "Board-certified physicians and healthcare professionals with decades of combined experience in specialized medical fields.",
     },
     {
       icon: Clock,
-      title: '24/7 Emergency Care',
-      description: 'Round-the-clock emergency services with rapid response teams ready to handle critical medical situations at any time.',
+      title: "24/7 Emergency Care",
+      description:
+        "Round-the-clock emergency services with rapid response teams ready to handle critical medical situations at any time.",
     },
     {
       icon: Award,
-      title: 'Award-Winning Care',
-      description: 'Recognized nationally for excellence in patient care, safety standards, and medical innovation by leading healthcare organizations.',
+      title: "Award-Winning Care",
+      description:
+        "Recognized nationally for excellence in patient care, safety standards, and medical innovation by leading healthcare organizations.",
     },
     {
       icon: Stethoscope,
-      title: 'Comprehensive Services',
-      description: 'Full spectrum of medical services from preventive care to specialized treatments, all under one roof for your convenience.',
+      title: "Comprehensive Services",
+      description:
+        "Full spectrum of medical services from preventive care to specialized treatments, all under one roof for your convenience.",
     },
     {
       icon: CheckCircle,
-      title: 'Patient-Centered Approach',
-      description: 'Personalized treatment plans tailored to individual needs, ensuring every patient receives the care and attention they deserve.',
+      title: "Patient-Centered Approach",
+      description:
+        "Personalized treatment plans tailored to individual needs, ensuring every patient receives the care and attention they deserve.",
     },
   ];
 
@@ -42,9 +55,14 @@ export function WhyChooseUs() {
             Why Choose Manal Healthcare?
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            We combine medical excellence with compassionate care to deliver exceptional healthcare 
-            services that exceed expectations. Our commitment to quality and patient satisfaction 
-            sets us apart as a leading healthcare provider.
+            We offer complete medical tourism services in India, not just
+            appointments. Our support includes doctor selection, hospital
+            coordination, medical visa assistance, travel guidance,
+            accommodation support, and language assistance, allowing you to
+            focus fully on your recovery. With a strong network of leading
+            Indian hospitals, we arrange treatment across specialties such as
+            cardiology, oncology, orthopedics, fertility treatment, dental care,
+            cosmetic procedures, and more.
           </p>
         </div>
 
@@ -57,7 +75,7 @@ export function WhyChooseUs() {
                 className="relative bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-8 hover:border-[#209f00] transition-all group"
               >
                 <div className="absolute top-4 right-4 text-6xl font-bold text-gray-100 group-hover:text-[#209f00]/10 transition-colors">
-                  {(index + 1).toString().padStart(2, '0')}
+                  {(index + 1).toString().padStart(2, "0")}
                 </div>
                 <div className="relative">
                   <div className="w-14 h-14 bg-[#209f00] rounded-xl flex items-center justify-center mb-6">

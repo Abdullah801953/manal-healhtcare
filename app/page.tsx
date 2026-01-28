@@ -19,15 +19,15 @@ import { WhatsAppButton } from "./components/WhatsAppButton";
    PAGE LEVEL SEO
 ======================= */
 export const metadata: Metadata = {
-  title: "Best Medical Tourism in India | Top Hospitals & Doctors - Manal Healthcare",
+  title: "Medical Tourism India | Top Hospitals & Doctors - Manal",
   description:
-    "Manal Healthcare connects you with top hospitals, experienced doctors, and affordable medical tourism services in India. Trusted by 3000+ patients. World-class healthcare at affordable prices.",
+    "Trusted by 3000+ patients. Connect with top hospitals & expert doctors in India. World-class healthcare at 60% lower costs. 24/7 support. Free consultation.",
   keywords: "medical tourism India, best hospitals India, top doctors India, healthcare India, affordable medical treatment, medical travel India, international patients, healthcare services, surgery India",
   openGraph: {
-    title: "Best Medical Tourism in India - Manal Healthcare",
-    description: "World-class healthcare at affordable prices. Top hospitals, experienced doctors, trusted by 3000+ patients.",
+    title: "Medical Tourism India - World-Class Healthcare at 60% Less",
+    description: "Trusted by 3000+ patients. Top hospitals, experienced doctors. Get world-class healthcare at affordable prices.",
     type: "website",
-    url: "https://manalhealthcare.com",
+    url: "https://www.manalhealthcare.com",
     siteName: "Manal Healthcare",
     images: [{
       url: "/doctor.png",
@@ -38,12 +38,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best Medical Tourism in India - Manal Healthcare",
-    description: "World-class healthcare at affordable prices. Trusted by 3000+ patients.",
+    title: "Medical Tourism India - Manal Healthcare",
+    description: "World-class healthcare at 60% lower costs. Trusted by 3000+ patients.",
     images: ["/doctor.png"],
   },
   alternates: {
-    canonical: "https://manalhealthcare.com",
+    canonical: "https://www.manalhealthcare.com",
   },
   robots: {
     index: true,

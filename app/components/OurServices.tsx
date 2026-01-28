@@ -188,13 +188,13 @@ export const OurServices = ({
             viewport={{ once: true, amount: 0.3 }}
             className="relative"
           >
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+            <div className="relative rounded-2xl sm:rounded-3xl ">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
-                width={600}
-                height={700}
-                className="w-full h-auto object-cover"
+                width={450}
+                height={450}
+                
                 priority
               />
             </div>

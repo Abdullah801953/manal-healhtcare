@@ -10,6 +10,7 @@ import Link from "next/link";
 
 interface Doctor {
   _id: string;
+  slug: string;
   name: string;
   designation: string;
   hospital: string;
@@ -369,7 +370,7 @@ export default function DoctorsPage() {
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/doctors/${doctor._id}`} target="_blank">
+                        <Link href={`/doctors/${doctor.slug}`} target="_blank">
                           <Button variant="ghost" size="sm" title="View">
                             <Eye className="w-4 h-4" />
                           </Button>

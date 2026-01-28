@@ -33,11 +33,37 @@ export function NewsletterSection({
   subscribeButtonText = "Subscribe Now",
 }: NewsletterSectionProps) {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter subscription
-    console.log("Subscribing with email:", email);
+    setIsSubmitting(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessage({ type: 'success', text: data.message || 'Successfully subscribed to newsletter!' });
+        setEmail('');
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to subscribe. Please try again.' });
+      }
+    } catch (error) {
+      console.error('Error subscribing to newsletter:', error);
+      setMessage({ type: 'error', text: 'An error occurred. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -121,16 +147,40 @@ export function NewsletterSection({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-12 sm:h-14 lg:h-16 rounded-full sm:rounded-full pl-4 sm:pl-6 pr-4 sm:pr-40 lg:pr-48 text-sm sm:text-base border-gray-200 focus:border-green-500 focus:ring-green-500 w-full"
+                  disabled={isSubmitting}
+                  className="h-12 sm:h-14 lg:h-16 rounded-full sm:rounded-full pl-4 sm:pl-6 pr-4 sm:pr-40 lg:pr-48 text-sm sm:text-base border-gray-200 focus:border-green-500 focus:ring-green-500 w-full disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <Button
                   type="submit"
-                  className="sm:absolute sm:right-2 sm:top-1/2 sm:-translate-y-1/2 bg-[#209F00] hover:bg-green-700 text-white rounded-full px-4 sm:px-6 py-3 h-10 sm:h-10 lg:h-12 font-medium text-sm sm:text-base w-full sm:w-auto"
+                  disabled={isSubmitting}
+                  className="sm:absolute sm:right-2 sm:top-1/2 sm:-translate-y-1/2 bg-[#209F00] hover:bg-green-700 text-white rounded-full px-4 sm:px-6 py-3 h-10 sm:h-10 lg:h-12 font-medium text-sm sm:text-base w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {subscribeButtonText}
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Subscribing...
+                    </>
+                  ) : (
+                    <>
+                      {subscribeButtonText}
+                      <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    </>
+                  )}
                 </Button>
               </div>
+              {/* Success/Error Message */}
+              {message && (
+                <div className={`mt-3 p-3 rounded-lg text-sm ${
+                  message.type === 'success' 
+                    ? 'bg-green-50 text-green-700 border border-green-200' 
+                    : 'bg-red-50 text-red-700 border border-red-200'
+                }`}>
+                  {message.text}
+                </div>
+              )}
             </form>
           </motion.div>
         </div>

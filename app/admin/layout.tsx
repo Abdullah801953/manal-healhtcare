@@ -28,7 +28,7 @@ const navigation = [
   { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
   { name: "Inquiries", href: "/admin/inquiries", icon: Mail },
   { name: "Newsletter", href: "/admin/newsletter", icon: Mail },
-  { name: "Email Templates", href: "/admin/email-templates", icon: FileText },
+  { name: "FAQs", href: "/admin/faqs", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

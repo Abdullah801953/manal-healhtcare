@@ -5,11 +5,12 @@ import Doctor from '@/lib/models/Doctor';
 // GET single doctor by ID
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
-    const doctor = await Doctor.findById(params.id);
+    const { id } = await params;
+    const doctor = await Doctor.findById(id);
 
     if (!doctor) {
       return NextResponse.json(
@@ -40,14 +41,15 @@ export async function GET(
 // PUT update doctor
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
+    const { id } = await params;
     const body = await request.json();
 
     const doctor = await Doctor.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     );
@@ -82,11 +84,12 @@ export async function PUT(
 // DELETE single doctor
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
-    const doctor = await Doctor.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const doctor = await Doctor.findByIdAndDelete(id);
 
     if (!doctor) {
       return NextResponse.json(

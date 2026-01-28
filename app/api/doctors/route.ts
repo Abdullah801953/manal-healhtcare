@@ -2,6 +2,14 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Doctor from '@/lib/models/Doctor';
 
+// Helper function to generate slug from name
+function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
 // GET all doctors
 export async function GET() {
   try {
@@ -41,6 +49,20 @@ export async function POST(request: Request) {
           },
           { status: 400 }
         );
+      }
+    }
+
+    // Generate slug if not provided
+    if (!body.slug) {
+      body.slug = generateSlug(body.name);
+      
+      // Check if slug already exists and make it unique
+      let slugExists = await Doctor.findOne({ slug: body.slug });
+      let counter = 1;
+      while (slugExists) {
+        body.slug = `${generateSlug(body.name)}-${counter}`;
+        slugExists = await Doctor.findOne({ slug: body.slug });
+        counter++;
       }
     }
 

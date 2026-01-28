@@ -24,7 +24,8 @@ const Header = () => {
                 alt="Manal Healthcare Logo"
                 width={120}
                 height={120}
-                className="w-[100px] sm:w-[120px] lg:w-[150px] h-auto"
+                className="w-[100px] sm:w-[120px] lg:w-[150px]"
+                style={{ height: 'auto' }}
                 priority
               />
             </Link>

@@ -6,11 +6,17 @@ export function AboutHero() {
           About Manal Healthcare
         </h1>
         <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-          Dedicated to providing exceptional healthcare services with compassion, 
-          expertise, and cutting-edge medical technology.
+          At Manal Health Care, our mission is to connect international patients
+          with top-quality healthcare providers in India, making the medical
+          journey easy, safe, and comfortable. We help patients access advanced
+          and affordable medical treatment in India, supported by experienced
+          doctors and leading hospitals. We work closely with trusted hospitals
+          and medical specialists across India and provide complete support,
+          including medical visa assistance and multilingual communication, to
+          ensure a smooth and stress-free experience.
         </p>
       </div>
-      
+
       {/* Decorative Elements */}
       <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>

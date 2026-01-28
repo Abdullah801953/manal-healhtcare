@@ -1,26 +1,26 @@
-import { Shield, Lightbulb, Users2, Sparkles, Clock, Heart } from 'lucide-react';
+import { Shield, Lightbulb,  Sparkles, Clock, Heart, DollarSign } from 'lucide-react';
 
 export function ValuesSection() {
   const values = [
     {
       icon: Heart,
-      title: 'Compassionate Care',
-      description: 'Every patient deserves empathy, respect, and personalized attention throughout their healthcare journey.',
+      title: 'Quality Care',
+      description: 'Your health comes first. We partner with reputed Indian hospitals and skilled doctors known for clinical excellence.',
     },
     {
       icon: Shield,
-      title: 'Patient Safety',
-      description: 'We maintain the highest standards of safety protocols and quality assurance in all our services.',
+      title: 'Transparency',
+      description: 'We believe in clear and honest communication about treatment options, costs, procedures, and timelines.',
     },
     {
       icon: Lightbulb,
-      title: 'Innovation',
-      description: 'Embracing cutting-edge medical technology and research to provide the best treatment options.',
+      title: 'Personalized Attention',
+      description: 'Medical travel can be challenging, so we customize every step of your treatment journey in India to suit your needs.',
     },
     {
-      icon: Users2,
-      title: 'Collaboration',
-      description: 'Working together as a unified team to deliver comprehensive and coordinated patient care.',
+      icon: DollarSign,
+      title: 'Affordable Solutions',
+      description: 'India offers world-class healthcare at competitive costs, and we help you access the best treatment without unnecessary expenses',
     },
     {
       icon: Sparkles,
@@ -39,7 +39,7 @@ export function ValuesSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Our Core Values
+            What We Value
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             The principles that guide everything we do

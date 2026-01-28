@@ -91,7 +91,7 @@ export const AboutSection = ({
 
   return (
     <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="px-4 sm:px-6 lg:px-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Side - Image */}
           <motion.div
@@ -148,7 +148,7 @@ export const AboutSection = ({
             {/* Features Grid */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
             >
               {/* Left Column */}
               <div className="space-y-4 sm:space-y-5">
