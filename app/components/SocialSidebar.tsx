@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import facebook from "@/public/facebook.svg";
 import instagram from "@/public/instagram.svg";
 import linkedin from "@/public/linkedin.svg";
@@ -12,9 +13,18 @@ import { useSettings } from "../contexts/SettingsContext";
 
 export function SocialSidebar() {
   const { settings } = useSettings();
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
 
+  // Only show on homepage
+  const isHomepage = pathname === '/';
+
   useEffect(() => {
+    if (!isHomepage) {
+      setIsVisible(false);
+      return;
+    }
+
     const handleScroll = () => {
       // Check if we're in the hero section (roughly first viewport height)
       const heroHeight = window.innerHeight;
@@ -30,7 +40,7 @@ export function SocialSidebar() {
     // Add scroll listener
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomepage]);
 
   const socialLinks = [
     {
