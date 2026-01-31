@@ -58,11 +58,12 @@ export const Testimonials = ({
   heading = "Stories of Healing and Trust From Our Valued Patients",
   testimonials = defaultTestimonials,
   googleRating = 4.8,
-  videoThumbnail = "/testimonial-video.jpg",
-  videoUrl = "#",
+  videoThumbnail = "/thumbnail-img.png",
+  videoUrl = "/video/treatment.mp4",
   showVideo = true,
 }: TestimonialsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -196,24 +197,48 @@ export const Testimonials = ({
 
             {/* Video Thumbnail */}
             {showVideo && (
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl group cursor-pointer">
-                <Image
-                  src={videoThumbnail}
-                  alt="Patient testimonial video"
-                  width={500}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                />
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-900/90 rounded-full flex items-center justify-center"
-                  >
-                    <Play className="w-8 h-8 sm:w-10 sm:h-10 text-green-500 fill-green-500 ml-1" />
-                  </motion.div>
-                </div>
+              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl group">
+                {!isVideoPlaying ? (
+                  <>
+                    {/* Thumbnail Image */}
+                    <Image
+                      src={videoThumbnail}
+                      alt="Patient testimonial video"
+                      width={600}
+                      height={400}
+                      className="w-full h-auto object-cover"
+                      priority
+                    />
+                    {/* Play Button Overlay */}
+                    <div 
+                      className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors cursor-pointer"
+                      onClick={() => setIsVideoPlaying(true)}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-2xl"
+                      >
+                        <Play className="w-8 h-8 sm:w-10 sm:h-10 text-white fill-white ml-1" />
+                      </motion.div>
+                    </div>
+                  </>
+                ) : (
+                  /* Video Player */
+                  <div className="relative bg-black rounded-2xl sm:rounded-3xl overflow-hidden" style={{ maxHeight: '500px' }}>
+                    <video
+                      src={videoUrl}
+                      poster={videoThumbnail}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-contain"
+                      style={{ maxHeight: '500px' }}
+                      onEnded={() => setIsVideoPlaying(false)}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                )}
               </div>
             )}
           </motion.div>

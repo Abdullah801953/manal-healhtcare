@@ -2,78 +2,27 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Award, Briefcase, MapPin, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 
-// Doctor type
+// Doctor type based on API
 export interface Doctor {
-  id: number;
+  _id: string;
   name: string;
-  specialty: string;
-  image: string;
-  category: string;
+  slug: string;
+  designation: string;
+  hospital: string;
+  overview: string;
+  qualifications?: string[];
+  experience: string;
+  experienceYears: string;
+  specialization?: string[];
+  clinicalFocus?: string[];
+  image?: string;
+  status: string;
 }
-
-// Default doctors data
-const defaultDoctors: Doctor[] = [
-  {
-    id: 1,
-    name: "Dr. Alex Dolmand",
-    specialty: "Cardiologist",
-    image: "/doctor-img 1.png",
-    category: "Cardiologist",
-  },
-  {
-    id: 2,
-    name: "Dr. Michael Roberts",
-    specialty: "Cardiologist",
-    image: "/doctor-img 1.png",
-    category: "Cardiologist",
-  },
-  {
-    id: 3,
-    name: "Dr. James Wilson",
-    specialty: "Cardiologist",
-    image: "/doctor-img 1.png",
-    category: "Cardiologist",
-  },
-  {
-    id: 4,
-    name: "Dr. David Anderson",
-    specialty: "Cardiologist",
-    image: "/doctor-img 1.png",
-    category: "Cardiologist",
-  },
-  {
-    id: 5,
-    name: "Dr. Sarah Johnson",
-    specialty: "Neurologist",
-    image: "/doctor-img 1.png",
-    category: "Neurologist",
-  },
-  {
-    id: 6,
-    name: "Dr. Michael Chen",
-    specialty: "Pediatrician",
-    image: "/doctor-img 1.png",
-    category: "Pediatrician",
-  },
-  {
-    id: 7,
-    name: "Dr. Emily Davis",
-    specialty: "Cardiologist",
-    image: "/doctor-img 1.png",
-    category: "Cardiologist",
-  },
-  {
-    id: 8,
-    name: "Dr. Robert Martinez",
-    specialty: "Neurologist",
-    image: "/doctor-img 1.png",
-    category: "Neurologist",
-  },
-];
 
 // Category type
 export interface Category {
@@ -82,49 +31,83 @@ export interface Category {
   slug: string;
 }
 
-const defaultCategories: Category[] = [
-  { id: 1, name: "Cardiologist", slug: "cardiologist" },
-  { id: 2, name: "Neurologist", slug: "neurologist" },
-  { id: 3, name: "Pediatrician", slug: "pediatrician" },
-];
-
 interface DoctorsShowcaseProps {
   badge?: string;
   heading?: string;
-  doctors?: Doctor[];
-  categories?: Category[];
   visibleCards?: number;
 }
 
 export const DoctorsShowcase = ({
   badge = "Professional Doctors",
   heading = "Highly Skilled Doctors, Committed to Excellence",
-  doctors = defaultDoctors,
-  categories = defaultCategories,
   visibleCards = 4,
 }: DoctorsShowcaseProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [startIndex, setStartIndex] = useState(0);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch doctors from API
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/doctors');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          const activeDoctors = result.data.filter((doc: Doctor) => doc.status === 'active');
+          setDoctors(activeDoctors);
+          
+          // Extract unique specializations for categories
+          const specializations = new Set<string>();
+          activeDoctors.forEach((doc: Doctor) => {
+            if (doc.specialization && doc.specialization.length > 0) {
+              doc.specialization.forEach(spec => specializations.add(spec));
+            }
+          });
+          
+          const categoryList = Array.from(specializations).map((spec, index) => ({
+            id: index + 1,
+            name: spec,
+            slug: spec.toLowerCase().replace(/\s+/g, '-')
+          }));
+          
+          setCategories(categoryList.slice(0, 5));
+          setError(null);
+        } else {
+          setError('Failed to fetch doctors');
+        }
+      } catch (err) {
+        console.error('Error fetching doctors:', err);
+        setError('Failed to load doctors');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
 
   // Filter doctors based on selected category
   const filteredDoctors =
     selectedCategory === "all"
       ? doctors
-      : doctors.filter((doctor) => doctor.category === selectedCategory);
+      : doctors.filter((doctor) => 
+          doctor.specialization?.some(spec => spec === selectedCategory)
+        );
 
   const handlePrevious = () => {
-    setStartIndex((prev) =>
-      prev === 0 ? Math.max(0, filteredDoctors.length - visibleCards) : prev - 1
-    );
+    setStartIndex((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
-    setStartIndex((prev) =>
-      prev >= filteredDoctors.length - visibleCards ? 0 : prev + 1
+    setStartIndex((prev) => 
+      Math.min(filteredDoctors.length - visibleCards, prev + 1)
     );
   };
-
-  const displayedDoctors = filteredDoctors.slice(startIndex, startIndex + visibleCards);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -164,8 +147,9 @@ export const DoctorsShowcase = ({
             <div className="space-y-2 sm:space-y-3">
               <motion.p
                 variants={itemVariants}
-                className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base"
+                className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base inline-flex items-center gap-2"
               >
+                <Award className="w-4 h-4 sm:w-5 sm:h-5" />
                 {badge}
               </motion.p>
               <motion.h2
@@ -177,64 +161,138 @@ export const DoctorsShowcase = ({
             </div>
 
             {/* Right: Category Filters */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-wrap items-center gap-2 sm:gap-3"
-            >
-              <Button
-                onClick={() => setSelectedCategory("all")}
-                className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
-                  selectedCategory === "all"
-                    ? "bg-green-600 hover:bg-green-700 text-white"
-                    : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
-                }`}
+            {!loading && categories.length > 0 && (
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-wrap items-center gap-2 sm:gap-3"
               >
-                All Doctors
-              </Button>
-              {categories.map((category) => (
                 <Button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.name)}
+                  onClick={() => setSelectedCategory("all")}
                   className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
-                    selectedCategory === category.name
-                      ? "bg-[#209F00] hover:bg-green-700 text-white"
+                    selectedCategory === "all"
+                      ? "bg-green-600 hover:bg-green-700 text-white shadow-lg"
                       : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
                   }`}
                 >
-                  {category.name}
+                  All Doctors
                 </Button>
-              ))}
-            </motion.div>
+                {categories.map((category) => (
+                  <Button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.name)}
+                    className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
+                      selectedCategory === category.name
+                        ? "bg-[#209F00] hover:bg-green-700 text-white shadow-lg"
+                        : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
+                    }`}
+                  >
+                    {category.name}
+                  </Button>
+                ))}
+              </motion.div>
+            )}
           </div>
 
-          {/* Doctors Grid with Navigation */}
-          <motion.div variants={itemVariants} className="relative">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
-              {displayedDoctors.map((doctor, index) => (
-                <DoctorCard key={doctor.id} doctor={doctor} index={index} />
-              ))}
-            </div>
+          {/* Loading State */}
+          {loading && (
+            <motion.div
+              variants={itemVariants}
+              className="flex justify-center items-center py-20"
+            >
+              <div className="text-center">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#209f00] border-t-transparent mb-4"></div>
+                <p className="text-gray-600 font-medium">Loading doctors...</p>
+              </div>
+            </motion.div>
+          )}
 
-            {/* Navigation Arrows */}
-            {filteredDoctors.length > visibleCards && (
-              <>
-                <Button
-                  onClick={handlePrevious}
-                  size="icon"
-                  className="hidden lg:flex absolute left-0 lg:left-4 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-900 shadow-lg z-10"
+          {/* Error State */}
+          {error && !loading && (
+            <motion.div
+              variants={itemVariants}
+              className="text-center py-12"
+            >
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 max-w-md mx-auto">
+                <p className="text-red-600 mb-4 font-medium">{error}</p>
+                <Button 
+                  onClick={() => window.location.reload()}
+                  className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition"
                 >
-                  <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
+                  Retry
                 </Button>
-                <Button
-                  onClick={handleNext}
-                  size="icon"
-                  className="hidden lg:flex absolute right-0 lg:right-4 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-900 shadow-lg z-10"
+              </div>
+            </motion.div>
+          )}
+
+          {/* Doctors Slider with Navigation */}
+          {!loading && !error && filteredDoctors.length > 0 && (
+            <motion.div variants={itemVariants} className="relative">
+              {/* Slider Container with overflow hidden */}
+              <div className="overflow-hidden">
+                <div 
+                  className="flex transition-transform duration-500 ease-out gap-4 sm:gap-5 lg:gap-6"
+                  style={{
+                    transform: `translateX(-${startIndex * (100 / visibleCards)}%)`
+                  }}
                 >
-                  <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
-                </Button>
-              </>
-            )}
-          </motion.div>
+                  {filteredDoctors.map((doctor, index) => (
+                    <div 
+                      key={doctor._id}
+                      className="flex-shrink-0"
+                      style={{ 
+                        width: `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 24) / visibleCards}px)`
+                      }}
+                    >
+                      <DoctorCard doctor={doctor} index={index} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Navigation Arrows - Half inside, half outside */}
+              {filteredDoctors.length > visibleCards && (
+                <>
+                  <Button
+                    onClick={handlePrevious}
+                    disabled={startIndex === 0}
+                    size="icon"
+                    className="hidden lg:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#209F00] text-gray-700 hover:text-white shadow-2xl border-2 border-gray-200 z-10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    disabled={startIndex >= filteredDoctors.length - visibleCards}
+                    size="icon"
+                    className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#209F00] text-gray-700 hover:text-white shadow-2xl border-2 border-gray-200 z-10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </Button>
+                </>
+              )}
+
+              {/* View All Doctors Link */}
+              <div className="text-center mt-8 sm:mt-10">
+                <Link href="/doctors">
+                  <Button className="bg-[#209F00] hover:bg-green-700 text-white px-8 py-3 rounded-full text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+                    View All Doctors
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+          )}
+
+          {/* No Doctors Found */}
+          {!loading && !error && filteredDoctors.length === 0 && (
+            <motion.div
+              variants={itemVariants}
+              className="text-center py-12"
+            >
+              <p className="text-gray-500 text-lg">
+                No doctors found in this category.
+              </p>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>
@@ -248,30 +306,84 @@ interface DoctorCardProps {
 }
 
 const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
+  const displayImage = doctor.image || '/doctor-img 1.png';
+
   return (
+    <div className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full">
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
+      transition={{ duration: 0.3 }}
+      className="h-full flex flex-col"
     >
       {/* Doctor Image */}
-      <div className="relative h-48 sm:h-56 lg:h-64 bg-gray-100">
+      <div className="relative h-48 sm:h-56 lg:h-64 bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden">
         <Image
-          src={doctor.image}
+          src={displayImage}
           alt={doctor.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover"
+          className="object-cover group-hover:scale-110 transition-transform duration-500"
         />
+        
+        {/* Experience Badge */}
+        {doctor.experienceYears && (
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+            <div className="flex items-center gap-1.5">
+              <Briefcase className="w-3.5 h-3.5 text-[#209F00]" />
+              <span className="text-xs font-semibold text-gray-900">{doctor.experienceYears}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Rating Badge */}
+        <div className="absolute top-3 left-3 bg-[#209F00] text-white px-2.5 py-1 rounded-full shadow-lg">
+          <div className="flex items-center gap-1">
+            <Star className="w-3 h-3 fill-white" />
+            <span className="text-xs font-bold">4.8</span>
+          </div>
+        </div>
       </div>
 
       {/* Doctor Info */}
-      <div className="p-4 sm:p-5 lg:p-6 text-center">
-        <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-1">{doctor.name}</h3>
-        <p className="text-gray-600 text-xs sm:text-sm">{doctor.specialty}</p>
+      <div className="p-5 sm:p-6 space-y-3">
+        <div>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1 line-clamp-1">{doctor.name}</h3>
+          <p className="text-sm font-semibold text-[#209F00] mb-2 line-clamp-1">{doctor.designation}</p>
+        </div>
+
+        {/* Hospital */}
+        <div className="flex items-start gap-2">
+          <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
+          <p className="text-xs text-gray-600 line-clamp-2">{doctor.hospital}</p>
+        </div>
+
+        {/* Specializations */}
+        {doctor.specialization && doctor.specialization.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {doctor.specialization.slice(0, 2).map((spec, idx) => (
+              <span
+                key={idx}
+                className="text-xs bg-green-50 text-green-700 px-2.5 py-1 rounded-full font-medium"
+              >
+                {spec}
+              </span>
+            ))}
+            {doctor.specialization.length > 2 && (
+              <span className="text-xs text-gray-500 px-2 py-1">
+                +{doctor.specialization.length - 2}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* View Profile Button */}
+        <Link href={`/doctors/${doctor.slug}`} className="block mt-4">
+          <Button className="w-full bg-[#209F00] hover:bg-green-700 text-white rounded-full font-semibold text-sm py-5 shadow-md hover:shadow-lg transition-all">
+            View Profile
+          </Button>
+        </Link>
       </div>
     </motion.div>
+    </div>
   );
 };
