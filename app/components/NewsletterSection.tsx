@@ -24,7 +24,7 @@ export function NewsletterSection({
   doctorName = "Dr. Rasika",
   doctorExperience = "08+ Years of Experience",
   doctorHeading = "Dr. Rasika Is Dedicated to Helping Others Heal.",
-  doctorImage = "/doctor-img2 1.png",
+  doctorImage = "/subscribe-img.png",
   ctaButtonText = "Get a quote",
   newsletterBadge = "Subscribe to Newsletter",
   newsletterHeading = "Let's Subscribe to Get Our Newsletter.",
@@ -101,10 +101,10 @@ export function NewsletterSection({
                 </h3>
                 <Button
                   variant="secondary"
-                  className="bg-white text-gray-900 hover:bg-gray-100 rounded-full px-4 sm:px-6 lg:px-10 py-3 sm:py-4 lg:py-6 text-xs sm:text-sm lg:text-base font-medium h-auto w-full sm:w-auto"
+                  className="bg-white hover:bg-gray-100 text-gray-900 rounded-full px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold h-auto shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2"
                 >
                   {ctaButtonText}
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
               </div>
             </div>

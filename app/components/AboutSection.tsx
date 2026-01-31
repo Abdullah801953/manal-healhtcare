@@ -46,7 +46,7 @@ export const AboutSection = ({
   features = defaultFeatures,
   buttonText = "More About Us",
   buttonLink = "/about",
-  imageUrl = "/about-img.png",
+  imageUrl = "/about-us-img.png",
   imageAlt = "Medical professionals providing healthcare",
   phoneNumber = "(808) 555-0111",
   phoneLabel = "Need help?",
@@ -109,6 +109,11 @@ export const AboutSection = ({
                 height={450}
                 className="w-full h-auto object-cover"
                 priority
+                unoptimized
+                onError={(e) => {
+                  console.error("Image failed to load:", imageUrl);
+                  e.currentTarget.style.display = "none";
+                }}
               />
             </div>
           </motion.div>
@@ -132,7 +137,7 @@ export const AboutSection = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
+              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-16"
             >
               {heading}
             </motion.h2>
@@ -182,7 +187,7 @@ export const AboutSection = ({
               </Button>
 
               {showPhone && (
-                <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start bg-gray-50 px-4 sm:px-5 py-3 sm:py-4 rounded-2xl w-full sm:w-auto">
+                <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start px-4 sm:px-5 py-3 sm:py-4 rounded-2xl w-full sm:w-auto">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-md">
                     <Phone className="w-6 h-6 sm:w-7 sm:h-7 text-[#209F00]" />
                   </div>
