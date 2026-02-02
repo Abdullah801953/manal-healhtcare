@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check, ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSettings } from "@/app/contexts/SettingsContext";
 
 // Feature item type
 export interface Feature {
@@ -48,10 +49,11 @@ export const AboutSection = ({
   buttonLink = "/about",
   imageUrl = "/about-us-img.png",
   imageAlt = "Medical professionals providing healthcare",
-  phoneNumber = "(808) 555-0111",
   phoneLabel = "Need help?",
   showPhone = true,
 }: AboutSectionProps) => {
+  const { settings } = useSettings();
+  const phoneNumber = settings?.sitePhone || "(808) 555-0111";
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -101,7 +103,7 @@ export const AboutSection = ({
             viewport={{ once: true, amount: 0.3 }}
             className="relative flex items-center justify-center lg:justify-start lg:col-span-1"
           >
-            <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl w-full max-w-[280px] xs:max-w-xs sm:max-w-sm lg:max-w-md">
+            <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl w-full sm:max-w-sm lg:max-w-md">
               <Image
                 src={imageUrl}
                 alt={imageAlt}

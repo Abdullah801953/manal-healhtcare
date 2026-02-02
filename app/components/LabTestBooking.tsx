@@ -2,56 +2,47 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Stethoscope, Heart, Brain, Activity, Eye, Bone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
-// Treatment type
+// Treatment type from API
+export interface Treatment {
+  _id: string;
+  slug: string;
+  title: string;
+  category: string;
+  description: string;
+  shortDescription: string;
+  image?: string;
+  status: string;
+}
+
+// Treatment item for display
 export interface TreatmentItem {
-  id: number;
+  id: string;
   name: string;
-  icon: string;
+  icon: React.ElementType;
   description: string;
   link: string;
 }
 
-// Default treatments data
-const defaultTreatments: TreatmentItem[] = [
-  {
-    id: 1,
-    name: "Bone Marrow Transplant",
-    icon: "🩺",
-    description: "Advanced stem cell therapy for blood disorders and cancers with expert medical care.",
-    link: "/treatments/bone-marrow-transplant",
-  },
-  {
-    id: 2,
-    name: "Cardiac Surgery",
-    icon: "❤️",
-    description: "Comprehensive heart treatments including bypass surgery and valve replacements.",
-    link: "/treatments/cardiac-surgery",
-  },
-  {
-    id: 3,
-    name: "Oncology Treatment",
-    icon: "🎗️",
-    description: "State-of-the-art cancer care with personalized treatment protocols.",
-    link: "/treatments/oncology",
-  },
-  {
-    id: 4,
-    name: "Organ Transplant",
-    icon: "🫀",
-    description: "World-class organ transplant services with experienced specialists.",
-    link: "/treatments/organ-transplant",
-  },
-];
+// Icon mapping for treatments
+const treatmentIcons: Record<string, React.ElementType> = {
+  "Cardiac Surgery": Heart,
+  "Orthopedic Surgery": Bone,
+  "Brain and Spine Surgery": Brain,
+  "Eye Treatment": Eye,
+  "Neurology Treatment": Brain,
+  "Cancer Treatment": Activity,
+  "Stem Cell Therapy": Stethoscope,
+  "Organ Transplant Surgery": Heart,
+};
 
 interface TreatmentShowcaseProps {
   badge?: string;
   heading?: string;
-  treatments?: TreatmentItem[];
   imageUrl?: string;
   imageAlt?: string;
 }
@@ -59,12 +50,45 @@ interface TreatmentShowcaseProps {
 export const LabTestBooking = ({
   badge = "Medical Treatments",
   heading = "Specialized Medical Treatments with Expert Care",
-  treatments = defaultTreatments,
   imageUrl = "/treatment-img.png",
   imageAlt = "Medical professionals providing treatment",
 }: TreatmentShowcaseProps) => {
   const [startIndex, setStartIndex] = useState(0);
+  const [treatments, setTreatments] = useState<TreatmentItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const visibleTests = 2; // Number of cards to show at once
+
+  // Fetch treatments from API
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/treatments');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          const activeTreatments = result.data.filter((t: Treatment) => t.status === 'active');
+          
+          // Convert to treatment items
+          const treatmentItems: TreatmentItem[] = activeTreatments.map((treatment: Treatment) => ({
+            id: treatment._id,
+            name: treatment.title,
+            icon: treatmentIcons[treatment.category] || Stethoscope,
+            description: treatment.shortDescription || treatment.description.slice(0, 100) + '...',
+            link: `/treatments/${treatment.slug}`,
+          }));
+          
+          setTreatments(treatmentItems);
+        }
+      } catch (err) {
+        console.error('Error fetching treatments:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTreatments();
+  }, []);
 
   const handlePrevious = () => {
     setStartIndex((prev) => (prev === 0 ? Math.max(0, treatments.length - visibleTests) : prev - 1));
@@ -165,9 +189,17 @@ export const LabTestBooking = ({
 
             {/* Treatment Cards */}
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-3 xs:gap-4 sm:gap-5 md:gap-6">
-              {displayedTests.map((treatment) => (
-                <TreatmentCard key={treatment.id} treatment={treatment} />
-              ))}
+              {loading ? (
+                <div className="col-span-2 flex justify-center items-center py-12">
+                  <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#209f00] border-t-transparent"></div>
+                </div>
+              ) : displayedTests.length > 0 ? (
+                displayedTests.map((treatment) => (
+                  <TreatmentCard key={treatment.id} treatment={treatment} />
+                ))
+              ) : (
+                <p className="col-span-2 text-center text-gray-500 py-8">No treatments available.</p>
+              )}
             </div>
 
             {/* Mobile Navigation */}
@@ -202,6 +234,8 @@ interface TreatmentCardProps {
 }
 
 const TreatmentCard = ({ treatment }: TreatmentCardProps) => {
+  const Icon = treatment.icon;
+  
   return (
     <motion.div
       whileHover={{ y: -8, scale: 1.02 }}
@@ -211,7 +245,7 @@ const TreatmentCard = ({ treatment }: TreatmentCardProps) => {
       {/* Icon */}
       <div className="mb-5 sm:mb-6">
         <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-md">
-          <span className="text-4xl sm:text-5xl">{treatment.icon}</span>
+          <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-[#209F00]" />
         </div>
       </div>
 

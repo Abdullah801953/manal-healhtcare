@@ -327,7 +327,7 @@ const MedicalTourismIndiaPage = () => {
         <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-20 md:py-28 overflow-hidden">
           <div className="absolute inset-0 bg-black/10"></div>
           <div className="absolute inset-0 bg-[url('/patterns/medical-pattern.svg')] opacity-5"></div>
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 relative z-10">
             <div className="max-w-5xl mx-auto text-center">
               <div className="flex justify-center mb-6">
                 <div className="bg-white/20 backdrop-blur-sm p-4 rounded-full animate-pulse">
@@ -367,7 +367,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Key Statistics */}
         <section className="py-16 bg-white border-b">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -388,7 +388,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Why Choose India */}
         <section className="py-16 bg-gradient-to-br from-gray-50 to-green-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <Heart className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -411,7 +411,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Medical Specialties */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <Stethoscope className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -434,7 +434,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Top Medical Destinations */}
         <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <MapPin className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -456,7 +456,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Cost Comparison */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <DollarSign className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -528,7 +528,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Patient Testimonials */}
         <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <Star className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -550,7 +550,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Process Overview */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -587,7 +587,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* Quality Assurance */}
         <section className="py-16 bg-gradient-to-br from-green-50 to-emerald-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
                 <BadgeCheck className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -622,7 +622,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* SEO Content Section */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto prose prose-lg">
               <article className="text-gray-700">
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -812,7 +812,7 @@ const MedicalTourismIndiaPage = () => {
 
         {/* CTA Section */}
         <section className="py-16 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Start Your Medical Tourism Journey to India Today

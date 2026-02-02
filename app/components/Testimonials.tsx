@@ -4,49 +4,31 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Star, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-// Testimonial type
+// Testimonial type from API
 export interface Testimonial {
-  id: number;
+  _id: string;
+  name: string;
+  age: number;
+  country: string;
+  countryFlag: string;
+  treatment: string;
+  hospital: string;
+  doctor: string;
   rating: number;
-  description: string;
-  authorName: string;
-  authorTitle: string;
+  testimonial: string;
+  image?: string;
+  videoUrl?: string;
+  verified: boolean;
+  featured: boolean;
+  category: string;
+  status: string;
 }
-
-// Default testimonials data
-const defaultTestimonials: Testimonial[] = [
-  {
-    id: 1,
-    rating: 5,
-    description:
-      "Experience comprehensive healthcare at Meca, where your well-being is our priority. We provide personalized, compassionate medical services, ensuring exceptional care tailored to your",
-    authorName: "Norman Jones",
-    authorTitle: "CEO at Mediko",
-  },
-  {
-    id: 2,
-    rating: 5,
-    description:
-      "Outstanding medical care with professional staff. The attention to detail and patient care exceeded my expectations. Highly recommend their services.",
-    authorName: "Sarah Williams",
-    authorTitle: "Patient",
-  },
-  {
-    id: 3,
-    rating: 5,
-    description:
-      "The best healthcare experience I've had. The doctors are knowledgeable, caring, and always available to answer questions.",
-    authorName: "Michael Brown",
-    authorTitle: "Patient",
-  },
-];
 
 interface TestimonialsProps {
   badge?: string;
   heading?: string;
-  testimonials?: Testimonial[];
   googleRating?: number;
   videoThumbnail?: string;
   videoUrl?: string;
@@ -56,7 +38,6 @@ interface TestimonialsProps {
 export const Testimonials = ({
   badge = "Testimonials",
   heading = "Stories of Healing and Trust From Our Valued Patients",
-  testimonials = defaultTestimonials,
   googleRating = 4.8,
   videoThumbnail = "/thumbnail-img.png",
   videoUrl = "/video/treatment.mp4",
@@ -64,6 +45,29 @@ export const Testimonials = ({
 }: TestimonialsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch testimonials from API
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/testimonials?status=approved');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          setTestimonials(result.data);
+        }
+      } catch (err) {
+        console.error('Error fetching testimonials:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -125,63 +129,75 @@ export const Testimonials = ({
               {heading}
             </motion.h2>
 
-            {/* Rating Stars */}
-            <motion.div variants={itemVariants} className="flex items-center gap-0.5 xs:gap-1">
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  className={`w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ${
-                    index < currentTestimonial.rating
-                      ? "fill-orange-400 text-orange-400"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))}
-            </motion.div>
+            {loading ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#209f00] border-t-transparent"></div>
+              </div>
+            ) : currentTestimonial ? (
+              <>
+                {/* Rating Stars */}
+                <motion.div variants={itemVariants} className="flex items-center gap-0.5 xs:gap-1">
+                  {[...Array(5)].map((_, index) => (
+                    <Star
+                      key={index}
+                      className={`w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ${
+                        index < currentTestimonial.rating
+                          ? "fill-orange-400 text-orange-400"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </motion.div>
 
-            {/* Description */}
-            <motion.p
-              key={currentIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.5 }}
-              className="text-gray-600 text-sm xs:text-base sm:text-lg leading-relaxed"
-            >
-              {currentTestimonial.description}
-            </motion.p>
+                {/* Description */}
+                <motion.p
+                  key={currentIndex}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-gray-600 text-sm xs:text-base sm:text-lg leading-relaxed"
+                >
+                  {currentTestimonial.testimonial}
+                </motion.p>
 
-            {/* Author Info */}
-            <motion.div
-              key={`author-${currentIndex}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="pt-1 xs:pt-2 sm:pt-4"
-            >
-              <h4 className="text-base xs:text-lg sm:text-xl font-bold text-gray-900">
-                {currentTestimonial.authorName}
-              </h4>
-              <p className="text-[10px] xs:text-xs sm:text-sm text-gray-600">{currentTestimonial.authorTitle}</p>
-            </motion.div>
+                {/* Author Info */}
+                <motion.div
+                  key={`author-${currentIndex}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="pt-1 xs:pt-2 sm:pt-4"
+                >
+                  <h4 className="text-base xs:text-lg sm:text-xl font-bold text-gray-900">
+                    {currentTestimonial.name}
+                  </h4>
+                  <p className="text-[10px] xs:text-xs sm:text-sm text-gray-600">
+                    {currentTestimonial.treatment} • {currentTestimonial.hospital}
+                  </p>
+                </motion.div>
 
-            {/* Navigation Buttons */}
-            <motion.div variants={itemVariants} className="flex items-center gap-2 xs:gap-3 sm:gap-4 pt-1 xs:pt-2 sm:pt-4">
-              <Button
-                onClick={handlePrevious}
-                size="icon"
-                className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
-              >
-                <ChevronLeft className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
-              </Button>
-              <Button
-                onClick={handleNext}
-                size="icon"
-                className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
-              >
-                <ChevronRight className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
-              </Button>
-            </motion.div>
+                {/* Navigation Buttons */}
+                <motion.div variants={itemVariants} className="flex items-center gap-2 xs:gap-3 sm:gap-4 pt-1 xs:pt-2 sm:pt-4">
+                  <Button
+                    onClick={handlePrevious}
+                    size="icon"
+                    className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    <ChevronLeft className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
+                  </Button>
+                  <Button
+                    onClick={handleNext}
+                    size="icon"
+                    className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    <ChevronRight className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
+                  </Button>
+                </motion.div>
+              </>
+            ) : (
+              <p className="text-gray-500 text-center py-4">No testimonials available.</p>
+            )}
           </motion.div>
 
           {/* Right Side - Rating Card and Video */}

@@ -29,7 +29,7 @@ export function BlogGrid() {
   };
 
   return (
-    <section className="py-12 max-w-7xl mx-auto px-2">
+    <section className="py-12 container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
       {/* Header */}
       <div className="text-center mb-20">
         <p className="text-[#209F00] font-semibold mb-2">All our Blog</p>

@@ -340,7 +340,7 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       className="h-full flex flex-col"
     >
       {/* Doctor Image */}
-      <div className="relative h-48 sm:h-56 lg:h-64 bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden">
+      <div className="relative h-64 xs:h-72 sm:h-60 lg:h-64 bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden">
         <Image
           src={displayImage}
           alt={doctor.name}

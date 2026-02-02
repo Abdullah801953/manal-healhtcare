@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Save, Globe, Phone, Loader2 } from "lucide-react";
+import { Save, Globe, Phone, Loader2, MapPin, Clock, Building, Plus, Trash2 } from "lucide-react";
+
+interface Department {
+  name: string;
+  phone: string;
+  available: string;
+}
 
 export default function SettingsPage() {
   const [formData, setFormData] = useState({
@@ -18,6 +24,16 @@ export default function SettingsPage() {
     instagram: "",
     linkedin: "",
     youtube: "",
+    // Contact page configuration
+    emergencyPhone: "",
+    supportEmail: "",
+    postalCode: "",
+    workingHoursWeekday: "",
+    workingHoursWeekend: "",
+    departments: [] as Department[],
+    mapEmbedUrl: "",
+    mapLatitude: "",
+    mapLongitude: "",
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -44,6 +60,15 @@ export default function SettingsPage() {
           instagram: data.data.instagram || '',
           linkedin: data.data.linkedin || '',
           youtube: data.data.youtube || '',
+          emergencyPhone: data.data.emergencyPhone || '',
+          supportEmail: data.data.supportEmail || '',
+          postalCode: data.data.postalCode || '',
+          workingHoursWeekday: data.data.workingHoursWeekday || 'Mon - Fri: 8:00 AM - 8:00 PM',
+          workingHoursWeekend: data.data.workingHoursWeekend || 'Sat - Sun: 9:00 AM - 5:00 PM',
+          departments: data.data.departments || [],
+          mapEmbedUrl: data.data.mapEmbedUrl || '',
+          mapLatitude: data.data.mapLatitude || '',
+          mapLongitude: data.data.mapLongitude || '',
         });
       }
     } catch (error) {
@@ -57,6 +82,26 @@ export default function SettingsPage() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleDepartmentChange = (index: number, field: keyof Department, value: string) => {
+    const newDepartments = [...formData.departments];
+    newDepartments[index] = { ...newDepartments[index], [field]: value };
+    setFormData({ ...formData, departments: newDepartments });
+  };
+
+  const addDepartment = () => {
+    setFormData({
+      ...formData,
+      departments: [...formData.departments, { name: '', phone: '', available: '' }],
+    });
+  };
+
+  const removeDepartment = (index: number) => {
+    setFormData({
+      ...formData,
+      departments: formData.departments.filter((_, i) => i !== index),
     });
   };
 
@@ -264,6 +309,241 @@ export default function SettingsPage() {
                     placeholder="https://youtube.com/@yourchannel"
                   />
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Contact Page Configuration */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Phone className="w-5 h-5" />
+                  Contact Page Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="emergencyPhone" className="block text-sm font-medium text-gray-700 mb-2">
+                      Emergency Phone
+                    </label>
+                    <Input
+                      id="emergencyPhone"
+                      name="emergencyPhone"
+                      value={formData.emergencyPhone}
+                      onChange={handleChange}
+                      placeholder="+91 800 123 4567"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">24/7 emergency hotline</p>
+                  </div>
+                  <div>
+                    <label htmlFor="supportEmail" className="block text-sm font-medium text-gray-700 mb-2">
+                      Support Email
+                    </label>
+                    <Input
+                      id="supportEmail"
+                      name="supportEmail"
+                      type="email"
+                      value={formData.supportEmail}
+                      onChange={handleChange}
+                      placeholder="support@manalhealthcare.com"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 mb-2">
+                    Postal Code / PIN Code
+                  </label>
+                  <Input
+                    id="postalCode"
+                    name="postalCode"
+                    value={formData.postalCode}
+                    onChange={handleChange}
+                    placeholder="110001"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Working Hours */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="w-5 h-5" />
+                  Working Hours
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label htmlFor="workingHoursWeekday" className="block text-sm font-medium text-gray-700 mb-2">
+                    Weekday Hours
+                  </label>
+                  <Input
+                    id="workingHoursWeekday"
+                    name="workingHoursWeekday"
+                    value={formData.workingHoursWeekday}
+                    onChange={handleChange}
+                    placeholder="Mon - Fri: 8:00 AM - 8:00 PM"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="workingHoursWeekend" className="block text-sm font-medium text-gray-700 mb-2">
+                    Weekend Hours
+                  </label>
+                  <Input
+                    id="workingHoursWeekend"
+                    name="workingHoursWeekend"
+                    value={formData.workingHoursWeekend}
+                    onChange={handleChange}
+                    placeholder="Sat - Sun: 9:00 AM - 5:00 PM"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Departments */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Building className="w-5 h-5" />
+                    Departments
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addDepartment}
+                    className="flex items-center gap-1"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {formData.departments.length === 0 ? (
+                  <p className="text-gray-500 text-sm text-center py-4">
+                    No departments added yet. Click &quot;Add&quot; to create a department.
+                  </p>
+                ) : (
+                  formData.departments.map((dept, index) => (
+                    <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">Department {index + 1}</span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeDepartment(index)}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          Department Name
+                        </label>
+                        <Input
+                          value={dept.name}
+                          onChange={(e) => handleDepartmentChange(index, 'name', e.target.value)}
+                          placeholder="e.g., Patient Support"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          Phone Number
+                        </label>
+                        <Input
+                          value={dept.phone}
+                          onChange={(e) => handleDepartmentChange(index, 'phone', e.target.value)}
+                          placeholder="+91 123 456 7890"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          Availability
+                        </label>
+                        <Input
+                          value={dept.available}
+                          onChange={(e) => handleDepartmentChange(index, 'available', e.target.value)}
+                          placeholder="e.g., 24/7 or Mon-Fri 9AM-6PM"
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Map Configuration */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  Map Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label htmlFor="mapEmbedUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                    Google Maps Embed URL
+                  </label>
+                  <textarea
+                    id="mapEmbedUrl"
+                    name="mapEmbedUrl"
+                    value={formData.mapEmbedUrl}
+                    onChange={handleChange}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                    placeholder="Paste Google Maps embed URL here..."
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Get this from Google Maps → Share → Embed a map → Copy the src URL
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="mapLatitude" className="block text-sm font-medium text-gray-700 mb-2">
+                      Latitude (optional)
+                    </label>
+                    <Input
+                      id="mapLatitude"
+                      name="mapLatitude"
+                      value={formData.mapLatitude}
+                      onChange={handleChange}
+                      placeholder="28.6139"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="mapLongitude" className="block text-sm font-medium text-gray-700 mb-2">
+                      Longitude (optional)
+                    </label>
+                    <Input
+                      id="mapLongitude"
+                      name="mapLongitude"
+                      value={formData.mapLongitude}
+                      onChange={handleChange}
+                      placeholder="77.2090"
+                    />
+                  </div>
+                </div>
+                {formData.mapEmbedUrl && (
+                  <div className="mt-4">
+                    <p className="text-sm font-medium text-gray-700 mb-2">Preview</p>
+                    <div className="w-full h-48 rounded-lg overflow-hidden border border-gray-200">
+                      <iframe
+                        src={formData.mapEmbedUrl}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                      />
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

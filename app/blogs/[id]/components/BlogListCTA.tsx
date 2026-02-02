@@ -4,8 +4,8 @@ import { Camera, Heart } from "lucide-react";
 
 export function BlogListCTA() {
   return (
-    <section className="my-8 ">
-      <div className="bg-gradient-to-r from-emerald-500 via-[#209f00] to-green-600 rounded-3xl p-4 md:p-4 lg:p-6 relative overflow-hidden max-w-7xl mx-auto ">
+    <section className="my-8 px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="bg-gradient-to-r from-emerald-500 via-[#209f00] to-green-600 rounded-3xl p-4 md:p-4 lg:p-6 relative overflow-hidden container mx-auto">
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Left Side - Text */}
           <div className="flex-1 text-white max-w-xl">

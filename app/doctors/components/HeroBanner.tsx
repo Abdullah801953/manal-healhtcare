@@ -8,7 +8,7 @@ export function HeroBanner() {
       <div className="absolute inset-0 bg-[url('/clouds.svg')] opacity-20 bg-cover bg-center"></div>
 
       {/* Content Container */}
-      <div className="relative h-full max-w-7xl mx-auto px-8 flex items-center justify-between">
+      <div className="relative h-full container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 flex items-center justify-between">
         {/* Left Content */}
         <div className="flex-1 z-10">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">

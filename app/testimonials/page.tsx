@@ -49,8 +49,8 @@ export default function TestimonialsPage() {
       <TestimonialsHero />
 
       {/* Main Content */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="container mx-auto">
           {/* Results Count */}
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900">
@@ -108,8 +108,8 @@ export default function TestimonialsPage() {
       <CTASection />
 
       {/* SEO Content */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="container mx-auto">
           <div className="max-w-4xl mx-auto prose prose-lg">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Authentic Patient Testimonials from Around the World

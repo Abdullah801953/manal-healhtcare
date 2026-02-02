@@ -45,8 +45,8 @@ const insuranceProviders = [
 
 export default function CostInsuranceInfo() {
   return (
-    <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="container mx-auto px-4">
+    <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50 px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="container mx-auto">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12">

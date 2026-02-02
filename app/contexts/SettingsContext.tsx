@@ -2,6 +2,12 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+interface Department {
+  name: string;
+  phone: string;
+  available: string;
+}
+
 interface Settings {
   siteName: string;
   siteEmail: string;
@@ -13,6 +19,16 @@ interface Settings {
   instagram: string;
   linkedin: string;
   youtube: string;
+  // Contact page configuration
+  emergencyPhone: string;
+  supportEmail: string;
+  postalCode: string;
+  workingHoursWeekday: string;
+  workingHoursWeekend: string;
+  departments: Department[];
+  mapEmbedUrl: string;
+  mapLatitude: string;
+  mapLongitude: string;
 }
 
 interface SettingsContextType {
@@ -32,6 +48,15 @@ const defaultSettings: Settings = {
   instagram: '',
   linkedin: '',
   youtube: '',
+  emergencyPhone: '',
+  supportEmail: '',
+  postalCode: '',
+  workingHoursWeekday: 'Mon - Fri: 8:00 AM - 8:00 PM',
+  workingHoursWeekend: 'Sat - Sun: 9:00 AM - 5:00 PM',
+  departments: [],
+  mapEmbedUrl: '',
+  mapLatitude: '',
+  mapLongitude: '',
 };
 
 const SettingsContext = createContext<SettingsContextType>({
