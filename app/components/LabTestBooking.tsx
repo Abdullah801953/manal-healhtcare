@@ -101,8 +101,8 @@ export const LabTestBooking = ({
   };
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-gradient-to-br from-green-50 via-white to-blue-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-gradient-to-br from-green-50 via-white to-blue-50">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -111,16 +111,16 @@ export const LabTestBooking = ({
           className="space-y-8 sm:space-y-10 lg:space-y-12"
         >
           {/* Header */}
-          <div className="text-center space-y-3 sm:space-y-4 px-2 sm:px-0">
+          <div className="text-center space-y-2 xs:space-y-3 sm:space-y-4 px-1 xs:px-2 sm:px-0">
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-sm sm:text-base uppercase tracking-wide"
+              className="text-[#209F00] font-semibold text-xs xs:text-sm sm:text-base uppercase tracking-wide"
             >
               {badge}
             </motion.p>
             <motion.h2
               variants={itemVariants}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-4xl mx-auto leading-tight"
+              className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 max-w-4xl mx-auto leading-tight"
             >
               {heading}
             </motion.h2>
@@ -129,10 +129,10 @@ export const LabTestBooking = ({
           {/* Content Grid */}
           <motion.div
             variants={itemVariants}
-            className="grid lg:grid-cols-[1fr_auto_1.5fr] gap-6 sm:gap-8 lg:gap-10 items-center"
+            className="grid lg:grid-cols-[1fr_auto_1.5fr] gap-4 xs:gap-6 sm:gap-8 lg:gap-10 items-center"
           >
             {/* Left Image */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
+            <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl group">
               <div className="absolute inset-0 bg-gradient-to-tr from-[#209F00]/20 to-transparent z-10"></div>
               <Image
                 src={imageUrl}
@@ -164,29 +164,29 @@ export const LabTestBooking = ({
             </div>
 
             {/* Treatment Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-3 xs:gap-4 sm:gap-5 md:gap-6">
               {displayedTests.map((treatment) => (
                 <TreatmentCard key={treatment.id} treatment={treatment} />
               ))}
             </div>
 
             {/* Mobile Navigation */}
-            <div className="flex lg:hidden justify-center gap-4 lg:col-span-3">
+            <div className="flex lg:hidden justify-center gap-3 xs:gap-4 lg:col-span-3">
               <Button
                 onClick={handlePrevious}
                 size="icon"
                 variant="outline"
-                className="w-11 h-11 rounded-full border-2 border-[#209F00] hover:bg-[#209F00] hover:text-white transition-all"
+                className="w-9 h-9 xs:w-11 xs:h-11 rounded-full border-2 border-[#209F00] hover:bg-[#209F00] hover:text-white transition-all"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 xs:w-5 xs:h-5" />
               </Button>
               <Button
                 onClick={handleNext}
                 size="icon"
                 variant="outline"
-                className="w-11 h-11 rounded-full border-2 border-[#209F00] hover:bg-[#209F00] hover:text-white transition-all"
+                className="w-9 h-9 xs:w-11 xs:h-11 rounded-full border-2 border-[#209F00] hover:bg-[#209F00] hover:text-white transition-all"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4 xs:w-5 xs:h-5" />
               </Button>
             </div>
           </motion.div>

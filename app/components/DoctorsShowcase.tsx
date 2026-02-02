@@ -34,13 +34,11 @@ export interface Category {
 interface DoctorsShowcaseProps {
   badge?: string;
   heading?: string;
-  visibleCards?: number;
 }
 
 export const DoctorsShowcase = ({
   badge = "Professional Doctors",
   heading = "Highly Skilled Doctors, Committed to Excellence",
-  visibleCards = 4,
 }: DoctorsShowcaseProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [startIndex, setStartIndex] = useState(0);
@@ -48,6 +46,30 @@ export const DoctorsShowcase = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [visibleCards, setVisibleCards] = useState(4);
+
+  // Calculate visible cards based on screen width
+  useEffect(() => {
+    const calculateVisibleCards = () => {
+      const width = window.innerWidth;
+      if (width < 475) return 1;      // Mobile: 1 card
+      if (width < 640) return 2;      // XS: 2 cards
+      if (width < 768) return 2;      // SM: 2 cards
+      if (width < 1024) return 3;     // MD: 3 cards
+      return 4;                        // LG+: 4 cards
+    };
+
+    setVisibleCards(calculateVisibleCards());
+    setStartIndex(0); // Reset slider position on resize
+    
+    const handleResize = () => {
+      setVisibleCards(calculateVisibleCards());
+      setStartIndex(0); // Reset slider position on resize
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fetch doctors from API
   useEffect(() => {
@@ -132,8 +154,8 @@ export const DoctorsShowcase = ({
   };
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-gray-50">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -142,33 +164,34 @@ export const DoctorsShowcase = ({
           className="space-y-8 sm:space-y-10 lg:space-y-12"
         >
           {/* Header and Filters */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6">
+          <div className="flex flex-col gap-3 xs:gap-4 sm:gap-6">
             {/* Left: Heading */}
-            <div className="space-y-2 sm:space-y-3">
+            <div className="space-y-1 xs:space-y-2 sm:space-y-3">
               <motion.p
                 variants={itemVariants}
-                className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base inline-flex items-center gap-2"
+                className="text-[#209F00] font-semibold text-[10px] xs:text-xs sm:text-sm md:text-base inline-flex items-center gap-1 xs:gap-2"
               >
-                <Award className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Award className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
                 {badge}
               </motion.p>
               <motion.h2
                 variants={itemVariants}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-2xl"
+                className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 max-w-2xl"
               >
                 {heading}
               </motion.h2>
             </div>
 
-            {/* Right: Category Filters */}
+            {/* Category Filters - Horizontally scrollable on mobile */}
             {!loading && categories.length > 0 && (
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap items-center gap-2 sm:gap-3"
+                className="-mx-3 xs:-mx-4 sm:mx-0 px-3 xs:px-4 sm:px-0 overflow-x-auto scrollbar-hide"
               >
+                <div className="flex items-center gap-2 xs:gap-2 sm:gap-3 min-w-max sm:min-w-0 sm:flex-wrap pb-2 sm:pb-0">
                 <Button
                   onClick={() => setSelectedCategory("all")}
-                  className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
+                  className={`rounded-full px-3 xs:px-4 sm:px-6 py-1.5 xs:py-2 text-[10px] xs:text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                     selectedCategory === "all"
                       ? "bg-green-600 hover:bg-green-700 text-white shadow-lg"
                       : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
@@ -180,7 +203,7 @@ export const DoctorsShowcase = ({
                   <Button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.name)}
-                    className={`rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium transition-all ${
+                    className={`rounded-full px-3 xs:px-4 sm:px-6 py-1.5 xs:py-2 text-[10px] xs:text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                       selectedCategory === category.name
                         ? "bg-[#209F00] hover:bg-green-700 text-white shadow-lg"
                         : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
@@ -189,6 +212,7 @@ export const DoctorsShowcase = ({
                     {category.name}
                   </Button>
                 ))}
+                </div>
               </motion.div>
             )}
           </div>
@@ -227,10 +251,10 @@ export const DoctorsShowcase = ({
           {/* Doctors Slider with Navigation */}
           {!loading && !error && filteredDoctors.length > 0 && (
             <motion.div variants={itemVariants} className="relative">
-              {/* Slider Container with overflow hidden */}
-              <div className="overflow-hidden">
+              {/* Scrollable on mobile, slider on desktop */}
+              <div className="-mx-3 xs:-mx-4 sm:mx-0 px-3 xs:px-4 sm:px-0 overflow-x-auto sm:overflow-hidden scrollbar-hide">
                 <div 
-                  className="flex transition-transform duration-500 ease-out gap-4 sm:gap-5 lg:gap-6"
+                  className="flex sm:transition-transform sm:duration-500 sm:ease-out gap-3 xs:gap-4 sm:gap-5 lg:gap-6 min-w-max sm:min-w-0"
                   style={{
                     transform: `translateX(-${startIndex * (100 / visibleCards)}%)`
                   }}
@@ -238,9 +262,9 @@ export const DoctorsShowcase = ({
                   {filteredDoctors.map((doctor, index) => (
                     <div 
                       key={doctor._id}
-                      className="flex-shrink-0"
+                      className="flex-shrink-0 w-[280px] xs:w-[300px] sm:w-auto"
                       style={{ 
-                        width: `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 24) / visibleCards}px)`
+                        width: window.innerWidth >= 640 ? `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)` : undefined
                       }}
                     >
                       <DoctorCard doctor={doctor} index={index} />
@@ -272,9 +296,9 @@ export const DoctorsShowcase = ({
               )}
 
               {/* View All Doctors Link */}
-              <div className="text-center mt-8 sm:mt-10">
+              <div className="text-center mt-6 xs:mt-8 sm:mt-10">
                 <Link href="/doctors">
-                  <Button className="bg-[#209F00] hover:bg-green-700 text-white px-8 py-3 rounded-full text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+                  <Button className="bg-[#209F00] hover:bg-green-700 text-white px-6 xs:px-8 py-2.5 xs:py-3 rounded-full text-xs xs:text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transition-all">
                     View All Doctors
                   </Button>
                 </Link>

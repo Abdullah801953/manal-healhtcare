@@ -38,10 +38,10 @@ export const ServicesMarquee = ({
   const duplicatedServices = [...services, ...services];
 
   return (
-    <section className={`py-6 ${backgroundColor} overflow-hidden`}>
+    <section className={`py-4 xs:py-5 sm:py-6 ${backgroundColor} overflow-hidden`}>
       <div className="relative flex">
         <motion.div
-          className="flex items-center gap-8 whitespace-nowrap"
+          className="flex items-center gap-4 xs:gap-6 sm:gap-8 whitespace-nowrap"
           animate={{
             x: [0, -50 + "%"],
           }}
@@ -55,11 +55,11 @@ export const ServicesMarquee = ({
           }}
         >
           {duplicatedServices.map((service, index) => (
-            <div key={`${service.id}-${index}`} className="flex items-center gap-8">
-              <span className={`${textColor} text-xl md:text-2xl font-semibold`}>
+            <div key={`${service.id}-${index}`} className="flex items-center gap-4 xs:gap-6 sm:gap-8">
+              <span className={`${textColor} text-base xs:text-lg sm:text-xl md:text-2xl font-semibold`}>
                 {service.name}
               </span>
-              <Plus className={`${textColor} w-6 h-6`} strokeWidth={3} />
+              <Plus className={`${textColor} w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6`} strokeWidth={3} />
             </div>
           ))}
         </motion.div>

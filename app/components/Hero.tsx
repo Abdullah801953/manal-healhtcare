@@ -27,6 +27,8 @@ export const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("treatments");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState<Array<{ id: string; title: string; subtitle?: string; url: string }>>([]);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,60 +53,87 @@ export const Hero = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Get suggestions based on search query and category
-  const suggestions = useMemo(() => {
-    if (!searchQuery.trim() || searchQuery.length < 2) return [];
+  // Fetch suggestions from API when search query or category changes
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (!searchQuery.trim() || searchQuery.length < 2) {
+        setSuggestions([]);
+        return;
+      }
 
-    const query = searchQuery.toLowerCase();
-    let results: Array<{ id: string; title: string; subtitle?: string; url: string }> = [];
+      setIsLoadingSuggestions(true);
+      try {
+        const query = searchQuery.toLowerCase();
+        let results: Array<{ id: string; title: string; subtitle?: string; url: string }> = [];
 
-    switch (searchCategory) {
-      case "treatments":
-        results = treatmentsData
-          .filter((t) => t.category.toLowerCase().includes(query))
-          .slice(0, 5)
-          .map((t) => ({
-            id: t.id,
-            title: t.category,
-            url: `/treatments/${t.id}`,
-          }));
-        break;
+        switch (searchCategory) {
+          case "treatments":
+            const treatmentsRes = await fetch('/api/treatments');
+            const treatmentsData = await treatmentsRes.json();
+            if (treatmentsData.success && Array.isArray(treatmentsData.data)) {
+              results = treatmentsData.data
+                .filter((t: any) => t.category?.toLowerCase().includes(query))
+                .slice(0, 5)
+                .map((t: any) => ({
+                  id: t._id || t.id,
+                  title: t.category,
+                  url: `/treatments/${t.slug || t._id || t.id}`,
+                }));
+            }
+            break;
 
-      case "doctors":
-        results = doctorsData
-          .filter(
-            (d) =>
-              d.name.toLowerCase().includes(query) ||
-              d.specialty?.toLowerCase().includes(query)
-          )
-          .slice(0, 5)
-          .map((d) => ({
-            id: d.id,
-            title: d.name,
-            subtitle: d.specialty || d.specialization?.[0] || "",
-            url: `/doctors/${d.id}`,
-          }));
-        break;
+          case "doctors":
+            const doctorsRes = await fetch('/api/doctors');
+            const doctorsData = await doctorsRes.json();
+            if (doctorsData.success && Array.isArray(doctorsData.data)) {
+              results = doctorsData.data
+                .filter((d: any) =>
+                  d.name?.toLowerCase().includes(query) ||
+                  d.specialty?.toLowerCase().includes(query) ||
+                  d.specialization?.some((s: string) => s.toLowerCase().includes(query))
+                )
+                .slice(0, 5)
+                .map((d: any) => ({
+                  id: d._id || d.id,
+                  title: d.name,
+                  subtitle: d.specialty || d.specialization?.[0] || d.designation || "",
+                  url: `/doctors/${d.slug || d._id || d.id}`,
+                }));
+            }
+            break;
 
-      case "hospitals":
-        results = hospitalsData
-          .filter(
-            (h) =>
-              h.name.toLowerCase().includes(query) ||
-              h.city.toLowerCase().includes(query) ||
-              h.type.toLowerCase().includes(query)
-          )
-          .slice(0, 5)
-          .map((h) => ({
-            id: h.id,
-            title: h.name,
-            subtitle: `${h.city} • ${h.type}`,
-            url: `/hospitals/${h.id}`,
-          }));
-        break;
-    }
+          case "hospitals":
+            const hospitalsRes = await fetch('/api/hospitals');
+            const hospitalsData = await hospitalsRes.json();
+            if (hospitalsData.success && Array.isArray(hospitalsData.data)) {
+              results = hospitalsData.data
+                .filter((h: any) =>
+                  h.name?.toLowerCase().includes(query) ||
+                  h.city?.toLowerCase().includes(query) ||
+                  h.type?.toLowerCase().includes(query)
+                )
+                .slice(0, 5)
+                .map((h: any) => ({
+                  id: h._id || h.id,
+                  title: h.name,
+                  subtitle: `${h.city || ''} • ${h.type || ''}`,
+                  url: `/hospitals/${h.slug || h._id || h.id}`,
+                }));
+            }
+            break;
+        }
 
-    return results;
+        setSuggestions(results);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setSuggestions([]);
+      } finally {
+        setIsLoadingSuggestions(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(debounceTimer);
   }, [searchQuery, searchCategory]);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -277,7 +306,7 @@ I would like to discuss my treatment options.`;
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-green-50/30 via-white to-blue-50/30 pb-[420px] sm:pb-[480px] lg:pb-[236px]">
+    <section className="relative bg-gradient-to-br from-green-50/30 via-white to-blue-50/30 pb-[440px] xs:pb-[460px] sm:pb-[480px] md:pb-[360px] lg:pb-[300px]">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-green-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -285,7 +314,7 @@ I would like to discuss my treatment options.`;
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-50 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10 md:py-14 lg:py-16 xl:py-20 overflow-hidden relative z-10">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-6 xs:py-8 sm:py-10 md:py-14 lg:py-16 xl:py-20 overflow-hidden relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
@@ -298,7 +327,7 @@ I would like to discuss my treatment options.`;
               {/* Main Hero Heading with enhanced styling */}
               <motion.h1 
                 variants={itemVariants}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900 px-2 sm:px-0 drop-shadow-sm"
+                className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900 px-1 xs:px-2 sm:px-0 drop-shadow-sm"
               >
                 <Translate>Enhancing Lives, Reviving</Translate>{" "}
                 <span className="bg-gradient-to-r from-[#209F00] to-[#1a7f00] bg-clip-text text-transparent">
@@ -314,7 +343,7 @@ I would like to discuss my treatment options.`;
               {/* Subheading */}
               <motion.h2 
                 variants={itemVariants}
-                className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-800 leading-relaxed px-2 sm:px-0"
+                className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-800 leading-relaxed px-1 xs:px-2 sm:px-0"
               >
                 <Translate>Your trusted partner in Medical Tourism in India, connecting you with top hospitals and experienced doctors.</Translate>
               </motion.h2>
@@ -322,19 +351,24 @@ I would like to discuss my treatment options.`;
               {/* Description */}
               <motion.p
                 variants={itemVariants}
-                className="text-gray-500 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"
+                className="text-gray-500 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 px-1 xs:px-2 sm:px-0"
               >
                 <Translate>Discover world-class healthcare services where your well-being comes first. At Manal Healthcare, we provide personalized, compassionate medical care and seamless medical tourism services in India, ensuring safe, affordable, and high-quality treatment for every patient.</Translate>
               </motion.p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="pt-2 px-2 sm:px-0">
+            <motion.div variants={itemVariants} className="pt-2 px-1 xs:px-2 sm:px-0">
               <Button
                 size="lg"
-                onClick={() => window.dispatchEvent(new Event('openQueryModal'))}
-                className="bg-gradient-to-r from-[#209F00] to-[#1a7f00] hover:from-[#1a7f00] hover:to-[#155f00] text-white rounded-full px-8 sm:px-10 py-5 sm:py-6 text-sm sm:text-base lg:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 group w-full sm:w-auto"
+                onClick={() => {
+                  const queryForm = document.getElementById('query-form');
+                  if (queryForm) {
+                    queryForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}
+                className="bg-gradient-to-r from-[#209F00] to-[#1a7f00] hover:from-[#1a7f00] hover:to-[#155f00] text-white rounded-full px-6 xs:px-8 sm:px-10 py-4 xs:py-5 sm:py-6 text-xs xs:text-sm sm:text-base lg:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 group w-full sm:w-auto"
               >
-                <Translate>Get a Free Quote</Translate>
+                <Translate>Get a Query</Translate>
                 <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
@@ -345,9 +379,9 @@ I would like to discuss my treatment options.`;
             variants={imageVariants}
             initial="hidden"
             animate="visible"
-            className="relative flex justify-center lg:justify-end order-1 lg:order-2 px-4 sm:px-0"
+            className="relative flex justify-center lg:justify-end order-1 lg:order-2 px-2 xs:px-4 sm:px-0"
           >
-            <div className="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-lg">
+            <div className="relative w-full max-w-[220px] xs:max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-lg">
               {/* Decorative background elements */}
               <div className="absolute -z-10 top-0 right-0 w-3/4 h-3/4 bg-gradient-to-br from-green-200/40 to-blue-200/40 rounded-full filter blur-3xl"></div>
               <div className="absolute -z-10 bottom-0 left-0 w-3/4 h-3/4 bg-gradient-to-tr from-green-100/40 to-blue-100/40 rounded-full filter blur-3xl"></div>
@@ -370,18 +404,18 @@ I would like to discuss my treatment options.`;
           variants={searchBarVariants}
           initial="hidden"
           animate="visible"
-          className="mt-6 sm:mt-8 lg:mt-10 xl:mt-14 max-w-5xl mx-auto px-2 sm:px-0 mb-12 sm:mb-16 lg:mb-20"
+          className="mt-4 xs:mt-6 sm:mt-8 lg:mt-10 xl:mt-14 max-w-5xl mx-auto px-1 xs:px-2 sm:px-0 mb-8 xs:mb-12 sm:mb-16 lg:mb-20"
           ref={searchRef}
         >
           <form onSubmit={handleSearch} className="relative">
-            <div className="flex flex-col sm:flex-row items-center bg-white rounded-2xl sm:rounded-full shadow-2xl hover:shadow-3xl overflow-hidden border-2 border-gray-100 focus-within:border-green-500 transition-all duration-300">
+            <div className="flex flex-col sm:flex-row items-center bg-white rounded-xl xs:rounded-2xl sm:rounded-full shadow-xl xs:shadow-2xl hover:shadow-3xl overflow-hidden border-2 border-gray-100 focus-within:border-green-500 transition-all duration-300">
               
               {/* Dropdown */}
               <Select
                 onValueChange={(val) => setSearchCategory(val)}
                 defaultValue="treatments"
               >
-                <SelectTrigger className="w-full sm:w-40 lg:w-44 border-0 shadow-none px-4 sm:px-6 h-12 sm:h-14 lg:h-16 focus:ring-0 focus:ring-offset-0 rounded-t-2xl sm:rounded-l-full sm:rounded-tr-none text-sm sm:text-base font-medium text-gray-700 hover:bg-gray-50/80 transition-colors flex items-center justify-center backdrop-blur-sm">
+                <SelectTrigger className="w-full sm:w-40 lg:w-44 border-0 shadow-none px-3 xs:px-4 sm:px-6 h-10 xs:h-12 sm:h-14 lg:h-16 focus:ring-0 focus:ring-offset-0 rounded-t-xl xs:rounded-t-2xl sm:rounded-l-full sm:rounded-tr-none text-xs xs:text-sm sm:text-base font-medium text-gray-700 hover:bg-gray-50/80 transition-colors flex items-center justify-center backdrop-blur-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl">
@@ -399,7 +433,7 @@ I would like to discuss my treatment options.`;
                   value={searchQuery}
                   onChange={handleInputChange}
                   onFocus={() => searchQuery.length >= 2 && setShowSuggestions(true)}
-                  className="flex-1 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-4 sm:px-6 h-9 sm:h-11 lg:h-12 text-sm sm:text-base placeholder:text-gray-400 rounded-none w-full flex items-center"
+                  className="flex-1 px-3 xs:px-4 sm:px-6 h-8 xs:h-9 sm:h-11 lg:h-12 text-xs xs:text-sm sm:text-base placeholder:text-gray-400 rounded-none w-full flex items-center !border-0 !shadow-none !outline-none focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!outline-none"
                 />
               </div>
 
@@ -407,7 +441,7 @@ I would like to discuss my treatment options.`;
               <Button
                 type="submit"
                 size="lg"
-                className="bg-gradient-to-r from-[#209F00] to-[#1a8000] hover:from-green-700 hover:to-green-800 text-white rounded-b-2xl sm:rounded-full px-10 sm:px-16 lg:px-20 h-9 sm:h-11 lg:h-12 m-0 sm:m-1.5 font-semibold transition-all duration-300 w-full sm:w-auto text-sm sm:text-base shadow-none flex items-center justify-center"
+                className="bg-gradient-to-r from-[#209F00] to-[#1a8000] hover:from-green-700 hover:to-green-800 text-white rounded-b-xl xs:rounded-b-2xl sm:rounded-full px-6 xs:px-10 sm:px-16 lg:px-20 h-8 xs:h-9 sm:h-11 lg:h-12 m-0 sm:m-1.5 font-semibold transition-all duration-300 w-full sm:w-auto text-xs xs:text-sm sm:text-base shadow-none flex items-center justify-center"
               >
                 <span><Translate>Search</Translate></span>
                 <Search className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
@@ -415,37 +449,47 @@ I would like to discuss my treatment options.`;
             </div>
 
             {/* Suggestions Dropdown */}
-            {showSuggestions && suggestions.length > 0 && (
+            {showSuggestions && (searchQuery.length >= 2) && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 mb-8 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 w-[calc(100%-2rem)] sm:w-[calc(100%-11rem)] lg:w-[calc(100%-12rem)]">
                 <div className="max-h-[280px] overflow-y-auto scrollbar-hide py-1">
-                  {suggestions.map((item, index) => (
-                    <Link
-                      key={item.id}
-                      href={item.url}
-                      onClick={() => setShowSuggestions(false)}
-                      className="group flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-all duration-150"
-                    >
-                      <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors flex-shrink-0">
-                        <Search className="w-4 h-4 text-emerald-600" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-700 group-hover:text-emerald-600 transition-colors truncate">
-                          {item.title}
-                        </p>
-                        {item.subtitle && (
-                          <p className="text-xs text-gray-500 truncate">{item.subtitle}</p>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
+                  {isLoadingSuggestions ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#209F00]"></div>
+                    </div>
+                  ) : suggestions.length > 0 ? (
+                    suggestions.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={item.url}
+                        onClick={() => setShowSuggestions(false)}
+                        className="group flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-all duration-150"
+                      >
+                        <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors flex-shrink-0">
+                          <Search className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-700 group-hover:text-emerald-600 transition-colors truncate">
+                            {item.title}
+                          </p>
+                          {item.subtitle && (
+                            <p className="text-xs text-gray-500 truncate">{item.subtitle}</p>
+                          )}
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="px-4 py-6 text-center text-gray-500">
+                      <p className="text-sm">No results found</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
           </form>
           
           {/* Quick Search Tips */}
-          <div className="mt-4 text-center">
-            <p className="text-xs sm:text-sm text-gray-600 px-2 font-medium">
+          <div className="mt-3 xs:mt-4 text-center">
+            <p className="text-[10px] xs:text-xs sm:text-sm text-gray-600 px-1 xs:px-2 font-medium">
               Try: <span className="text-emerald-600">"Heart Surgery"</span>, <span className="text-emerald-600">"Orthopedic"</span>, <span className="text-emerald-600">"Cancer Treatment"</span>
             </p>
           </div>
@@ -453,18 +497,18 @@ I would like to discuss my treatment options.`;
       </div>
 
       {/* Query Form Section - Positioned to overlap */}
-      <div className="absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+      <div id="query-form" className="absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
             className="max-w-lg mx-auto"
           >
-            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-2xl xs:rounded-3xl shadow-xl xs:shadow-2xl border border-gray-100 overflow-hidden">
               {/* Form Header */}
-              <div className="bg-gradient-to-r from-[#209F00] to-[#1a8000] px-6 py-5">
-                <h3 className="text-xl sm:text-2xl font-bold text-white text-center">
+              <div className="bg-gradient-to-r from-[#209F00] to-[#1a8000] px-4 xs:px-6 py-4 xs:py-5">
+                <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white text-center">
                   <Translate>Get Free Consultation</Translate>
                 </h3>
                 <p className="text-white/90 text-sm text-center mt-1.5">
@@ -473,11 +517,11 @@ I would like to discuss my treatment options.`;
               </div>
 
               {/* Form Body */}
-              <div className="p-6 sm:p-8">
-                <form onSubmit={handleFormSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-4 xs:p-6 sm:p-8">
+                <form onSubmit={handleFormSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
                   {/* Name */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="hero-name" className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1 xs:space-y-1.5">
+                    <label htmlFor="hero-name" className="text-xs xs:text-sm font-medium text-gray-700">
                       <Translate>Full Name</Translate> <span className="text-red-500">*</span>
                     </label>
                     <Input
@@ -492,8 +536,8 @@ I would like to discuss my treatment options.`;
                   </div>
 
                   {/* Email */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="hero-email" className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1 xs:space-y-1.5">
+                    <label htmlFor="hero-email" className="text-xs xs:text-sm font-medium text-gray-700">
                       <Translate>Email Address</Translate> <span className="text-gray-400 text-xs">(Optional)</span>
                     </label>
                     <Input
@@ -507,8 +551,8 @@ I would like to discuss my treatment options.`;
                   </div>
 
                   {/* Phone */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="hero-phone" className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1 xs:space-y-1.5">
+                    <label htmlFor="hero-phone" className="text-xs xs:text-sm font-medium text-gray-700">
                       <Translate>WhatsApp Number</Translate> <span className="text-red-500">*</span>
                     </label>
                     <Input
@@ -523,8 +567,8 @@ I would like to discuss my treatment options.`;
                   </div>
 
                   {/* Country */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="hero-country" className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1 xs:space-y-1.5">
+                    <label htmlFor="hero-country" className="text-xs xs:text-sm font-medium text-gray-700">
                       <Translate>Country</Translate> <span className="text-red-500">*</span>
                     </label>
                     <Select required value={formData.country} onValueChange={(value) => setFormData({ ...formData, country: value })}>
@@ -559,8 +603,8 @@ I would like to discuss my treatment options.`;
                   </div>
 
                   {/* Medical Condition */}
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label htmlFor="hero-condition" className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1 xs:space-y-1.5 sm:col-span-2">
+                    <label htmlFor="hero-condition" className="text-xs xs:text-sm font-medium text-gray-700">
                       <Translate>Medical Condition / Treatment Required</Translate> <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -575,8 +619,8 @@ I would like to discuss my treatment options.`;
                   </div>
 
                   {/* Medical Report Upload */}
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label htmlFor="hero-medical-report" className="text-sm font-medium text-gray-700">
+                  <div className="space-y-1 xs:space-y-1.5 sm:col-span-2">
+                    <label htmlFor="hero-medical-report" className="text-xs xs:text-sm font-medium text-gray-700">
                       <Translate>Upload Medical Report</Translate> <span className="text-gray-400 text-xs">(Optional)</span>
                     </label>
                     <div className="relative">
@@ -601,12 +645,12 @@ I would like to discuss my treatment options.`;
                   </div>
 
                   {/* Submit Button */}
-                  <div className="sm:col-span-2 pt-2">
+                  <div className="sm:col-span-2 pt-1 xs:pt-2">
                     <Button
                       type="submit"
                       size="lg"
                       disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-[#209F00] to-[#1a8000] hover:from-green-700 hover:to-green-800 text-white rounded-full px-8 py-5 text-base font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-gradient-to-r from-[#209F00] to-[#1a8000] hover:from-green-700 hover:to-green-800 text-white rounded-full px-6 xs:px-8 py-4 xs:py-5 text-sm xs:text-base font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <>

@@ -161,19 +161,19 @@ export const MainNav = () => {
   );
 
   return (
-    <div className="hidden lg:flex items-center gap-0 ">
+    <div className="hidden xl:flex items-center gap-0">
       {/* NAVIGATION MENU */}
       <NavigationMenu viewport={false}>
-        <NavigationMenuList className="gap-3 ">
+        <NavigationMenuList className="gap-1 xl:gap-2 2xl:gap-3">
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
                 href="/"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 Home
@@ -187,9 +187,9 @@ export const MainNav = () => {
                 href="/about"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 About Us
@@ -203,9 +203,9 @@ export const MainNav = () => {
                 href="/blogs"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 Our Blogs
@@ -215,7 +215,7 @@ export const MainNav = () => {
 
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-base xl:text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-4">
+            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-sm xl:text-base 2xl:text-[17px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-3 2xl:px-4">
               Treatments
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -270,9 +270,9 @@ export const MainNav = () => {
                 href="/hospitals"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 Hospitals
@@ -286,9 +286,9 @@ export const MainNav = () => {
                 href="/doctors"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 Doctors
@@ -302,9 +302,9 @@ export const MainNav = () => {
                 href="/testimonials"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 Testimonials
@@ -314,7 +314,7 @@ export const MainNav = () => {
 
           {/* Info Dropdown */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-base xl:text-[18px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-4">
+            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-sm xl:text-base 2xl:text-[17px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-3 2xl:px-4">
               Info
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -369,9 +369,9 @@ export const MainNav = () => {
                 href="/contact"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-base xl:text-[18px] font-medium text-gray-900",
+                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
-                  "focus:bg-transparent px-2 xl:px-4",
+                  "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
                 Contact Us

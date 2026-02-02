@@ -35,8 +35,8 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 border-t">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-6">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-8 xs:py-10 sm:py-12">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 xs:gap-8 lg:gap-6">
           {/* Company Info Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
@@ -225,7 +225,7 @@ const Footer = () => {
 
       {/* Copyright Bar */}
       <div className="bg-gray-200 border-t border-gray-300">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-4">
           <p className="text-center text-sm text-gray-700">
             Copyright © <span className="font-semibold">FAAB</span> |
             Designed & Powered by <span className="font-semibold">FAAB</span>
