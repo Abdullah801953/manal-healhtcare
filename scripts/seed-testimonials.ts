@@ -218,9 +218,9 @@ async function seedTestimonials() {
 
     console.log('\n📊 Seeding Summary:');
     console.log(`   Total: ${result.length}`);
-    console.log(`   Approved: ${result.filter(t => t.status === 'approved').length}`);
-    console.log(`   Featured: ${result.filter(t => t.featured).length}`);
-    console.log(`   Verified: ${result.filter(t => t.verified).length}`);
+    console.log(`   Approved: ${result.filter((t: any) => t.status === 'approved').length}`);
+    console.log(`   Featured: ${result.filter((t: any) => t.featured).length}`);
+    console.log(`   Verified: ${result.filter((t: any) => t.verified).length}`);
 
     process.exit(0);
   } catch (error) {

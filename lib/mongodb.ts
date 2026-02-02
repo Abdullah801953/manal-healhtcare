@@ -12,13 +12,14 @@ interface MongooseCache {
 }
 
 declare global {
-  var mongoose: MongooseCache | undefined;
+  // Use a different global variable name to avoid shadowing the imported `mongoose` identifier
+  var mongooseCache: MongooseCache | undefined;
 }
 
-let cached: MongooseCache = global.mongoose as MongooseCache;
+let cached: MongooseCache = global.mongooseCache as MongooseCache;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongooseCache = { conn: null, promise: null };
 }
 
 async function connectDB() {

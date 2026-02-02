@@ -80,7 +80,7 @@ export default function HospitalCard({ hospital }: HospitalCardProps) {
             {/* Specialties */}
             <div className="mb-4">
               <div className="flex flex-wrap gap-2">
-                {hospital.specialties.slice(0, 3).map((specialty, index) => (
+                {hospital.specialties.slice(0, 3).map((specialty: string, index: number) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium"

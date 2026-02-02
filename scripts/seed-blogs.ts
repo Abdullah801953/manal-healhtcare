@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongooseLib = require('mongoose');
 
 // MongoDB connection string
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/manal-healthcare';
 
 // Blog schema (matching the model)
-const BlogSchema = new mongoose.Schema(
+const BlogSchema = new mongooseLib.Schema(
   {
     title: String,
     slug: String,
@@ -29,7 +29,7 @@ const BlogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Blog = mongoose.models.Blog || mongoose.model('Blog', BlogSchema);
+const Blog = mongooseLib.models.Blog || mongooseLib.model('Blog', BlogSchema);
 
 // Sample blogs data
 const blogsData = [
@@ -173,7 +173,7 @@ const blogsData = [
 async function seedBlogs() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(MONGODB_URI);
+    await mongooseLib.connect(MONGODB_URI);
     console.log('✅ Connected to MongoDB');
 
     // Clear existing blogs
@@ -186,8 +186,8 @@ async function seedBlogs() {
 
     console.log('\n📊 Seeding Summary:');
     console.log(`   Total: ${result.length}`);
-    console.log(`   Published: ${result.filter(b => b.status === 'published').length}`);
-    console.log(`   Featured: ${result.filter(b => b.featured).length}`);
+    console.log(`   Published: ${result.filter((b: any) => b.status === 'published').length}`);
+    console.log(`   Featured: ${result.filter((b: any) => b.featured).length}`);
 
     process.exit(0);
   } catch (error) {
@@ -197,3 +197,6 @@ async function seedBlogs() {
 }
 
 seedBlogs();
+
+// Ensure this file is treated as a module to avoid global variable redeclaration in TS
+export {};

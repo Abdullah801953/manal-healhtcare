@@ -3,6 +3,7 @@ import blogHero from "@/public/blog-hero.jpg";
 
 export interface Blog {
   id: string;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
@@ -21,6 +22,7 @@ export interface Blog {
 export const blogsData: Blog[] = [
   {
     id: "1",
+    slug: "blog-1",
     title: "Selecting the Best Sunscreen for Your Skin Type",
     excerpt: "Learn how to choose the right sunscreen for your skin.",
     content:
@@ -44,6 +46,7 @@ export const blogsData: Blog[] = [
   },
   {
     id: "2",
+    slug: "blog-2",
     title: "Selecting the Best Sunscreen for Your Skin Type",
     excerpt: "Learn how to choose the right sunscreen for your skin.",
     content:
@@ -67,6 +70,7 @@ export const blogsData: Blog[] = [
   },
   {
     id: "3",
+    slug: "blog-3",
     title: "Selecting the Best Sunscreen for Your Skin Type",
     excerpt: "Learn how to choose the right sunscreen for your skin.",
     content:
@@ -90,6 +94,7 @@ export const blogsData: Blog[] = [
   },
   {
     id: "4",
+    slug: "blog-4",
     title: "Selecting the Best Sunscreen for Your Skin Type",
     excerpt: "Learn how to choose the right sunscreen for your skin.",
     content:
@@ -113,6 +118,7 @@ export const blogsData: Blog[] = [
   },
   {
     id: "5",
+    slug: "blog-5",
     title: "Selecting the Best Sunscreen for Your Skin Type",
     excerpt: "Learn how to choose the right sunscreen for your skin.",
     content:
@@ -137,6 +143,7 @@ export const blogsData: Blog[] = [
 
   {
     id: "6",
+    slug: "blog-6",
     title: "Understanding the Role of a Primary Care Physician",
     excerpt: "Discover why a primary care physician is essential.",
     content:
