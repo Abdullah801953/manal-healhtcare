@@ -4,8 +4,8 @@ import { Heart, Users, Globe, Star } from 'lucide-react';
 
 export function TestimonialsHero() {
   return (
-    <section className="relative bg-linear-to-br from-[#209f00]/10 via-white to-[#209f00]/5 py-20">
-      <div className="container mx-auto px-4">
+    <section className="relative bg-linear-to-br from-[#209f00]/10 via-white to-[#209f00]/5 py-20 px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-[#209f00]/10 px-4 py-2 rounded-full mb-6">

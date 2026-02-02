@@ -118,7 +118,7 @@ export default function TreatmentsContent() {
 
       {/* Main Content */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
           {loading ? (
             <div className="flex items-center justify-center py-16">
               <div className="text-center">

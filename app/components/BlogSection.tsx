@@ -5,27 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Tag, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { blogsData } from "@/app/blogs/data";
-import { formatDate } from "@/app/blogs/utils";
+import { useState, useEffect } from "react";
 
-// Blog post interface
-export interface BlogPost {
-  id: number;
+// Blog type from API
+export interface Blog {
+  _id: string;
   title: string;
-  category: string;
-  date: string;
-  image: string;
   slug: string;
-}
-
-// Blog post interface
-export interface BlogPost {
-  id: number;
-  title: string;
-  category: string;
-  date: string;
+  excerpt: string;
+  content: string;
   image: string;
-  slug: string;
+  category: string;
+  author: string;
+  date: string;
+  status: string;
+  featured: boolean;
 }
 
 interface BlogSectionProps {
@@ -34,9 +28,19 @@ interface BlogSectionProps {
   viewAllText?: string;
 }
 
+// Format date helper
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
 // Blog Card Component
 interface BlogCardProps {
-  blog: typeof blogsData[0];
+  blog: Blog;
 }
 
 function BlogCard({ blog }: BlogCardProps) {
@@ -48,13 +52,13 @@ function BlogCard({ blog }: BlogCardProps) {
       viewport={{ once: true }}
     >
       <Link
-        href={`/blogs/${blog.id}`}
+        href={`/blogs/${blog._id}`}
         className="group bg-white rounded-lg xs:rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block"
       >
         {/* Image */}
         <div className="relative h-36 xs:h-40 sm:h-48 md:h-56 overflow-hidden">
           <Image
-            src={blog.image}
+            src={blog.image || '/blog-placeholder.jpg'}
             alt={blog.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -100,8 +104,30 @@ export function BlogSection({
   heading = "Trending Topics in Medicine and Wellness",
   viewAllText = "View All Blogs",
 }: BlogSectionProps) {
-  // Get first 3 blogs from blogsData
-  const displayBlogs = blogsData.slice(0, 3);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch blogs from API
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/blogs?status=published');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          // Get first 3 published blogs
+          setBlogs(result.data.slice(0, 3));
+        }
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
@@ -147,9 +173,17 @@ export function BlogSection({
 
         {/* Blog Cards Grid */}
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 lg:gap-8">
-          {displayBlogs.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} />
-          ))}
+          {loading ? (
+            <div className="col-span-full flex justify-center items-center py-12">
+              <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#209f00] border-t-transparent"></div>
+            </div>
+          ) : blogs.length > 0 ? (
+            blogs.map((blog) => (
+              <BlogCard key={blog._id} blog={blog} />
+            ))
+          ) : (
+            <p className="col-span-full text-center text-gray-500 py-8">No blogs available.</p>
+          )}
         </div>
       </div>
     </section>

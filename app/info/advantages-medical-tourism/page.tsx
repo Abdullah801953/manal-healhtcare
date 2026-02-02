@@ -301,7 +301,7 @@ const AdvantagesMedicalTourismPage = () => {
         <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-20 md:py-28 overflow-hidden">
           <div className="absolute inset-0 bg-black/10"></div>
           <div className="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-5"></div>
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 relative z-10">
             <div className="max-w-5xl mx-auto text-center">
               <div className="flex justify-center mb-6">
                 <div className="bg-white/20 backdrop-blur-sm p-4 rounded-full">
@@ -339,7 +339,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* Quick Impact Stats */}
         <section className="py-16 bg-white border-b">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <Card className="text-center border-2 hover:border-green-500 transition-all">
@@ -385,7 +385,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* Main Advantages */}
         <section className="py-16 bg-gradient-to-br from-gray-50 to-green-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <Award className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -412,7 +412,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* Detailed Comparison */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <TrendingUp className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -433,7 +433,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* Additional Benefits */}
         <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <Heart className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -456,7 +456,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* Real Patient Case Studies */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
                 <Users className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -478,7 +478,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* Key Takeaways */}
         <section className="py-16 bg-gradient-to-br from-green-50 to-emerald-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
                 <Zap className="w-12 h-12 text-green-600 mx-auto mb-4" />
@@ -514,7 +514,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* SEO Content Section */}
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto prose prose-lg">
               <article className="text-gray-700">
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -782,7 +782,7 @@ const AdvantagesMedicalTourismPage = () => {
 
         {/* CTA Section */}
         <section className="py-16 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Experience These Advantages for Yourself

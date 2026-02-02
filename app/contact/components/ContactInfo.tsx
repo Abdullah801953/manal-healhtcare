@@ -1,39 +1,73 @@
+'use client';
+
 import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
+import { useSettings } from '@/app/contexts/SettingsContext';
 
 export function ContactInfo() {
+  const { settings, loading } = useSettings();
+
   const contactMethods = [
     {
       icon: Phone,
       title: 'Phone',
-      details: ['Main: (00) 875 784 5682', 'Emergency: (00) 875 784 5683'],
-      link: 'tel:+008757845682',
+      details: [
+        `Main: ${settings?.sitePhone || '(00) 875 784 5682'}`,
+        settings?.emergencyPhone ? `Emergency: ${settings.emergencyPhone}` : null,
+      ].filter(Boolean),
+      link: `tel:${settings?.sitePhone?.replace(/\D/g, '') || '+008757845682'}`,
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@manalhealthcare.com', 'support@manalhealthcare.com'],
-      link: 'mailto:info@manalhealthcare.com',
+      details: [
+        settings?.siteEmail || 'info@manalhealthcare.com',
+        settings?.supportEmail || null,
+      ].filter(Boolean),
+      link: `mailto:${settings?.siteEmail || 'info@manalhealthcare.com'}`,
     },
     {
       icon: MapPin,
       title: 'Address',
-      details: ['238, Arimantab, Moska - USA', 'Postal Code: 12345'],
+      details: [
+        settings?.address || '238, Arimantab, Moska - USA',
+        settings?.postalCode ? `Postal Code: ${settings.postalCode}` : null,
+      ].filter(Boolean),
       link: 'https://maps.google.com',
     },
     {
       icon: Clock,
       title: 'Working Hours',
-      details: ['Mon - Fri: 8:00 AM - 8:00 PM', 'Sat - Sun: 9:00 AM - 5:00 PM'],
+      details: [
+        settings?.workingHoursWeekday || 'Mon - Fri: 8:00 AM - 8:00 PM',
+        settings?.workingHoursWeekend || 'Sat - Sun: 9:00 AM - 5:00 PM',
+      ],
       link: null,
     },
   ];
 
-  const departments = [
-    { name: 'Emergency Department', phone: '(00) 875 784 5683', available: '24/7' },
-    { name: 'Appointment Booking', phone: '(00) 875 784 5684', available: 'Mon-Fri, 8AM-6PM' },
-    { name: 'Patient Records', phone: '(00) 875 784 5685', available: 'Mon-Fri, 9AM-5PM' },
-    { name: 'Billing & Insurance', phone: '(00) 875 784 5686', available: 'Mon-Fri, 9AM-5PM' },
-  ];
+  const departments = settings?.departments && settings.departments.length > 0 
+    ? settings.departments 
+    : [
+        { name: 'Emergency Department', phone: '(00) 875 784 5683', available: '24/7' },
+        { name: 'Appointment Booking', phone: '(00) 875 784 5684', available: 'Mon-Fri, 8AM-6PM' },
+        { name: 'Patient Records', phone: '(00) 875 784 5685', available: 'Mon-Fri, 9AM-5PM' },
+        { name: 'Billing & Insurance', phone: '(00) 875 784 5686', available: 'Mon-Fri, 9AM-5PM' },
+      ];
+
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <div className="bg-white rounded-3xl shadow-xl p-8 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/2 mb-8"></div>
+          <div className="space-y-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-24 bg-gray-100 rounded-xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -105,15 +139,28 @@ export function ContactInfo() {
         </div>
       </div>
 
-      {/* Map Placeholder */}
+      {/* Map */}
       <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="h-64 bg-gray-200 flex items-center justify-center">
-          <div className="text-center">
-            <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-            <p className="text-gray-600">Map Integration</p>
-            <p className="text-sm text-gray-500">Google Maps / OpenStreetMap</p>
+        {settings?.mapEmbedUrl ? (
+          <iframe
+            src={settings.mapEmbedUrl}
+            width="100%"
+            height="256"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Location Map"
+          />
+        ) : (
+          <div className="h-64 bg-gray-200 flex items-center justify-center">
+            <div className="text-center">
+              <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+              <p className="text-gray-600">Map Integration</p>
+              <p className="text-sm text-gray-500">Configure in Admin Settings</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

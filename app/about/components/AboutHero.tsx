@@ -1,7 +1,7 @@
 export function AboutHero() {
   return (
-    <section className="relative bg-linear-to-r from-emerald-500 via-teal-500 to-green-500 py-20 px-4">
-      <div className="max-w-7xl mx-auto text-center">
+    <section className="relative bg-linear-to-r from-emerald-500 via-teal-500 to-green-500 py-20 px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="container mx-auto text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
           About Manal Healthcare
         </h1>

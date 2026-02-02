@@ -39,8 +39,8 @@ export function StatsSection() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-linear-to-br from-[#209f00] to-emerald-600">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-20 px-3 xs:px-4 sm:px-6 lg:px-10 bg-linear-to-br from-[#209f00] to-emerald-600">
+      <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-4">
             Our Impact in Numbers

@@ -42,8 +42,8 @@ export function ContactFAQ() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
+    <section className="py-20 px-3 xs:px-4 sm:px-6 lg:px-10 bg-gray-50">
+      <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Frequently Asked Questions

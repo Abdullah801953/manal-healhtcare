@@ -11,11 +11,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { treatmentsData } from "../treatments/data"
+import { useState, useEffect } from "react";
+
+// Treatment type from API
+export interface Treatment {
+  _id: string;
+  slug: string;
+  title: string;
+  category: string;
+  description: string;
+  shortDescription: string;
+  image?: string;
+  status: string;
+}
 
 // Service card data type
 export interface ServiceCard {
-  id: number;
+  id: string;
   icon: React.ElementType;
   title: string;
   description: string;
@@ -44,19 +56,9 @@ const treatmentIcons: Record<string, React.ElementType> = {
   "Weight Loss Treatment": Activity,
 };
 
-// Convert treatment categories to services
-const treatmentServices: ServiceCard[] = treatmentsData.map((treatment, index) => ({
-  id: index, // Use index to ensure unique IDs
-  icon: treatmentIcons[treatment.category] || Activity,
-  title: treatment.category,
-  description: `Expert ${treatment.category.toLowerCase()} services with world-class facilities and experienced medical professionals.`,
-  link: `/treatments/${treatment.slug}`,
-}));
-
 interface ServicesProps {
   heading?: string;
   subheading?: string;
-  services?: ServiceCard[];
   showViewAll?: boolean;
   viewAllLink?: string;
 }
@@ -64,10 +66,45 @@ interface ServicesProps {
 export const Services = ({
   heading = "Our Top Treatments",
   subheading = "Innovative Medical Treatments for Modern Healthcare",
-  services = treatmentServices,
   showViewAll = true,
   viewAllLink = "/treatments",
 }: ServicesProps) => {
+  const [services, setServices] = useState<ServiceCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [totalTreatments, setTotalTreatments] = useState(0);
+
+  // Fetch treatments from API
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/treatments');
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          const activeTreatments = result.data.filter((t: Treatment) => t.status === 'active');
+          setTotalTreatments(activeTreatments.length);
+          
+          // Convert treatments to service cards
+          const serviceCards: ServiceCard[] = activeTreatments.map((treatment: Treatment) => ({
+            id: treatment._id,
+            icon: treatmentIcons[treatment.category] || Activity,
+            title: treatment.title,
+            description: treatment.shortDescription || treatment.description.slice(0, 150) + '...',
+            link: `/treatments/${treatment.slug}`,
+          }));
+          
+          setServices(serviceCards);
+        }
+      } catch (err) {
+        console.error('Error fetching treatments:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTreatments();
+  }, []);
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -119,6 +156,11 @@ export const Services = ({
 
           {/* Carousel */}
           <motion.div variants={itemVariants} className="relative px-1 xs:px-2 sm:px-0">
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#209f00] border-t-transparent"></div>
+              </div>
+            ) : services.length > 0 ? (
             <Carousel
               opts={{
                 align: "start",
@@ -142,6 +184,9 @@ export const Services = ({
               <CarouselPrevious className="hidden sm:flex absolute -left-5 sm:-left-5 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white hover:bg-[#209F00] hover:text-white border-2 border-gray-200 hover:border-[#209F00] text-gray-900 shadow-lg z-10 transition-all" />
               <CarouselNext className="hidden sm:flex absolute -right-5 sm:-right-5 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white hover:bg-[#209F00] hover:text-white border-2 border-gray-200 hover:border-[#209F00] text-gray-900 shadow-lg z-10 transition-all" />
             </Carousel>
+            ) : (
+              <p className="text-center text-gray-500 py-8">No treatments available.</p>
+            )}
           </motion.div>
 
           {/* View All Section */}
@@ -151,7 +196,7 @@ export const Services = ({
               className="text-center px-1 xs:px-2 sm:px-0"
             >
               <p className="text-gray-700 text-[10px] xs:text-xs sm:text-sm md:text-base">
-                We have {treatmentsData.length}+ specialized treatment services available.{" "}
+                We have {totalTreatments}+ specialized treatment services available.{" "}
                 <Link
                   href={viewAllLink}
                   className="text-[#209F00] font-semibold hover:text-green-700 transition-colors"

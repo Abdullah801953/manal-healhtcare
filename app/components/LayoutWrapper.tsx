@@ -25,8 +25,10 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
         <AutoTranslate />
         <SEOMetaTags />
         <WhatsAppButton />
-        <div className="overflow-x-hidden w-full">
-          <Header />
+        <Header />
+        {/* Spacer for fixed header */}
+        <div className="h-16 sm:h-18 lg:h-28" />
+        <div className="overflow-x-clip w-full">
           {children}
           <Footer />
         </div>

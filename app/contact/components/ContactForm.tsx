@@ -2,10 +2,16 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, MessageCircle, Mail, Phone, X } from 'lucide-react';
+import { useSettings } from '@/app/contexts/SettingsContext';
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { settings } = useSettings();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,11 +20,67 @@ export function ContactForm() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
+    setLoading(true);
+    setError('');
+
+    try {
+      // Save to database
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || 'Not provided',
+          country: 'Contact Form',
+          medicalCondition: `Subject: ${formData.subject}\n\n${formData.message}`,
+          status: 'new',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setShowOptions(true);
+      } else {
+        setError(result.error || 'Failed to submit form');
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+      console.error('Error submitting form:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSendVia = (method: 'whatsapp' | 'email' | 'sms') => {
+    const message = `Name: ${formData.name}%0AEmail: ${formData.email}%0APhone: ${formData.phone}%0ASubject: ${formData.subject}%0AMessage: ${formData.message}`;
+    
+    switch (method) {
+      case 'whatsapp':
+        const whatsappNumber = settings?.whatsappNumber?.replace(/\D/g, '') || '';
+        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+        break;
+      case 'email':
+        const email = settings?.siteEmail || 'info@manalhealthcare.com';
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`)}`;
+        break;
+      case 'sms':
+        const phoneNumber = settings?.sitePhone?.replace(/\D/g, '') || '';
+        window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(`Name: ${formData.name}, Subject: ${formData.subject}, Message: ${formData.message}`)}`;
+        break;
+    }
+    
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setShowOptions(false);
+    setTimeout(() => {
+      setSubmitted(false);
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    }, 5000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -42,8 +104,66 @@ export function ContactForm() {
             Your message has been sent successfully. We'll be in touch soon.
           </p>
         </div>
+      ) : showOptions ? (
+        <div className="flex flex-col items-center justify-center py-8">
+          <div className="w-16 h-16 bg-[#209f00] rounded-full flex items-center justify-center mb-6">
+            <CheckCircle className="w-10 h-10 text-white" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Message Saved!</h3>
+          <p className="text-gray-600 text-center mb-6">
+            Choose how you'd like to send your message:
+          </p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-md">
+            <Button
+              onClick={() => handleSendVia('whatsapp')}
+              className="flex flex-col items-center gap-2 bg-green-500 hover:bg-green-600 text-white rounded-xl py-6"
+            >
+              <MessageCircle className="w-8 h-8" />
+              <span>WhatsApp</span>
+            </Button>
+            
+            <Button
+              onClick={() => handleSendVia('email')}
+              className="flex flex-col items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl py-6"
+            >
+              <Mail className="w-8 h-8" />
+              <span>Email</span>
+            </Button>
+            
+            <Button
+              onClick={() => handleSendVia('sms')}
+              className="flex flex-col items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white rounded-xl py-6"
+            >
+              <Phone className="w-8 h-8" />
+              <span>SMS</span>
+            </Button>
+          </div>
+          
+          <Button
+            onClick={() => {
+              setShowOptions(false);
+              setSubmitted(true);
+              setTimeout(() => {
+                setSubmitted(false);
+                setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+              }, 3000);
+            }}
+            variant="ghost"
+            className="mt-4 text-gray-500"
+          >
+            <X className="w-4 h-4 mr-2" />
+            Skip and close
+          </Button>
+        </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl">
+              {error}
+            </div>
+          )}
+          
           {/* Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -136,10 +256,20 @@ export function ContactForm() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-[#209f00] hover:bg-emerald-600 text-white rounded-xl py-6 text-lg font-semibold"
+            disabled={loading}
+            className="w-full bg-[#209f00] hover:bg-emerald-600 text-white rounded-xl py-6 text-lg font-semibold disabled:opacity-50"
           >
-            <Send className="w-5 h-5 mr-2" />
-            Send Message
+            {loading ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2" />
+                Sending...
+              </>
+            ) : (
+              <>
+                <Send className="w-5 h-5 mr-2" />
+                Send Message
+              </>
+            )}
           </Button>
         </form>
       )}
