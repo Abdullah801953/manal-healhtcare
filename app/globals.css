@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Custom xs breakpoint for extra-small screens */
+@theme {
+  --breakpoint-xs: 475px;
+}
+
 /* ========================================
    GLOBAL POLISH & IMPROVEMENTS
 ======================================== */

@@ -37,6 +37,7 @@ export const LanguageSelector = () => {
         <Button
           variant="outline"
           size="lg"
+          data-language-trigger
           className="gap-2 border-2 border-[#209F00] text-[#209F00] hover:bg-[#209F00] hover:text-white font-medium rounded-full px-11 py-6 text-lg w-full lg:w-auto"
         >
           <Languages className="w-5 h-5 lg:w-6 lg:h-6"/>

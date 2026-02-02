@@ -170,8 +170,19 @@ export const MobileNav = () => {
         {/* Bottom Actions */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
           <div className="flex flex-col gap-3">
-            <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium">
-              Book Consultation
+            <Button 
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium"
+              onClick={() => {
+                setOpen(false);
+                setTimeout(() => {
+                  const queryForm = document.getElementById('query-form');
+                  if (queryForm) {
+                    queryForm.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }, 300);
+              }}
+            >
+              Get Free Quote
             </Button>
             <div className="flex gap-2">
               <div className="flex-1">

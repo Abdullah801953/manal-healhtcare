@@ -25,13 +25,13 @@ export const TopBar = () => {
 
   return (
     <div className="hidden md:block bg-white border-b">
-      <div className="container mx-auto px-4 md:px-6 lg:px-10">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 lg:gap-0 py-2 md:py-2.5 lg:py-3 text-sm md:text-base lg:text-[18px]">
           {/* Left side - Contact Info */}
           <div className="flex items-center gap-0 md:gap-0 lg:gap-0 xl:gap-10 justify-center md:justify-start">
             <Link
               href={`tel:${settings?.sitePhone?.replace(/\D/g, '')}`}
-              className="flex items-center gap-1.5 md:gap-2 text-gray-700 hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 md:gap-2 text-gray-700 hover:text-primary transition-colors whitespace-nowrap"
             >
               <div className="w-7 h-7 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                 <Phone className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#209F00]" />
@@ -41,7 +41,7 @@ export const TopBar = () => {
             </Link>
             <Link
               href={`mailto:${settings?.siteEmail}`}
-              className="flex items-center gap-1.5 md:gap-2 text-gray-700 hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 md:gap-2 text-gray-700 hover:text-primary transition-colors whitespace-nowrap"
             >
               <div className="w-7 h-7 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                 <Mail className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#209F00]" />
@@ -49,7 +49,7 @@ export const TopBar = () => {
               <span className="lg:text-[15px] xl:text-base md:text-[12px] ">{settings?.siteEmail || 'Loading...'}</span>
               <span className="hidden lg:inline text-2xl font-light mx-2">|</span>
             </Link>
-            <div className="flex items-center gap-1.5 md:gap-2 text-gray-700">
+            <div className="flex items-center gap-1.5 md:gap-2 text-gray-700 whitespace-nowrap">
               <div className="w-7 h-7 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                 <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#209F00]" />
               </div>
@@ -59,8 +59,13 @@ export const TopBar = () => {
           </div>
 
           {/* Right side - Support & Social */}
-          <div className="flex flex-wrap items-center gap-3 md:gap-6 lg:gap-10 justify-center md:justify-end">
-            <span className="text-gray-700 text-sm md:text-base hidden xl:inline">Help / Support / Contact</span>
+          <div className="flex items-center gap-3 md:gap-6 lg:gap-10 justify-center md:justify-end">
+            <Link 
+              href="/contact"
+              className="text-gray-700 hover:text-[#209F00] text-sm md:text-base hidden xl:inline transition-colors font-medium whitespace-nowrap"
+            >
+              Help / Support / Contact
+            </Link>
             <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
               {settings?.facebook?.trim() && (
                 <Link

@@ -90,21 +90,21 @@ export const OurServices = ({
   const rightFeatures = features.slice(Math.ceil(features.length / 2));
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="px-4 sm:px-6 lg:px-10">
-        <div className="grid lg:grid-cols-3 gap-6">
+    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {/* Right Side - Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-4 sm:space-y-5 lg:space-y-6 flex flex-col justify-start lg:col-span-2"
+            className="space-y-3 xs:space-y-4 sm:space-y-5 lg:space-y-6 flex flex-col justify-start lg:col-span-2"
           >
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-sm sm:text-base uppercase tracking-wide"
+              className="text-[#209F00] font-semibold text-xs xs:text-sm sm:text-base uppercase tracking-wide"
             >
               {badge}
             </motion.p>
@@ -112,7 +112,7 @@ export const OurServices = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
+              className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
             >
               {heading}
             </motion.h2>
@@ -120,7 +120,7 @@ export const OurServices = ({
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed"
+              className="text-gray-600 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed"
             >
               {description}
             </motion.p>
@@ -128,7 +128,7 @@ export const OurServices = ({
             {/* Features Grid */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
+              className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 lg:gap-6 pt-1 xs:pt-2 sm:pt-4"
             >
               {/* Left Column */}
               <div className="space-y-4 sm:space-y-5">

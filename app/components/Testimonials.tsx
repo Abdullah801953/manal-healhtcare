@@ -98,21 +98,21 @@ export const Testimonials = ({
   };
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
+    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
           {/* Left Side - Testimonial Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-4 sm:space-y-5 lg:space-y-6"
+            className="space-y-3 xs:space-y-4 sm:space-y-5 lg:space-y-6"
           >
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-xs sm:text-sm md:text-base"
+              className="text-[#209F00] font-semibold text-[10px] xs:text-xs sm:text-sm md:text-base"
             >
               {badge}
             </motion.p>
@@ -120,17 +120,17 @@ export const Testimonials = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+              className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
             >
               {heading}
             </motion.h2>
 
             {/* Rating Stars */}
-            <motion.div variants={itemVariants} className="flex items-center gap-1">
+            <motion.div variants={itemVariants} className="flex items-center gap-0.5 xs:gap-1">
               {[...Array(5)].map((_, index) => (
                 <Star
                   key={index}
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${
+                  className={`w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ${
                     index < currentTestimonial.rating
                       ? "fill-orange-400 text-orange-400"
                       : "text-gray-300"
@@ -146,7 +146,7 @@ export const Testimonials = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5 }}
-              className="text-gray-600 text-sm sm:text-base leading-relaxed"
+              className="text-gray-600 text-sm xs:text-base sm:text-lg leading-relaxed"
             >
               {currentTestimonial.description}
             </motion.p>
@@ -157,29 +157,29 @@ export const Testimonials = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="pt-2 sm:pt-4"
+              className="pt-1 xs:pt-2 sm:pt-4"
             >
-              <h4 className="text-lg sm:text-xl font-bold text-gray-900">
+              <h4 className="text-base xs:text-lg sm:text-xl font-bold text-gray-900">
                 {currentTestimonial.authorName}
               </h4>
-              <p className="text-xs sm:text-sm text-gray-600">{currentTestimonial.authorTitle}</p>
+              <p className="text-[10px] xs:text-xs sm:text-sm text-gray-600">{currentTestimonial.authorTitle}</p>
             </motion.div>
 
             {/* Navigation Buttons */}
-            <motion.div variants={itemVariants} className="flex items-center gap-3 sm:gap-4 pt-2 sm:pt-4">
+            <motion.div variants={itemVariants} className="flex items-center gap-2 xs:gap-3 sm:gap-4 pt-1 xs:pt-2 sm:pt-4">
               <Button
                 onClick={handlePrevious}
                 size="icon"
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
+                className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
               >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                <ChevronLeft className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
               </Button>
               <Button
                 onClick={handleNext}
                 size="icon"
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
+                className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-full bg-green-600 hover:bg-green-700 text-white"
               >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                <ChevronRight className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
               </Button>
             </motion.div>
           </motion.div>
@@ -190,14 +190,14 @@ export const Testimonials = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
-            className="space-y-4 sm:space-y-6"
+            className="space-y-3 xs:space-y-4 sm:space-y-6"
           >
             {/* Google Rating Card */}
       
 
             {/* Video Thumbnail */}
             {showVideo && (
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl group">
+              <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl group">
                 {!isVideoPlaying ? (
                   <>
                     {/* Thumbnail Image */}

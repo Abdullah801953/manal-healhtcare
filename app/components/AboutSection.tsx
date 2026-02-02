@@ -90,9 +90,9 @@ export const AboutSection = ({
   const rightFeatures = features.slice(Math.ceil(features.length / 2));
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="px-4 sm:px-6 lg:px-10">
-        <div className="grid lg:grid-cols-3 gap-6">
+    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {/* Left Side - Image */}
           <motion.div
             variants={imageVariants}
@@ -101,7 +101,7 @@ export const AboutSection = ({
             viewport={{ once: true, amount: 0.3 }}
             className="relative flex items-center justify-center lg:justify-start lg:col-span-1"
           >
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl w-full max-w-xs sm:max-w-sm lg:max-w-md">
+            <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl w-full max-w-[280px] xs:max-w-xs sm:max-w-sm lg:max-w-md">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
@@ -124,12 +124,12 @@ export const AboutSection = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-4 sm:space-y-5 lg:space-y-6 flex flex-col justify-start lg:col-span-2"
+            className="space-y-3 xs:space-y-4 sm:space-y-5 lg:space-y-6 flex flex-col justify-start lg:col-span-2"
           >
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-sm sm:text-base uppercase tracking-wide"
+              className="text-[#209F00] font-semibold text-xs xs:text-sm sm:text-base uppercase tracking-wide"
             >
               {badge}
             </motion.p>
@@ -137,7 +137,7 @@ export const AboutSection = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-16"
+              className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
             >
               {heading}
             </motion.h2>
@@ -145,7 +145,7 @@ export const AboutSection = ({
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed"
+              className="text-gray-600 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed"
             >
               {description}
             </motion.p>

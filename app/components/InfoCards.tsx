@@ -71,49 +71,51 @@ export const InfoCards = () => {
   };
 
   return (
-    <section className="pt-64 sm:pt-72 lg:pt-80 pb-12 sm:pb-14 lg:pb-16 bg-gray-50 my-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="
-            grid 
-            grid-cols-1 
-            sm:grid-cols-2 
-            md:grid-cols-3 
-            lg:grid-cols-5 
-            gap-4 sm:gap-5 lg:gap-6
-          "
-        >
-          {infoCards.map((card) => (
-            <motion.div
-              key={card.id}
-              variants={cardVariants}
-              whileHover={{ y: -8 }}
-              className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col"
+    <section className="pt-64 xs:pt-72 sm:pt-80 md:pt-60 lg:pt-52 pb-8 xs:pb-10 sm:pb-12 md:pb-14 lg:pb-16 bg-gray-50 my-10 xs:my-14 sm:my-16 md:my-20">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        {/* Scrollable on mobile, grid on larger screens */}
+        <div className="-mx-3 xs:-mx-4 sm:mx-0 px-3 xs:px-4 sm:px-0 overflow-x-auto sm:overflow-visible scrollbar-hide">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="
+              flex sm:grid
+              sm:grid-cols-3 
+              md:grid-cols-3 
+              lg:grid-cols-5 
+              gap-3 xs:gap-4 sm:gap-5 lg:gap-6
+              min-w-max sm:min-w-0
+            "
+          >
+            {infoCards.map((card) => (
+              <motion.div
+                key={card.id}
+                variants={cardVariants}
+                whileHover={{ y: -8 }}
+                className="bg-white rounded-lg xs:rounded-xl sm:rounded-2xl p-3 xs:p-4 sm:p-5 lg:p-6 xl:p-8 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col w-[160px] xs:w-[180px] sm:w-auto flex-shrink-0 sm:flex-shrink"
             >
               {/* Icon */}
-              <div className="mb-4 sm:mb-5 lg:mb-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-green-50 rounded-full flex items-center justify-center">
+              <div className="mb-3 xs:mb-4 sm:mb-5 lg:mb-6">
+                <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-green-50 rounded-full flex items-center justify-center">
                   <Image
                     src={card.icon}
                     alt={card.title}
                     width={60}
                     height={60}
-                    className="object-contain w-12 h-12 sm:w-14 sm:h-14 lg:w-[60px] lg:h-[60px]"
+                    className="object-contain w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 xl:w-[60px] xl:h-[60px]"
                   />
                 </div>
               </div>
 
               {/* Title */}
-              <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4">
+              <h3 className="text-xs xs:text-sm sm:text-base lg:text-lg font-bold text-gray-900 mb-2 xs:mb-3 sm:mb-4">
                 {card.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 grow">
+              <p className="text-gray-600 text-[10px] xs:text-xs sm:text-sm leading-relaxed mb-3 xs:mb-4 sm:mb-6 grow">
                 {card.description}
               </p>
 
@@ -122,6 +124,7 @@ export const InfoCards = () => {
             </motion.div>
           ))}
         </motion.div>
+        </div>
       </div>
     </section>
   );
