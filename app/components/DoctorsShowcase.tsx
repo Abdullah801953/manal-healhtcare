@@ -154,7 +154,7 @@ export const DoctorsShowcase = ({
   };
 
   return (
-    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-gray-50">
+    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <motion.div
           variants={containerVariants}
@@ -186,7 +186,7 @@ export const DoctorsShowcase = ({
             {!loading && categories.length > 0 && (
               <motion.div
                 variants={itemVariants}
-                className="-mx-3 xs:-mx-4 sm:mx-0 px-3 xs:px-4 sm:px-0 overflow-x-auto scrollbar-hide"
+                className="overflow-x-auto scrollbar-hide"
               >
                 <div className="flex items-center gap-2 xs:gap-2 sm:gap-3 min-w-max sm:min-w-0 sm:flex-wrap pb-2 sm:pb-0">
                 <Button
@@ -252,7 +252,7 @@ export const DoctorsShowcase = ({
           {!loading && !error && filteredDoctors.length > 0 && (
             <motion.div variants={itemVariants} className="relative">
               {/* Scrollable on mobile, slider on desktop */}
-              <div className="-mx-3 xs:-mx-4 sm:mx-0 px-3 xs:px-4 sm:px-0 overflow-x-auto sm:overflow-hidden scrollbar-hide">
+              <div className="overflow-x-auto sm:overflow-hidden scrollbar-hide">
                 <div 
                   className="flex sm:transition-transform sm:duration-500 sm:ease-out gap-3 xs:gap-4 sm:gap-5 lg:gap-6 min-w-max sm:min-w-0"
                   style={{
@@ -280,7 +280,7 @@ export const DoctorsShowcase = ({
                     onClick={handlePrevious}
                     disabled={startIndex === 0}
                     size="icon"
-                    className="hidden lg:flex absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#209F00] text-gray-700 hover:text-white shadow-2xl border-2 border-gray-200 z-10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#209F00] text-gray-700 hover:text-white shadow-2xl border-2 border-gray-200 z-10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </Button>
@@ -288,7 +288,7 @@ export const DoctorsShowcase = ({
                     onClick={handleNext}
                     disabled={startIndex >= filteredDoctors.length - visibleCards}
                     size="icon"
-                    className="hidden lg:flex absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#209F00] text-gray-700 hover:text-white shadow-2xl border-2 border-gray-200 z-10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#209F00] text-gray-700 hover:text-white shadow-2xl border-2 border-gray-200 z-10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <ChevronRight className="w-6 h-6" />
                   </Button>

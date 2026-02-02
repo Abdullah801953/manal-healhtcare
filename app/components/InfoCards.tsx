@@ -71,10 +71,10 @@ export const InfoCards = () => {
   };
 
   return (
-    <section className="pt-64 xs:pt-72 sm:pt-80 md:pt-60 lg:pt-52 pb-8 xs:pb-10 sm:pb-12 md:pb-14 lg:pb-16 bg-gray-50 my-10 xs:my-14 sm:my-16 md:my-20">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+    <section className="pt-64 xs:pt-72 sm:pt-80 md:pt-60 lg:pt-52 pb-8 xs:pb-10 sm:pb-12 md:pb-14 lg:pb-16 bg-gray-50 my-10 xs:my-14 sm:my-16 md:my-20 overflow-hidden">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 mt-[15vh] md:mt-[10vh]">
         {/* Scrollable on mobile, grid on larger screens */}
-        <div className="-mx-3 xs:-mx-4 sm:mx-0 px-3 xs:px-4 sm:px-0 overflow-x-auto sm:overflow-visible scrollbar-hide">
+        <div className="overflow-x-auto sm:overflow-visible scrollbar-hide">
           <motion.div
             variants={containerVariants}
             initial="hidden"
