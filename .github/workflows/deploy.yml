@@ -1,0 +1,95 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+      - abdullah-branch
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/abdullah-branch'
+
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            cd /opt/manal-healthcare
+            
+            # Pull latest image
+            echo "Pulling latest Docker image..."
+            docker compose pull
+            
+            # Stop and remove old containers
+            echo "Stopping old containers..."
+            docker compose down
+            
+            # Start new containers
+            echo "Starting new containers..."
+            docker compose up -d
+            
+            # Clean up old images
+            echo "Cleaning up old images..."
+            docker image prune -af
+            
+            # Show running containers
+            docker compose ps
+            
+            echo "Deployment completed successfully!"
+
+      - name: Health Check
+        run: |
+          sleep 10
+          curl -f ${{ secrets.NEXT_PUBLIC_BASE_URL }}/api/health || exit 1
