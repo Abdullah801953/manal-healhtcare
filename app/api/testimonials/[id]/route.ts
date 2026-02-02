@@ -5,12 +5,13 @@ import Testimonial from '@/lib/models/Testimonial';
 // GET single testimonial by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   try {
     await connectDB();
 
-    const testimonial = await Testimonial.findById(params.id);
+    const testimonial = await Testimonial.findById(id);
 
     if (!testimonial) {
       return NextResponse.json(
@@ -41,15 +42,16 @@ export async function GET(
 // PUT update testimonial
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   try {
     await connectDB();
 
     const body = await request.json();
 
     const testimonial = await Testimonial.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     );
@@ -83,12 +85,13 @@ export async function PUT(
 // DELETE single testimonial
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   try {
     await connectDB();
 
-    const testimonial = await Testimonial.findByIdAndDelete(params.id);
+    const testimonial = await Testimonial.findByIdAndDelete(id);
 
     if (!testimonial) {
       return NextResponse.json(

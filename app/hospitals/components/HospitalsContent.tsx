@@ -97,7 +97,7 @@ export default function HospitalsContent() {
           hospital.location.toLowerCase().includes(query) ||
           hospital.city.toLowerCase().includes(query) ||
           hospital.description.toLowerCase().includes(query) ||
-          hospital.specialties.some((s) => s.toLowerCase().includes(query))
+          hospital.specialties.some((s: string) => s.toLowerCase().includes(query))
       );
     }
 

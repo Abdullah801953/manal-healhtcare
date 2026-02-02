@@ -184,10 +184,11 @@ export default async function HospitalDetailPage({
               worstRating: '1',
             },
             medicalSpecialty: hospital.specialties,
-            availableService: hospital.facilities.map((facility) => ({
+            availableService: hospital.facilities.map((facility: string) => ({
               '@type': 'Service',
               name: facility,
             })),
+
           }),
         }}
       />

@@ -192,7 +192,7 @@ export default async function TreatmentDetailPage({
                 <div className="bg-white rounded-2xl shadow p-6 border border-[#209f00]/10">
                   <h2 className="text-xl font-bold text-[#209f00] mb-2">Benefits</h2>
                   <ul className="space-y-2">
-                    {treatment.benefits.map((b, i) => (
+                    {treatment.benefits.map((b: string, i: number) => (
                       <li key={i} className="flex items-center gap-2"><span className="text-[#209f00]">✔</span> <span>{b}</span></li>
                     ))}
                   </ul>
@@ -202,7 +202,7 @@ export default async function TreatmentDetailPage({
                 <div className="bg-white rounded-2xl shadow p-6 border border-[#209f00]/10">
                   <h2 className="text-xl font-bold text-[#209f00] mb-2">Procedures</h2>
                   <ul className="space-y-2">
-                    {treatment.procedures.map((p, i) => (
+                    {treatment.procedures.map((p: string, i: number) => (
                       <li key={i} className="flex items-center gap-2"><span className="text-[#209f00]">•</span> <span>{p}</span></li>
                     ))}
                   </ul>
