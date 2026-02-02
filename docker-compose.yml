@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    image: ghcr.io/${GITHUB_USERNAME}/manal-healthcare:latest
+    container_name: manal-healthcare
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=${MONGODB_URI}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - ./public/uploads:/app/public/uploads
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app-network:
+    driver: bridge
