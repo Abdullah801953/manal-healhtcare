@@ -2,10 +2,7 @@ version: '3.8'
 
 services:
   web:
-    build:
-      context: .
-      args:
-        - MONGODB_URI=${MONGODB_URI}
+    image: abdullahdkc/manal-healthcare-docker:latest
     container_name: manal-healthcare
     restart: unless-stopped
     ports:
