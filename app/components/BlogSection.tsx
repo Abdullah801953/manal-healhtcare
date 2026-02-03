@@ -52,7 +52,7 @@ function BlogCard({ blog }: BlogCardProps) {
       viewport={{ once: true }}
     >
       <Link
-        href={`/blogs/${blog._id}`}
+        href={`/blogs/${blog.slug}`}
         className="group bg-white rounded-lg xs:rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block"
       >
         {/* Image */}

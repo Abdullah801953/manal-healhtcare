@@ -492,7 +492,7 @@ export default function PatientFAQsPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mx-auto relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block p-3 bg-blue-100 rounded-full mb-6">
               <HelpCircle className="w-12 h-12 text-blue-600" />
@@ -517,7 +517,7 @@ export default function PatientFAQsPage() {
           </div>
 
           {/* Quick Facts */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mt-12">
             {quickFacts.map((fact, index) => (
               <QuickFactCard key={index} fact={fact} />
             ))}
@@ -527,7 +527,7 @@ export default function PatientFAQsPage() {
 
       {/* FAQ Categories Overview */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Browse by Category
@@ -537,7 +537,7 @@ export default function PatientFAQsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {faqCategories.map((category, index) => (
               <CategoryCard key={index} category={category} index={index} />
             ))}
@@ -547,7 +547,7 @@ export default function PatientFAQsPage() {
 
       {/* Process Overview */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               How the Process Works
@@ -557,7 +557,7 @@ export default function PatientFAQsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {processOverview.map((process, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
@@ -587,7 +587,7 @@ export default function PatientFAQsPage() {
           id={`category-${categoryIndex}`}
           className={`py-16 px-4 ${categoryIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
         >
-          <div className="max-w-4xl mx-auto">
+          <div className="mx-auto">
             <div className="flex items-center gap-4 mb-8">
               <div className={`p-3 rounded-lg bg-${category.color}-100`}>
                 {(() => {
@@ -634,7 +634,7 @@ export default function PatientFAQsPage() {
 
       {/* Still Have Questions CTA */}
       <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="mx-auto text-center">
           <div className="inline-block p-3 bg-white/10 rounded-full mb-6">
             <HelpCircle className="w-12 h-12" />
           </div>
@@ -663,7 +663,7 @@ export default function PatientFAQsPage() {
 
       {/* SEO Content Article */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto prose prose-lg">
+        <div className="mx-auto prose prose-lg">
           <h2>Complete Guide for International Patients Seeking Treatment in India</h2>
           
           <p>

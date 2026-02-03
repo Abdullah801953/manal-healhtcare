@@ -51,13 +51,13 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="px-4 py-8">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-8">
         <BlogHero 
           title={blog.title} 
           image={blog.image || '/blog-hero.jpg'} 
         />
         
-        <div className="mt-10 p-6 md:p-10 max-w-6xl mx-auto">
+        <div className="mt-6 xs:mt-7 sm:mt-8 lg:mt-10">
           <BlogNavigating blog={{
             ...blog,
             id: blog._id,

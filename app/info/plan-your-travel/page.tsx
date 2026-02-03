@@ -137,7 +137,7 @@ const PlanYourTravelPage = () => {
         <section className="relative bg-gradient-to-r from-green-600 to-emerald-700 text-white py-20">
           <div className="absolute inset-0 bg-black/10"></div>
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="mx-auto text-center">
               <div className="flex justify-center mb-6">
                 <div className="bg-white/20 backdrop-blur-sm p-4 rounded-full">
                   <Plane className="w-12 h-12" />
@@ -172,7 +172,7 @@ const PlanYourTravelPage = () => {
         {/* Quick Stats */}
         <section className="py-12 bg-white border-b">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">
                   24/7
@@ -204,7 +204,7 @@ const PlanYourTravelPage = () => {
         {/* Why Choose India for Medical Tourism */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <Globe className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -217,7 +217,7 @@ const PlanYourTravelPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mb-12">
                 {whyIndiaReasons.map((reason, index) => (
                   <Card
                     key={index}
@@ -305,7 +305,7 @@ const PlanYourTravelPage = () => {
               </p>
             </div>
 
-            <div className="max-w-4xl mx-auto space-y-6">
+            <div className="mx-auto space-y-6">
               {travelSteps.map((step, index) => (
                 <Card
                   key={index}
@@ -350,7 +350,7 @@ const PlanYourTravelPage = () => {
         {/* Documentation Requirements */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <FileText className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -361,7 +361,7 @@ const PlanYourTravelPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {documentationRequired.map((doc, index) => (
                   <Card key={index} className="hover:shadow-lg transition-shadow">
                     <CardHeader>
@@ -393,7 +393,7 @@ const PlanYourTravelPage = () => {
         {/* Services We Provide */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   Services We Provide
@@ -403,7 +403,7 @@ const PlanYourTravelPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {servicesProvided.map((service, index) => (
                   <Card
                     key={index}
@@ -428,7 +428,7 @@ const PlanYourTravelPage = () => {
         {/* Accommodation Options */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <Hotel className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -439,7 +439,7 @@ const PlanYourTravelPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {accommodationOptions.map((option, index) => (
                   <Card
                     key={index}
@@ -481,7 +481,7 @@ const PlanYourTravelPage = () => {
         {/* Travel Tips */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   Essential Travel Tips for Medical Tourists
@@ -491,7 +491,7 @@ const PlanYourTravelPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {travelTips.map((tip, index) => (
                   <Card
                     key={index}
@@ -518,7 +518,7 @@ const PlanYourTravelPage = () => {
         {/* Success Stories */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <Award className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -530,7 +530,7 @@ const PlanYourTravelPage = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {successStories.map((story, index) => (
                   <Card
                     key={index}
@@ -567,7 +567,7 @@ const PlanYourTravelPage = () => {
         {/* Detailed Guide Section */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   Complete Medical Travel Planning Guide
@@ -654,7 +654,7 @@ const PlanYourTravelPage = () => {
         {/* FAQ Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <MessageCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -688,7 +688,7 @@ const PlanYourTravelPage = () => {
         {/* CTA Section */}
         <section className="py-16 bg-gradient-to-r from-green-600 to-emerald-700 text-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Ready to Start Your Medical Travel Journey to India?
               </h2>
@@ -725,7 +725,7 @@ const PlanYourTravelPage = () => {
         {/* SEO Content Section */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto prose prose-lg">
+            <div className="mx-auto prose prose-lg">
               <article>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">
                   Medical Tourism in India: A Complete Planning Guide for 2026

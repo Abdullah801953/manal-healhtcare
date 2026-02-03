@@ -9,7 +9,6 @@ export default function AccreditationsSection({ hospital }: AccreditationsProps)
   return (
     <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
       <div className="container mx-auto">
-        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 bg-[#209f00]/10 rounded-xl">
@@ -51,7 +50,6 @@ export default function AccreditationsSection({ hospital }: AccreditationsProps)
               Our accreditations demonstrate our commitment to providing the highest standards of patient care, safety protocols, and clinical excellence. We undergo rigorous evaluations to maintain these certifications.
             </p>
           </div>
-        </div>
       </div>
     </section>
   );

@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Languages, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Phone, Mail, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { treatmentsData } from "@/app/treatments/data";
-import { LanguageSelector } from "./LanguageSelector";
 
 const mobileNavigationLinks = [
   { href: "/", label: "Home" },
@@ -38,6 +37,24 @@ export const MobileNav = () => {
   const [open, setOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [treatmentsOpen, setTreatmentsOpen] = useState(false);
+  const [settings, setSettings] = useState<any>(null);
+
+  // Fetch settings from API
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch('/api/settings');
+        const data = await response.json();
+        if (data.success) {
+          setSettings(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -59,15 +76,75 @@ export const MobileNav = () => {
         <div className="bg-gradient-to-r from-green-600 to-green-700 p-4 text-white">
           <h2 className="text-lg font-semibold mb-3">Manal Healthcare</h2>
           <div className="space-y-2 text-sm">
-            <a href="tel:0087578456820" className="flex items-center gap-2 hover:text-green-200 transition-colors">
-              <Phone className="w-4 h-4" />
-              <span>(00) 875 784 5682</span>
-            </a>
-            <a href="mailto:togetoinfo@gmail.com" className="flex items-center gap-2 hover:text-green-200 transition-colors">
-              <Mail className="w-4 h-4" />
-              <span>togetoinfo@gmail.com</span>
-            </a>
+            {settings?.sitePhone && (
+              <a 
+                href={`tel:${settings.sitePhone.replace(/\s+/g, '')}`} 
+                className="flex items-center gap-2 hover:text-green-200 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                <span>{settings.sitePhone}</span>
+              </a>
+            )}
+            {settings?.siteEmail && (
+              <a 
+                href={`mailto:${settings.siteEmail}`} 
+                className="flex items-center gap-2 hover:text-green-200 transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                <span>{settings.siteEmail}</span>
+              </a>
+            )}
           </div>
+          
+          {/* Social Icons */}
+          {(settings?.facebook || settings?.instagram || settings?.twitter || settings?.linkedin) && (
+            <div className="flex items-center gap-3 mt-4 pt-3 border-t border-green-500/30">
+              {settings?.facebook && (
+                <a 
+                  href={settings.facebook} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+              )}
+              {settings?.instagram && (
+                <a 
+                  href={settings.instagram} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              )}
+              {settings?.twitter && (
+                <a 
+                  href={settings.twitter} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+              )}
+              {settings?.linkedin && (
+                <a 
+                  href={settings.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Navigation Links */}
@@ -169,37 +246,20 @@ export const MobileNav = () => {
 
         {/* Bottom Actions */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
-          <div className="flex flex-col gap-3">
-            <Button 
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium"
-              onClick={() => {
-                setOpen(false);
-                setTimeout(() => {
-                  const queryForm = document.getElementById('query-form');
-                  if (queryForm) {
-                    queryForm.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }, 300);
-              }}
-            >
-              Get Free Quote
-            </Button>
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <LanguageSelector />
-              </div>
-              <Button 
-                variant="outline" 
-                className="flex-1 border-green-600 text-green-600 hover:bg-green-50 py-2.5 text-sm rounded-full font-medium"
-                asChild
-              >
-                <a href="tel:0087578456820">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Call Now
-                </a>
-              </Button>
-            </div>
-          </div>
+          <Button 
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium"
+            onClick={() => {
+              setOpen(false);
+              setTimeout(() => {
+                const queryForm = document.getElementById('query-form');
+                if (queryForm) {
+                  queryForm.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 300);
+            }}
+          >
+            Get Free Quote
+          </Button>
         </div>
       </SheetContent>
     </Sheet>

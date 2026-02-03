@@ -663,7 +663,7 @@ export default function HalalCertificationPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 opacity-10"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mx-auto relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block p-3 bg-emerald-100 rounded-full mb-6">
               <Award className="w-12 h-12 text-emerald-600" />
@@ -688,7 +688,7 @@ export default function HalalCertificationPage() {
           </div>
 
           {/* Key Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mt-12">
             {[
               { icon: Building2, value: "50+", label: "Halal-Certified Hospitals" },
               { icon: Globe, value: "75+", label: "Countries Served" },
@@ -707,7 +707,7 @@ export default function HalalCertificationPage() {
 
       {/* Certification Standards */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Halal Certification Standards
@@ -727,7 +727,7 @@ export default function HalalCertificationPage() {
 
       {/* Halal Services */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Comprehensive Halal Services
@@ -737,7 +737,7 @@ export default function HalalCertificationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {halalServices.map((service, index) => (
               <ServiceCard key={index} service={service} />
             ))}
@@ -747,7 +747,7 @@ export default function HalalCertificationPage() {
 
       {/* Islamic Facilities */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Islamic Facilities & Amenities
@@ -757,7 +757,7 @@ export default function HalalCertificationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {islamicFacilities.map((facility, index) => (
               <FacilityCard key={index} facility={facility} />
             ))}
@@ -767,7 +767,7 @@ export default function HalalCertificationPage() {
 
       {/* Compliance Areas */}
       <section className="py-16 px-4 bg-emerald-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Sharia Compliance Areas
@@ -777,7 +777,7 @@ export default function HalalCertificationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {complianceAreas.map((area, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
@@ -807,7 +807,7 @@ export default function HalalCertificationPage() {
 
       {/* Certified Hospitals */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Halal-Certified Hospitals in India
@@ -817,7 +817,7 @@ export default function HalalCertificationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {certifiedHospitals.map((hospital, index) => (
               <HospitalCard key={index} hospital={hospital} />
             ))}
@@ -827,7 +827,7 @@ export default function HalalCertificationPage() {
 
       {/* Patient Testimonials */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Muslim Patient Testimonials
@@ -837,7 +837,7 @@ export default function HalalCertificationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {patientTestimonials.map((testimonial, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-center gap-1 mb-4">
@@ -868,7 +868,7 @@ export default function HalalCertificationPage() {
 
       {/* Why Choose Halal-Certified Care */}
       <section className="py-16 px-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
               Why Choose Halal-Certified Healthcare?
@@ -878,7 +878,7 @@ export default function HalalCertificationPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {[
               {
                 icon: Sparkles,
@@ -925,7 +925,7 @@ export default function HalalCertificationPage() {
 
       {/* FAQ Section */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Frequently Asked Questions
@@ -1031,7 +1031,7 @@ export default function HalalCertificationPage() {
 
       {/* CTA Section */}
       <section className="py-16 px-4 bg-emerald-50">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="mx-auto text-center">
           <div className="inline-block p-3 bg-emerald-100 rounded-full mb-6">
             <Award className="w-12 h-12 text-emerald-600" />
           </div>
@@ -1056,7 +1056,7 @@ export default function HalalCertificationPage() {
 
       {/* SEO Content Article */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto prose prose-lg">
+        <div className="mx-auto prose prose-lg">
           <h2>Understanding Halal Certification in Medical Tourism</h2>
           
           <p>

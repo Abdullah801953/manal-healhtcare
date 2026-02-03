@@ -14,7 +14,6 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
   return (
     <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
       <div className="container mx-auto">
-        <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">
@@ -95,7 +94,6 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
             </Link>
           </div>
         </div>
-      </div>
     </section>
   );
 }
