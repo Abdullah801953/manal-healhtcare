@@ -3,27 +3,17 @@ services:
     image: abdullahdkc/manal-healthcare-docker:latest
     container_name: manal-healthcare
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
       - MONGODB_URI=${MONGODB_URI}
       - NEXT_PUBLIC_BASE_URL=https://manalhealthcare.com
       - JWT_SECRET=${JWT_SECRET}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.manal.rule=Host(`manalhealthcare.com`)"
-      - "traefik.http.routers.manal.entrypoints=websecure"
-      - "traefik.http.routers.manal.tls.certresolver=letsencrypt"
-      - "traefik.http.services.manal.loadbalancer.server.port=3000"
-    networks:
-      - n8n_default
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
-networks:
-  n8n_default:
-    external: true
