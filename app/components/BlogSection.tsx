@@ -44,6 +44,9 @@ interface BlogCardProps {
 }
 
 function BlogCard({ blog }: BlogCardProps) {
+  const imageUrl = blog.image || '/blog-placeholder.jpg';
+  const isUploadedImage = imageUrl.startsWith('/uploads/');
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -58,11 +61,12 @@ function BlogCard({ blog }: BlogCardProps) {
         {/* Image */}
         <div className="relative h-36 xs:h-40 sm:h-48 md:h-56 overflow-hidden">
           <Image
-            src={blog.image || '/blog-placeholder.jpg'}
+            src={imageUrl}
             alt={blog.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover group-hover:scale-110 transition-transform duration-500"
+            unoptimized={isUploadedImage}
           />
         </div>
 
