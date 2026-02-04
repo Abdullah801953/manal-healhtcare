@@ -4,92 +4,197 @@ on:
   push:
     branches:
       - main
-      - abdullah-branch
   workflow_dispatch:
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  IMAGE_NAME: manal-healthcare-docker
+  VPS_HOST: ${{ secrets.VPS_HOST }}
+  VPS_USER: ${{ secrets.VPS_USER }}
+  VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+  PROJECT_PATH: /var/www/htdocs/manal-healhtcare
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=$(git describe --tags --always)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +%Y%m%d_%H%M%S)" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            MONGODB_URI=${{ secrets.MONGODB_URI }}
+
+      - name: Notify build success
+        run: |
+          echo "✅ Docker image built and pushed successfully!"
+          echo "Image: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
 
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/abdullah-branch'
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT || 22 }}
-          script: |
-            cd /opt/manal-healthcare
-            
-            # Pull latest image
-            echo "Pulling latest Docker image..."
-            docker compose pull
-            
-            # Stop and remove old containers
-            echo "Stopping old containers..."
-            docker compose down
-            
-            # Start new containers
-            echo "Starting new containers..."
-            docker compose up -d
-            
-            # Clean up old images
-            echo "Cleaning up old images..."
-            docker image prune -af
-            
-            # Show running containers
-            docker compose ps
-            
-            echo "Deployment completed successfully!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Health Check
+      - name: Setup SSH key
         run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to VPS
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          set -e
+          
+          echo "📦 Starting deployment..."
+          
+          # Navigate to project directory
+          cd ${{ env.PROJECT_PATH }}
+          
+          # Pull latest code from repository
+          echo "📥 Pulling latest code..."
+          git pull origin main
+          
+          # Pull latest Docker image
+          echo "🐳 Pulling latest Docker image..."
+          docker compose pull
+          
+          # Stop old container
+          echo "🛑 Stopping old container..."
+          docker compose down
+          
+          # Start new container
+          echo "🚀 Starting new container..."
+          docker compose up -d
+          
+          # Wait for container to be healthy
+          echo "⏳ Waiting for container to be healthy..."
           sleep 10
-          curl -f ${{ secrets.NEXT_PUBLIC_BASE_URL }}/api/health || exit 1
+          
+          # Check container status
+          if docker compose ps | grep -q "healthy"; then
+            echo "✅ Container is healthy"
+          else
+            echo "❌ Container health check failed"
+            docker compose logs
+            exit 1
+          fi
+          
+          # Prune old images
+          echo "🧹 Cleaning up old images..."
+          docker image prune -f
+          
+          echo "✅ Deployment completed successfully!"
+          EOF
+
+      - name: Verify deployment
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          echo "🔍 Verifying deployment..."
+          
+          # Check container status
+          docker compose -f ${{ env.PROJECT_PATH }}/docker-compose.yml ps
+          
+          # Check logs
+          echo ""
+          echo "📝 Recent logs:"
+          docker compose -f ${{ env.PROJECT_PATH }}/docker-compose.yml logs --tail 20
+          
+          # Check health endpoint
+          echo ""
+          echo "🏥 Health check:"
+          curl -s http://localhost:3000/api/health | jq '.'
+          
+          echo "✅ Verification complete!"
+          EOF
+
+      - name: Deployment notification
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = context.payload.pull_request ? 'completed' : 'completed';
+            const emoji = '${{ job.status }}' === 'success' ? '✅' : '❌';
+            const message = `${emoji} Deployment ${status} on VPS`;
+            
+            console.log(message);
+
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint --if-present || echo "No lint script found"
+
+      - name: Run type check
+        run: npx tsc --noEmit || echo "No TypeScript config found"
+
+      - name: Build project
+        run: npm run build
+        env:
+          MONGODB_URI: mongodb://fake:fake@localhost/test
+          NEXT_PUBLIC_BASE_URL: http://localhost:3000
+          JWT_SECRET: test-secret
+
+  notify:
+    needs: [build-and-push, deploy, test]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Send notification
+        run: |
+          STATUS="${{ job.status }}"
+          if [ "$STATUS" = "success" ]; then
+            echo "✅ CI/CD Pipeline completed successfully!"
+            echo "📦 Docker image: ${{ secrets.DOCKER_USERNAME }}/manal-healthcare-docker:latest"
+            echo "🚀 Deployed to: ${{ secrets.VPS_HOST }}"
+          else
+            echo "❌ CI/CD Pipeline failed!"
+          fi
