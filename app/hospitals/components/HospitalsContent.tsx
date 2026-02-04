@@ -58,8 +58,8 @@ export default function HospitalsContent() {
   const filteredHospitals = useMemo(() => {
     let filtered = hospitals;
 
-    // Filter by type
-    if (filters.type !== 'All Hospitals') {
+    // Filter by type - only filter if type is not 'All Hospitals'
+    if (filters.type && filters.type !== 'All Hospitals') {
       filtered = filtered.filter((hospital) => hospital.type === filters.type);
     }
 
@@ -102,7 +102,7 @@ export default function HospitalsContent() {
     }
 
     return filtered;
-  }, [filters, searchQuery]);
+  }, [hospitals, filters, searchQuery]);
 
   // Reset to page 1 when filters change
   useMemo(() => {

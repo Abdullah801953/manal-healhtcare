@@ -8,9 +8,10 @@
 5. [Push to Docker Hub](#push-to-docker-hub)
 6. [VPS Server Setup](#vps-server-setup)
 7. [Deploy on VPS](#deploy-on-vps)
-8. [SSL Configuration](#ssl-configuration)
-9. [Post-Deployment](#post-deployment)
-10. [Troubleshooting](#troubleshooting)
+8. [GitHub Actions CI/CD Setup](#github-actions-cicd-setup)
+9. [SSL Configuration](#ssl-configuration)
+10. [Post-Deployment](#post-deployment)
+11. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -351,6 +352,143 @@ docker compose ps
 docker compose logs -f
 curl http://localhost:3000
 ```
+
+---
+
+## GitHub Actions CI/CD Setup
+
+### Why Automate?
+Instead of manual deployment steps, GitHub Actions automatically:
+- ✅ Builds Docker image on every push
+- ✅ Pushes to Docker Hub
+- ✅ Deploys to VPS
+- ✅ Verifies deployment
+- ✅ Sends notifications
+
+### Prerequisites
+- GitHub repository
+- Docker Hub account with access token
+- VPS with SSH key authentication
+- GitHub Secrets configured
+
+### Step 1: Generate SSH Key for CI/CD
+```bash
+# On local machine
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/github_actions -N ""
+
+# Copy public key to VPS
+ssh-copy-id -i ~/.ssh/github_actions.pub root@your-vps-ip
+```
+
+### Step 2: Get Private Key
+```bash
+cat ~/.ssh/github_actions
+# Copy entire output (including BEGIN/END lines)
+```
+
+### Step 3: Configure GitHub Secrets
+Go to: https://github.com/YOUR_USERNAME/YOUR_REPO/settings/secrets/actions
+
+Add these secrets:
+
+| Secret Name | Value |
+|------------|-------|
+| `DOCKER_USERNAME` | Your Docker Hub username |
+| `DOCKER_PASSWORD` | Docker Hub access token (not password) |
+| `VPS_HOST` | Your VPS IP address |
+| `VPS_USER` | `root` or your VPS username |
+| `VPS_SSH_KEY` | Private SSH key content |
+| `MONGODB_URI` | MongoDB Atlas connection string |
+
+### Step 4: Workflow File
+The `.github/workflows/deploy.yml` file is already configured with:
+- **Test Job**: Builds and tests Next.js project
+- **Build & Push Job**: Creates Docker image and pushes to Docker Hub
+- **Deploy Job**: SSH to VPS and deploys container
+- **Verify Job**: Checks if deployment is successful
+
+### Step 5: Trigger Deployment
+Simply push to main branch:
+```bash
+git add .
+git commit -m "Your changes"
+git push origin main
+```
+
+Watch deployment at: https://github.com/YOUR_USERNAME/YOUR_REPO/actions
+
+### Step 6: Monitor Workflow
+1. Go to **Actions** tab
+2. Click the latest workflow run
+3. See real-time logs
+
+### Workflow Steps
+```
+Push to main
+    ↓
+Test (npm run build)
+    ↓
+Build Docker image
+    ↓
+Push to Docker Hub
+    ↓
+SSH to VPS
+    ↓
+Pull latest code
+    ↓
+Pull Docker image
+    ↓
+Stop old container
+    ↓
+Start new container
+    ↓
+Verify deployment
+    ↓
+✅ Done!
+```
+
+### Commands for CI/CD
+```bash
+# Manually trigger workflow
+gh workflow run deploy.yml --ref main
+
+# View workflow status
+gh workflow view deploy.yml
+
+# View recent runs
+gh run list --workflow=deploy.yml
+
+# Watch live logs
+gh run watch <run-id>
+```
+
+### Troubleshooting CI/CD
+
+**SSH Connection Failed:**
+```
+error: Permission denied (publickey)
+```
+- Verify VPS_SSH_KEY is correct
+- Test manually: `ssh -i ~/.ssh/github_actions root@VPS_IP`
+
+**Docker Push Failed:**
+```
+error: unauthorized: authentication required
+```
+- Check DOCKER_PASSWORD is a token, not password
+- Generate new token from Docker Hub
+
+**Deployment Failed:**
+```
+error: Container exited with code 1
+```
+- Check environment variables match
+- View logs: `docker compose logs`
+- Test locally first: `npm run build`
+
+**Secrets Not Found:**
+- Verify secret names exactly match workflow
+- Check repository settings → Secrets
 
 ---
 

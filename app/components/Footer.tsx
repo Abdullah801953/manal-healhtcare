@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronRight, MapPin, Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 import logo from "@/public/logo.png";
 import { useSettings } from "../contexts/SettingsContext";
+import { useState, useEffect } from "react";
 // Footer data organized for reusability
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -21,17 +22,33 @@ const utilityPages = [
   { href: "/doctors", label: "Doctors" },
 ];
 
-const services = [
-  { href: "/services/prenatal-care", label: "Prenatal Care" },
-  { href: "/services/prenatal-care", label: "Prenatal Care" },
-  { href: "/services/neuro-surgery", label: "Neuro Surgery" },
-  { href: "/services/cardiology", label: "Cardiology" },
-  { href: "/services/dental-care", label: "Dental Care" },
-  { href: "/services/ophthalmology", label: "Ophthalmology" },
-];
-
 const Footer = () => {
   const { settings } = useSettings();
+  const [treatments, setTreatments] = useState<any[]>([]);
+
+  // Fetch treatments from API
+  useEffect(() => {
+    const fetchTreatments = async () => {
+      try {
+        const response = await fetch('/api/treatments?status=active');
+        const data = await response.json();
+        
+        if (data.success) {
+          // Get unique categories and limit to 6
+          const uniqueCategories = Array.from(
+            new Map(
+              data.data.map((t: any) => [t.category, t])
+            ).values()
+          ).slice(0, 6);
+          setTreatments(uniqueCategories);
+        }
+      } catch (error) {
+        console.error('Error fetching treatments:', error);
+      }
+    };
+
+    fetchTreatments();
+  }, []);
 
   return (
     <footer className="bg-gray-100 border-t">
@@ -207,17 +224,21 @@ const Footer = () => {
               Our Treatments
             </h3>
             <ul className="space-y-3">
-              {services.map((service, index) => (
-                <li key={`${service.href}-${index}`}>
-                  <Link
-                    href={service.href}
-                    className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors group"
-                  >
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    <span className="text-sm">{service.label}</span>
-                  </Link>
-                </li>
-              ))}
+              {treatments.length > 0 ? (
+                treatments.map((treatment) => (
+                  <li key={treatment._id}>
+                    <Link
+                      href={`/treatments/${treatment.slug}`}
+                      className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors group"
+                    >
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <span className="text-sm">{treatment.category}</span>
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-500">Loading services...</li>
+              )}
             </ul>
           </div>
         </div>

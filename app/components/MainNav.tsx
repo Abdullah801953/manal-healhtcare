@@ -171,7 +171,7 @@ export const MainNav = () => {
                 href="/"
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  "bg-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
+                  "g-transparent text-sm xl:text-base 2xl:text-[17px] font-medium text-gray-900",
                   "hover:text-[#209F00] hover:bg-transparent",
                   "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
