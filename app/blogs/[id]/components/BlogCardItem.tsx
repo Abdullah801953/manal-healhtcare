@@ -1,26 +1,34 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Tag, ArrowRight } from "lucide-react";
 import { Blog } from "../../data";
 import { formatDate } from "../../utils";
+import { useState } from "react";
 
 interface BlogCardProps {
   blog: Blog;
 }
 
 export function BlogCardItem({ blog }: BlogCardProps) {
+  const [imageError, setImageError] = useState(false);
+  const imageUrl = imageError ? '/blog-placeholder.jpg' : (blog.image || '/blog-placeholder.jpg');
+  
   return (
     <Link
       href={`/blogs/${blog.slug}`}
       className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
     >
       {/* Image */}
-      <div className="relative h-56 overflow-hidden">
+      <div className="relative h-56 overflow-hidden bg-gray-200">
         <Image
-          src={blog.image}
+          src={imageUrl}
           alt={blog.title}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
           className="object-cover group-hover:scale-110 transition-transform duration-500"
+          onError={() => setImageError(true)}
         />
       </div>
 

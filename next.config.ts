@@ -10,6 +10,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'manalhealthcare.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.manalhealthcare.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -1,22 +1,29 @@
-import Image, { StaticImageData } from "next/image";
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
 import { Phone } from "lucide-react";
+import { useState } from "react";
 
 interface BlogHeroProps {
   title: string;
-  image: StaticImageData;
+  image: string | any;
 }
 
 const BlogHero = ({ title, image }: BlogHeroProps) => {
+  const [imageError, setImageError] = useState(false);
+  const imageUrl = imageError ? '/blog-hero.jpg' : (typeof image === 'string' ? image : '/blog-hero.jpg');
+  
   return (
     <section className="mb-6 xs:mb-7 sm:mb-8 lg:mb-10">
       <div className="relative w-full h-[300px] sm:h-[350px] md:h-[380px] overflow-hidden rounded-2xl sm:rounded-3xl">
         <Image
-          src={image}
+          src={imageUrl}
           alt={title}
           fill
           className="object-cover"
           priority
+          onError={() => setImageError(true)}
         />
 
         <div className="absolute inset-0 flex items-end">

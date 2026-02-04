@@ -14,12 +14,24 @@ interface BlogDetailPageProps {
 // Fetch blog by slug
 async function getBlogBySlug(slug: string) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/blogs/slug/${slug}`, {
-      cache: 'no-store'
-    });
-    const data = await response.json();
-    return data.success ? data.data : null;
+    // Direct database query on server-side
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const Blog = (await import('@/lib/models/Blog')).default;
+    
+    await connectDB();
+    const blog = await Blog.findOne({ slug, status: 'published' }).lean();
+    
+    if (!blog) {
+      return null;
+    }
+    
+    // Increment views
+    await Blog.findOneAndUpdate(
+      { slug },
+      { $inc: { views: 1 } }
+    );
+    
+    return JSON.parse(JSON.stringify(blog));
   } catch (error) {
     console.error('Error fetching blog:', error);
     return null;
@@ -29,17 +41,19 @@ async function getBlogBySlug(slug: string) {
 // Fetch all published blogs
 async function getAllBlogs() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/blogs?status=published`, {
-      cache: 'no-store'
-    });
-    const data = await response.json();
-    return data.success ? data.data : [];
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const Blog = (await import('@/lib/models/Blog')).default;
+    
+    await connectDB();
+    const blogs = await Blog.find({ status: 'published' }).lean();
+    
+    return JSON.parse(JSON.stringify(blogs));
   } catch (error) {
     console.error('Error fetching blogs:', error);
     return [];
   }
 }
+
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { id } = await params;
