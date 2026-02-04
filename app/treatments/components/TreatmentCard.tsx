@@ -9,6 +9,8 @@ interface TreatmentCardProps {
 }
 
 export default function TreatmentCard({ treatment }: TreatmentCardProps) {
+  const isUploadedImage = typeof treatment.image === 'string' && treatment.image.startsWith('/uploads/');
+  
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
       <div className="flex flex-col sm:flex-row">
@@ -20,6 +22,7 @@ export default function TreatmentCard({ treatment }: TreatmentCardProps) {
             width={256}
             height={208}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            unoptimized={isUploadedImage}
           />
           {treatment.featured && (
             <div className="absolute top-4 right-4 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">

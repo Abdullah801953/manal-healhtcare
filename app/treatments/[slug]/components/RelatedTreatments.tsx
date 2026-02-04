@@ -27,7 +27,9 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
 
           {/* Treatments Grid */}
           <div className="grid md:grid-cols-3 gap-8">
-            {treatments.map((treatment) => (
+            {treatments.map((treatment) => {
+              const isUploadedImage = typeof treatment.image === 'string' && treatment.image.startsWith('/uploads/');
+              return (
               <div
                 key={treatment.id}
                 className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group"
@@ -39,6 +41,7 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
                     alt={treatment.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     fill
+                    unoptimized={isUploadedImage}
                   />
                   {treatment.featured && (
                     <div className="absolute top-3 right-3 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -70,7 +73,8 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
                   </Link>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
 
           {/* View All Link */}

@@ -9,6 +9,8 @@ interface HospitalDetailHeroProps {
 }
 
 export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps) {
+  const isUploadedImage = typeof hospital.image === 'string' && hospital.image.startsWith('/uploads/');
+  
   return (
     <section className="relative bg-linear-to-br from-[#209f00] via-emerald-600 to-teal-700 text-white py-16 overflow-hidden">
       {/* Background Pattern */}
@@ -101,6 +103,7 @@ export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps
                 className="w-full h-125 object-cover"
                 width={235}
                 height={300}
+                unoptimized={isUploadedImage}
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
             </div>

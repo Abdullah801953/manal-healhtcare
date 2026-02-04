@@ -26,7 +26,9 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
 
           {/* Hospitals Grid */}
           <div className="grid md:grid-cols-3 gap-8">
-            {hospitals.map((hospital) => (
+            {hospitals.map((hospital) => {
+              const isUploadedImage = typeof hospital.image === 'string' && hospital.image.startsWith('/uploads/');
+              return (
               <div
                 key={hospital.id}
                 className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group"
@@ -38,6 +40,7 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
                     alt={hospital.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     fill
+                    unoptimized={isUploadedImage}
                   />
                   {hospital.featured && (
                     <div className="absolute top-3 right-3 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -81,7 +84,8 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
                   </Link>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
 
           {/* View All Link */}
