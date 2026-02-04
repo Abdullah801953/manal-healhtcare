@@ -11,9 +11,14 @@ services:
       - MONGODB_URI=${MONGODB_URI}
       - NEXT_PUBLIC_BASE_URL=https://manalhealthcare.com
       - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - uploads_data:/app/public/uploads
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+
+volumes:
+  uploads_data:

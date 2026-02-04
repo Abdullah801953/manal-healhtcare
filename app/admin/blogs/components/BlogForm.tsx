@@ -135,6 +135,7 @@ export function BlogForm({ blogId, onSuccess, onCancel }: BlogFormProps) {
 
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
+    formDataUpload.append("type", "blog"); // Specify blog type for proper folder
 
     try {
       setUploading(true);
@@ -152,11 +153,11 @@ export function BlogForm({ blogId, onSuccess, onCancel }: BlogFormProps) {
           setFormData((prev) => ({ ...prev, extraImages: [...prev.extraImages, data.url] }));
         }
       } else {
-        alert(data.error || "Failed to upload image");
+        alert(data.message || data.error || "Failed to upload image");
       }
     } catch (error) {
       console.error("Error uploading image:", error);
-      alert("Failed to upload image");
+      alert("Failed to upload image. Please check server permissions.");
     } finally {
       setUploading(false);
     }

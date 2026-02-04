@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, access, constants } from 'fs/promises';
 import path from 'path';
 
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File;
-    const type = formData.get('type') as string || 'image'; // 'image' or 'medical'
+    const type = formData.get('type') as string || 'image'; // 'image', 'medical', 'blog'
     
     if (!file) {
       return NextResponse.json(
@@ -14,6 +14,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    console.log('[Upload API] Received file:', file.name, 'type:', type, 'size:', file.size);
 
     // Define valid types based on upload type
     const validTypes = type === 'medical' 
@@ -60,17 +62,43 @@ export async function POST(request: Request) {
     const nameWithoutExt = path.basename(originalName, extension);
     const filename = `${nameWithoutExt}-${timestamp}${extension}`;
 
-    // Ensure uploads directory exists
-    const uploadFolder = type === 'medical' ? 'medical-reports' : 'treatments';
+    // Determine upload folder based on type
+    let uploadFolder = 'treatments';
+    if (type === 'medical') {
+      uploadFolder = 'medical-reports';
+    } else if (type === 'blog') {
+      uploadFolder = 'blogs';
+    } else if (type === 'doctor') {
+      uploadFolder = 'doctors';
+    }
+    
     const uploadsDir = path.join(process.cwd(), 'public', 'uploads', uploadFolder);
-    await mkdir(uploadsDir, { recursive: true });
+    
+    // Ensure uploads directory exists
+    try {
+      await mkdir(uploadsDir, { recursive: true });
+    } catch (mkdirError: any) {
+      console.error('[Upload API] Failed to create directory:', mkdirError);
+      // Continue anyway - directory might already exist
+    }
 
     // Write file
     const filepath = path.join(uploadsDir, filename);
-    await writeFile(filepath, buffer);
+    console.log('[Upload API] Writing to:', filepath);
+    
+    try {
+      await writeFile(filepath, buffer);
+    } catch (writeError: any) {
+      console.error('[Upload API] Write error:', writeError);
+      return NextResponse.json(
+        { success: false, message: 'Failed to write file. Server may not have write permissions.', error: writeError.message },
+        { status: 500 }
+      );
+    }
 
     // Return the public URL
     const publicUrl = `/uploads/${uploadFolder}/${filename}`;
+    console.log('[Upload API] Success, URL:', publicUrl);
 
     return NextResponse.json({
       success: true,
