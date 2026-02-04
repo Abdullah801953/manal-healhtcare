@@ -13,7 +13,7 @@ interface BlogHeroProps {
 const BlogHero = ({ title, image }: BlogHeroProps) => {
   const [imageError, setImageError] = useState(false);
   const imageUrl = imageError ? '/blog-hero.jpg' : (typeof image === 'string' ? image : '/blog-hero.jpg');
-  const isUploadedImage = imageUrl.startsWith('/uploads/');
+  const isUploadedImage = typeof imageUrl === 'string' && imageUrl.startsWith('/uploads/');
   
   return (
     <section className="mb-6 xs:mb-7 sm:mb-8 lg:mb-10">

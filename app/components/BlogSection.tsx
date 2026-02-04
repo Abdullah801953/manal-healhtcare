@@ -45,7 +45,7 @@ interface BlogCardProps {
 
 function BlogCard({ blog }: BlogCardProps) {
   const imageUrl = blog.image || '/blog-placeholder.jpg';
-  const isUploadedImage = imageUrl.startsWith('/uploads/');
+  const isUploadedImage = typeof imageUrl === 'string' && imageUrl.startsWith('/uploads/');
   
   return (
     <motion.div

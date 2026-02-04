@@ -14,7 +14,7 @@ interface BlogCardProps {
 export function BlogCardItem({ blog }: BlogCardProps) {
   const [imageError, setImageError] = useState(false);
   const imageUrl = imageError ? '/blog-placeholder.jpg' : (blog.image || '/blog-placeholder.jpg');
-  const isUploadedImage = imageUrl.startsWith('/uploads/');
+  const isUploadedImage = typeof imageUrl === 'string' && imageUrl.startsWith('/uploads/');
   
   return (
     <Link
