@@ -80,6 +80,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://manalhealthcare.com",
   },
+  
+  verification: {
+    google: "", // Add your Google Search Console verification code
+  },
 };
 
 export default function RootLayout({
@@ -87,8 +91,56 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Structured Data for SEO (JSON-LD)
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    "name": "Manal Healthcare",
+    "url": "https://manalhealthcare.com",
+    "logo": "https://manalhealthcare.com/logo.png",
+    "description": "Manal Healthcare offers world-class hospitals, top doctors, and affordable medical tourism services in India. Trusted by thousands of patients worldwide.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      "https://www.facebook.com/manalhealthcare",
+      "https://www.instagram.com/manalhealthcare",
+      "https://www.twitter.com/manalhealthcare",
+      "https://www.linkedin.com/company/manalhealthcare"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "3000"
+    }
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Manal Healthcare",
+    "url": "https://manalhealthcare.com",
+    "description": "Best Medical Tourism in India - World-class healthcare at affordable prices",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://manalhealthcare.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

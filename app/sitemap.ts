@@ -5,7 +5,7 @@ import { doctorsData } from "./doctors/data";
 import { hospitalsData } from "./hospitals/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.manalhealthcare.com";
+  const baseUrl = "https://manalhealthcare.com";
   
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
