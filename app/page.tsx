@@ -30,17 +30,19 @@ export const metadata: Metadata = {
     url: "https://manalhealthcare.com",
     siteName: "Manal Healthcare",
     images: [{
-      url: "/doctor.png",
+      url: "https://manalhealthcare.com/og-image.jpg",
       width: 1200,
       height: 630,
       alt: "Manal Healthcare - Medical Tourism India",
     }],
+    locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
     title: "Best Medical Tourism in India - Manal Healthcare",
     description: "World-class healthcare at affordable prices. Trusted by 3000+ patients.",
-    images: ["/doctor.png"],
+    images: ["https://manalhealthcare.com/og-image.jpg"],
+    site: "@manalhealthcare",
   },
   alternates: {
     canonical: "https://manalhealthcare.com",

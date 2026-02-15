@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: "Manal Healthcare",
     images: [
       {
-        url: "/og-image.jpg", // put this in public folder
+        url: "https://manalhealthcare.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Manal Healthcare - Medical Tourism in India",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     title: "Manal Healthcare | Medical Tourism in India",
     description:
       "Trusted platform for top hospitals, doctors, and affordable medical tourism in India.",
-    images: ["/og-image.jpg"],
+    images: ["https://manalhealthcare.com/og-image.jpg"],
   },
 
   robots: {
@@ -82,8 +82,16 @@ export const metadata: Metadata = {
   },
   
   verification: {
-    google: "", // Add your Google Search Console verification code
+    // Add your Google Search Console verification code here
+    // Get it from: https://search.google.com/search-console
+    google: "",
   },
+  
+  other: {
+    "google-site-verification": "", // Alternative method for Google verification
+  },
+  
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
