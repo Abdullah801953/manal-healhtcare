@@ -85,6 +85,9 @@ jobs:
           # Navigate to project directory
           cd ${{ env.PROJECT_PATH }}
           
+          # Configure git pull strategy
+          git config pull.rebase false
+          
           # Pull latest code from repository
           echo "📥 Pulling latest code..."
           git pull origin main
