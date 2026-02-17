@@ -1,11 +1,16 @@
 {
-  "name": "Manal Healthcare",
+  "name": "Manal Healthcare - Medical Tourism India",
   "short_name": "Manal Healthcare",
-  "description": "Best Medical Tourism in India - World-class healthcare at affordable prices",
+  "description": "Manal Healthcare (manalhealthcare.com) - Premier medical tourism services in India. World-class hospitals, expert doctors, affordable prices. Your trusted healthcare partner.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#0066cc",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["medical", "health", "lifestyle"],
   "icons": [
     {
       "src": "/logo.png",
@@ -18,6 +23,36 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Hospitals",
+      "short_name": "Hospitals",
+      "description": "Browse top hospitals",
+      "url": "/hospitals",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Doctors",
+      "short_name": "Doctors",
+      "description": "Find expert doctors",
+      "url": "/doctors",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch",
+      "url": "/contact",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
     }
   ]
 }
