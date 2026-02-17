@@ -4,16 +4,24 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Save, Loader2, Plus, X } from "lucide-react";
+import { ArrowLeft, Save, Loader2, Plus, X, Upload, FileText, Image as ImageIcon, File } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ImageUpload } from "../../components/ImageUpload";
+
+interface Achievement {
+  title: string;
+  file?: string;
+  fileType?: string;
+  fileName?: string;
+}
 
 export default function NewDoctorPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [uploadingAchievement, setUploadingAchievement] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +37,7 @@ export default function NewDoctorPage() {
   const [qualifications, setQualifications] = useState<string[]>([""]);
   const [specializations, setSpecializations] = useState<string[]>([""]);
   const [clinicalFocus, setClinicalFocus] = useState<string[]>([""]);
+  const [achievements, setAchievements] = useState<Achievement[]>([{ title: "" }]);
 
   const handleImageSelect = (file: File) => {
     const reader = new FileReader();
@@ -60,6 +69,80 @@ export default function NewDoctorPage() {
     setState(prev => prev.filter((_, i) => i !== index));
   };
 
+  // Achievement-specific functions
+  const addAchievement = () => {
+    setAchievements(prev => [...prev, { title: "" }]);
+  };
+
+  const removeAchievement = (index: number) => {
+    setAchievements(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const updateAchievementTitle = (index: number, title: string) => {
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      newAchievements[index] = { ...newAchievements[index], title };
+      return newAchievements;
+    });
+  };
+
+  const handleAchievementFileUpload = async (index: number, file: File) => {
+    setUploadingAchievement(index);
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', 'achievement');
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setAchievements(prev => {
+          const newAchievements = [...prev];
+          newAchievements[index] = {
+            ...newAchievements[index],
+            file: data.url,
+            fileType: file.type,
+            fileName: file.name
+          };
+          return newAchievements;
+        });
+      } else {
+        setError(data.message || 'Failed to upload file');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      setError('Failed to upload file');
+    } finally {
+      setUploadingAchievement(null);
+    }
+  };
+
+  const removeAchievementFile = (index: number) => {
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      newAchievements[index] = {
+        ...newAchievements[index],
+        file: undefined,
+        fileType: undefined,
+        fileName: undefined
+      };
+      return newAchievements;
+    });
+  };
+
+  const getFileIcon = (fileType?: string) => {
+    if (!fileType) return <File className="w-4 h-4" />;
+    if (fileType.startsWith('image/')) return <ImageIcon className="w-4 h-4" />;
+    if (fileType === 'application/pdf') return <FileText className="w-4 h-4 text-red-500" />;
+    return <FileText className="w-4 h-4 text-blue-500" />;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -71,6 +154,7 @@ export default function NewDoctorPage() {
         qualifications: qualifications.filter(q => q.trim() !== ""),
         specialization: specializations.filter(s => s.trim() !== ""),
         clinicalFocus: clinicalFocus.filter(c => c.trim() !== ""),
+        achievements: achievements.filter(a => a.title.trim() !== ""),
       };
 
       const response = await fetch('/api/doctors', {
@@ -326,6 +410,102 @@ export default function NewDoctorPage() {
                     )}
                   </div>
                 ))}
+              </CardContent>
+            </Card>
+
+            {/* Achievements */}
+            <Card className="rounded-3xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between text-amber-900">
+                  🏆 Awards & Achievements
+                  <Button 
+                    type="button" 
+                    size="sm" 
+                    onClick={addAchievement}
+                    className="bg-amber-500 hover:bg-amber-600"
+                  >
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {achievements.map((achievement, index) => (
+                  <div key={index} className="p-4 bg-white rounded-xl border border-amber-200 space-y-3">
+                    <div className="flex gap-2">
+                      <Input
+                        value={achievement.title}
+                        onChange={(e) => updateAchievementTitle(index, e.target.value)}
+                        placeholder="e.g., Best Doctor Award 2023"
+                        className="bg-white flex-1"
+                      />
+                      {achievements.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeAchievement(index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                    
+                    {/* File Upload Section */}
+                    <div className="flex items-center gap-3">
+                      {achievement.file ? (
+                        <div className="flex items-center gap-2 flex-1 p-2 bg-amber-50 rounded-lg border border-amber-200">
+                          {getFileIcon(achievement.fileType)}
+                          <span className="text-sm text-gray-700 truncate flex-1">
+                            {achievement.fileName || 'Uploaded file'}
+                          </span>
+                          <a 
+                            href={achievement.file} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-amber-600 hover:text-amber-800 text-sm font-medium"
+                          >
+                            View
+                          </a>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeAchievementFile(index)}
+                            className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <label className="flex items-center gap-2 cursor-pointer flex-1 p-2 border-2 border-dashed border-amber-300 rounded-lg hover:border-amber-500 hover:bg-amber-50 transition-colors">
+                          {uploadingAchievement === index ? (
+                            <Loader2 className="w-4 h-4 animate-spin text-amber-500" />
+                          ) : (
+                            <Upload className="w-4 h-4 text-amber-500" />
+                          )}
+                          <span className="text-sm text-gray-600">
+                            {uploadingAchievement === index ? 'Uploading...' : 'Upload certificate/document (optional)'}
+                          </span>
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleAchievementFileUpload(index, file);
+                            }}
+                            disabled={uploadingAchievement !== null}
+                          />
+                        </label>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <p className="text-xs text-amber-700 mt-2">
+                  Add professional awards, recognitions, certifications, and notable achievements. You can optionally upload supporting documents.
+                </p>
               </CardContent>
             </Card>
           </div>

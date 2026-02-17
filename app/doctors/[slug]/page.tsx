@@ -5,6 +5,7 @@ import { DoctorDetailHero } from './components/DoctorDetailHero';
 import { DoctorInfoSection } from './components/DoctorInfoSection';
 import { ExpertiseSection } from './components/ExpertiseSection';
 import { EducationSection } from './components/EducationSection';
+import { AchievementsSection } from './components/AchievementsSection';
 import { RelatedDoctors } from './components/RelatedDoctors';
 import { Button } from '@/components/ui/button';
 import { Doctor } from '../types';
@@ -103,6 +104,7 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
             <DoctorInfoSection doctor={doctor} />
             <ExpertiseSection doctor={doctor} />
             <EducationSection doctor={doctor} />
+            <AchievementsSection doctor={doctor} />
           </div>
 
           {/* Sidebar */}

@@ -18,12 +18,14 @@ export async function POST(request: Request) {
     console.log('[Upload API] Received file:', file.name, 'type:', type, 'size:', file.size);
 
     // Define valid types based on upload type
-    const validTypes = type === 'medical' 
+    const validTypes = (type === 'medical' || type === 'achievement')
       ? [
           'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif',
           'application/pdf',
           'application/msword',
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           'text/plain'
         ]
       : ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif'];
@@ -32,21 +34,21 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { 
           success: false, 
-          message: type === 'medical' 
-            ? 'Invalid file type. Please upload an image, PDF, or DOC file' 
+          message: (type === 'medical' || type === 'achievement')
+            ? 'Invalid file type. Please upload an image, PDF, DOC, or Excel file' 
             : 'Invalid file type. Please upload an image (JPEG, PNG, WebP, or AVIF)' 
         },
         { status: 400 }
       );
     }
 
-    // Validate file size (max 10MB for medical, 5MB for images)
-    const maxSize = type === 'medical' ? 10 * 1024 * 1024 : 5 * 1024 * 1024;
+    // Validate file size (max 10MB for medical/achievement, 5MB for images)
+    const maxSize = (type === 'medical' || type === 'achievement') ? 10 * 1024 * 1024 : 5 * 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json(
         { 
           success: false, 
-          message: `File size too large. Maximum size is ${type === 'medical' ? '10' : '5'}MB` 
+          message: `File size too large. Maximum size is ${(type === 'medical' || type === 'achievement') ? '10' : '5'}MB` 
         },
         { status: 400 }
       );
@@ -70,6 +72,8 @@ export async function POST(request: Request) {
       uploadFolder = 'blogs';
     } else if (type === 'doctor') {
       uploadFolder = 'doctors';
+    } else if (type === 'achievement') {
+      uploadFolder = 'achievements';
     }
     
     const uploadsDir = path.join(process.cwd(), 'public', 'uploads', uploadFolder);

@@ -1,3 +1,10 @@
+export interface Achievement {
+  title: string;
+  file?: string;
+  fileType?: string;
+  fileName?: string;
+}
+
 export interface Doctor {
   _id?: string;
   id: string;
@@ -11,6 +18,7 @@ export interface Doctor {
   experienceYears: string;
   specialization: string[];
   clinicalFocus: string[];
+  achievements?: Achievement[];
   status?: 'active' | 'inactive';
   createdAt?: Date;
   updatedAt?: Date;

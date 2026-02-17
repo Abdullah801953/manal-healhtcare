@@ -1,5 +1,12 @@
 import mongoose, { Schema, Model } from 'mongoose';
 
+export interface IAchievement {
+  title: string;
+  file?: string;
+  fileType?: string;
+  fileName?: string;
+}
+
 export interface IDoctor {
   name: string;
   slug: string;
@@ -11,6 +18,7 @@ export interface IDoctor {
   experienceYears: string;
   specialization: string[];
   clinicalFocus: string[];
+  achievements?: IAchievement[];
   image?: string;
   status: 'active' | 'inactive';
   createdAt: Date;
@@ -55,6 +63,12 @@ const DoctorSchema = new Schema<IDoctor>({
   }],
   clinicalFocus: [{ 
     type: String 
+  }],
+  achievements: [{
+    title: { type: String, required: true },
+    file: { type: String },
+    fileType: { type: String },
+    fileName: { type: String }
   }],
   image: { 
     type: String 

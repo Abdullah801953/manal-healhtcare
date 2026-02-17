@@ -48,6 +48,8 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
+    console.log('📥 API received achievements:', body.achievements);
+
     const doctor = await Doctor.findByIdAndUpdate(
       id,
       body,
@@ -63,6 +65,8 @@ export async function PUT(
         { status: 404 }
       );
     }
+
+    console.log('✅ Doctor updated. Achievements saved:', doctor.achievements);
 
     return NextResponse.json({
       success: true,
