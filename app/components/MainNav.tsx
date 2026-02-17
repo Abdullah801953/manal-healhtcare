@@ -215,9 +215,11 @@ export const MainNav = () => {
 
           {/* Treatments Dropdown */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-sm xl:text-base 2xl:text-[17px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-3 2xl:px-4">
-              Treatments
-            </NavigationMenuTrigger>
+            <Link href="/treatments" className="contents">
+              <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-sm xl:text-base 2xl:text-[17px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-3 2xl:px-4">
+                Treatments
+              </NavigationMenuTrigger>
+            </Link>
             <NavigationMenuContent>
               {/* Search Bar */}
               <div className="w-[420px] p-3">

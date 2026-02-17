@@ -106,7 +106,7 @@ export const OurServices = ({
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-xs xs:text-sm sm:text-base uppercase tracking-wide"
+              className="text-[#209F00] text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold  uppercase tracking-wide"
             >
               {badge}
             </motion.p>
@@ -114,7 +114,7 @@ export const OurServices = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
+              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
             >
               {heading}
             </motion.h2>

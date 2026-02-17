@@ -14,6 +14,7 @@ import { OurServices } from "./components/OurServices";
 import { Testimonials } from "./components/Testimonials";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 
+
 /* =======================
    PAGE LEVEL SEO
 ======================= */
@@ -96,6 +97,7 @@ const Page = () => {
       
       <WhatsAppButton />
 
+
       <main id="main-content">
         {/* ✅ SINGLE H1 FOR SEO */}
         <h1 className="sr-only">
@@ -103,7 +105,6 @@ const Page = () => {
         </h1>
 
         <Hero />
-        <InfoCards />
         <Services />
         <AboutSection />
         <OurServices />
@@ -113,6 +114,7 @@ const Page = () => {
         <DoctorsShowcase />
         <NewsletterSection />
         <BlogSection />
+         <InfoCards />
         <FAQSection />
       </main>
 

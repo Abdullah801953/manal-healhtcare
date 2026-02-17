@@ -79,13 +79,13 @@ const Header = () => {
             {/* Mobile/Tablet Navigation - visible on screens below xl */}
             <div className="xl:hidden flex items-center gap-2 sm:gap-3">
               {/* Query Button */}
-              <Button
+              {/* <Button
                 onClick={handleScrollToQuery}
                 className="bg-green-600 hover:bg-green-700 text-white font-medium rounded-full px-3 sm:px-4 h-10 text-xs sm:text-sm"
               >
                 <MessageCircleMore className="w-4 h-4 sm:mr-1" />
                 <span className="hidden sm:inline">Get Quote</span>
-              </Button>
+              </Button> */}
               
               {/* Language Button - compact version matching Get Quote style */}
               <Dialog open={langOpen} onOpenChange={setLangOpen}>
@@ -94,7 +94,7 @@ const Header = () => {
                     className="flex bg-green-600 hover:bg-green-700 text-white font-medium rounded-full px-3 sm:px-4 h-10 text-xs sm:text-sm"
                   >
                     <Languages className="w-4 h-4 sm:mr-1" />
-                    <span className="hidden sm:inline">Language</span>
+                    <span className="">Language</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-hidden flex flex-col">

@@ -377,29 +377,11 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
 
         {/* Hospital */}
         <div className="flex items-start gap-2">
-          <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-gray-600 line-clamp-2">{doctor.hospital}</p>
+          <MapPin className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
+          <p className="text-md text-gray-600 line-clamp-2">{doctor.hospital}</p>
         </div>
 
-        {/* Specializations */}
-        {doctor.specialization && doctor.specialization.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {doctor.specialization.slice(0, 2).map((spec, idx) => (
-              <span
-                key={idx}
-                className="text-xs bg-green-50 text-green-700 px-2.5 py-1 rounded-full font-medium"
-              >
-                {spec}
-              </span>
-            ))}
-            {doctor.specialization.length > 2 && (
-              <span className="text-xs text-gray-500 px-2 py-1">
-                +{doctor.specialization.length - 2}
-              </span>
-            )}
-          </div>
-        )}
-
+    
         {/* View Profile Button */}
         <Link href={`/doctors/${doctor.slug}`} className="block mt-4">
           <Button className="w-full bg-[#209F00] hover:bg-green-700 text-white rounded-full font-semibold text-sm py-5 shadow-md hover:shadow-lg transition-all">

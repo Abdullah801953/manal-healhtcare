@@ -116,7 +116,7 @@ export const Testimonials = ({
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-[10px] xs:text-xs sm:text-sm md:text-base"
+              className="text-[#209F00] text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold  uppercase tracking-wide"
             >
               {badge}
             </motion.p>
@@ -124,7 +124,7 @@ export const Testimonials = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
             >
               {heading}
             </motion.h2>

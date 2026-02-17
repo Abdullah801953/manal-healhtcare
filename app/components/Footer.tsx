@@ -184,7 +184,7 @@ const Footer = () => {
           {/* Utility Pages */}
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Utility Pages
+              Our Services
             </h3>
             <ul className="space-y-3">
               {utilityPages.map((link) => (
@@ -204,7 +204,7 @@ const Footer = () => {
           {/* Our Services */}
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Our Services
+              Our Treatments
             </h3>
             <ul className="space-y-3">
               {services.map((service, index) => (

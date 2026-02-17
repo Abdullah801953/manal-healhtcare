@@ -92,7 +92,7 @@ export const AboutSection = ({
   const rightFeatures = features.slice(Math.ceil(features.length / 2));
 
   return (
-    <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
+    <section className=" bg-white">
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {/* Left Side - Image */}
@@ -131,7 +131,7 @@ export const AboutSection = ({
             {/* Badge */}
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-xs xs:text-sm sm:text-base uppercase tracking-wide"
+              className="text-[#209F00] text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold  uppercase tracking-wide"
             >
               {badge}
             </motion.p>
@@ -139,7 +139,7 @@ export const AboutSection = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight"
+              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
             >
               {heading}
             </motion.h2>

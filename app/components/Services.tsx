@@ -1,16 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, ArrowRight, ChevronLeft, ChevronRight, Activity, Heart, Brain, Eye, Bone, Stethoscope } from "lucide-react";
+import { Phone, ArrowRight, Activity, Heart, Brain, Eye, Bone, Stethoscope } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useState, useEffect } from "react";
 
 // Treatment type from API
@@ -105,6 +105,7 @@ export const Services = ({
 
     fetchTreatments();
   }, []);
+
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -142,48 +143,33 @@ export const Services = ({
           <div className="text-center space-y-2 sm:space-y-3 px-1 xs:px-2 sm:px-0">
             <motion.p
               variants={itemVariants}
-              className="text-[#209F00] font-semibold text-[10px] xs:text-xs sm:text-sm md:text-base"
+              className="text-[#209F00] text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold max-w-4xl mx-auto"
             >
               {heading}
             </motion.p>
             <motion.h2
               variants={itemVariants}
-              className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 max-w-4xl mx-auto"
+              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
             >
               {subheading}
             </motion.h2>  
           </div>
 
-          {/* Carousel */}
-          <motion.div variants={itemVariants} className="relative px-1 xs:px-2 sm:px-0">
+          {/* Grid of Cards */}
+          <motion.div variants={itemVariants}>
             {loading ? (
               <div className="flex justify-center items-center py-12">
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#209f00] border-t-transparent"></div>
               </div>
             ) : services.length > 0 ? (
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2 xs:-ml-3 sm:-ml-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6">
                 {services.map((service) => {
                   const Icon = service.icon;
                   return (
-                    <CarouselItem
-                      key={service.id}
-                      className="pl-2 xs:pl-3 sm:pl-4 basis-[85%] xs:basis-[75%] sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-                    >
-                      <ServiceCard service={service} Icon={Icon} />
-                    </CarouselItem>
+                    <ServiceCard key={service.id} service={service} Icon={Icon} />
                   );
                 })}
-              </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex absolute -left-5 sm:-left-5 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white hover:bg-[#209F00] hover:text-white border-2 border-gray-200 hover:border-[#209F00] text-gray-900 shadow-lg z-10 transition-all" />
-              <CarouselNext className="hidden sm:flex absolute -right-5 sm:-right-5 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white hover:bg-[#209F00] hover:text-white border-2 border-gray-200 hover:border-[#209F00] text-gray-900 shadow-lg z-10 transition-all" />
-            </Carousel>
+              </div>
             ) : (
               <p className="text-center text-gray-500 py-8">No treatments available.</p>
             )}
@@ -212,7 +198,7 @@ export const Services = ({
   );
 };
 
-// Separate ServiceCard component for reusability
+// ServiceCard component using Shadcn Card
 interface ServiceCardProps {
   service: ServiceCard;
   Icon: React.ElementType;
@@ -223,35 +209,34 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
     <motion.div
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
-      className="bg-[#f1f8ef] rounded-lg xs:rounded-xl sm:rounded-2xl p-3 xs:p-4 sm:p-5 lg:p-6 h-full flex flex-col"
+      className="h-full"
     >
-      {/* Icon */}
-      <div className="mb-3 xs:mb-4 sm:mb-5 lg:mb-6">
-        <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center">
-          <Icon className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-[#209F00]" />
-        </div>
-      </div>
-
-      {/* Title */}
-      <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-2 xs:mb-3 sm:mb-4">
-        {service.title}
-      </h3>
-
-      {/* Description */}
-      <p className="text-gray-600 text-[10px] xs:text-xs sm:text-sm leading-relaxed mb-3 xs:mb-4 sm:mb-6 grow">
-        {service.description}
-      </p>
-
-      {/* Button */}
-      <Button
-        asChild
-        className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-4 sm:py-5 lg:py-6 font-medium transition-all duration-300 group text-sm sm:text-base"
-      >
-        <Link href={service.link}>
-          Learn More
-          <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
-        </Link>
-      </Button>
+      <Card className="bg-[#f1f8ef] border-none shadow-md hover:shadow-xl transition-shadow h-full flex flex-col">
+        <CardHeader className="pb-2">
+          <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center">
+            <Icon className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-[#209F00]" />
+          </div>
+          <CardTitle className="text-sm xs:text-base sm:text-lg lg:text-xl font-bold text-gray-900 mt-3">
+            {service.title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex-grow">
+          <p className="text-gray-600 text-xs xs:text-sm">
+            {service.description}
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button
+            asChild
+            className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-4 sm:py-5 lg:py-6 font-medium transition-all duration-300 group text-sm sm:text-base"
+          >
+            <Link href={service.link}>
+              Learn More
+              <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
     </motion.div>
   );
 };

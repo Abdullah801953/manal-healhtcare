@@ -59,13 +59,13 @@ export const MobileNav = () => {
         <div className="bg-gradient-to-r from-green-600 to-green-700 p-4 text-white">
           <h2 className="text-lg font-semibold mb-3">Manal Healthcare</h2>
           <div className="space-y-2 text-sm">
-            <a href="tel:0087578456820" className="flex items-center gap-2 hover:text-green-200 transition-colors">
+            <a href="tel:+91-7394966566" className="flex items-center gap-2 hover:text-green-200 transition-colors">
               <Phone className="w-4 h-4" />
-              <span>(00) 875 784 5682</span>
+              <span>+91-7394966566</span>
             </a>
-            <a href="mailto:togetoinfo@gmail.com" className="flex items-center gap-2 hover:text-green-200 transition-colors">
+            <a href="mailto:support@manalhealthcare.com" className="flex items-center gap-2 hover:text-green-200 transition-colors">
               <Mail className="w-4 h-4" />
-              <span>togetoinfo@gmail.com</span>
+              <span>support@manalhealthcare.com</span>
             </a>
           </div>
         </div>
