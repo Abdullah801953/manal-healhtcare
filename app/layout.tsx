@@ -90,14 +90,12 @@ export const metadata: Metadata = {
   },
   
   verification: {
-    // Add your Google Search Console verification code here
-    // Get it from: https://search.google.com/search-console
-    // After adding your site, Google will provide a verification code
-    google: "REPLACE_WITH_YOUR_GOOGLE_VERIFICATION_CODE",
+    // Google Search Console verification code - Added from GSC
+    google: "gsT0fpMiOLJLaHFtCijlaMzm1GTjnsxhGfTH1VFLEVw",
   },
   
   other: {
-    "google-site-verification": "REPLACE_WITH_YOUR_GOOGLE_VERIFICATION_CODE",
+    "google-site-verification": "gsT0fpMiOLJLaHFtCijlaMzm1GTjnsxhGfTH1VFLEVw",
     "msvalidate.01": "REPLACE_WITH_BING_VERIFICATION_CODE", // Optional: Bing Webmaster
     "brand": "Manal Healthcare",
     "company": "manalhealthcare",
