@@ -368,7 +368,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Key Statistics */}
         <section className="py-16 bg-white border-b">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   India: The Global Leader in Medical Tourism
@@ -377,7 +377,7 @@ const MedicalTourismIndiaPage = () => {
                   Trusted by millions worldwide for exceptional healthcare outcomes
                 </p>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {keyStatistics.map((stat, index) => (
                   <StatCard key={index} stat={stat} />
                 ))}
@@ -389,7 +389,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Why Choose India */}
         <section className="py-16 bg-gradient-to-br from-gray-50 to-green-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <Heart className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -400,7 +400,7 @@ const MedicalTourismIndiaPage = () => {
                   destination for medical travelers worldwide
                 </p>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {benefits.map((benefit, index) => (
                   <BenefitCard key={index} benefit={benefit} />
                 ))}
@@ -412,7 +412,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Medical Specialties */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <Stethoscope className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -423,7 +423,7 @@ const MedicalTourismIndiaPage = () => {
                   international standards of care
                 </p>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {medicalSpecialties.map((specialty, index) => (
                   <SpecialtyCard key={index} specialty={specialty} />
                 ))}
@@ -435,7 +435,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Top Medical Destinations */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <MapPin className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -445,7 +445,7 @@ const MedicalTourismIndiaPage = () => {
                   World-class hospitals and specialists across major cities
                 </p>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {topDestinations.map((destination, index) => (
                   <DestinationCard key={index} destination={destination} />
                 ))}
@@ -457,7 +457,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Cost Comparison */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <DollarSign className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -529,7 +529,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Patient Testimonials */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <Star className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -539,7 +539,7 @@ const MedicalTourismIndiaPage = () => {
                   Real experiences from patients who received treatment in India
                 </p>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {patientTestimonials.map((testimonial, index) => (
                   <TestimonialCard key={index} testimonial={testimonial} />
                 ))}
@@ -551,7 +551,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Process Overview */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   Your Medical Journey: Simple & Seamless
@@ -560,7 +560,7 @@ const MedicalTourismIndiaPage = () => {
                   We guide you through every step of your medical tourism experience
                 </p>
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {processSteps.map((step, index) => (
                   <Card
                     key={index}
@@ -588,7 +588,7 @@ const MedicalTourismIndiaPage = () => {
         {/* Quality Assurance */}
         <section className="py-16 bg-gradient-to-br from-green-50 to-emerald-50">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12">
                 <BadgeCheck className="w-12 h-12 text-green-600 mx-auto mb-4" />
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -598,7 +598,7 @@ const MedicalTourismIndiaPage = () => {
                   Our partner hospitals maintain the highest global healthcare standards
                 </p>
               </div>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {qualityStandards.map((standard, index) => (
                   <Card
                     key={index}
@@ -623,7 +623,7 @@ const MedicalTourismIndiaPage = () => {
         {/* SEO Content Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto prose prose-lg">
+            <div className="mx-auto prose prose-lg">
               <article className="text-gray-700">
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">
                   Medical Tourism in India: The Complete 2026 Guide
@@ -813,7 +813,7 @@ const MedicalTourismIndiaPage = () => {
         {/* CTA Section */}
         <section className="py-16 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Start Your Medical Tourism Journey to India Today
               </h2>
@@ -838,7 +838,7 @@ const MedicalTourismIndiaPage = () => {
                   Email Consultation
                 </Button>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-6 text-green-50">
+              <div className="flex flex-wrap items-center justify-center gap-4 xs:gap-5 sm:gap-6 lg:gap-8 text-green-50">
                 <div className="flex items-center gap-2">
                   <Shield className="w-5 h-5" />
                   <span>100% Confidential</span>

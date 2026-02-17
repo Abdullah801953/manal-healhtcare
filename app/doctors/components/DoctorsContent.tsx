@@ -100,7 +100,7 @@ export default function DoctorsContent() {
         <HeroBanner />
 
         {/* Main Content Section */}
-        <div className="p-8 md:p-12">
+        <div className="py-8">
           {/* Section Header */}
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
@@ -147,7 +147,7 @@ export default function DoctorsContent() {
           {/* Doctors Grid */}
           {!loading && !error && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
                 {currentDoctors.map((doctor) => (
                   <DoctorCard key={doctor._id || doctor.id} doctor={doctor} />
                 ))}

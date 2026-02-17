@@ -49,8 +49,8 @@ export default function TestimonialsPage() {
       <TestimonialsHero />
 
       {/* Main Content */}
-      <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
-        <div className="container mx-auto">
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
           {/* Results Count */}
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900">
@@ -69,7 +69,7 @@ export default function TestimonialsPage() {
           ) : (
             <>
               {/* Testimonials Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
                 {paginatedTestimonials.length === 0 ? (
                   <div className="col-span-full text-center py-12">
                     <p className="text-gray-500">No testimonials found</p>
@@ -108,9 +108,9 @@ export default function TestimonialsPage() {
       <CTASection />
 
       {/* SEO Content */}
-      <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
-        <div className="container mx-auto">
-          <div className="max-w-4xl mx-auto prose prose-lg">
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+          <div className="prose prose-lg">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Authentic Patient Testimonials from Around the World
             </h2>

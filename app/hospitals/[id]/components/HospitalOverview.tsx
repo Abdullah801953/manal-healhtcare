@@ -9,7 +9,6 @@ export default function HospitalOverview({ hospital }: HospitalOverviewProps) {
   return (
     <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
       <div className="container mx-auto">
-        <div className="max-w-4xl mx-auto">
           {/* Section Header */}
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 bg-[#209f00]/10 rounded-xl">
@@ -49,7 +48,6 @@ export default function HospitalOverview({ hospital }: HospitalOverviewProps) {
               <div className="text-gray-700 font-medium">Years of Service</div>
             </div>
           </div>
-        </div>
       </div>
     </section>
   );

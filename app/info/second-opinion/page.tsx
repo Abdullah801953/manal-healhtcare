@@ -632,7 +632,7 @@ export default function SecondOpinionPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-10"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mx-auto relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block p-3 bg-blue-100 rounded-full mb-6">
               <FileSearch className="w-12 h-12 text-blue-600" />
@@ -657,7 +657,7 @@ export default function SecondOpinionPage() {
           </div>
 
           {/* Key Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mt-12">
             {[
               { icon: Users, value: "500+", label: "Expert Specialists" },
               { icon: Globe, value: "120+", label: "Countries Served" },
@@ -676,7 +676,7 @@ export default function SecondOpinionPage() {
 
       {/* Benefits Section */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Why Get a Medical Second Opinion?
@@ -686,7 +686,7 @@ export default function SecondOpinionPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {benefits.map((benefit, index) => (
               <BenefitCard key={index} benefit={benefit} />
             ))}
@@ -696,7 +696,7 @@ export default function SecondOpinionPage() {
 
       {/* Why Get Second Opinion */}
       <section className="py-16 px-4 bg-blue-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               When Should You Seek a Second Opinion?
@@ -706,7 +706,7 @@ export default function SecondOpinionPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {whySecondOpinion.map((item, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
@@ -731,7 +731,7 @@ export default function SecondOpinionPage() {
 
       {/* Process Steps */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               How Our Second Opinion Process Works
@@ -751,7 +751,7 @@ export default function SecondOpinionPage() {
 
       {/* Specialties */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Medical Specialties Covered
@@ -761,7 +761,7 @@ export default function SecondOpinionPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {specialties.map((specialty, index) => (
               <SpecialtyCard key={index} specialty={specialty} />
             ))}
@@ -771,7 +771,7 @@ export default function SecondOpinionPage() {
 
       {/* Consultation Types */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Choose Your Consultation Type
@@ -781,7 +781,7 @@ export default function SecondOpinionPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {consultationTypes.map((consultation, index) => (
               <ConsultationTypeCard key={index} consultation={consultation} />
             ))}
@@ -791,7 +791,7 @@ export default function SecondOpinionPage() {
 
       {/* Documents Required */}
       <section className="py-16 px-4 bg-indigo-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Documents You'll Need
@@ -801,7 +801,7 @@ export default function SecondOpinionPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {documentsRequired.map((doc, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4 mb-4">
@@ -846,7 +846,7 @@ export default function SecondOpinionPage() {
 
       {/* Success Stories */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Real Stories, Real Impact
@@ -856,7 +856,7 @@ export default function SecondOpinionPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {successStories.map((story, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="space-y-4">
@@ -901,7 +901,7 @@ export default function SecondOpinionPage() {
 
       {/* FAQ Section */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Frequently Asked Questions
@@ -1007,7 +1007,7 @@ export default function SecondOpinionPage() {
 
       {/* CTA Section */}
       <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="mx-auto text-center">
           <div className="inline-block p-3 bg-white/10 rounded-full mb-6">
             <FileSearch className="w-12 h-12" />
           </div>
@@ -1033,7 +1033,7 @@ export default function SecondOpinionPage() {
 
       {/* SEO Content Article */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto prose prose-lg">
+        <div className="mx-auto prose prose-lg">
           <h2>The Importance of Medical Second Opinions in Healthcare</h2>
           
           <p>

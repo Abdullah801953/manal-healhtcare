@@ -571,7 +571,7 @@ export default function MedicalTourismPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mx-auto relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block p-3 bg-blue-100 rounded-full mb-6">
               <Globe className="w-12 h-12 text-blue-600" />
@@ -596,7 +596,7 @@ export default function MedicalTourismPage() {
           </div>
 
           {/* Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mt-12">
             {statistics.map((stat, index) => (
               <StatCard key={index} stat={stat} />
             ))}
@@ -606,7 +606,7 @@ export default function MedicalTourismPage() {
 
       {/* What is Medical Tourism */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               What is Medical Tourism?
@@ -616,7 +616,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 items-center">
             <div>
               <p className="text-lg text-gray-600 mb-6">
                 Medical tourism refers to traveling outside your home country to receive medical care. 
@@ -657,7 +657,7 @@ export default function MedicalTourismPage() {
 
       {/* Benefits */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Why Choose Medical Tourism?
@@ -667,7 +667,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {benefits.map((benefit, index) => (
               <BenefitCard key={index} benefit={benefit} />
             ))}
@@ -677,7 +677,7 @@ export default function MedicalTourismPage() {
 
       {/* Top Destinations */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Leading Medical Tourism Destinations
@@ -687,7 +687,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {destinations.map((destination, index) => (
               <DestinationCard key={index} destination={destination} />
             ))}
@@ -697,7 +697,7 @@ export default function MedicalTourismPage() {
 
       {/* Popular Procedures */}
       <section className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Most Popular Medical Tourism Procedures
@@ -707,7 +707,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {popularProcedures.map((procedure, index) => (
               <ProcedureCard key={index} procedure={procedure} />
             ))}
@@ -717,7 +717,7 @@ export default function MedicalTourismPage() {
 
       {/* Growth Factors */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Why Medical Tourism is Growing
@@ -727,7 +727,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {growthFactors.map((factor, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4">
@@ -752,7 +752,7 @@ export default function MedicalTourismPage() {
 
       {/* Considerations */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Important Considerations
@@ -762,7 +762,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {considerations.map((consideration, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-start gap-4 mb-4">
@@ -792,7 +792,7 @@ export default function MedicalTourismPage() {
 
       {/* How We Help */}
       <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
               How Manal Healthcare Facilitates Your Medical Journey
@@ -802,7 +802,7 @@ export default function MedicalTourismPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
             {[
               {
                 icon: FileText,
@@ -849,7 +849,7 @@ export default function MedicalTourismPage() {
 
       {/* CTA Section */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="mx-auto text-center">
           <div className="inline-block p-3 bg-blue-100 rounded-full mb-6">
             <Globe className="w-12 h-12 text-blue-600" />
           </div>
@@ -875,7 +875,7 @@ export default function MedicalTourismPage() {
 
       {/* SEO Content Article */}
       <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto prose prose-lg">
+        <div className="mx-auto prose prose-lg">
           <h2>The Comprehensive Guide to Medical Tourism</h2>
           
           <p>

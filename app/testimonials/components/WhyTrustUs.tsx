@@ -27,8 +27,8 @@ export function WhyTrustUs() {
   ];
 
   return (
-    <section className="py-16 bg-gray-50 px-3 xs:px-4 sm:px-6 lg:px-10">
-      <div className="container mx-auto">
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Why Patients Trust Manal Healthcare
@@ -38,7 +38,7 @@ export function WhyTrustUs() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6">
           {features.map((feature, index) => (
             <div
               key={index}

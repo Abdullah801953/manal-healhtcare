@@ -45,9 +45,9 @@ const RelatedArticles = ({ currentId }: { currentId: string }) => {
   }
 
   return (
-    <section className="mt-16 px-4 py-8 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+    <section className="mt-8 xs:mt-10 sm:mt-12 lg:mt-16">
+      <div className="flex items-center justify-between mb-6 xs:mb-7 sm:mb-8">
+        <h3 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-900">
           You May Also Like Our Latest Articles:
         </h3>
         <div className="flex gap-2">
@@ -60,12 +60,12 @@ const RelatedArticles = ({ currentId }: { currentId: string }) => {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
         {related.map((item) => (
           <Link
             key={item._id}
             href={`/blogs/${item.slug}`}
-            className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+            className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
           >
             {/* Image */}
             <div className="relative h-48 overflow-hidden">
