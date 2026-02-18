@@ -61,7 +61,22 @@ export const metadata: Metadata = {
   },
 };
 
-const Page = () => {
+// Fetch FAQs for structured data (server-side)
+async function getFAQs() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://manalhealthcare.com';
+    const response = await fetch(`${baseUrl}/api/faqs`, { cache: 'no-store' });
+    const data = await response.json();
+    if (data.success) {
+      return data.data.filter((faq: any) => faq.isActive).sort((a: any, b: any) => a.order - b.order);
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+const Page = async () => {
   // Structured Data for SEO (JSON-LD) - Enhanced for better Google indexing
   const organizationData = {
     "@context": "https://schema.org",
@@ -148,53 +163,7 @@ const Page = () => {
     "description": "Comprehensive medical tourism services including hospital selection, doctor consultation, treatment coordination, travel assistance, and post-treatment care."
   };
 
-  // FAQ Schema for Rich Snippets
-  const faqData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is Manal Healthcare?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Manal Healthcare (manalhealthcare.com) is a leading medical tourism facilitator in India, connecting international patients with world-class hospitals, experienced doctors, and affordable healthcare solutions. We have served over 3000 patients with a 4.8/5 rating."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Why choose Manal Healthcare for medical tourism in India?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Manal Healthcare offers comprehensive medical tourism services including access to top-rated hospitals, expert doctors, affordable treatments, multilingual support in 7+ languages, complete travel coordination, and personalized patient care throughout your medical journey in India."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What services does manalhealthcare.com provide?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Manal Healthcare provides hospital selection and booking, doctor consultation coordination, treatment planning, visa assistance, airport pickup, accommodation arrangements, language interpretation, medical records management, and post-treatment follow-up care for international patients seeking medical treatment in India."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How can I contact Manal Healthcare?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can contact Manal Healthcare by phone at +91-8287508755, email us at info@manalhealthcare.com, or visit our website at manalhealthcare.com to fill out an inquiry form. We offer support in English, Arabic, Hindi, Russian, French, Spanish, and Bengali."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is medical tourism in India with Manal Healthcare safe?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, medical tourism with Manal Healthcare is safe. We partner only with JCI-accredited and top-tier hospitals in India with internationally trained doctors. Our 4.8/5 rating from 3000+ patients reflects our commitment to quality, safety, and patient satisfaction."
-        }
-      }
-    ]
-  };
+
 
   // BreadcrumbList Schema
   const breadcrumbData = {
@@ -209,6 +178,21 @@ const Page = () => {
       }
     ]
   };
+
+  // Fetch FAQs server-side for structured data
+  const faqs = await getFAQs();
+  const faqData = faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq: any) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  } : null;
 
   return (
     <>
@@ -227,12 +211,14 @@ const Page = () => {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
-      />
-      <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
+      {faqData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
+        />
+      )}
       
       <WhatsAppButton />
 
