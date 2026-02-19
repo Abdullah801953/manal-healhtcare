@@ -531,6 +531,7 @@ export default function TreatmentForm({ id }: { id?: string }) {
                 required
               />
             </div>
+            
 
             <div className="space-y-2">
               <Label htmlFor="types">Types</Label>

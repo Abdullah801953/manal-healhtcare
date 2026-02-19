@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, ArrowRight, Activity, Heart, Brain, Eye, Bone, Stethoscope } from "lucide-react";
+import { Phone, ArrowRight, Activity, Heart, Brain, Eye, Bone, Stethoscope, Plus } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -83,10 +83,13 @@ export const Services = ({
         
         if (result.success && result.data) {
           const activeTreatments = result.data.filter((t: Treatment) => t.status === 'active');
+             
           setTotalTreatments(activeTreatments.length);
           
           // Convert treatments to service cards
-          const serviceCards: ServiceCard[] = activeTreatments.map((treatment: Treatment) => ({
+          const serviceCards: ServiceCard[] = activeTreatments
+          .map((treatment: Treatment) => ({
+            
             id: treatment._id,
             icon: treatmentIcons[treatment.category] || Activity,
             title: treatment.title,
@@ -128,6 +131,7 @@ export const Services = ({
       },
     },
   };
+  
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
@@ -211,32 +215,35 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
       transition={{ duration: 0.3 }}
       className="h-full"
     >
-      <Card className="bg-[#f1f8ef] border-none shadow-md hover:shadow-xl transition-shadow h-full flex flex-col">
-        <CardHeader className="pb-2">
-          <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center">
-            <Icon className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-[#209F00]" />
-          </div>
-          <CardTitle className="text-sm xs:text-base sm:text-lg lg:text-xl font-bold text-gray-900 mt-3">
-            {service.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <p className="text-gray-600 text-xs xs:text-sm">
-            {service.description}
-          </p>
-        </CardContent>
-        <CardFooter>
-          <Button
-            asChild
-            className="bg-[#209F00] hover:bg-green-700 text-white rounded-full w-full py-4 sm:py-5 lg:py-6 font-medium transition-all duration-300 group text-sm sm:text-base"
-          >
-            <Link href={service.link}>
-              Learn More
-              <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Button>
-        </CardFooter>
-      </Card>
+<Card className="h-full bg-[#eef3f7] border-none rounded-xl p-4 sm:p-5 hover:shadow-md transition-all duration-300">
+  <div className="flex items-start justify-between gap-4">
+    
+    {/* Left Side Content */}
+    <div className="flex items-start gap-4">
+      
+      {/* Icon */}
+      <div className="w-12 h-12 flex items-center justify-center">
+        <Icon className="w-10 h-10 text-green-700" />
+      </div>
+
+      {/* Text */}
+      <div>
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+          {service.title}
+        </h3>
+      
+      </div>
+    </div>
+
+    {/* Right Side Plus Button */}
+    <Link href={service.link}>
+      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 transition">
+        <Plus className="w-3 h-3 text-white" />
+      </div>
+    </Link>
+
+  </div>
+</Card>
     </motion.div>
   );
 };

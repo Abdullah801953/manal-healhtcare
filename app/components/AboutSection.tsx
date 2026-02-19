@@ -92,7 +92,7 @@ export const AboutSection = ({
   const rightFeatures = features.slice(Math.ceil(features.length / 2));
 
   return (
-    <section className=" bg-white">
+    <section className="py-12 bg-white">
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {/* Left Side - Image */}
