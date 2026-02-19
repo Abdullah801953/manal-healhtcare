@@ -1,5 +1,5 @@
 import { Hospital } from '../../types';
-import { Info } from 'lucide-react';
+import { Info, Award, User, FileText } from 'lucide-react';
 
 interface HospitalOverviewProps {
   hospital: Hospital;
@@ -26,6 +26,51 @@ export default function HospitalOverview({ hospital }: HospitalOverviewProps) {
               {hospital.description}
             </p>
           </div>
+
+          {/* Owner */}
+          {hospital.owner && (
+            <div className="flex items-center gap-3 mt-6 p-4 bg-gray-50 rounded-xl">
+              <User className="w-5 h-5 text-[#209f00]" />
+              <span className="text-gray-600 font-medium">Owner:</span>
+              <span className="text-gray-900 font-semibold">{hospital.owner}</span>
+            </div>
+          )}
+
+          {/* Awards */}
+          {hospital.award && hospital.award.length > 0 && (
+            <div className="mt-8">
+              <div className="flex items-center gap-2 mb-4">
+                <Award className="w-5 h-5 text-[#209f00]" />
+                <h3 className="text-xl font-bold text-gray-900">Awards & Recognitions</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {hospital.award.map((a, index) => (
+                  <div key={index} className="flex items-start gap-3 p-4 bg-gradient-to-br from-yellow-50 to-white rounded-xl border border-yellow-100">
+                    <Award className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
+                    <p className="text-gray-700">{a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Additional Information */}
+          {hospital.additionalInfo && hospital.additionalInfo.length > 0 && (
+            <div className="mt-8">
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="w-5 h-5 text-[#209f00]" />
+                <h3 className="text-xl font-bold text-gray-900">Additional Information</h3>
+              </div>
+              <div className="space-y-3">
+                {hospital.additionalInfo.map((info, index) => (
+                  <div key={index} className="flex items-start gap-3 p-4 border border-gray-200 rounded-xl hover:border-[#209f00]/30 transition-colors">
+                    <Info className="w-5 h-5 text-[#209f00] mt-0.5 flex-shrink-0" />
+                    <p className="text-gray-700">{info}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Key Highlights */}
           <div className="grid md:grid-cols-3 gap-6 mt-8">

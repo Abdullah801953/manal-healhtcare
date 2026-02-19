@@ -21,6 +21,9 @@ export interface Hospital {
   expertise?: string[];
   infrastructure?: string[];
   departments?: string[];
+  award?: string[];
+  owner?: string;
+  additionalInfo?: string[];
 }
 
 export type HospitalType = 
@@ -29,7 +32,11 @@ export type HospitalType =
   | 'Specialty Hospital'
   | 'Teaching Hospital'
   | 'Trauma Center'
-  | 'Rehabilitation Center';
+  | 'Rehabilitation Center'
+  | 'Multispeciality Hospital'
+  | 'IVF Center'
+  | 'Eye Hospital'
+  | 'Dental Clinic';
 
 export const HOSPITAL_TYPES: HospitalType[] = [
   'All Hospitals',
@@ -38,6 +45,10 @@ export const HOSPITAL_TYPES: HospitalType[] = [
   'Teaching Hospital',
   'Trauma Center',
   'Rehabilitation Center',
+  'Multispeciality Hospital',
+  'IVF Center',
+  'Eye Hospital',
+  'Dental Clinic',
 ];
 
 export interface FilterOptions {

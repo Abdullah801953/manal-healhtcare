@@ -41,6 +41,13 @@ export interface ITreatment {
   clinical?: string;
   surgery?: string;
   whyIndia?: string;
+  signsAndSymptoms?: string[];
+  howItIsDone?: string[];
+  recovery?: string[];
+  additionalInfo?: string[];
+  successRate?: string;
+  overviewList?: string[];
+  descriptionList?: string[];
   status: 'active' | 'inactive';
   createdAt: Date;
   updatedAt: Date;
@@ -112,6 +119,13 @@ const TreatmentSchema = new Schema<ITreatment>({
   clinical: String,
   surgery: String,
   whyIndia: String,
+  signsAndSymptoms: [{ type: String }],
+  howItIsDone: [{ type: String }],
+  recovery: [{ type: String }],
+  additionalInfo: [{ type: String }],
+  successRate: String,
+  overviewList: [{ type: String }],
+  descriptionList: [{ type: String }],
   status: {
     type: String,
     enum: ['active', 'inactive'],

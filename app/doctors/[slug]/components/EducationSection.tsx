@@ -1,5 +1,5 @@
 import { Doctor } from '../../types';
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap, Briefcase } from 'lucide-react';
 
 interface EducationSectionProps {
   doctor: Doctor;
@@ -28,6 +28,25 @@ export function EducationSection({ doctor }: EducationSectionProps) {
         <h3 className="text-lg font-semibold text-gray-900 mb-2">Professional Experience</h3>
         <p className="text-gray-700 leading-relaxed">{doctor.experience}</p>
       </div>
+
+      {/* Experience Details */}
+      {doctor.experienceDetails && doctor.experienceDetails.length > 0 && (
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">Detailed Experience</h3>
+          <div className="space-y-3">
+            {doctor.experienceDetails.map((detail, index) => (
+              <div key={index} className="flex items-start gap-4 p-4 border border-gray-200 rounded-xl hover:border-blue-400 transition-colors">
+                <div className="p-3 rounded-lg bg-blue-50">
+                  <Briefcase className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-base text-gray-700 leading-relaxed">{detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

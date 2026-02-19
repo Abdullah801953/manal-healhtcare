@@ -54,6 +54,13 @@ interface TreatmentFormData {
   clinical: string;
   surgery: string;
   whyIndia: string;
+  signsAndSymptoms: string[];
+  howItIsDone: string[];
+  recovery: string[];
+  additionalInfo: string[];
+  successRate: string;
+  overviewList: string[];
+  descriptionList: string[];
 }
 
 export default function TreatmentForm({ id }: { id?: string }) {
@@ -105,7 +112,14 @@ export default function TreatmentForm({ id }: { id?: string }) {
     tumors: "",
     clinical: "",
     surgery: "",
-    whyIndia: ""
+    whyIndia: "",
+    signsAndSymptoms: [""],
+    howItIsDone: [""],
+    recovery: [""],
+    additionalInfo: [""],
+    successRate: "",
+    overviewList: [""],
+    descriptionList: [""],
   });
 
   useEffect(() => {
@@ -156,7 +170,14 @@ export default function TreatmentForm({ id }: { id?: string }) {
           tumors: treatment.tumors || "",
           clinical: treatment.clinical || "",
           surgery: treatment.surgery || "",
-          whyIndia: treatment.whyIndia || ""
+          whyIndia: treatment.whyIndia || "",
+          signsAndSymptoms: treatment.signsAndSymptoms?.length > 0 ? treatment.signsAndSymptoms : [""],
+          howItIsDone: treatment.howItIsDone?.length > 0 ? treatment.howItIsDone : [""],
+          recovery: treatment.recovery?.length > 0 ? treatment.recovery : [""],
+          additionalInfo: treatment.additionalInfo?.length > 0 ? treatment.additionalInfo : [""],
+          successRate: treatment.successRate || "",
+          overviewList: treatment.overviewList?.length > 0 ? treatment.overviewList : [""],
+          descriptionList: treatment.descriptionList?.length > 0 ? treatment.descriptionList : [""],
         });
         // Set image preview if treatment has an image
         if (treatment.image) {
@@ -227,20 +248,22 @@ export default function TreatmentForm({ id }: { id?: string }) {
     }
   };
 
-  const handleArrayChange = (field: 'benefits' | 'procedures', index: number, value: string) => {
+type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone' | 'recovery' | 'additionalInfo' | 'overviewList' | 'descriptionList';
+
+  const handleArrayChange = (field: ArrayField, index: number, value: string) => {
     const newArray = [...formData[field]];
     newArray[index] = value;
     setFormData(prev => ({ ...prev, [field]: newArray }));
   };
 
-  const addArrayItem = (field: 'benefits' | 'procedures') => {
+  const addArrayItem = (field: ArrayField) => {
     setFormData(prev => ({
       ...prev,
       [field]: [...prev[field], ""]
     }));
   };
 
-  const removeArrayItem = (field: 'benefits' | 'procedures', index: number) => {
+  const removeArrayItem = (field: ArrayField, index: number) => {
     if (formData[field].length > 1) {
       const newArray = formData[field].filter((_, i) => i !== index);
       setFormData(prev => ({ ...prev, [field]: newArray }));
@@ -261,7 +284,13 @@ export default function TreatmentForm({ id }: { id?: string }) {
     const cleanData = {
       ...formData,
       benefits: formData.benefits.filter(b => b.trim() !== ""),
-      procedures: formData.procedures.filter(p => p.trim() !== "")
+      procedures: formData.procedures.filter(p => p.trim() !== ""),
+      signsAndSymptoms: formData.signsAndSymptoms.filter(s => s.trim() !== ""),
+      howItIsDone: formData.howItIsDone.filter(h => h.trim() !== ""),
+      recovery: formData.recovery.filter(r => r.trim() !== ""),
+      additionalInfo: formData.additionalInfo.filter(a => a.trim() !== ""),
+      overviewList: formData.overviewList.filter(o => o.trim() !== ""),
+      descriptionList: formData.descriptionList.filter(d => d.trim() !== ""),
     };
 
     try {
@@ -723,6 +752,167 @@ export default function TreatmentForm({ id }: { id?: string }) {
                 onChange={(e) => handleChange('whyIndia', e.target.value)}
                 placeholder="Why choose India for this treatment"
                 rows={3}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* New Dynamic List Fields */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Overview Points</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {formData.overviewList.map((item, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={item}
+                  onChange={(e) => handleArrayChange('overviewList', index, e.target.value)}
+                  placeholder={`Overview point ${index + 1}`}
+                />
+                {formData.overviewList.length > 1 && (
+                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('overviewList', index)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => addArrayItem('overviewList')} className="w-full">
+              <Plus className="w-4 h-4 mr-2" /> Add Overview Point
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Description Points</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {formData.descriptionList.map((item, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={item}
+                  onChange={(e) => handleArrayChange('descriptionList', index, e.target.value)}
+                  placeholder={`Description point ${index + 1}`}
+                />
+                {formData.descriptionList.length > 1 && (
+                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('descriptionList', index)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => addArrayItem('descriptionList')} className="w-full">
+              <Plus className="w-4 h-4 mr-2" /> Add Description Point
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Signs & Symptoms</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {formData.signsAndSymptoms.map((item, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={item}
+                  onChange={(e) => handleArrayChange('signsAndSymptoms', index, e.target.value)}
+                  placeholder={`Symptom ${index + 1}`}
+                />
+                {formData.signsAndSymptoms.length > 1 && (
+                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('signsAndSymptoms', index)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => addArrayItem('signsAndSymptoms')} className="w-full">
+              <Plus className="w-4 h-4 mr-2" /> Add Symptom
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>How It Is Done</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {formData.howItIsDone.map((item, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={item}
+                  onChange={(e) => handleArrayChange('howItIsDone', index, e.target.value)}
+                  placeholder={`Step ${index + 1}`}
+                />
+                {formData.howItIsDone.length > 1 && (
+                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('howItIsDone', index)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => addArrayItem('howItIsDone')} className="w-full">
+              <Plus className="w-4 h-4 mr-2" /> Add Step
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recovery</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {formData.recovery.map((item, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={item}
+                  onChange={(e) => handleArrayChange('recovery', index, e.target.value)}
+                  placeholder={`Recovery detail ${index + 1}`}
+                />
+                {formData.recovery.length > 1 && (
+                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('recovery', index)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => addArrayItem('recovery')} className="w-full">
+              <Plus className="w-4 h-4 mr-2" /> Add Recovery Detail
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Additional Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {formData.additionalInfo.map((item, index) => (
+              <div key={index} className="flex gap-2">
+                <Input
+                  value={item}
+                  onChange={(e) => handleArrayChange('additionalInfo', index, e.target.value)}
+                  placeholder={`Info ${index + 1}`}
+                />
+                {formData.additionalInfo.length > 1 && (
+                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('additionalInfo', index)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <Button type="button" variant="outline" onClick={() => addArrayItem('additionalInfo')} className="w-full">
+              <Plus className="w-4 h-4 mr-2" /> Add Info
+            </Button>
+
+            <div className="mt-4 space-y-2">
+              <Label htmlFor="successRate">Success Rate (optional)</Label>
+              <Input
+                id="successRate"
+                value={formData.successRate}
+                onChange={(e) => handleChange('successRate', e.target.value)}
+                placeholder="e.g., 95% success rate"
               />
             </div>
           </CardContent>

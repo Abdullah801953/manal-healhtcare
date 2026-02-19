@@ -42,6 +42,13 @@ export interface Treatment {
   clinical?: string;
   surgery?: string;
   whyIndia?: string;
+  signsAndSymptoms?: string[];
+  howItIsDone?: string[];
+  recovery?: string[];
+  additionalInfo?: string[];
+  successRate?: string;
+  overviewList?: string[];
+  descriptionList?: string[];
 }
 
 export type TreatmentCategory = string;

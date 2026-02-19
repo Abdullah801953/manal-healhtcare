@@ -393,6 +393,89 @@ export default async function TreatmentDetailPage({
                 <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.whyIndia}</ReactMarkdown></div>
               </div>
             )}
+
+            {/* Overview Points */}
+            {treatment.overviewList && treatment.overviewList.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Overview Points</h2>
+                <ul className="space-y-2 xs:space-y-2.5">
+                  {treatment.overviewList.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3"><span className="text-[#209f00] mt-0.5 text-lg">✔</span> <span className="text-sm xs:text-base text-gray-700">{item}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Description Points */}
+            {treatment.descriptionList && treatment.descriptionList.length > 0 && (
+              <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Description Details</h2>
+                <ul className="space-y-2 xs:space-y-2.5">
+                  {treatment.descriptionList.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3"><span className="text-[#209f00] mt-0.5 text-lg">•</span> <span className="text-sm xs:text-base text-gray-700">{item}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Signs & Symptoms */}
+            {treatment.signsAndSymptoms && treatment.signsAndSymptoms.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-red-400 hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Signs & Symptoms</h2>
+                <ul className="space-y-2 xs:space-y-2.5">
+                  {treatment.signsAndSymptoms.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3"><span className="text-red-400 mt-0.5 text-lg">⚠</span> <span className="text-sm xs:text-base text-gray-700">{item}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* How It Is Done */}
+            {treatment.howItIsDone && treatment.howItIsDone.length > 0 && (
+              <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">How It Is Done</h2>
+                <ol className="space-y-2 xs:space-y-2.5">
+                  {treatment.howItIsDone.map((step: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3">
+                      <span className="bg-[#209f00] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                      <span className="text-sm xs:text-base text-gray-700">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {/* Recovery */}
+            {treatment.recovery && treatment.recovery.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-blue-400 hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Recovery</h2>
+                <ul className="space-y-2 xs:space-y-2.5">
+                  {treatment.recovery.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3"><span className="text-blue-400 mt-0.5 text-lg">💊</span> <span className="text-sm xs:text-base text-gray-700">{item}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Success Rate */}
+            {treatment.successRate && (
+              <div className="bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Success Rate</h2>
+                <p className="text-lg font-semibold text-[#209f00]">{treatment.successRate}</p>
+              </div>
+            )}
+
+            {/* Additional Information */}
+            {treatment.additionalInfo && treatment.additionalInfo.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-gray-400 hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Additional Information</h2>
+                <ul className="space-y-2 xs:space-y-2.5">
+                  {treatment.additionalInfo.map((info: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3"><span className="text-[#209f00] mt-0.5 text-lg">ℹ</span> <span className="text-sm xs:text-base text-gray-700">{info}</span></li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* RELATED TREATMENTS */}

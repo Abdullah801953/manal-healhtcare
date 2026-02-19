@@ -13,11 +13,16 @@ export interface IDoctor {
   designation: string;
   hospital: string;
   overview: string;
+  overviewList?: string[];
   qualifications: string[];
   experience: string;
+  experienceDetails?: string[];
   experienceYears: string;
   specialization: string[];
   clinicalFocus: string[];
+  treatments?: string[];
+  additionalInfo?: string[];
+  whyChoose?: string[];
   achievements?: IAchievement[];
   image?: string;
   status: 'active' | 'inactive';
@@ -62,6 +67,21 @@ const DoctorSchema = new Schema<IDoctor>({
     type: String 
   }],
   clinicalFocus: [{ 
+    type: String 
+  }],
+  treatments: [{ 
+    type: String 
+  }],
+  overviewList: [{ 
+    type: String 
+  }],
+  experienceDetails: [{ 
+    type: String 
+  }],
+  additionalInfo: [{ 
+    type: String 
+  }],
+  whyChoose: [{ 
     type: String 
   }],
   achievements: [{

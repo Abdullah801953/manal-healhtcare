@@ -1,5 +1,5 @@
 import { Doctor } from '../../types';
-import { Briefcase, Target, Users, MapPin } from 'lucide-react';
+import { Briefcase, Target, Users, MapPin, CheckCircle2, Info } from 'lucide-react';
 
 interface DoctorInfoSectionProps {
   doctor: Doctor;
@@ -40,6 +40,21 @@ export function DoctorInfoSection({ doctor }: DoctorInfoSectionProps) {
         <p className="text-gray-600 leading-relaxed">
           {doctor.overview}
         </p>
+
+        {/* Overview Points */}
+        {doctor.overviewList && doctor.overviewList.length > 0 && (
+          <div className="mt-6">
+            <h4 className="text-lg font-semibold text-gray-900 mb-3">Key Highlights</h4>
+            <div className="space-y-2">
+              {doctor.overviewList.map((item, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-[#209f00] shrink-0 mt-0.5" />
+                  <p className="text-gray-700">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         
         {/* Clinical Focus */}
         {doctor.clinicalFocus && doctor.clinicalFocus.length > 0 && (
@@ -50,6 +65,21 @@ export function DoctorInfoSection({ doctor }: DoctorInfoSectionProps) {
                 <div key={index} className="flex items-start gap-3">
                   <Target className="w-5 h-5 text-[#209f00] shrink-0 mt-0.5" />
                   <p className="text-gray-700">{focus}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Additional Information */}
+        {doctor.additionalInfo && doctor.additionalInfo.length > 0 && (
+          <div className="mt-6">
+            <h4 className="text-lg font-semibold text-gray-900 mb-3">Additional Information</h4>
+            <div className="space-y-2">
+              {doctor.additionalInfo.map((info, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+                  <p className="text-gray-700">{info}</p>
                 </div>
               ))}
             </div>

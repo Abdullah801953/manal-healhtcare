@@ -23,6 +23,9 @@ export interface IHospital {
   expertise?: string[];
   infrastructure?: string[];
   departments?: string[];
+  award?: string[];
+  owner?: string;
+  additionalInfo?: string[];
   status: 'active' | 'inactive';
   createdAt: Date;
   updatedAt: Date;
@@ -42,7 +45,7 @@ const HospitalSchema = new Schema<IHospital>(
     type: {
       type: String,
       required: true,
-      enum: ['General Hospital', 'Specialty Hospital', 'Teaching Hospital', 'Trauma Center', 'Rehabilitation Center'],
+      enum: ['General Hospital', 'Specialty Hospital', 'Teaching Hospital', 'Trauma Center', 'Rehabilitation Center', 'Multispeciality Hospital', 'IVF Center', 'Eye Hospital', 'Dental Clinic'],
     },
     location: {
       type: String,
@@ -113,6 +116,15 @@ const HospitalSchema = new Schema<IHospital>(
       type: String,
     }],
     departments: [{
+      type: String,
+    }],
+    award: [{
+      type: String,
+    }],
+    owner: {
+      type: String,
+    },
+    additionalInfo: [{
       type: String,
     }],
     status: {

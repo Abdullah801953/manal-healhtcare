@@ -42,6 +42,11 @@ export default function EditDoctorPage() {
   const [qualifications, setQualifications] = useState<string[]>([""]);
   const [specializations, setSpecializations] = useState<string[]>([""]);
   const [clinicalFocus, setClinicalFocus] = useState<string[]>([""]);
+  const [treatments, setTreatments] = useState<string[]>([""]);
+  const [overviewList, setOverviewList] = useState<string[]>([""]);
+  const [experienceDetails, setExperienceDetails] = useState<string[]>([""]);
+  const [additionalInfo, setAdditionalInfo] = useState<string[]>([""]);
+  const [whyChoose, setWhyChoose] = useState<string[]>([""]);
   const [achievements, setAchievements] = useState<Achievement[]>([{ title: "" }]);
 
   useEffect(() => {
@@ -70,6 +75,11 @@ export default function EditDoctorPage() {
         setQualifications(doctor.qualifications?.length ? doctor.qualifications : [""]);
         setSpecializations(doctor.specialization?.length ? doctor.specialization : [""]);
         setClinicalFocus(doctor.clinicalFocus?.length ? doctor.clinicalFocus : [""]);
+        setTreatments(doctor.treatments?.length ? doctor.treatments : [""]);
+        setOverviewList(doctor.overviewList?.length ? doctor.overviewList : [""]);
+        setExperienceDetails(doctor.experienceDetails?.length ? doctor.experienceDetails : [""]);
+        setAdditionalInfo(doctor.additionalInfo?.length ? doctor.additionalInfo : [""]);
+        setWhyChoose(doctor.whyChoose?.length ? doctor.whyChoose : [""]);
         
         // Handle achievements - support both old string format and new object format
         if (doctor.achievements?.length) {
@@ -209,6 +219,11 @@ export default function EditDoctorPage() {
         qualifications: qualifications.filter(q => q.trim() !== ""),
         specialization: specializations.filter(s => s.trim() !== ""),
         clinicalFocus: clinicalFocus.filter(c => c.trim() !== ""),
+        treatments: treatments.filter(t => t.trim() !== ""),
+        overviewList: overviewList.filter(o => o.trim() !== ""),
+        experienceDetails: experienceDetails.filter(e => e.trim() !== ""),
+        additionalInfo: additionalInfo.filter(a => a.trim() !== ""),
+        whyChoose: whyChoose.filter(w => w.trim() !== ""),
         achievements: achievements.filter(a => a.title.trim() !== ""),
       };
 
@@ -481,6 +496,176 @@ export default function EditDoctorPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => removeArrayItem(index, setClinicalFocus)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Treatments */}
+            <Card className="rounded-3xl">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Treatments
+                  <Button type="button" size="sm" onClick={() => addArrayItem(setTreatments)}>
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {treatments.map((treatment, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={treatment}
+                      onChange={(e) => handleArrayChange(index, e.target.value, setTreatments)}
+                      placeholder="e.g., Knee Replacement Surgery"
+                    />
+                    {treatments.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeArrayItem(index, setTreatments)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Overview List */}
+            <Card className="rounded-3xl">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Overview Points
+                  <Button type="button" size="sm" onClick={() => addArrayItem(setOverviewList)}>
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {overviewList.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={item}
+                      onChange={(e) => handleArrayChange(index, e.target.value, setOverviewList)}
+                      placeholder="e.g., 20+ years of experience in cardiology"
+                    />
+                    {overviewList.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeArrayItem(index, setOverviewList)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Experience Details */}
+            <Card className="rounded-3xl">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Experience Details
+                  <Button type="button" size="sm" onClick={() => addArrayItem(setExperienceDetails)}>
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {experienceDetails.map((detail, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={detail}
+                      onChange={(e) => handleArrayChange(index, e.target.value, setExperienceDetails)}
+                      placeholder="e.g., Senior Consultant at Apollo Hospital (2015-2023)"
+                    />
+                    {experienceDetails.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeArrayItem(index, setExperienceDetails)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Additional Information */}
+            <Card className="rounded-3xl">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Additional Information
+                  <Button type="button" size="sm" onClick={() => addArrayItem(setAdditionalInfo)}>
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {additionalInfo.map((info, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={info}
+                      onChange={(e) => handleArrayChange(index, e.target.value, setAdditionalInfo)}
+                      placeholder="e.g., Fluent in English, Hindi, and Arabic"
+                    />
+                    {additionalInfo.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeArrayItem(index, setAdditionalInfo)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Why Choose */}
+            <Card className="rounded-3xl">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Why Choose This Doctor
+                  <Button type="button" size="sm" onClick={() => addArrayItem(setWhyChoose)}>
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {whyChoose.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={item}
+                      onChange={(e) => handleArrayChange(index, e.target.value, setWhyChoose)}
+                      placeholder="e.g., Internationally trained in robotic surgery"
+                    />
+                    {whyChoose.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeArrayItem(index, setWhyChoose)}
                       >
                         <X className="w-4 h-4" />
                       </Button>

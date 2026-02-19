@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Upload } from "lucide-react";
+import { ArrowLeft, Upload, Plus, X } from "lucide-react";
 import Link from "next/link";
 
 export default function NewHospitalPage() {
@@ -25,7 +25,7 @@ export default function NewHospitalPage() {
   const [imagePreview, setImagePreview] = useState<string>("");
   const [formData, setFormData] = useState({
     name: "",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "",
     city: "",
     state: "",
@@ -45,14 +45,17 @@ export default function NewHospitalPage() {
     featured: false,
     status: "active",
     image: "",
+    owner: "",
+    award: "",
   });
 
+  const [additionalInfo, setAdditionalInfo] = useState<string[]>([""]);
+
   const hospitalTypes = [
-    "General Hospital",
-    "Specialty Hospital",
-    "Teaching Hospital",
-    "Trauma Center",
-    "Rehabilitation Center",
+    "Multispeciality Hospital",
+    "IVF Center",
+    "Eye Hospital",
+    "Dental Clinic",
   ];
   // Generate slug from hospital name
   const generateSlug = (name: string) => {
@@ -131,6 +134,9 @@ export default function NewHospitalPage() {
         accreditations: formData.accreditations.split(",").map((s) => s.trim()).filter(Boolean),
         expertise: formData.expertise ? formData.expertise.split(",").map((s) => s.trim()).filter(Boolean) : [],
         infrastructure: formData.infrastructure ? formData.infrastructure.split(",").map((s) => s.trim()).filter(Boolean) : [],
+        award: formData.award ? formData.award.split(",").map((s) => s.trim()).filter(Boolean) : [],
+        additionalInfo: additionalInfo.filter((a) => a.trim() !== ""),
+        owner: formData.owner,
         rating: Number(formData.rating),
         reviewCount: Number(formData.reviewCount),
         beds: Number(formData.beds),
@@ -432,7 +438,61 @@ export default function NewHospitalPage() {
                   rows={2}
                 />
               </div>
+
+              <div>
+                <Label htmlFor="owner">Hospital Owner / Chairman (optional)</Label>
+                <Input
+                  id="owner"
+                  value={formData.owner}
+                  onChange={(e) => setFormData({ ...formData, owner: e.target.value })}
+                  placeholder="e.g., Dr. Prathap C Reddy"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="award">Awards (comma-separated, optional)</Label>
+                <Textarea
+                  id="award"
+                  value={formData.award}
+                  onChange={(e) => setFormData({ ...formData, award: e.target.value })}
+                  placeholder="e.g., Best Hospital Award 2024, NABH Excellence Award"
+                  rows={2}
+                />
+              </div>
+
             </div>
+
+            {/* Additional Information - Dynamic List */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Additional Information (Optional)</CardTitle>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setAdditionalInfo([...additionalInfo, ""])}>
+                    <Plus className="w-4 h-4 mr-1" /> Add
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {additionalInfo.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={item}
+                      onChange={(e) => {
+                        const updated = [...additionalInfo];
+                        updated[index] = e.target.value;
+                        setAdditionalInfo(updated);
+                      }}
+                      placeholder={`Additional info ${index + 1}`}
+                    />
+                    {additionalInfo.length > 1 && (
+                      <Button type="button" variant="outline" size="icon" onClick={() => setAdditionalInfo(additionalInfo.filter((_, i) => i !== index))}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
 
             {/* Checkboxes */}
             <div className="space-y-3">

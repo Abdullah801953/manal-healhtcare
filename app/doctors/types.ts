@@ -13,11 +13,16 @@ export interface Doctor {
   designation: string;
   hospital: string;
   overview: string;
+  overviewList?: string[];
   qualifications: string[];
   experience: string;
+  experienceDetails?: string[];
   experienceYears: string;
   specialization: string[];
   clinicalFocus: string[];
+  treatments?: string[];
+  additionalInfo?: string[];
+  whyChoose?: string[];
   achievements?: Achievement[];
   status?: 'active' | 'inactive';
   createdAt?: Date;

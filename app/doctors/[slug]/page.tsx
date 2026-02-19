@@ -6,6 +6,9 @@ import { DoctorInfoSection } from './components/DoctorInfoSection';
 import { ExpertiseSection } from './components/ExpertiseSection';
 import { EducationSection } from './components/EducationSection';
 import { AchievementsSection } from './components/AchievementsSection';
+import { TreatmentsSection } from './components/TreatmentsSection';
+import { AdditionalInfoSection } from './components/AdditionalInfoSection';
+import { WhyChooseSection } from './components/WhyChooseSection';
 import { RelatedDoctors } from './components/RelatedDoctors';
 import { Button } from '@/components/ui/button';
 import { Doctor } from '../types';
@@ -102,8 +105,11 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             <DoctorInfoSection doctor={doctor} />
+            <TreatmentsSection doctor={doctor} />
             <ExpertiseSection doctor={doctor} />
             <EducationSection doctor={doctor} />
+            <AdditionalInfoSection doctor={doctor} />
+            <WhyChooseSection doctor={doctor} />
             <AchievementsSection doctor={doctor} />
           </div>
 
