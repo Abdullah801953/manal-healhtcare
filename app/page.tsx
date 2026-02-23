@@ -13,6 +13,7 @@ import { FAQSection } from "./components/FAQSection";
 import { OurServices } from "./components/OurServices";
 import { Testimonials } from "./components/Testimonials";
 import { WhatsAppButton } from "./components/WhatsAppButton";
+import QuoteSection from "./components/ QuoteSection";
 
 
 /* =======================
@@ -231,6 +232,7 @@ const Page = async () => {
 
         <Hero />
         <Services />
+        <QuoteSection/>
         <AboutSection />
         <OurServices />
         <ServicesMarquee />

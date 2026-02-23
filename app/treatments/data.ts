@@ -10,14 +10,6 @@ import ivf from "@/public/ivf.jpg"
 import Neurology from "@/public/Neurology.webp"
 import Oncology from "@/public/Oncology.jpeg"
 
-
-
-
-
-
-
-
-
 export const treatmentsData: Treatment[] = [
   {
     id: "1",

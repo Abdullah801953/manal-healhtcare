@@ -560,6 +560,7 @@ type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone'
                 required
               />
             </div>
+            
 
             <div className="space-y-2">
               <Label htmlFor="types">Types</Label>

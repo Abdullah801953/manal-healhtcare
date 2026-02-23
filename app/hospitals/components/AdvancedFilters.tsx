@@ -133,50 +133,9 @@ export default function AdvancedFilters({
       </div>
 
       {/* Minimum Rating */}
-      <div>
-        <label className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-          <Star className="w-4 h-4 text-[#209f00]" />
-          Minimum Rating
-        </label>
-        <div className="space-y-2">
-          {[0, 4.0, 4.5, 4.7, 4.8].map((rating) => (
-            <button
-              key={rating}
-              onClick={() => handleMinRatingChange(rating)}
-              className={`w-full text-left px-4 py-2 rounded-lg transition-all text-sm ${
-                filters.minRating === rating
-                  ? 'bg-[#209f00] text-white'
-                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              {rating === 0 ? 'Any Rating' : `${rating}+ Stars`}
-            </button>
-          ))}
-        </div>
-      </div>
+    
 
-      {/* Minimum Beds */}
-      <div>
-        <label className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-          <Bed className="w-4 h-4 text-[#209f00]" />
-          Hospital Size (Beds)
-        </label>
-        <div className="space-y-2">
-          {[0, 100, 200, 300, 400].map((beds) => (
-            <button
-              key={beds}
-              onClick={() => handleMinBedsChange(beds)}
-              className={`w-full text-left px-4 py-2 rounded-lg transition-all text-sm ${
-                filters.minBeds === beds
-                  ? 'bg-[#209f00] text-white'
-                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              {beds === 0 ? 'Any Size' : `${beds}+ Beds`}
-            </button>
-          ))}
-        </div>
-      </div>
+    
 
       {/* Amenities */}
       <div>
