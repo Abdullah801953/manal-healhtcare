@@ -315,55 +315,7 @@ export const MainNav = () => {
           </NavigationMenuItem>
 
           {/* Info Dropdown */}
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-transparent font-medium text-gray-900 text-sm xl:text-base 2xl:text-[17px] hover:text-[#209F00] hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent px-2 xl:px-3 2xl:px-4">
-              Info
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              {/* Search Bar */}
-              <div className="w-[420px] p-3">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <Input
-                    type="text"
-                    placeholder="Search..."
-                    value={infoSearchQuery}
-                    onChange={(e) => setInfoSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2.5 w-full bg-gray-50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-full text-sm"
-                  />
-                </div>
-              </div>
-
-              {/* Info List */}
-              <div className="w-[420px] max-h-[420px] overflow-y-auto scrollbar-hide">
-                {filteredInfoItems.length > 0 ? (
-                  filteredInfoItems.map((item, index) => {
-                    const Icon = iconMap[item.icon];
-                    return (
-                      <Link
-                        key={index}
-                        href={item.href}
-                        className="group flex items-center gap-3 px-4 py-3 hover:bg-emerald-50 transition-all duration-150"
-                      >
-                        <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-50 group-hover:bg-emerald-100 transition-colors">
-                          {Icon && (
-                            <Icon className="w-4 h-4 text-emerald-600 group-hover:text-emerald-700 transition-colors" />
-                          )}
-                        </div>
-                        <span className="text-sm font-normal text-gray-700 group-hover:text-gray-900 transition-colors flex-1">
-                          {item.label}
-                        </span>
-                      </Link>
-                    );
-                  })
-                ) : (
-                  <div className="px-4 py-8 text-center text-gray-500 text-sm">
-                    No results found
-                  </div>
-                )}
-              </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+        
 
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
