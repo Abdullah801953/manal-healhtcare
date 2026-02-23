@@ -37,7 +37,7 @@ interface DoctorsShowcaseProps {
 }
 
 export const DoctorsShowcase = ({
-  badge = "Professional Doctors",
+  badge = "Our Top Doctors",
   heading = "Highly Skilled Doctors, Committed to Excellence",
 }: DoctorsShowcaseProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -166,55 +166,29 @@ export const DoctorsShowcase = ({
           {/* Header and Filters */}
           <div className="flex flex-col gap-3 xs:gap-4 sm:gap-6">
             {/* Left: Heading */}
-            <div className="space-y-1 xs:space-y-2 sm:space-y-3">
-              <motion.p
-                variants={itemVariants}
-                className="text-[#209F00] font-semibold text-[10px] xs:text-xs sm:text-sm md:text-base inline-flex items-center gap-1 xs:gap-2"
-              >
-                <Award className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
-                {badge}
-              </motion.p>
-              <motion.h2
-                variants={itemVariants}
-                className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 max-w-2xl"
-              >
-                {heading}
-              </motion.h2>
-            </div>
+        <div className="text-center mx-auto max-w-3xl space-y-3 sm:space-y-4">
 
-            {/* Category Filters - Horizontally scrollable on mobile */}
-            {!loading && categories.length > 0 && (
-              <motion.div
-                variants={itemVariants}
-                className="overflow-x-auto scrollbar-hide"
-              >
-                <div className="flex items-center gap-2 xs:gap-2 sm:gap-3 min-w-max sm:min-w-0 sm:flex-wrap pb-2 sm:pb-0">
-                <Button
-                  onClick={() => setSelectedCategory("all")}
-                  className={`rounded-full px-3 xs:px-4 sm:px-6 py-1.5 xs:py-2 text-[10px] xs:text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
-                    selectedCategory === "all"
-                      ? "bg-green-600 hover:bg-green-700 text-white shadow-lg"
-                      : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
-                  }`}
-                >
-                  All Doctors
-                </Button>
-                {categories.map((category) => (
-                  <Button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.name)}
-                    className={`rounded-full px-3 xs:px-4 sm:px-6 py-1.5 xs:py-2 text-[10px] xs:text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
-                      selectedCategory === category.name
-                        ? "bg-[#209F00] hover:bg-green-700 text-white shadow-lg"
-                        : "bg-white hover:bg-gray-100 text-gray-700 border border-gray-300"
-                    }`}
-                  >
-                    {category.name}
-                  </Button>
-                ))}
-                </div>
-              </motion.div>
-            )}
+  <motion.p
+    variants={itemVariants}
+    className="inline-flex items-center justify-center gap-2 
+               text-[#209F00] font-semibold 
+               text-sm sm:text-2xl md:text-3xl lg:text-4xl
+               bg-green-50 px-4 py-1.5 rounded-full"
+  >
+  <Award className="w-6 h-6 sm:w-7 sm:h-7 text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold" />
+{badge}
+  </motion.p>
+
+  <motion.h2
+    variants={itemVariants}
+    className="text-lg sm:text-sm md:text-md lg:text-lg 
+               font-bold text-gray-900 leading-snug"
+  >
+    {heading}
+  </motion.h2>
+
+</div>
+
           </div>
 
           {/* Loading State */}

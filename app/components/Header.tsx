@@ -61,7 +61,7 @@ const Header = () => {
                 alt="Manal Healthcare Logo"
                 width={120}
                 height={120}
-                className="w-[90px] sm:w-[100px] lg:w-[120px] xl:w-[140px]"
+                className="w-[90px] sm:w-[60px] lg:w-[80px] xl:w-[100px]"
                 style={{ height: 'auto' }}
                 priority
               />

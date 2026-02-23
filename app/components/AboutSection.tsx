@@ -34,16 +34,16 @@ const defaultFeatures: Feature[] = [
   { id: 2, text: "Real-Time Monitoring" },
   { id: 3, text: "Secure Data Encryption" },
   { id: 4, text: "Evidence-Based Treatment" },
-  { id: 5, text: "AI-Powered Diagnostics" },
-  { id: 6, text: "Real-Time Monitoring" },
-  { id: 7, text: "Secure Data Encryption" },
-  { id: 8, text: "Evidence-Based Treatment" },
+  { id: 5, text: "Minimally Invasive Procedures" },
+  { id: 6, text: "International Patient Support" },
+  { id: 7, text: "Post-Treatment Follow-Up" },
+  { id: 8, text: "Affordable Healthcare Packages" },
 ];
 
 export const AboutSection = ({
   badge = "About Us",
   heading = "Leading Medical Tourism Services for World-Class Healthcare in India",
-  description = "Experience comprehensive healthcare at Meca, where your well-being is our priority. We provide personalized, compassionate medical services, ensuring exceptional care tailored to your",
+  description = "At Manal Health Care, our mission is to connect international patients with top-quality healthcare providers in India, making the medical journey easy, safe, and comfortable. We help patients access advanced and affordable medical treatment in India, supported by experienced doctors and leading hospitals.We work closely with trusted hospitals and medical specialists across India and provide complete support, including medical visa assistance and multilingual communication, to ensure a smooth and stress-free experience.",
   features = defaultFeatures,
   buttonText = "More About Us",
   buttonLink = "/about",
@@ -54,6 +54,7 @@ export const AboutSection = ({
 }: AboutSectionProps) => {
   const { settings } = useSettings();
   const phoneNumber = settings?.sitePhone || "(808) 555-0111";
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -70,63 +71,34 @@ export const AboutSection = ({
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.6,
-      },
+      transition: { duration: 0.6 },
     },
   };
 
   const imageVariants = {
-    hidden: { opacity: 0, x: -50 },
+    hidden: { opacity: 0, x: 50 },
     visible: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 0.8,
-      },
+      transition: { duration: 0.8 },
     },
   };
 
-  // Split features into two columns
   const leftFeatures = features.slice(0, Math.ceil(features.length / 2));
   const rightFeatures = features.slice(Math.ceil(features.length / 2));
 
   return (
-    <section className="py-12 bg-white">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-        <div className="grid lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
-          {/* Left Side - Image */}
-          <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="relative flex items-center justify-center lg:justify-start lg:col-span-1"
-          >
-            <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl w-full sm:max-w-sm lg:max-w-md">
-              <Image
-                src={imageUrl}
-                alt={imageAlt}
-                width={450}
-                height={450}
-                className="w-full h-auto object-cover"
-                priority
-                unoptimized
-                onError={(e) => {
-                  console.error("Image failed to load:", imageUrl);
-                  e.currentTarget.style.display = "none";
-                }}
-              />
-            </div>
-          </motion.div>
-
-          {/* Right Side - Content */}
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-3 gap-10 items-center">
+          
+          {/* LEFT CONTENT */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-3 xs:space-y-4 sm:space-y-5 lg:space-y-6 flex flex-col justify-start lg:col-span-2"
+            className="space-y-6 lg:col-span-2"
           >
             {/* Badge */}
             <motion.p
@@ -139,7 +111,7 @@ export const AboutSection = ({
             {/* Heading */}
             <motion.h2
               variants={itemVariants}
-              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
+              className="text-xl sm:text-md font-semibold leading-snug"
             >
               {heading}
             </motion.h2>
@@ -147,72 +119,82 @@ export const AboutSection = ({
             {/* Description */}
             <motion.p
               variants={itemVariants}
-              className="text-gray-600 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed"
+              className="text-gray-600 text-base sm:text-lg leading-relaxed"
             >
               {description}
             </motion.p>
 
-            {/* Features Grid */}
+            {/* Features */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 pt-2 sm:pt-4"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4"
             >
-              {/* Left Column */}
-              <div className="space-y-4 sm:space-y-5">
-                {leftFeatures.map((feature) => (
-                  <FeatureItem key={feature.id} text={feature.text} />
-                ))}
-              </div>
+           
 
-              {/* Right Column */}
-              <div className="space-y-4 sm:space-y-5">
-                {rightFeatures.map((feature) => (
-                  <FeatureItem key={feature.id} text={feature.text} />
-                ))}
-              </div>
+             
             </motion.div>
 
-            {/* Button and Phone Section */}
+            {/* Button + Phone */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 pt-4 sm:pt-6"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-6"
             >
               <Button
                 asChild
                 size="lg"
-                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-6 sm:px-8 lg:px-10 py-5 sm:py-6 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group text-sm sm:text-base w-full sm:w-auto"
+                className="bg-[#209F00] hover:bg-green-700 text-white rounded-full px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 <Link href={buttonLink}>
                   {buttonText}
-                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
 
-              {showPhone && (
-                <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start px-4 sm:px-5 py-3 sm:py-4 rounded-2xl w-full sm:w-auto">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-md">
-                    <Phone className="w-6 h-6 sm:w-7 sm:h-7 text-[#209F00]" />
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-500 font-medium">{phoneLabel}</p>
-                    <Link
-                      href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-                      className="text-gray-900 font-bold text-base sm:text-lg lg:text-xl hover:text-[#209F00] transition-colors"
-                    >
-                      {phoneNumber}
-                    </Link>
-                  </div>
-                </div>
-              )}
+             <Link href="/contact">
+    <button
+      className="px-6 py-2 text-sm xl:text-base font-semibold
+                 bg-gradient-to-r from-red-600 to-red-600
+                 text-white rounded-full shadow-md
+                 hover:from-red-700 hover:to-red-700
+                 hover:scale-105
+                 transition-all duration-300"
+    >
+      Need Assistance?
+    </button>
+    </Link>
             </motion.div>
           </motion.div>
+
+          {/* RIGHT IMAGE */}
+          <motion.div
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="relative flex justify-center lg:col-span-1"
+          >
+            <div className="relative w-full max-w-[500px] h-[320px] sm:h-[400px] lg:h-[500px] rounded-[30px] overflow-hidden shadow-2xl">
+              
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+                priority
+              />
+
+              {/* Subtle Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
   );
 };
 
-// Reusable Feature Item Component
+// Feature Item Component
 interface FeatureItemProps {
   text: string;
 }
@@ -220,10 +202,12 @@ interface FeatureItemProps {
 const FeatureItem = ({ text }: FeatureItemProps) => {
   return (
     <div className="flex items-center gap-3">
-      <div className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-sm">
-        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-[#209F00] stroke-[2.5]" />
+      <div className="shrink-0 w-8 h-8 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-sm">
+        <Check className="w-5 h-5 text-[#209F00] stroke-[2.5]" />
       </div>
-      <span className="text-gray-700 text-sm sm:text-base font-medium">{text}</span>
+      <span className="text-gray-700 text-base font-medium">
+        {text}
+      </span>
     </div>
   );
 };

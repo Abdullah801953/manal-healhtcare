@@ -14,6 +14,7 @@ import { OurServices } from "./components/OurServices";
 import { Testimonials } from "./components/Testimonials";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import QuoteSection from "./components/ QuoteSection";
+import { Hospitals } from "./components/Hospitals";
 
 
 /* =======================
@@ -247,15 +248,16 @@ const Page = () => {
         <Hero />
         <Services />
         <QuoteSection/>
+        <DoctorsShowcase />
+        <Hospitals />
         <AboutSection />
         <OurServices />
         <ServicesMarquee />
       <Testimonials/>
-        <LabTestBooking />
-        <DoctorsShowcase />
+        {/* <LabTestBooking /> */}
         <NewsletterSection />
         <BlogSection />
-         <InfoCards />
+         {/* <InfoCards /> */}
         <FAQSection />
       </main>
 
