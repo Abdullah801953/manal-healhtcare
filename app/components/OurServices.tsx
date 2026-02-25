@@ -41,7 +41,7 @@ const defaultFeatures: Feature[] = [
 ];
 
 export const OurServices = ({
-  badge = "Comprehensive Healthcare Services",
+  badge = "Our Services",
   heading = "Expert Medical Treatment & Care for International Patients",
   description = "Discover world-class healthcare services designed for medical tourists seeking quality treatment abroad. Our accredited hospitals and experienced specialists provide comprehensive medical care, from advanced surgeries to specialized treatments, ensuring exceptional outcomes with personalized attention throughout your medical journey in India.",
   features = defaultFeatures,

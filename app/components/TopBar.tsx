@@ -1,144 +1,125 @@
 "use client";
 
-import { Phone, Mail, MapPin } from "lucide-react";
-import Link from "next/link";
+import { Search, Stethoscope, UserRound, Building2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Image from "next/image";
-import facebook from "@/public/facebook.svg";
-import instagram from "@/public/instagram.svg";
-import linkedin from "@/public/linkedin.svg";
-import twitter from "@/public/twitter.svg";
-import { useSettings } from "../contexts/SettingsContext";
+import Link from "next/link";
+import logo from "@/public/logo.png";
 
 export const TopBar = () => {
-  const { settings, loading } = useSettings();
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("treatments");
 
-  // Debug log - will show in browser console
-  if (typeof window !== 'undefined') {
-    console.log('TopBar (client) - Settings:', {
-      loading,
-      facebook: settings?.facebook,
-      twitter: settings?.twitter,
-      instagram: settings?.instagram,
-      linkedin: settings?.linkedin,
-    });
-  }
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    router.push(`/${category}?search=${encodeURIComponent(query)}`);
+  };
+
+  const categories = [
+    { id: "treatments", icon: Stethoscope },
+    { id: "doctors", icon: UserRound },
+    { id: "hospitals", icon: Building2 },
+  ];
 
   return (
-    <div className="hidden md:block bg-white border-b">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 lg:gap-0 py-2 md:py-2.5 lg:py-3 text-sm md:text-base lg:text-[18px]">
-          {/* Left side - Contact Info */}
-          <div className="flex items-center gap-0 md:gap-0 lg:gap-0 xl:gap-10 justify-center md:justify-start">
-            <Link
-              href={`tel:${settings?.sitePhone?.replace(/\D/g, '')}`}
-              className="flex items-center gap-1.5 md:gap-2 text-gray-700 hover:text-primary transition-colors whitespace-nowrap"
-            >
-              <div className="w-7 h-7 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                <Phone className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#209F00]" />
-              </div>
-              <span className="lg:text-[15px] xl:text-base md:text-[12px] ">{settings?.sitePhone || 'Loading...'}</span>
-              <span className="hidden lg:inline text-2xl font-light mx-2">|</span>
-            </Link>
-            <Link
-              href={`mailto:${settings?.siteEmail}`}
-              className="flex items-center gap-1.5 md:gap-2 text-gray-700 hover:text-primary transition-colors whitespace-nowrap"
-            >
-              <div className="w-7 h-7 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                <Mail className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#209F00]" />
-              </div>
-              <span className="lg:text-[15px] xl:text-base md:text-[12px] ">{settings?.siteEmail || 'Loading...'}</span>
-              <span className="hidden lg:inline text-2xl font-light mx-2">|</span>
-            </Link>
-            <div className="flex items-center gap-1.5 md:gap-2 text-gray-700 whitespace-nowrap">
-              <div className="w-7 h-7 md:w-8 md:h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#209F00]" />
-              </div>
-              <span className="lg:text-[15px] xl:text-base md:text-[12px] hidden lg:inline">{settings?.address || 'Loading...'}</span>
-              <span className="lg:text-[15px] xl:text-base md:text-[12px] lg:hidden">{settings?.address?.split(',').slice(0, 2).join(',') || 'Loading...'}</span>
-            </div>
-          </div>
+    <div className="hidden md:block bg-white border-b backdrop-blur-md">
+      <div className="container mx-auto px-6 py-3 flex items-center justify-between">
 
-          {/* Right side - Support & Social */}
-          <div className="flex items-center gap-3 md:gap-6 lg:gap-10 justify-center md:justify-end">
-            <Link 
-              href="/contact"
-              className="text-gray-700 hover:text-[#209F00] text-sm md:text-base hidden xl:inline transition-colors font-medium whitespace-nowrap"
-            >
-              Help / Support / Contact
-            </Link>
-            <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
-              {settings?.facebook?.trim() && (
-                <Link
-                  href={settings.facebook.trim()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-primary transition-colors"
-                  aria-label="Facebook"
-                >
-                  <div className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 bg-green-100 hover:bg-green-100 rounded-full flex items-center justify-center transition-colors">
-                    <Image
-                      src={facebook}
-                      alt="Facebook"
-                      className="w-4 h-4 md:w-4.5 md:h-4.5 lg:w-5 lg:h-5"
-                    />
-                  </div>
-                </Link>
-              )}
-              {settings?.instagram?.trim() && (
-                <Link
-                  href={settings.instagram.trim()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-primary transition-colors"
-                  aria-label="Instagram"
-                >
-                  <div className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 bg-green-100 hover:bg-green-100 rounded-full flex items-center justify-center transition-colors">
-                    <Image
-                      src={instagram}
-                      alt="Instagram"
-                      className="w-4 h-4 md:w-4.5 md:h-4.5 lg:w-5 lg:h-5"
-                    />
-                  </div>
-                </Link>
-              )}
-              {settings?.twitter?.trim() && (
-                <Link
-                  href={settings.twitter.trim()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-primary transition-colors"
-                  aria-label="X (Twitter)"
-                >
-                  <div className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 bg-green-100 hover:bg-green-100 rounded-full flex items-center justify-center transition-colors">
-                    <Image
-                      src={twitter}
-                      alt="Twitter"
-                      className="w-4 h-4 md:w-4.5 md:h-4.5 lg:w-5 lg:h-5"
-                    />
-                  </div>
-                </Link>
-              )}
-              {settings?.linkedin?.trim() && (
-                <Link
-                  href={settings.linkedin.trim()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-primary transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <div className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 bg-green-100 hover:bg-green-100 rounded-full flex items-center justify-center transition-colors">
-                    <Image
-                      src={linkedin}
-                      alt="LinkedIn"
-                      className="w-4 h-4 md:w-4.5 md:h-4.5 lg:w-5 lg:h-5"
-                    />
-                  </div>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+{/* LEFT - Premium Brand Block */}
+<div className="flex flex-col shrink-0">
+
+  {/* Brand Name */}
+  <span
+    className="text-2xl xl:text-3xl 2xl:text-4xl font-bold tracking-tight text-green-600"
+  >
+    Manal Healthcare
+  </span>
+
+  {/* Elegant Underline */}
+  <div className="relative ">
+    <div className="h-[3px] w-full bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 rounded-full" />
+    
+    {/* Subtle Glow Effect */}
+    <div className="absolute inset-0 blur-sm opacity-30 
+                    bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 rounded-full" />
+  </div>
+
+  {/* Tagline */}
+  <span className="text-md xl:text-lg uppercase tracking-[0.25em] text-gray-500 font-medium">
+    For Medical Travelers
+  </span>
+
+</div>
+
+  {/* CENTER - Get Free Quote Button */}
+  <div className="flex justify-center flex-1">
+    <Link href="/contact">
+    <button
+      className="px-6 py-2 text-sm xl:text-base font-semibold
+                 bg-gradient-to-r from-red-600 to-red-600
+                 text-white rounded-full shadow-md
+                 hover:from-red-700 hover:to-red-700
+                 hover:scale-105
+                 transition-all duration-300"
+    >
+      Get a FREE Quote
+    </button>
+    </Link>
+  </div>
+
+  {/* RIGHT - Search */}
+  <form
+    onSubmit={handleSearch}
+    className="flex items-center bg-white shadow-sm border border-gray-200
+               rounded-full overflow-hidden w-[600px]
+               transition-all duration-300
+               focus-within:shadow-lg focus-within:border-green-600"
+  >
+    <div className="flex items-center gap-2 pl-3">
+      {categories.map((item) => {
+        const Icon = item.icon;
+        const active = category === item.id;
+
+        return (
+          <button
+            type="button"
+            key={item.id}
+            onClick={() => setCategory(item.id)}
+            className={`p-2 rounded-full transition-all duration-300 ${
+              active
+                ? "bg-green-600 text-white shadow-md"
+                : "text-gray-500 hover:bg-gray-100"
+            }`}
+          >
+            <Icon className="w-4 h-4" />
+          </button>
+        );
+      })}
+    </div>
+
+    <Input
+      type="text"
+      placeholder={`Search ${category}...`}
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      className="border-0 shadow-none focus-visible:ring-0 focus-visible:outline-none h-11 text-sm"
+    />
+
+    <button
+      type="submit"
+      className="bg-gradient-to-r from-green-600 to-green-700
+                 hover:from-green-700 hover:to-green-800
+                 text-white px-6 h-11 flex items-center transition-all duration-300"
+    >
+      <Search className="w-4 h-4" />
+    </button>
+  </form>
+
+</div>
     </div>
   );
 };
