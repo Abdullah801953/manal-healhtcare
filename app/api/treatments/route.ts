@@ -39,7 +39,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // Validate required fields
-    const requiredFields = ['title', 'category', 'description', 'overview', 'shortDescription'];
+    const requiredFields = ['title', 'category', 'description', 'shortDescription'];
     for (const field of requiredFields) {
       if (!body[field]) {
         return NextResponse.json(
@@ -50,6 +50,17 @@ export async function POST(request: Request) {
           { status: 400 }
         );
       }
+    }
+
+    // Auto-populate overview from overviewList for backward compatibility
+    if (!body.overview && body.overviewList?.length > 0) {
+      body.overview = body.overviewList.filter((o: string) => o.trim() !== '').join('\n');
+    }
+    if (!body.overview) body.overview = '';
+
+    // Auto-populate types from treatmentTypes for backward compatibility
+    if (!body.types && body.treatmentTypes?.length > 0) {
+      body.types = body.treatmentTypes.filter((t: string) => t.trim() !== '').join('\n');
     }
 
     // Generate slug if not provided

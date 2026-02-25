@@ -215,17 +215,44 @@ export default async function TreatmentDetailPage({
           {/* SECTIONED CONTENT */}
           <div className="space-y-4 xs:space-y-5 sm:space-y-6">
             {/* Overview */}
-            {treatment.overview && (
+            {treatment.overviewList?.filter((o: string) => o.trim() !== "").length > 0 && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Overview</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.overview}</ReactMarkdown></div>
+                <ul className="space-y-2">
+                  {treatment.overviewList.filter((o: string) => o.trim() !== "").map((point: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3">
+                      <span className="text-[#209f00] mt-0.5 text-lg shrink-0">✔</span>
+                      <span className="text-sm xs:text-base text-gray-700">{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
             {/* Types / Disorders / OncologyTypes / Domains / Reasons */}
-            {treatment.types && (
+            {treatment.treatmentTypes?.filter((t: string) => t.trim() !== "").length > 0 && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
-                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Types</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.types}</ReactMarkdown></div>
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Types of Treatment</h2>
+                <ul className="space-y-2">
+                  {treatment.treatmentTypes.filter((t: string) => t.trim() !== "").map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3">
+                      <span className="text-[#209f00] mt-0.5 text-lg shrink-0">✔</span>
+                      <span className="text-sm xs:text-base text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {treatment.surgeryTypes?.filter((s: string) => s.trim() !== "").length > 0 && (
+              <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
+                <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Types of Surgery</h2>
+                <ul className="space-y-2">
+                  {treatment.surgeryTypes.filter((s: string) => s.trim() !== "").map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 xs:gap-3">
+                      <span className="text-[#209f00] mt-0.5 text-lg shrink-0">✔</span>
+                      <span className="text-sm xs:text-base text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
             {treatment.disorders && (

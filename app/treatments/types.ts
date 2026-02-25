@@ -49,6 +49,8 @@ export interface Treatment {
   successRate?: string;
   overviewList?: string[];
   descriptionList?: string[];
+  treatmentTypes?: string[];
+  surgeryTypes?: string[];
 }
 
 export type TreatmentCategory = string;

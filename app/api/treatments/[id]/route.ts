@@ -50,8 +50,8 @@ export async function PUT(
 
     const treatment = await Treatment.findByIdAndUpdate(
       id,
-      body,
-      { new: true, runValidators: true }
+      { $set: body },
+      { new: true }
     );
 
     if (!treatment) {

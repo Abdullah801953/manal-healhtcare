@@ -5,7 +5,7 @@ export interface ITreatment {
   title: string;
   category: string;
   description: string;
-  overview: string;
+  overview?: string;
   types?: string;
   purpose?: string;
   diseasesTreated?: string;
@@ -48,6 +48,8 @@ export interface ITreatment {
   successRate?: string;
   overviewList?: string[];
   descriptionList?: string[];
+  treatmentTypes?: string[];
+  surgeryTypes?: string[];
   status: 'active' | 'inactive';
   createdAt: Date;
   updatedAt: Date;
@@ -73,7 +75,7 @@ const TreatmentSchema = new Schema<ITreatment>({
   },
   overview: {
     type: String,
-    required: true
+    default: ''
   },
   types: String,
   purpose: String,
@@ -126,6 +128,8 @@ const TreatmentSchema = new Schema<ITreatment>({
   successRate: String,
   overviewList: [{ type: String }],
   descriptionList: [{ type: String }],
+  treatmentTypes: [{ type: String }],
+  surgeryTypes: [{ type: String }],
   status: {
     type: String,
     enum: ['active', 'inactive'],

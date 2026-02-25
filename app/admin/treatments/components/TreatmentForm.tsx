@@ -61,6 +61,8 @@ interface TreatmentFormData {
   successRate: string;
   overviewList: string[];
   descriptionList: string[];
+  treatmentTypes: string[];
+  surgeryTypes: string[];
 }
 
 export default function TreatmentForm({ id }: { id?: string }) {
@@ -120,6 +122,8 @@ export default function TreatmentForm({ id }: { id?: string }) {
     successRate: "",
     overviewList: [""],
     descriptionList: [""],
+    treatmentTypes: [""],
+    surgeryTypes: [""],
   });
 
   useEffect(() => {
@@ -176,8 +180,10 @@ export default function TreatmentForm({ id }: { id?: string }) {
           recovery: treatment.recovery?.length > 0 ? treatment.recovery : [""],
           additionalInfo: treatment.additionalInfo?.length > 0 ? treatment.additionalInfo : [""],
           successRate: treatment.successRate || "",
-          overviewList: treatment.overviewList?.length > 0 ? treatment.overviewList : [""],
+          overviewList: treatment.overviewList?.length > 0 ? treatment.overviewList : (treatment.overview ? [treatment.overview] : [""]),
           descriptionList: treatment.descriptionList?.length > 0 ? treatment.descriptionList : [""],
+          treatmentTypes: treatment.treatmentTypes?.length > 0 ? treatment.treatmentTypes : [""],
+          surgeryTypes: treatment.surgeryTypes?.length > 0 ? treatment.surgeryTypes : [""],
         });
         // Set image preview if treatment has an image
         if (treatment.image) {
@@ -248,7 +254,7 @@ export default function TreatmentForm({ id }: { id?: string }) {
     }
   };
 
-type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone' | 'recovery' | 'additionalInfo' | 'overviewList' | 'descriptionList';
+type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone' | 'recovery' | 'additionalInfo' | 'overviewList' | 'descriptionList' | 'treatmentTypes' | 'surgeryTypes';
 
   const handleArrayChange = (field: ArrayField, index: number, value: string) => {
     const newArray = [...formData[field]];
@@ -275,7 +281,7 @@ type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone'
     setError("");
     
     // Validate required fields
-    if (!formData.title || !formData.category || !formData.description || !formData.overview || !formData.shortDescription) {
+    if (!formData.title || !formData.category || !formData.description || !formData.overviewList.some(o => o.trim() !== "") || !formData.shortDescription) {
       setError("Please fill in all required fields");
       return;
     }
@@ -291,6 +297,12 @@ type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone'
       additionalInfo: formData.additionalInfo.filter(a => a.trim() !== ""),
       overviewList: formData.overviewList.filter(o => o.trim() !== ""),
       descriptionList: formData.descriptionList.filter(d => d.trim() !== ""),
+      treatmentTypes: formData.treatmentTypes.filter(t => t.trim() !== ""),
+      surgeryTypes: formData.surgeryTypes.filter(s => s.trim() !== ""),
+      // Keep overview in sync with overviewList[0] for backward compat
+      overview: formData.overviewList.filter(o => o.trim() !== "").join('\n'),
+      // Keep types in sync with treatmentTypes for backward compat
+      types: formData.treatmentTypes.filter(t => t.trim() !== "").join('\n'),
     };
 
     try {
@@ -550,27 +562,73 @@ type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone'
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="overview">Overview *</Label>
-              <Textarea
-                id="overview"
-                value={formData.overview}
-                onChange={(e) => handleChange('overview', e.target.value)}
-                placeholder="Treatment overview"
-                rows={4}
-                required
-              />
+              <Label>Overview *</Label>
+              <div className="space-y-2">
+                {formData.overviewList.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={item}
+                      onChange={(e) => handleArrayChange('overviewList', index, e.target.value)}
+                      placeholder={`Overview point ${index + 1}`}
+                    />
+                    {formData.overviewList.length > 1 && (
+                      <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('overviewList', index)}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => addArrayItem('overviewList')} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Overview Point
+                </Button>
+              </div>
             </div>
             
 
             <div className="space-y-2">
-              <Label htmlFor="types">Types</Label>
-              <Textarea
-                id="types"
-                value={formData.types}
-                onChange={(e) => handleChange('types', e.target.value)}
-                placeholder="Different types of this treatment"
-                rows={3}
-              />
+              <Label>Type of Treatment</Label>
+              <div className="space-y-2">
+                {formData.treatmentTypes.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={item}
+                      onChange={(e) => handleArrayChange('treatmentTypes', index, e.target.value)}
+                      placeholder={`Treatment type ${index + 1}`}
+                    />
+                    {formData.treatmentTypes.length > 1 && (
+                      <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('treatmentTypes', index)}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => addArrayItem('treatmentTypes')} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Treatment Type
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Type of Surgery</Label>
+              <div className="space-y-2">
+                {formData.surgeryTypes.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={item}
+                      onChange={(e) => handleArrayChange('surgeryTypes', index, e.target.value)}
+                      placeholder={`Surgery type ${index + 1}`}
+                    />
+                    {formData.surgeryTypes.length > 1 && (
+                      <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('surgeryTypes', index)}>
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => addArrayItem('surgeryTypes')} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Surgery Type
+                </Button>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -759,30 +817,6 @@ type ArrayField = 'benefits' | 'procedures' | 'signsAndSymptoms' | 'howItIsDone'
         </Card>
 
         {/* New Dynamic List Fields */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Overview Points</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {formData.overviewList.map((item, index) => (
-              <div key={index} className="flex gap-2">
-                <Input
-                  value={item}
-                  onChange={(e) => handleArrayChange('overviewList', index, e.target.value)}
-                  placeholder={`Overview point ${index + 1}`}
-                />
-                {formData.overviewList.length > 1 && (
-                  <Button type="button" variant="outline" size="icon" onClick={() => removeArrayItem('overviewList', index)}>
-                    <X className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
-            ))}
-            <Button type="button" variant="outline" onClick={() => addArrayItem('overviewList')} className="w-full">
-              <Plus className="w-4 h-4 mr-2" /> Add Overview Point
-            </Button>
-          </CardContent>
-        </Card>
 
         <Card>
           <CardHeader>

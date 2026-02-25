@@ -1,11 +1,13 @@
 import { Treatment } from '../../types';
-import { FileText, Info } from 'lucide-react';
+import { CheckCircle2, FileText, Info } from 'lucide-react';
 
 interface TreatmentOverviewProps {
   treatment: Treatment;
 }
 
 export default function TreatmentOverview({ treatment }: TreatmentOverviewProps) {
+  const overviewPoints = treatment.overviewList?.filter(o => o.trim() !== "") ?? [];
+
   return (
     <section className="py-16 bg-white px-3 xs:px-4 sm:px-6 lg:px-10">
       <div className="container mx-auto">
@@ -28,16 +30,36 @@ export default function TreatmentOverview({ treatment }: TreatmentOverviewProps)
             </p>
           </div>
 
-          {/* Key Points */}
-          <div className="mt-8 bg-gradient-to-br from-[#209f00]/5 to-emerald-50 rounded-2xl p-8 border border-[#209f00]/10">
-            <div className="flex items-center gap-2 mb-4">
-              <FileText className="w-5 h-5 text-[#209f00]" />
-              <h3 className="text-xl font-bold text-gray-900">Why Choose This Treatment</h3>
+          {/* Overview Points */}
+          {overviewPoints.length > 0 && (
+            <div className="mt-8 bg-gradient-to-br from-[#209f00]/5 to-emerald-50 rounded-2xl p-8 border border-[#209f00]/10">
+              <div className="flex items-center gap-2 mb-6">
+                <FileText className="w-5 h-5 text-[#209f00]" />
+                <h3 className="text-xl font-bold text-gray-900">Overview</h3>
+              </div>
+              <ul className="space-y-3">
+                {overviewPoints.map((point, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[#209f00] mt-0.5 shrink-0" />
+                    <span className="text-gray-700 leading-relaxed">{point}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <p className="text-gray-700">
-              Our medical team utilizes state-of-the-art technology and follows international best practices to ensure optimal patient outcomes, safety, and comfort throughout the entire treatment process.
-            </p>
-          </div>
+          )}
+
+          {/* Fallback Key Points when no overviewList */}
+          {overviewPoints.length === 0 && (
+            <div className="mt-8 bg-gradient-to-br from-[#209f00]/5 to-emerald-50 rounded-2xl p-8 border border-[#209f00]/10">
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="w-5 h-5 text-[#209f00]" />
+                <h3 className="text-xl font-bold text-gray-900">Why Choose This Treatment</h3>
+              </div>
+              <p className="text-gray-700">
+                Our medical team utilizes state-of-the-art technology and follows international best practices to ensure optimal patient outcomes, safety, and comfort throughout the entire treatment process.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>
