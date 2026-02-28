@@ -42,8 +42,8 @@ const defaultFeatures: Feature[] = [
 
 export const OurServices = ({
   badge = "Our Services",
-  heading = "Expert Medical Treatment & Care for International Patients",
-  description = "Discover world-class healthcare services designed for medical tourists seeking quality treatment abroad. Our accredited hospitals and experienced specialists provide comprehensive medical care, from advanced surgeries to specialized treatments, ensuring exceptional outcomes with personalized attention throughout your medical journey in India.",
+ 
+ 
   features = defaultFeatures,
   buttonText = "Our Services",
   buttonLink = "/about",
@@ -94,7 +94,6 @@ export const OurServices = ({
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
-        <div className="grid lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
           {/* Right Side - Content */}
           <motion.div
             variants={containerVariants}
@@ -112,20 +111,7 @@ export const OurServices = ({
             </motion.p>
 
             {/* Heading */}
-            <motion.h2
-              variants={itemVariants}
-              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
-            >
-              {heading}
-            </motion.h2>
-
-            {/* Description */}
-            <motion.p
-              variants={itemVariants}
-              className="text-gray-600 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed"
-            >
-              {description}
-            </motion.p>
+       
 
             {/* Features Grid */}
             <motion.div
@@ -165,46 +151,28 @@ export const OurServices = ({
 
               {showPhone && (
                 <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start px-4 sm:px-5 py-3 sm:py-4 rounded-2xl w-full sm:w-auto">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center shadow-md">
-                    <Phone className="w-6 h-6 sm:w-7 sm:h-7 text-[#209F00]" />
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-500 font-medium">
-                      {phoneLabel}
-                    </p>
-                    <Link
-                      href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-                      className="text-gray-900 font-bold text-base sm:text-lg lg:text-xl hover:text-[#209F00] transition-colors"
-                    >
-                      {phoneNumber}
-                    </Link>
-                  </div>
+                    <Link href="/contact">
+    <button
+      className="px-6 py-2 text-sm xl:text-base font-semibold
+                 bg-gradient-to-r from-red-600 to-red-600
+                 text-white rounded-full shadow-md
+                 hover:from-red-700 hover:to-red-700
+                 hover:scale-105
+                 transition-all duration-300"
+    >
+      Need help?
+    </button>
+    </Link>
+          
                 </div>
               )}
             </motion.div>
           </motion.div>
 
           {/* Left Side - Image */}
-          <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="relative flex items-center justify-center lg:justify-start lg:col-span-1"
-          >
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl w-full sm:max-w-sm lg:max-w-md">
-              <Image
-                src={imageUrl}
-                alt={imageAlt}
-                width={450}
-                height={450}
-                className="w-full h-auto object-cover"
-                priority
-              />
-            </div>
-          </motion.div>
+       
         </div>
-      </div>
+    
     </section>
   );
 };

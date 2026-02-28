@@ -11,15 +11,15 @@ interface TeamMember {
 export function TeamSection() {
   const team: TeamMember[] = [
     {
-      name: 'Dr. Sarah Johnson',
+      name: 'Ashraf',
       role: 'Chief Medical Officer',
-      image: '/doctor.png',
+      image: '/ashraf.png',
       bio: 'Leading our medical team with 20+ years of healthcare experience',
     },
     {
-      name: 'Dr. Michael Chen',
+      name: 'Shadab',
       role: 'Director of Operations',
-      image: '/doctor-img 1.png',
+      image: '/filename.png',
       bio: 'Ensuring operational excellence and patient satisfaction',
     },
     {
@@ -28,12 +28,7 @@ export function TeamSection() {
       image: '/doctor-img2 1.png',
       bio: 'Pioneering medical research and innovative treatments',
     },
-    {
-      name: 'Dr. James Wilson',
-      role: 'Patient Care Director',
-      image: '/doctor.png',
-      bio: 'Dedicated to delivering compassionate patient-centered care',
-    },
+
   ];
 
   return (
@@ -48,7 +43,7 @@ export function TeamSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {team.map((member, index) => (
             <div
               key={index}

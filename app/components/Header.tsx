@@ -8,7 +8,7 @@ import { MainNav } from "./MainNav";
 import { MobileNav } from "./MobileNav";
 import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
-import { Languages, MessageCircleMore } from "lucide-react";
+import { Languages, MessageCircleMore, Phone } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -66,7 +66,26 @@ const Header = () => {
                 priority
               />
             </Link>
-
+<div className="md:hidden">
+  <Link href="/contact">
+    <button
+      className="group relative flex items-center gap-2
+                 px-4 py-2
+                 text-sm font-semibold
+                 text-white
+                 bg-red-600
+                 rounded-full
+                 shadow-md
+                 transition-all duration-300
+                 hover:bg-red-700
+                 hover:shadow-lg
+                 active:scale-95"
+    >
+      <Phone className="w-4 h-4 opacity-90 group-hover:rotate-12 transition duration-300" />
+      <span className="tracking-wide">Help?</span>
+    </button>
+  </Link>
+</div>
             {/* Desktop Navigation - visible on xl and up */}
             <div className="hidden xl:flex items-center gap-4 2xl:gap-6">
               <MainNav />

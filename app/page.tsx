@@ -15,8 +15,6 @@ import { Testimonials } from "./components/Testimonials";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import QuoteSection from "./components/ QuoteSection";
 import { Hospitals } from "./components/Hospitals";
-
-
 /* =======================
    PAGE LEVEL SEO
 ======================= */
@@ -223,7 +221,7 @@ const Page = async () => {
       )}
       
       <WhatsAppButton />
-
+   
 
       <main id="main-content">
         {/* ✅ SINGLE H1 FOR SEO */}

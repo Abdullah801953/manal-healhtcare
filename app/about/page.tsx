@@ -43,12 +43,11 @@ export default function AboutPage() {
       <MissionVision />
       <StatsSection />
       <WhyChooseUs />
-      <OurStory />
+   
       <ValuesSection />
-      <Accreditations />
+ 
       <TeamSection />
-      <CommunityImpact />
-      <Testimonials />
+     
       <CTASection />
     </div>
   );
