@@ -90,7 +90,6 @@ export const AboutSection = ({
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid lg:grid-cols-3 gap-10 items-center">
           
           {/* LEFT CONTENT */}
           <motion.div
@@ -166,30 +165,9 @@ export const AboutSection = ({
           </motion.div>
 
           {/* RIGHT IMAGE */}
-          <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="relative flex justify-center lg:col-span-1"
-          >
-            <div className="relative w-full max-w-[500px] h-[320px] sm:h-[400px] lg:h-[500px] rounded-[30px] overflow-hidden shadow-2xl">
-              
-              <Image
-                src={imageUrl}
-                alt={imageAlt}
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-700"
-                priority
-              />
-
-              {/* Subtle Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
-            </div>
-          </motion.div>
+      
 
         </div>
-      </div>
     </section>
   );
 };
