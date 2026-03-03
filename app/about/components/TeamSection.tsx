@@ -5,28 +5,25 @@ interface TeamMember {
   name: string;
   role: string;
   image: string;
-  bio: string;
+
 }
 
 export function TeamSection() {
   const team: TeamMember[] = [
     {
-      name: 'Ashraf',
-      role: 'Chief Medical Officer',
+      name: 'Mohammad Ashraf ',
+      role: 'Director & Co-Founder',
       image: '/ashraf.png',
-      bio: 'Leading our medical team with 20+ years of healthcare experience',
     },
     {
-      name: 'Shadab',
-      role: 'Director of Operations',
+      name: 'Shadab Imran',
+      role: 'Finance & Operations Manager & Co-Founder',
       image: '/filename.png',
-      bio: 'Ensuring operational excellence and patient satisfaction',
     },
     {
-      name: 'Dr. Emily Roberts',
-      role: 'Head of Research',
-      image: '/doctor-img2 1.png',
-      bio: 'Pioneering medical research and innovative treatments',
+      name: 'Mohd Modabbir',
+      role: 'General Manager & Co-Founder',
+      image: '/mod.jpeg',
     },
 
   ];
@@ -70,9 +67,7 @@ export function TeamSection() {
                 <p className="text-[#209f00] font-semibold mb-3">
                   {member.role}
                 </p>
-                <p className="text-gray-600 text-sm mb-4">
-                  {member.bio}
-                </p>
+              
 
                 <div className="flex justify-center gap-3">
                   <button className="p-2 bg-gray-200 hover:bg-[#209f00] hover:text-white rounded-full transition-colors">

@@ -125,23 +125,7 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
                 </Button>
               </div>
 
-              {/* Contact Info */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="space-y-3 text-sm">
-                  <div>
-                    <p className="text-gray-500">Consultation Fee</p>
-                    <p className="font-semibold text-gray-900">$150 - $200</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500">Available Hours</p>
-                    <p className="font-semibold text-gray-900">Mon - Fri, 9AM - 5PM</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500">Response Time</p>
-                    <p className="font-semibold text-gray-900">Within 24 hours</p>
-                  </div>
-                </div>
-              </div>
+     
             </div>
           </div>
         </div>
