@@ -607,7 +607,7 @@ I would like to discuss my treatment options.`;
           ref={searchRef}
         >
           <form onSubmit={handleSearch} className="relative">
-            <div className="flex flex-col sm:flex-row items-center bg-white rounded-xl xs:rounded-2xl sm:rounded-full shadow-xl xs:shadow-2xl hover:shadow-3xl overflow-hidden border-2 border-gray-100 focus-within:border-green-500 transition-all duration-300">
+            <div className="flex flex-col md:hidden sm:flex-row items-center bg-white rounded-xl xs:rounded-2xl sm:rounded-full shadow-xl xs:shadow-2xl hover:shadow-3xl overflow-hidden border-2 border-gray-100 focus-within:border-green-500 transition-all duration-300">
               
               {/* Dropdown */}
               <Select
