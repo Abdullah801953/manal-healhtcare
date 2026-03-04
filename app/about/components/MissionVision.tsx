@@ -1,7 +1,8 @@
 "use client";
-
+import { useSettings } from "@/app/contexts/SettingsContext";
 import Image from "next/image";
 import { Target, Eye, Heart } from "lucide-react";// apni image yahan import karo
+import { HeroQueryForm } from "@/app/components/HeroQueryForm";
 
 export function MissionVision() {
   const sections = [
@@ -73,13 +74,12 @@ export function MissionVision() {
           </div>
 
           {/* RIGHT SIDE - IMAGE */}
-          <div className="relative w-full h-[500px] lg:h-[660px] rounded-xl overflow-hidden shadow-xl">
-         <Image
-  src="/foundationImg.jpeg"
-  alt="Healthcare Foundation"
-  fill
-  className="object-cover"
-/>
+          <div className=" w-full h-[500px] lg:h-[660px] rounded-xl ">
+      
+          <div className ="">
+              <HeroQueryForm />
+          </div>
+    
           </div>
 
         </div>

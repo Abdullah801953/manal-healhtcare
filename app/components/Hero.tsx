@@ -371,21 +371,16 @@ I would like to discuss my treatment options.`;
               </motion.p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="pt-2 px-1 xs:px-2 sm:px-0">
-              <Button
-                size="lg"
-                onClick={() => {
-                  const queryForm = document.getElementById('query-form');
-                  if (queryForm) {
-                    queryForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }
-                }}
-                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-full px-6 xs:px-8 sm:px-10 py-4 xs:py-5 sm:py-6 text-xs xs:text-sm sm:text-base lg:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 group w-full sm:w-auto"
-              >
-                <Translate>Get a Query</Translate>
-                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </motion.div>
+       <motion.div variants={itemVariants} className="pt-2 px-1 xs:px-2 sm:px-0">
+  <Button
+    size="lg"
+    onClick={() => router.push("/contact")}
+    className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-full px-6 xs:px-8 sm:px-10 py-4 xs:py-5 sm:py-6 text-xs xs:text-sm sm:text-base lg:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 group w-full sm:w-auto"
+  >
+    <Translate>Get a Query</Translate>
+    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+  </Button>
+</motion.div>
           </motion.div>
 
           {/* Right Content - Query Form */}
@@ -607,7 +602,7 @@ I would like to discuss my treatment options.`;
           ref={searchRef}
         >
           <form onSubmit={handleSearch} className="relative">
-            <div className="flex flex-col sm:flex-row items-center bg-white rounded-xl xs:rounded-2xl sm:rounded-full shadow-xl xs:shadow-2xl hover:shadow-3xl overflow-hidden border-2 border-gray-100 focus-within:border-green-500 transition-all duration-300">
+            <div className="flex flex-col md:hidden sm:flex-row items-center bg-white rounded-xl xs:rounded-2xl sm:rounded-full shadow-xl xs:shadow-2xl hover:shadow-3xl overflow-hidden border-2 border-gray-100 focus-within:border-green-500 transition-all duration-300">
               
               {/* Dropdown */}
               <Select

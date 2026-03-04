@@ -50,7 +50,7 @@ export const TopBar = () => {
 
   {/* Tagline */}
   <span className="text-md xl:text-lg uppercase tracking-[0.25em] text-gray-500 font-medium">
-    For Medical Travelers
+    For Medical care
   </span>
 
 </div>
