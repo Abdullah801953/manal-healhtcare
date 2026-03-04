@@ -1,5 +1,5 @@
 import { Doctor } from '../../types';
-import { Briefcase, Target, Users, MapPin, CheckCircle2, Info } from 'lucide-react';
+import { Briefcase, Target, MapPin } from 'lucide-react';
 
 interface DoctorInfoSectionProps {
   doctor: Doctor;
@@ -18,7 +18,7 @@ export function DoctorInfoSection({ doctor }: DoctorInfoSectionProps) {
           </div>
           <div>
             <p className="text-sm text-gray-600">Experience</p>
-            <p className="text-base font-bold text-gray-900 line-clamp-2">{doctor.experienceYears}Years</p>
+            <p className="text-base font-bold text-gray-900 line-clamp-2">{doctor.experienceYears} Years</p>
           </div>
         </div>
 
@@ -34,58 +34,30 @@ export function DoctorInfoSection({ doctor }: DoctorInfoSectionProps) {
         </div>
       </div>
 
-      {/* Professional Overview */}
-      <div className="space-y-4">
-        <h3 className="text-xl font-semibold text-gray-900">Professional Overview</h3>
-        <p className="text-gray-600 leading-relaxed">
-          {doctor.overview}
-        </p>
+      {/* Professional Summary */}
+      {doctor.overview && (
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold text-gray-900">Professional Summary</h3>
+          <p className="text-gray-600 leading-relaxed">
+            {doctor.overview}
+          </p>
+        </div>
+      )}
 
-        {/* Overview Points */}
-        {doctor.overviewList && doctor.overviewList.length > 0 && (
-          <div className="mt-6">
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">Key Highlights</h4>
-            <div className="space-y-2">
-              {doctor.overviewList.map((item, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-[#209f00] shrink-0 mt-0.5" />
-                  <p className="text-gray-700">{item}</p>
-                </div>
-              ))}
-            </div>
+      {/* Clinical Focus */}
+      {doctor.clinicalFocus && doctor.clinicalFocus.length > 0 && (
+        <div className="mt-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Clinical Focus</h4>
+          <div className="space-y-2">
+            {doctor.clinicalFocus.map((focus, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <Target className="w-5 h-5 text-[#209f00] shrink-0 mt-0.5" />
+                <p className="text-gray-700">{focus}</p>
+              </div>
+            ))}
           </div>
-        )}
-        
-        {/* Clinical Focus */}
-        {doctor.clinicalFocus && doctor.clinicalFocus.length > 0 && (
-          <div className="mt-6">
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">Clinical Focus</h4>
-            <div className="space-y-2">
-              {doctor.clinicalFocus.map((focus, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <Target className="w-5 h-5 text-[#209f00] shrink-0 mt-0.5" />
-                  <p className="text-gray-700">{focus}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Additional Information */}
-        {doctor.additionalInfo && doctor.additionalInfo.length > 0 && (
-          <div className="mt-6">
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">Additional Information</h4>
-            <div className="space-y-2">
-              {doctor.additionalInfo.map((info, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
-                  <p className="text-gray-700">{info}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

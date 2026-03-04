@@ -17,6 +17,64 @@ import {
 import { ArrowLeft, Upload, Plus, X } from "lucide-react";
 import Link from "next/link";
 
+// Reusable dynamic list component with Add/Remove buttons
+function DynamicListField({
+  label,
+  items,
+  setItems,
+  placeholder,
+  required = false,
+}: {
+  label: string;
+  items: string[];
+  setItems: (items: string[]) => void;
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base">{label}{required && " *"}</CardTitle>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setItems([...items, ""])}
+          >
+            <Plus className="w-4 h-4 mr-1" /> Add
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {items.map((item, index) => (
+          <div key={index} className="flex gap-2">
+            <Input
+              value={item}
+              onChange={(e) => {
+                const updated = [...items];
+                updated[index] = e.target.value;
+                setItems(updated);
+              }}
+              placeholder={`${placeholder} ${index + 1}`}
+            />
+            {items.length > 1 && (
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={() => setItems(items.filter((_, i) => i !== index))}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function NewHospitalPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -33,23 +91,26 @@ export default function NewHospitalPage() {
     reviewCount: 0,
     beds: 0,
     established: new Date().getFullYear(),
-    description: "",
     shortDescription: "",
-    specialties: "",
-    facilities: "",
-    accreditations: "",
-    expertise: "",
-    infrastructure: "",
     emergency: false,
     parking: false,
     featured: false,
     status: "active",
     image: "",
     owner: "",
-    award: "",
   });
 
+  // All array fields as separate state with Add/Remove buttons
+  const [description, setDescription] = useState<string[]>([""]);
+  const [specialties, setSpecialties] = useState<string[]>([""]);
+  const [facilities, setFacilities] = useState<string[]>([""]);
+  const [accreditations, setAccreditations] = useState<string[]>([""]);
+  const [expertise, setExpertise] = useState<string[]>([""]);
+  const [infrastructure, setInfrastructure] = useState<string[]>([""]);
+  const [award, setAward] = useState<string[]>([""]);
   const [additionalInfo, setAdditionalInfo] = useState<string[]>([""]);
+  const [doctors, setDoctors] = useState<string[]>([""]);
+  const [internationalPatientServices, setInternationalPatientServices] = useState<string[]>([""]);
 
   const hospitalTypes = [
     "Multispeciality Hospital",
@@ -106,6 +167,8 @@ export default function NewHospitalPage() {
       setUploadingImage(false);
     }
   };
+  const filterEmpty = (arr: string[]) => arr.filter((a) => a.trim() !== "");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -124,19 +187,20 @@ export default function NewHospitalPage() {
       // Generate slug from hospital name
       const slug = generateSlug(formData.name);
 
-      // Convert comma-separated strings to arrays
       const hospitalData = {
         ...formData,
         slug,
         image: imageUrl,
-        specialties: formData.specialties.split(",").map((s) => s.trim()).filter(Boolean),
-        facilities: formData.facilities.split(",").map((s) => s.trim()).filter(Boolean),
-        accreditations: formData.accreditations.split(",").map((s) => s.trim()).filter(Boolean),
-        expertise: formData.expertise ? formData.expertise.split(",").map((s) => s.trim()).filter(Boolean) : [],
-        infrastructure: formData.infrastructure ? formData.infrastructure.split(",").map((s) => s.trim()).filter(Boolean) : [],
-        award: formData.award ? formData.award.split(",").map((s) => s.trim()).filter(Boolean) : [],
-        additionalInfo: additionalInfo.filter((a) => a.trim() !== ""),
-        owner: formData.owner,
+        description: filterEmpty(description),
+        specialties: filterEmpty(specialties),
+        facilities: filterEmpty(facilities),
+        accreditations: filterEmpty(accreditations),
+        expertise: filterEmpty(expertise),
+        infrastructure: filterEmpty(infrastructure),
+        award: filterEmpty(award),
+        additionalInfo: filterEmpty(additionalInfo),
+        doctors: filterEmpty(doctors),
+        internationalPatientServices: filterEmpty(internationalPatientServices),
         rating: Number(formData.rating),
         reviewCount: Number(formData.reviewCount),
         beds: Number(formData.beds),
@@ -183,7 +247,7 @@ export default function NewHospitalPage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
           <CardHeader>
             <CardTitle>Hospital Information</CardTitle>
@@ -366,133 +430,17 @@ export default function NewHospitalPage() {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="description">Full Description *</Label>
-                <Textarea
-                  id="description"
-                  required
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Enter detailed description"
-                  rows={6}
-                />
-              </div>
             </div>
 
-            {/* Lists (comma-separated) */}
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="specialties">Specialties * (comma-separated)</Label>
-                <Textarea
-                  id="specialties"
-                  required
-                  value={formData.specialties}
-                  onChange={(e) => setFormData({ ...formData, specialties: e.target.value })}
-                  placeholder="e.g., Cardiology, Neurology, Orthopedics"
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="facilities">Facilities * (comma-separated)</Label>
-                <Textarea
-                  id="facilities"
-                  required
-                  value={formData.facilities}
-                  onChange={(e) => setFormData({ ...formData, facilities: e.target.value })}
-                  placeholder="e.g., ICU, Emergency, CT Scan"
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="accreditations">Accreditations * (comma-separated)</Label>
-                <Textarea
-                  id="accreditations"
-                  required
-                  value={formData.accreditations}
-                  onChange={(e) => setFormData({ ...formData, accreditations: e.target.value })}
-                  placeholder="e.g., JCI, NABH, ISO 9001"
-                  rows={2}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="expertise">Areas of Expertise (comma-separated, optional)</Label>
-                <Textarea
-                  id="expertise"
-                  value={formData.expertise}
-                  onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
-                  placeholder="e.g., Heart Transplants, Cancer Treatment"
-                  rows={2}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="infrastructure">Infrastructure Details (comma-separated, optional)</Label>
-                <Textarea
-                  id="infrastructure"
-                  value={formData.infrastructure}
-                  onChange={(e) => setFormData({ ...formData, infrastructure: e.target.value })}
-                  placeholder="e.g., 5 Operation Theaters, 100 Bed ICU"
-                  rows={2}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="owner">Hospital Owner / Chairman (optional)</Label>
-                <Input
-                  id="owner"
-                  value={formData.owner}
-                  onChange={(e) => setFormData({ ...formData, owner: e.target.value })}
-                  placeholder="e.g., Dr. Prathap C Reddy"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="award">Awards (comma-separated, optional)</Label>
-                <Textarea
-                  id="award"
-                  value={formData.award}
-                  onChange={(e) => setFormData({ ...formData, award: e.target.value })}
-                  placeholder="e.g., Best Hospital Award 2024, NABH Excellence Award"
-                  rows={2}
-                />
-              </div>
-
+            <div>
+              <Label htmlFor="owner">Hospital Owner / Chairman (optional)</Label>
+              <Input
+                id="owner"
+                value={formData.owner}
+                onChange={(e) => setFormData({ ...formData, owner: e.target.value })}
+                placeholder="e.g., Dr. Prathap C Reddy"
+              />
             </div>
-
-            {/* Additional Information - Dynamic List */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>Additional Information (Optional)</CardTitle>
-                  <Button type="button" variant="outline" size="sm" onClick={() => setAdditionalInfo([...additionalInfo, ""])}>
-                    <Plus className="w-4 h-4 mr-1" /> Add
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {additionalInfo.map((item, index) => (
-                  <div key={index} className="flex gap-2">
-                    <Input
-                      value={item}
-                      onChange={(e) => {
-                        const updated = [...additionalInfo];
-                        updated[index] = e.target.value;
-                        setAdditionalInfo(updated);
-                      }}
-                      placeholder={`Additional info ${index + 1}`}
-                    />
-                    {additionalInfo.length > 1 && (
-                      <Button type="button" variant="outline" size="icon" onClick={() => setAdditionalInfo(additionalInfo.filter((_, i) => i !== index))}>
-                        <X className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
 
             {/* Checkboxes */}
             <div className="space-y-3">
@@ -529,20 +477,95 @@ export default function NewHospitalPage() {
                 <Label htmlFor="featured">Featured Hospital</Label>
               </div>
             </div>
-
-            {/* Actions */}
-            <div className="flex gap-4 pt-4">
-              <Button type="submit" disabled={loading || uploadingImage} className="bg-green-600 hover:bg-green-700">
-                {loading ? "Creating..." : uploadingImage ? "Uploading Image..." : "Create Hospital"}
-              </Button>
-              <Link href="/admin/hospitals">
-                <Button type="button" variant="outline" disabled={loading || uploadingImage}>
-                  Cancel
-                </Button>
-              </Link>
-            </div>
           </CardContent>
         </Card>
+
+        {/* Dynamic List Fields - Each with Add button */}
+        <DynamicListField
+          label="Full Description"
+          items={description}
+          setItems={setDescription}
+          placeholder="Description paragraph"
+          required
+        />
+
+        <DynamicListField
+          label="Specialities"
+          items={specialties}
+          setItems={setSpecialties}
+          placeholder="Specialty"
+          required
+        />
+
+        <DynamicListField
+          label="Doctor's List"
+          items={doctors}
+          setItems={setDoctors}
+          placeholder="Doctor name"
+        />
+
+        <DynamicListField
+          label="Facilities"
+          items={facilities}
+          setItems={setFacilities}
+          placeholder="Facility"
+          required
+        />
+
+        <DynamicListField
+          label="International Patient Services"
+          items={internationalPatientServices}
+          setItems={setInternationalPatientServices}
+          placeholder="Service"
+        />
+
+        <DynamicListField
+          label="Accreditation"
+          items={accreditations}
+          setItems={setAccreditations}
+          placeholder="Accreditation"
+          required
+        />
+
+        <DynamicListField
+          label="Area of Expertise"
+          items={expertise}
+          setItems={setExpertise}
+          placeholder="Expertise"
+        />
+
+        <DynamicListField
+          label="Infrastructure Details"
+          items={infrastructure}
+          setItems={setInfrastructure}
+          placeholder="Infrastructure detail"
+        />
+
+        <DynamicListField
+          label="Awards"
+          items={award}
+          setItems={setAward}
+          placeholder="Award"
+        />
+
+        <DynamicListField
+          label="Additional Information (Optional)"
+          items={additionalInfo}
+          setItems={setAdditionalInfo}
+          placeholder="Additional info"
+        />
+
+        {/* Actions */}
+        <div className="flex gap-4 pt-4">
+          <Button type="submit" disabled={loading || uploadingImage} className="bg-green-600 hover:bg-green-700">
+            {loading ? "Creating..." : uploadingImage ? "Uploading Image..." : "Create Hospital"}
+          </Button>
+          <Link href="/admin/hospitals">
+            <Button type="button" variant="outline" disabled={loading || uploadingImage}>
+              Cancel
+            </Button>
+          </Link>
+        </div>
       </form>
     </div>
   );

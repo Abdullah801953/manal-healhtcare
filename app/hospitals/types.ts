@@ -10,7 +10,7 @@ export interface Hospital {
   beds: number;
   established: number;
   image: string;
-  description: string;
+  description: string[];
   shortDescription: string;
   specialties: string[];
   facilities: string[];
@@ -24,6 +24,8 @@ export interface Hospital {
   award?: string[];
   owner?: string;
   additionalInfo?: string[];
+  doctors?: string[];
+  internationalPatientServices?: string[];
 }
 
 export type HospitalType = 

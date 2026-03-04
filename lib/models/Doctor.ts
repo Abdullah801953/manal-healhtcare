@@ -23,6 +23,7 @@ export interface IDoctor {
   treatments?: string[];
   additionalInfo?: string[];
   whyChoose?: string[];
+  researchPublications?: string[];
   achievements?: IAchievement[];
   image?: string;
   status: 'active' | 'inactive';
@@ -84,6 +85,9 @@ const DoctorSchema = new Schema<IDoctor>({
   whyChoose: [{ 
     type: String 
   }],
+  researchPublications: [{
+    type: String
+  }],
   achievements: [{
     title: { type: String, required: true },
     file: { type: String },
@@ -102,6 +106,11 @@ const DoctorSchema = new Schema<IDoctor>({
   timestamps: true
 });
 
-const Doctor: Model<IDoctor> = mongoose.models.Doctor || mongoose.model<IDoctor>('Doctor', DoctorSchema);
+// Delete cached model in development to pick up schema changes
+if (mongoose.models.Doctor) {
+  delete mongoose.models.Doctor;
+}
+
+const Doctor: Model<IDoctor> = mongoose.model<IDoctor>('Doctor', DoctorSchema);
 
 export default Doctor;

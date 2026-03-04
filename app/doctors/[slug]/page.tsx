@@ -2,12 +2,14 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { DoctorDetailHero } from './components/DoctorDetailHero';
-import { DoctorInfoSection } from './components/DoctorInfoSection';
-import { ExpertiseSection } from './components/ExpertiseSection';
-import { EducationSection } from './components/EducationSection';
-import { AchievementsSection } from './components/AchievementsSection';
-import { TreatmentsSection } from './components/TreatmentsSection';
+import { SpecializationTreatmentsCards } from './components/SpecializationTreatmentsCards';
+import { DoctorOverviewSection } from './components/DoctorOverviewSection';
+import { DetailedExperienceSection } from './components/DetailedExperienceSection';
+import { QualificationSection } from './components/QualificationSection';
+import { ClinicalFocusSection } from './components/ClinicalFocusSection';
 import { AdditionalInfoSection } from './components/AdditionalInfoSection';
+import { ResearchPublicationSection } from './components/ResearchPublicationSection';
+import { AchievementsSection } from './components/AchievementsSection';
 import { WhyChooseSection } from './components/WhyChooseSection';
 import { RelatedDoctors } from './components/RelatedDoctors';
 import { Button } from '@/components/ui/button';
@@ -101,39 +103,25 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
         <DoctorDetailHero doctor={doctor} />
 
         {/* Content Sections */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            <DoctorInfoSection doctor={doctor} />
-            <TreatmentsSection doctor={doctor} />
-            <ExpertiseSection doctor={doctor} />
-            <EducationSection doctor={doctor} />
-            <AdditionalInfoSection doctor={doctor} />
-            <WhyChooseSection doctor={doctor} />
-            <AchievementsSection doctor={doctor} />
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            {/* Appointment Card */}
-            <div className="bg-white rounded-3xl shadow-sm p-6 mb-8 sticky top-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Book an Appointment</h3>
-              <p className="text-gray-600 mb-6">
-                Schedule your consultation with {doctor.name.split(' ')[1]} today.
-              </p>
-              
-              <div className="space-y-3">
-                <Button className="w-full bg-[#209f00] hover:bg-green-600 text-white rounded-full py-6">
-                  Book Now
-                </Button>
-                <Button variant="outline" className="w-full rounded-full py-6">
-                  Contact Info
-                </Button>
-              </div>
-
-     
-            </div>
-          </div>
+        <div className="space-y-8">
+          {/* 1. Specialization + 2. List of Treatments */}
+          <SpecializationTreatmentsCards doctor={doctor} />
+          {/* 3. Overview */}
+          <DoctorOverviewSection doctor={doctor} />
+          {/* 4. Detailed Experience */}
+          <DetailedExperienceSection doctor={doctor} />
+          {/* 5. Qualification */}
+          <QualificationSection doctor={doctor} />
+          {/* 6. Clinical Focus */}
+          <ClinicalFocusSection doctor={doctor} />
+          {/* 7. Additional Information */}
+          <AdditionalInfoSection doctor={doctor} />
+          {/* 8. Research & Publication */}
+          <ResearchPublicationSection doctor={doctor} />
+          {/* 9. Award & Achievement */}
+          <AchievementsSection doctor={doctor} />
+          {/* 10. Why Choose This Doctor */}
+          <WhyChooseSection doctor={doctor} />
         </div>
 
         {/* Related Doctors */}

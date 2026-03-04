@@ -1,10 +1,16 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import HospitalDetailHero from './components/HospitalDetailHero';
-import HospitalOverview from './components/HospitalOverview';
-import SpecialtiesServices from './components/SpecialtiesServices';
+import FullDescriptionSection from './components/FullDescriptionSection';
+import AdditionalInfoSection from './components/AdditionalInfoSection';
+import SpecialitiesSection from './components/SpecialitiesSection';
+import DoctorsListSection from './components/DoctorsListSection';
+import FacilitiesSection from './components/FacilitiesSection';
+import InternationalPatientServicesSection from './components/InternationalPatientServicesSection';
 import AccreditationsSection from './components/AccreditationsSection';
-import VisitingInfo from './components/VisitingInfo';
+import ExpertiseSection from './components/ExpertiseSection';
+import InfrastructureSection from './components/InfrastructureSection';
+import AwardsSection from './components/AwardsSection';
 import HospitalSEOContent from './components/HospitalSEOContent';
 import RelatedHospitals from './components/RelatedHospitals';
 
@@ -68,7 +74,7 @@ export async function generateMetadata({
 
   return {
     title: `${hospital.name} - ${hospital.city}, ${hospital.state} | Manal Healthcare`,
-    description: `${hospital.description.substring(0, 155)}... ${hospital.beds} beds, ${hospital.specialties.length}+ specialties, rated ${hospital.rating}/5 stars.`,
+    description: `${(Array.isArray(hospital.description) ? hospital.description.join(' ') : hospital.description).substring(0, 155)}... ${hospital.beds} beds, ${hospital.specialties.length}+ specialties, rated ${hospital.rating}/5 stars.`,
     keywords: [
       hospital.name,
       hospital.type,
@@ -141,17 +147,35 @@ export default async function HospitalDetailPage({
       {/* Hero Section */}
       <HospitalDetailHero hospital={hospital} />
 
-      {/* Overview */}
-      <HospitalOverview hospital={hospital} />
+      {/* 1. Full Description */}
+      <FullDescriptionSection hospital={hospital} />
 
-      {/* Specialties & Services */}
-      <SpecialtiesServices hospital={hospital} />
+      {/* 2. Additional Information (Optional) */}
+      <AdditionalInfoSection hospital={hospital} />
 
-      {/* Accreditations */}
+      {/* 3. Specialities */}
+      <SpecialitiesSection hospital={hospital} />
+
+      {/* 4. Doctor's List */}
+      <DoctorsListSection hospital={hospital} />
+
+      {/* 5. Facilities */}
+      <FacilitiesSection hospital={hospital} />
+
+      {/* 6. International Patient Services */}
+      <InternationalPatientServicesSection hospital={hospital} />
+
+      {/* 7. Accreditation */}
       <AccreditationsSection hospital={hospital} />
 
-      {/* Visiting Information */}
-      {/* <VisitingInfo /> */}
+      {/* 8. Area of Expertise */}
+      <ExpertiseSection hospital={hospital} />
+
+      {/* 9. Infrastructure Details */}
+      <InfrastructureSection hospital={hospital} />
+
+      {/* 10. Awards */}
+      <AwardsSection hospital={hospital} />
 
       {/* SEO Content */}
       <HospitalSEOContent hospital={hospital} />
@@ -167,7 +191,7 @@ export default async function HospitalDetailPage({
             '@context': 'https://schema.org',
             '@type': 'Hospital',
             name: hospital.name,
-            description: hospital.description,
+            description: Array.isArray(hospital.description) ? hospital.description.join(' ') : hospital.description,
             image: hospital.image,
             address: {
               '@type': 'PostalAddress',

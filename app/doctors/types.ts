@@ -23,6 +23,7 @@ export interface Doctor {
   treatments?: string[];
   additionalInfo?: string[];
   whyChoose?: string[];
+  researchPublications?: string[];
   achievements?: Achievement[];
   status?: 'active' | 'inactive';
   createdAt?: Date;

@@ -46,6 +46,7 @@ export default function EditDoctorPage() {
   const [overviewList, setOverviewList] = useState<string[]>([""]);
   const [experienceDetails, setExperienceDetails] = useState<string[]>([""]);
   const [additionalInfo, setAdditionalInfo] = useState<string[]>([""]);
+  const [researchPublications, setResearchPublications] = useState<string[]>([""]);
   const [whyChoose, setWhyChoose] = useState<string[]>([""]);
   const [achievements, setAchievements] = useState<Achievement[]>([{ title: "" }]);
 
@@ -79,6 +80,7 @@ export default function EditDoctorPage() {
         setOverviewList(doctor.overviewList?.length ? doctor.overviewList : [""]);
         setExperienceDetails(doctor.experienceDetails?.length ? doctor.experienceDetails : [""]);
         setAdditionalInfo(doctor.additionalInfo?.length ? doctor.additionalInfo : [""]);
+        setResearchPublications(doctor.researchPublications?.length ? doctor.researchPublications : [""]);
         setWhyChoose(doctor.whyChoose?.length ? doctor.whyChoose : [""]);
         
         // Handle achievements - support both old string format and new object format
@@ -223,6 +225,7 @@ export default function EditDoctorPage() {
         overviewList: overviewList.filter(o => o.trim() !== ""),
         experienceDetails: experienceDetails.filter(e => e.trim() !== ""),
         additionalInfo: additionalInfo.filter(a => a.trim() !== ""),
+        researchPublications: researchPublications.filter(r => r.trim() !== ""),
         whyChoose: whyChoose.filter(w => w.trim() !== ""),
         achievements: achievements.filter(a => a.title.trim() !== ""),
       };
@@ -632,6 +635,40 @@ export default function EditDoctorPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => removeArrayItem(index, setAdditionalInfo)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Research & Publications */}
+            <Card className="rounded-3xl">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  Research & Publications
+                  <Button type="button" size="sm" onClick={() => addArrayItem(setResearchPublications)}>
+                    <Plus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {researchPublications.map((pub, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={pub}
+                      onChange={(e) => handleArrayChange(index, e.target.value, setResearchPublications)}
+                      placeholder="e.g., Published in Journal of Medicine 2024"
+                    />
+                    {researchPublications.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeArrayItem(index, setResearchPublications)}
                       >
                         <X className="w-4 h-4" />
                       </Button>

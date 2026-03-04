@@ -21,10 +21,12 @@ export default function HospitalOverview({ hospital }: HospitalOverviewProps) {
           </div>
 
           {/* Description */}
-          <div className="prose prose-lg max-w-none">
-            <p className="text-gray-700 leading-relaxed text-lg mb-6">
-              {hospital.description}
-            </p>
+          <div className="prose prose-lg max-w-none space-y-4">
+            {(Array.isArray(hospital.description) ? hospital.description : [hospital.description]).map((desc, index) => (
+              <p key={index} className="text-gray-700 leading-relaxed text-lg">
+                {desc}
+              </p>
+            ))}
           </div>
 
           {/* Owner */}

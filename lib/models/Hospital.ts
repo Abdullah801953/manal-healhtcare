@@ -12,7 +12,7 @@ export interface IHospital {
   beds: number;
   established: number;
   image?: string;
-  description: string;
+  description: string[];
   shortDescription: string;
   specialties: string[];
   facilities: string[];
@@ -26,6 +26,8 @@ export interface IHospital {
   award?: string[];
   owner?: string;
   additionalInfo?: string[];
+  doctors?: string[];
+  internationalPatientServices?: string[];
   status: 'active' | 'inactive';
   createdAt: Date;
   updatedAt: Date;
@@ -80,10 +82,9 @@ const HospitalSchema = new Schema<IHospital>(
     image: {
       type: String,
     },
-    description: {
+    description: [{
       type: String,
-      required: true,
-    },
+    }],
     shortDescription: {
       type: String,
       required: true,
@@ -127,6 +128,12 @@ const HospitalSchema = new Schema<IHospital>(
     additionalInfo: [{
       type: String,
     }],
+    doctors: [{
+      type: String,
+    }],
+    internationalPatientServices: [{
+      type: String,
+    }],
     status: {
       type: String,
       enum: ['active', 'inactive'],
@@ -145,6 +152,9 @@ HospitalSchema.index({ city: 1 });
 HospitalSchema.index({ type: 1 });
 HospitalSchema.index({ featured: 1 });
 HospitalSchema.index({ status: 1 });
+
+// Fix model caching in development - ensure schema updates are picked up
+delete mongoose.models.Hospital;
 
 const Hospital: Model<IHospital> =
   mongoose.models.Hospital || mongoose.model<IHospital>('Hospital', HospitalSchema);

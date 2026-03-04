@@ -38,9 +38,9 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
           </p>
         )}
 
-        {hospital.description && (
+        {hospital.description && hospital.description.length > 0 && (
           <p className="text-gray-600 text-sm line-clamp-3">
-            {hospital.description}
+            {Array.isArray(hospital.description) ? hospital.description.join(' ') : hospital.description}
           </p>
         )}
       </div>
