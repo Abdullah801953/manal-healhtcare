@@ -50,6 +50,12 @@ export interface ITreatment {
   descriptionList?: string[];
   treatmentTypes?: string[];
   surgeryTypes?: string[];
+  conditionList?: string[];
+  diagnosisList?: string[];
+  purposeList?: string[];
+  riskList?: string[];
+  summaryList?: string[];
+  whyIndiaList?: string[];
   status: 'active' | 'inactive';
   createdAt: Date;
   updatedAt: Date;
@@ -130,6 +136,12 @@ const TreatmentSchema = new Schema<ITreatment>({
   descriptionList: [{ type: String }],
   treatmentTypes: [{ type: String }],
   surgeryTypes: [{ type: String }],
+  conditionList: [{ type: String }],
+  diagnosisList: [{ type: String }],
+  purposeList: [{ type: String }],
+  riskList: [{ type: String }],
+  summaryList: [{ type: String }],
+  whyIndiaList: [{ type: String }],
   status: {
     type: String,
     enum: ['active', 'inactive'],
