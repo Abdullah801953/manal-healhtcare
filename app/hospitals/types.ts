@@ -10,7 +10,7 @@ export interface Hospital {
   beds: number;
   established: number;
   image: string;
-  description: string[];
+  description: string | string[];
   shortDescription: string;
   specialties: string[];
   facilities: string[];
