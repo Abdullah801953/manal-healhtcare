@@ -15,6 +15,7 @@ import { Testimonials } from "./components/Testimonials";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import QuoteSection from "./components/ QuoteSection";
 import { Hospitals } from "./components/Hospitals";
+import { ContactButton } from "./components/ContactButton";
 /* =======================
    PAGE LEVEL SEO
 ======================= */
@@ -235,6 +236,7 @@ const Page = () => {
       />
       
       <WhatsAppButton />
+      <ContactButton />
    
 
       <main id="main-content">

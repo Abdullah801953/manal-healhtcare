@@ -64,7 +64,7 @@ interface ServicesProps {
 }
 
 export const Services = ({
-  heading = "Our Top Treatments",
+  heading = "Top Treatments",
   subheading = "Innovative Medical Treatments for Modern Healthcare",
   showViewAll = true,
   viewAllLink = "/treatments",
