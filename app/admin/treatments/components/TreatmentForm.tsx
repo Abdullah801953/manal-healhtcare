@@ -509,14 +509,14 @@ export default function TreatmentForm({ id }: { id?: string }) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="description">Description *</Label>
+              <Label htmlFor="description">Description (optional)</Label>
               <Textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => handleChange('description', e.target.value)}
                 placeholder="Full treatment description (supports markdown)"
                 rows={4}
-                required
+              
               />
             </div>
 
