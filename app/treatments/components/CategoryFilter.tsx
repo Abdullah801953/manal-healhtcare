@@ -20,6 +20,9 @@ export default function CategoryFilter({
   treatments = [],
 }: CategoryFilterProps) {
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
 
   // Update dropdown position when input ref changes or suggestions change
   useEffect(() => {
