@@ -1,19 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Blog } from "../../data";
 import { Check, Share2, Facebook, Twitter, Linkedin, Link2, Instagram } from "lucide-react";
 
 export function BlogNavigating({ blog }: { blog: Blog }) {
+  const [imgSrc, setImgSrc] = useState(blog.image || '/blog-hero.jpg');
   return (
     <article className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-4 xs:p-5 sm:p-6 lg:p-8 space-y-4 xs:space-y-5 sm:space-y-6">
       {/* Main Featured Image */}
       <div className="relative w-full h-64 xs:h-72 sm:h-80 md:h-96 overflow-hidden rounded-xl sm:rounded-2xl">
         <Image
-          src={blog.image}
+          src={imgSrc}
           alt={blog.title}
           fill
+          unoptimized
           className="object-cover"
+          onError={() => setImgSrc('/blog-hero.jpg')}
         />
       </div>
 

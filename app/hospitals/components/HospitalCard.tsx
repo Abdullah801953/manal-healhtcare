@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Hospital } from '../types';
 import { MapPin, Bed, Star, Award, Clock, Car } from 'lucide-react';
@@ -9,8 +12,8 @@ interface HospitalCardProps {
 }
 
 export default function HospitalCard({ hospital }: HospitalCardProps) {
+  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
   const hospitalSlug = hospital.slug || hospital._id || hospital.id;
-  const isUploadedImage = typeof hospital.image === 'string' && hospital.image.startsWith('/uploads/');
   
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
@@ -18,11 +21,12 @@ export default function HospitalCard({ hospital }: HospitalCardProps) {
         {/* Image Section */}
         <div className="relative sm:w-80 h-64 sm:h-auto shrink-0 overflow-hidden bg-gray-100">
           <Image
-            src={hospital.image}
+            src={imgSrc}
             alt={hospital.name}
             fill
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            unoptimized={isUploadedImage}
+            unoptimized
+            onError={() => setImgSrc('/indra.avif')}
           />
           {hospital.featured && (
             <div className="absolute top-4 right-4 bg-[#209f00] text-white px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1">

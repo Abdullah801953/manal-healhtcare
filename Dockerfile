@@ -17,6 +17,7 @@ COPY . .
 
 # Create uploads directory with proper permissions
 RUN mkdir -p /app/public/uploads/treatments && \
+    mkdir -p /app/public/uploads/hospitals && \
     mkdir -p /app/public/uploads/doctors && \
     mkdir -p /app/public/uploads/blogs && \
     mkdir -p /app/public/uploads/medical-reports && \

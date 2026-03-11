@@ -10,11 +10,19 @@ function generateSlug(name: string): string {
     .replace(/(^-|-$)/g, '');
 }
 
-// GET all doctors
-export async function GET() {
+// GET all doctors (optionally filtered by hospital name)
+export async function GET(request: Request) {
   try {
     await connectDB();
-    const doctors = await Doctor.find({}).sort({ createdAt: -1 });
+    const { searchParams } = new URL(request.url);
+    const hospital = searchParams.get('hospital');
+
+    const query: Record<string, unknown> = {};
+    if (hospital) {
+      query.hospital = { $regex: hospital, $options: 'i' };
+    }
+
+    const doctors = await Doctor.find(query).sort({ createdAt: -1 });
     
     return NextResponse.json({
       success: true,

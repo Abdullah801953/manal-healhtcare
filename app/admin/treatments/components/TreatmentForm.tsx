@@ -209,9 +209,9 @@ export default function TreatmentForm({ id }: { id?: string }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!formData.title || !formData.category || !formData.description ||
+    if (!formData.title || !formData.category ||
       !formData.overviewList.some(o => o.trim() !== "") || !formData.shortDescription) {
-      setError("Please fill in all required fields (Title, Category, Description, Overview, Short Description)");
+      setError("Please fill in all required fields (Title, Category, Overview, Short Description)");
       return;
     }
 
@@ -275,9 +275,11 @@ export default function TreatmentForm({ id }: { id?: string }) {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-100 text-green-700 text-sm font-bold">
-            {serial}
-          </span>
+          {serial > 0 && (
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-100 text-green-700 text-sm font-bold">
+              {serial}
+            </span>
+          )}
           {title}
           {mandatory && <span className="text-red-500 ml-1">*</span>}
           {!mandatory && <span className="text-xs text-gray-400 font-normal ml-1">(optional)</span>}
@@ -376,10 +378,10 @@ export default function TreatmentForm({ id }: { id?: string }) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description <span className="text-red-500">*</span></Label>
+              <Label htmlFor="description">Description</Label>
               <Textarea id="description" value={formData.description}
                 onChange={(e) => handleChange('description', e.target.value)}
-                placeholder="Full treatment description" rows={3} required />
+                placeholder="Full treatment description" rows={3} />
             </div>
 
             {/* Image Upload */}
@@ -451,6 +453,14 @@ export default function TreatmentForm({ id }: { id?: string }) {
           </CardContent>
         </Card>
 
+        {/* ── Key Benefits ── */}
+        <ArraySection serial={0} title="Key Benefits" field="benefits"
+          placeholder="Benefit" />
+
+        {/* ── Treatment Procedures ── */}
+        <ArraySection serial={0} title="Treatment Procedures" field="procedures"
+          placeholder="Procedure step" />
+
         {/* ── Section 1: Overview (MANDATORY) ── */}
         <ArraySection serial={1} title="Overview" field="overviewList"
           placeholder="Overview point" mandatory />
@@ -520,6 +530,52 @@ export default function TreatmentForm({ id }: { id?: string }) {
         {/* ── Section 14: Why Choose India ── */}
         <ArraySection serial={14} title="Why Choose India" field="whyIndiaList"
           placeholder="Reason" />
+
+        {/* ── Additional Information (Optional) ── */}
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              Additional Information
+              <span className="text-xs text-gray-400 font-normal ml-2">(Optional)</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="gvhd">GVHD Information</Label>
+                <Textarea id="gvhd" value={formData.gvhd}
+                  onChange={(e) => handleChange('gvhd', e.target.value)}
+                  placeholder="Graft versus host disease information" rows={3} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gvhdSymptoms">GVHD Symptoms</Label>
+                <Textarea id="gvhdSymptoms" value={formData.gvhdSymptoms}
+                  onChange={(e) => handleChange('gvhdSymptoms', e.target.value)}
+                  placeholder="GVHD symptoms" rows={3} />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="conditions">Conditions</Label>
+                <Textarea id="conditions" value={formData.conditions}
+                  onChange={(e) => handleChange('conditions', e.target.value)}
+                  placeholder="Conditions treated" rows={3} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="diagnosis">Diagnosis</Label>
+                <Textarea id="diagnosis" value={formData.diagnosis}
+                  onChange={(e) => handleChange('diagnosis', e.target.value)}
+                  placeholder="Diagnosis methods" rows={3} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="whyIndia">Why India</Label>
+              <Textarea id="whyIndia" value={formData.whyIndia}
+                onChange={(e) => handleChange('whyIndia', e.target.value)}
+                placeholder="Why choose India for this treatment" rows={3} />
+            </div>
+          </CardContent>
+        </Card>
 
         {/* ── Submit ── */}
         <div className="flex justify-end gap-4">

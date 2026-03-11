@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import { Hospital } from '../../types';
 import { ArrowLeft, Star, MapPin, Bed, Award, Clock, Car, Phone } from 'lucide-react';
 import Link from 'next/link';
@@ -9,7 +12,7 @@ interface HospitalDetailHeroProps {
 }
 
 export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps) {
-  const isUploadedImage = typeof hospital.image === 'string' && hospital.image.startsWith('/uploads/');
+  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
   
   return (
     <section className="relative bg-linear-to-br from-[#209f00] via-emerald-600 to-teal-700 text-white py-16 overflow-hidden">
@@ -98,12 +101,13 @@ export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <Image
-                src={hospital.image}
+                src={imgSrc}
                 alt={hospital.name}
                 className="w-full h-125 object-cover"
                 width={235}
                 height={300}
-                unoptimized={isUploadedImage}
+                unoptimized
+                onError={() => setImgSrc('/indra.avif')}
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
             </div>

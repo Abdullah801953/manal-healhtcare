@@ -13,8 +13,7 @@ interface BlogCardProps {
 
 export function BlogCardItem({ blog }: BlogCardProps) {
   const [imageError, setImageError] = useState(false);
-  const imageUrl = imageError ? '/blog-placeholder.jpg' : (blog.image || '/blog-placeholder.jpg');
-  const isUploadedImage = typeof imageUrl === 'string' && imageUrl.startsWith('/uploads/');
+  const imageUrl = imageError ? '/blog-hero.jpg' : (blog.image || '/blog-hero.jpg');
   
   return (
     <Link
@@ -30,7 +29,7 @@ export function BlogCardItem({ blog }: BlogCardProps) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
           className="object-cover group-hover:scale-110 transition-transform duration-500"
           onError={() => setImageError(true)}
-          unoptimized={isUploadedImage}
+          unoptimized
         />
       </div>
 

@@ -84,7 +84,9 @@ export function NewsletterSection({
                 alt={doctorName}
                 width={600}
                 height={600}
-                className="w-full h-[280px] xs:h-[320px] sm:h-[380px] md:h-[420px] lg:h-[500px] object-cover"
+                unoptimized
+                style={{ width: '100%', height: 'auto' }}
+                className="h-70 xs:h-80 sm:h-95 md:h-105 lg:h-125 object-cover"
               />
               
               {/* Experience Badge */}
@@ -95,7 +97,7 @@ export function NewsletterSection({
               </div>
 
               {/* Doctor Heading and CTA */}
-              <div className="absolute bottom-0 left-0 right-0 p-3 xs:p-4 sm:p-6 lg:p-8 bg-gradient-to-t from-black/70 to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 p-3 xs:p-4 sm:p-6 lg:p-8 bg-linear-to-t from-black/70 to-transparent">
                 <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 xs:mb-3 sm:mb-4 lg:mb-6">
                   {doctorHeading}
                 </h3>

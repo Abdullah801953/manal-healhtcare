@@ -77,7 +77,7 @@ const TreatmentSchema = new Schema<ITreatment>({
   },
   description: {
     type: String,
-    required: true
+    default: ''
   },
   overview: {
     type: String,

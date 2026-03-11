@@ -13,6 +13,8 @@ import InfrastructureSection from './components/InfrastructureSection';
 import AwardsSection from './components/AwardsSection';
 import HospitalSEOContent from './components/HospitalSEOContent';
 import RelatedHospitals from './components/RelatedHospitals';
+import HospitalMapSection from './components/HospitalMapSection';
+import HospitalDoctorsSection from './components/HospitalDoctorsSection';
 
 interface HospitalDetailPageProps {
   params: Promise<{ id: string }>;
@@ -33,6 +35,26 @@ async function getHospital(slugOrId: string) {
   } catch (error) {
     console.error('Error fetching hospital:', error);
     return null;
+  }
+}
+
+// Fetch doctors associated with this hospital
+async function getHospitalDoctors(hospitalName: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const res = await fetch(
+      `${baseUrl}/api/doctors?hospital=${encodeURIComponent(hospitalName)}`,
+      { cache: 'no-store' }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (data.success) {
+      return data.data.filter((d: any) => d.status === 'active');
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching hospital doctors:', error);
+    return [];
   }
 }
 
@@ -139,7 +161,10 @@ export default async function HospitalDetailPage({
   }
 
   // Get related hospitals of the same type
-  const relatedHospitals = await getRelatedHospitals(hospital.type, hospital._id);
+  const [relatedHospitals, hospitalDoctors] = await Promise.all([
+    getRelatedHospitals(hospital.type, hospital._id),
+    getHospitalDoctors(hospital.name),
+  ]);
   const hospitalSlug = hospital.slug || hospital._id;
 
   return (
@@ -162,6 +187,9 @@ export default async function HospitalDetailPage({
       {/* 5. Facilities */}
       <FacilitiesSection hospital={hospital} />
 
+      {/* 5.5. Location Map */}
+      <HospitalMapSection hospital={hospital} />
+
       {/* 6. International Patient Services */}
       <InternationalPatientServicesSection hospital={hospital} />
 
@@ -179,6 +207,9 @@ export default async function HospitalDetailPage({
 
       {/* SEO Content */}
       <HospitalSEOContent hospital={hospital} />
+
+      {/* Doctors at this hospital */}
+      <HospitalDoctorsSection doctors={hospitalDoctors} />
 
       {/* Related Hospitals */}
       <RelatedHospitals hospitals={relatedHospitals} />

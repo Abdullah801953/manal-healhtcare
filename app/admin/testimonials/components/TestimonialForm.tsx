@@ -100,7 +100,7 @@ export function TestimonialForm({ testimonialId, onSuccess, onCancel }: Testimon
           hospital: testimonial.hospital,
           doctor: testimonial.doctor,
           rating: testimonial.rating,
-          date: new Date(testimonial.date).toISOString().split('T')[0],
+          date: testimonial.date ? new Date(testimonial.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
           image: testimonial.image || "",
           testimonial: testimonial.testimonial,
           videoUrl: testimonial.videoUrl || "",

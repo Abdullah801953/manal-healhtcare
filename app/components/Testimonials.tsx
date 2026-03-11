@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Star, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 
@@ -30,21 +30,14 @@ interface TestimonialsProps {
   badge?: string;
   heading?: string;
   googleRating?: number;
-  videoThumbnail?: string;
-  videoUrl?: string;
-  showVideo?: boolean;
 }
 
 export const Testimonials = ({
   badge = "Testimonials",
   heading = "Stories of Healing and Trust From Our Valued Patients",
   googleRating = 4.8,
-  videoThumbnail = "/thumbnail-img.png",
-  videoUrl = "/video/treatment.mp4",
-  showVideo = true,
 }: TestimonialsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -103,7 +96,7 @@ export const Testimonials = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="container mx-auto px-6 xs:px-8 sm:px-12 lg:px-20 xl:px-28">
         <div className="grid lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
           {/* Left Side - Testimonial Content */}
           <motion.div
@@ -111,7 +104,7 @@ export const Testimonials = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
-            className="space-y-3 xs:space-y-4 sm:space-y-5 lg:space-y-6"
+            className="space-y-3 xs:space-y-4 sm:space-y-5 lg:space-y-6 min-w-0"
           >
             {/* Badge */}
             <motion.p
@@ -156,7 +149,7 @@ export const Testimonials = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.5 }}
-                  className="text-gray-600 text-sm xs:text-base sm:text-lg leading-relaxed"
+                  className="text-gray-600 text-sm xs:text-base sm:text-lg leading-relaxed break-words"
                 >
                   {currentTestimonial.testimonial}
                 </motion.p>
@@ -200,63 +193,72 @@ export const Testimonials = ({
             )}
           </motion.div>
 
-          {/* Right Side - Rating Card and Video */}
+          {/* Right Side - Testimonial User Image */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
-            className="space-y-3 xs:space-y-4 sm:space-y-6"
+            className="flex items-center justify-center"
           >
-            {/* Google Rating Card */}
-      
-
-            {/* Video Thumbnail */}
-            {showVideo && (
-              <div className="relative rounded-xl xs:rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg xs:shadow-xl sm:shadow-2xl group">
-                {!isVideoPlaying ? (
-                  <>
-                    {/* Thumbnail Image */}
-                    <Image
-                      src={videoThumbnail}
-                      alt="Patient testimonial video"
-                      width={600}
-                      height={400}
-                      className="w-full h-auto object-cover"
-                      priority
-                    />
-                    {/* Play Button Overlay */}
-                    <div 
-                      className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors cursor-pointer"
-                      onClick={() => setIsVideoPlaying(true)}
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-2xl"
-                      >
-                        <Play className="w-8 h-8 sm:w-10 sm:h-10 text-white fill-white ml-1" />
-                      </motion.div>
+            <div className="relative w-64 xs:w-72 sm:w-80">
+              <AnimatePresence mode="wait">
+                {currentTestimonial ? (
+                  <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, scale: 0.92, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.92, y: -20 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-4/5 bg-gray-100"
+                  >
+                    {currentTestimonial.image ? (
+                      <Image
+                        src={currentTestimonial.image}
+                        alt={currentTestimonial.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        priority
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-linear-to-br from-green-50 to-green-100">
+                        <User className="w-24 h-24 sm:w-32 sm:h-32 text-green-300" />
+                        <p className="mt-3 text-green-500 font-semibold text-sm xs:text-base">{currentTestimonial.name}</p>
+                      </div>
+                    )}
+                    {/* Overlay with name and country */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 via-black/20 to-transparent p-4 xs:p-6">
+                      <p className="text-white font-bold text-base xs:text-lg sm:text-xl">{currentTestimonial.name}</p>
+                      <p className="text-white/80 text-xs xs:text-sm">
+                        {currentTestimonial.country}
+                        {currentTestimonial.countryFlag && (
+                          <span className="ml-1">{currentTestimonial.countryFlag}</span>
+                        )}
+                      </p>
                     </div>
-                  </>
+                    {/* Dot indicators */}
+                    <div className="absolute top-3 right-3 xs:top-4 xs:right-4 flex flex-col gap-1.5">
+                      {testimonials.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentIndex(idx)}
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            idx === currentIndex
+                              ? "bg-white scale-125"
+                              : "bg-white/50 hover:bg-white/80"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
                 ) : (
-                  /* Video Player */
-                  <div className="relative bg-black rounded-2xl sm:rounded-3xl overflow-hidden" style={{ maxHeight: '500px' }}>
-                    <video
-                      src={videoUrl}
-                      poster={videoThumbnail}
-                      controls
-                      autoPlay
-                      className="w-full h-full object-contain"
-                      style={{ maxHeight: '500px' }}
-                      onEnded={() => setIsVideoPlaying(false)}
-                    >
-                      Your browser does not support the video tag.
-                    </video>
+                  <div className="rounded-2xl xs:rounded-3xl bg-gray-100 aspect-4/5 flex items-center justify-center">
+                    <User className="w-24 h-24 text-gray-300" />
                   </div>
                 )}
-              </div>
-            )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </div>

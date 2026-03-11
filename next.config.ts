@@ -3,22 +3,17 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: '**',
         port: '',
         pathname: '/**',
       },
       {
-        protocol: 'https',
-        hostname: 'manalhealthcare.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.manalhealthcare.com',
+        protocol: 'http',
+        hostname: '**',
         port: '',
         pathname: '/**',
       },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from 'react';
 import { Testimonial } from '../types';
 import { Star, MapPin, Calendar, CheckCircle, Quote } from 'lucide-react';
 import Image from 'next/image';
@@ -9,6 +10,7 @@ interface TestimonialCardProps {
 }
 
 export function TestimonialCard({ testimonial }: TestimonialCardProps) {
+  const [imgSrc, setImgSrc] = useState(testimonial.image || '/doctor.png');
   const formattedDate = new Date(testimonial.date).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
@@ -23,10 +25,12 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
           {/* Profile Image */}
           <div className="relative w-16 h-16 flex-shrink-0">
             <Image
-              src={testimonial.image}
+              src={imgSrc}
               alt={testimonial.name}
               fill
+              unoptimized
               className="rounded-full object-cover"
+              onError={() => setImgSrc('/doctor.png')}
             />
             {testimonial.verified && (
               <div className="absolute -bottom-1 -right-1 bg-[#209f00] rounded-full p-1">

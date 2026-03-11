@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { MapPin, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface DoctorCardProps {
   doctor: Doctor;
 }
 
 export function DoctorCard({ doctor }: DoctorCardProps) {
+  const [imgSrc, setImgSrc] = useState(doctor.image || '/doctor.png');
   const shortOverview = doctor.overview.length > 120 
     ? doctor.overview.slice(0, 120) + '...' 
     : doctor.overview;
@@ -22,11 +24,13 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
         <div className="absolute inset-0 flex items-end justify-center pb-4">
           <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
             <Image
-              src={doctor.image || '/doctor.png'}
+              src={imgSrc}
               alt={doctor.name}
               fill
+              unoptimized
               className="object-cover"
               sizes="192px"
+              onError={() => setImgSrc('/doctor.png')}
             />
           </div>
         </div>

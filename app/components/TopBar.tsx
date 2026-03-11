@@ -4,9 +4,7 @@ import { Search, Stethoscope, UserRound, Building2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/logo.png";
 
 export const TopBar = () => {
   const router = useRouter();

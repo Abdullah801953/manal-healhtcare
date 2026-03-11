@@ -72,6 +72,7 @@ const Footer = () => {
                 width={120}
                 height={40}
                 priority
+                style={{ height: 'auto' }}
                 className="object-contain"
               />
             </Link>

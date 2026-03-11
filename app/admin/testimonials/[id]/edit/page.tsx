@@ -1,11 +1,13 @@
 "use client";
 
+import { use } from "react";
 import { TestimonialForm } from "../../components/TestimonialForm";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default function EditTestimonialPage({ params }: { params: { id: string } }) {
+export default function EditTestimonialPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
 
   const handleSuccess = () => {
@@ -28,7 +30,7 @@ export default function EditTestimonialPage({ params }: { params: { id: string }
       </div>
 
       {/* Form */}
-      <TestimonialForm testimonialId={params.id} onSuccess={handleSuccess} />
+      <TestimonialForm testimonialId={id} onSuccess={handleSuccess} />
     </div>
   );
 }

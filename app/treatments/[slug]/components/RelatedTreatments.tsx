@@ -1,8 +1,25 @@
+"use client";
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Treatment } from '../../types';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+
+function TreatmentImageFallback({ src, alt }: { src?: string; alt: string }) {
+  const [imgSrc, setImgSrc] = useState(src || '/treatment-img.png');
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      fill
+      unoptimized
+      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+      onError={() => setImgSrc('/treatment-img.png')}
+    />
+  );
+}
 
 interface RelatedTreatmentsProps {
   treatments: Treatment[];
@@ -28,7 +45,6 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
           {/* Treatments Grid */}
           <div className="grid md:grid-cols-3 gap-8">
             {treatments.map((treatment) => {
-              const isUploadedImage = typeof treatment.image === 'string' && treatment.image.startsWith('/uploads/');
               return (
               <div
                 key={treatment.id}
@@ -36,13 +52,7 @@ export default function RelatedTreatments({ treatments }: RelatedTreatmentsProps
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden bg-gray-100">
-                  <Image
-                    src={treatment.image}
-                    alt={treatment.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    fill
-                    unoptimized={isUploadedImage}
-                  />
+                  <TreatmentImageFallback src={treatment.image} alt={treatment.title} />
                   {treatment.featured && (
                     <div className="absolute top-3 right-3 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">
                       Featured

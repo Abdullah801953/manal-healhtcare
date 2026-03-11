@@ -12,6 +12,7 @@ export interface IHospital {
   beds: number;
   established: number;
   image?: string;
+  mapEmbedUrl?: string;
   description: string[];
   shortDescription: string;
   specialties: string[];
@@ -81,6 +82,10 @@ const HospitalSchema = new Schema<IHospital>(
     },
     image: {
       type: String,
+    },
+    mapEmbedUrl: {
+      type: String,
+      default: '',
     },
     description: [{
       type: String,

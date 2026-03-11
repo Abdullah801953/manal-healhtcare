@@ -1,7 +1,6 @@
 import { ContactHero } from './components/ContactHero';
 import { ContactForm } from './components/ContactForm';
 import { ContactInfo } from './components/ContactInfo';
-import { ContactFAQ } from './components/ContactFAQ';
 import { SocialConnect } from './components/SocialConnect';
 import { QueryForm } from '../components/QueryForm';
 
@@ -54,7 +53,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <ContactFAQ />
       <SocialConnect />
 
       {/* Additional SEO Content */}

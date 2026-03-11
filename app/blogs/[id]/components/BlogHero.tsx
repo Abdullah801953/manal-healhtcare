@@ -13,7 +13,6 @@ interface BlogHeroProps {
 const BlogHero = ({ title, image }: BlogHeroProps) => {
   const [imageError, setImageError] = useState(false);
   const imageUrl = imageError ? '/blog-hero.jpg' : (typeof image === 'string' ? image : '/blog-hero.jpg');
-  const isUploadedImage = typeof imageUrl === 'string' && imageUrl.startsWith('/uploads/');
   
   return (
     <section className="mb-6 xs:mb-7 sm:mb-8 lg:mb-10">
@@ -25,7 +24,7 @@ const BlogHero = ({ title, image }: BlogHeroProps) => {
           className="object-cover"
           priority
           onError={() => setImageError(true)}
-          unoptimized={isUploadedImage}
+          unoptimized
         />
 
         <div className="absolute inset-0 flex items-end">

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import { Doctor } from '../../types';
 import { Button } from '@/components/ui/button';
 import { MapPin, Calendar, Briefcase } from 'lucide-react';
@@ -8,6 +11,7 @@ interface DoctorDetailHeroProps {
 }
 
 export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
+  const [imgSrc, setImgSrc] = useState(doctor.image || '/doctor.png');
   return (
     <div className="relative w-full rounded-3xl overflow-hidden bg-linear-to-r from-emerald-500 via-[#209f00] to-green-600 mb-12">
       {/* Background Pattern */}
@@ -20,12 +24,14 @@ export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
           <div className="shrink-0">
             <div className="relative w-72 h-72 rounded-full overflow-hidden border-8 border-white shadow-2xl">
               <Image
-                src={doctor.image || '/doctor.png'}
+                src={imgSrc}
                 alt={doctor.name}
                 fill
+                unoptimized
                 className="object-cover"
                 sizes="288px"
                 priority
+                onError={() => setImgSrc('/doctor.png')}
               />
             </div>
           </div>

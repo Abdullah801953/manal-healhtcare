@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { useState } from "react";
 
 interface HospitalCardProps {
   hospital: {
@@ -14,19 +16,24 @@ interface HospitalCardProps {
 }
 
 export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
+  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
+
   return (
     <motion.div
       whileHover={{ y: -5 }}
       className=" rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       {/* Image */}
-      {hospital.image && (
-        <img
-          src={hospital.image}
+      <div className="relative h-56 w-full overflow-hidden">
+        <Image
+          src={imgSrc}
           alt={hospital.name}
-          className="w-full h-56 object-cover"
+          fill
+          unoptimized
+          className="object-cover"
+          onError={() => setImgSrc('/indra.avif')}
         />
-      )}
+      </div>
 
       {/* Content */}
       <div className="p-5">

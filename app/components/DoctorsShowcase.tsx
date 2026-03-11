@@ -236,7 +236,7 @@ export const DoctorsShowcase = ({
                   {filteredDoctors.map((doctor, index) => (
                     <div 
                       key={doctor._id}
-                      className="flex-shrink-0 w-[280px] xs:w-[300px] sm:w-auto"
+                      className="shrink-0 w-70 xs:w-75 sm:w-auto"
                       style={{ 
                         width: window.innerWidth >= 640 ? `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)` : undefined
                       }}
@@ -304,7 +304,7 @@ interface DoctorCardProps {
 }
 
 const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
-  const displayImage = doctor.image || '/doctor-img 1.png';
+  const [imgSrc, setImgSrc] = useState(doctor.image || '/doctor-img 1.png');
 
   return (
     <div className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full">
@@ -314,13 +314,15 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       className="h-full flex flex-col"
     >
       {/* Doctor Image */}
-      <div className="relative h-64 xs:h-72 sm:h-60 lg:h-64 bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden">
+      <div className="relative h-64 xs:h-72 sm:h-60 lg:h-64 bg-linear-to-br from-green-50 to-blue-50 overflow-hidden">
         <Image
-          src={displayImage}
+          src={imgSrc}
           alt={doctor.name}
           fill
+          unoptimized
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover group-hover:scale-110 transition-transform duration-500"
+          onError={() => setImgSrc('/doctor-img 1.png')}
         />
         
         {/* Experience Badge */}

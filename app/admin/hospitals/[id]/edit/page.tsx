@@ -102,6 +102,7 @@ export default function EditHospitalPage() {
     status: "active",
     image: "",
     owner: "",
+    mapEmbedUrl: "",
   });
 
   // All array fields as separate state with Add/Remove buttons
@@ -150,6 +151,7 @@ export default function EditHospitalPage() {
             status: hospital.status || "active",
             image: hospital.image || "",
             owner: hospital.owner || "",
+            mapEmbedUrl: hospital.mapEmbedUrl || "",
           });
           // Populate array fields
           setDescription(Array.isArray(hospital.description) && hospital.description.length > 0 ? hospital.description : [""]);
@@ -446,6 +448,19 @@ export default function EditHospitalPage() {
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                   placeholder="Enter state"
                 />
+              </div>
+
+              <div className="md:col-span-2">
+                <Label htmlFor="mapEmbedUrl">Google Maps Embed URL</Label>
+                <Input
+                  id="mapEmbedUrl"
+                  value={formData.mapEmbedUrl}
+                  onChange={(e) => setFormData({ ...formData, mapEmbedUrl: e.target.value })}
+                  placeholder="Paste Google Maps embed URL here (optional)"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Get this from Google Maps → Share → Embed a map → Copy the src URL
+                </p>
               </div>
 
               <div>

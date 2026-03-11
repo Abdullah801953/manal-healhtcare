@@ -32,7 +32,7 @@ export function ContactInfo() {
         settings?.address || '238, Arimantab, Moska - USA',
         settings?.postalCode ? `Postal Code: ${settings.postalCode}` : null,
       ].filter(Boolean),
-      link: 'https://maps.google.com',
+      link: 'https://maps.app.goo.gl/onCWu234ZYq5YqCj8',
     },
     {
       icon: Clock,

@@ -137,6 +137,7 @@ export default function TreatmentsContent() {
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
                     categories={categories}
+                    treatments={treatments}
                   />
                   
                   {/* Results Count */}

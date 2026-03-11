@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Treatment } from '../types';
 import { Clock, DollarSign, ArrowRight } from 'lucide-react';
@@ -9,7 +12,7 @@ interface TreatmentCardProps {
 }
 
 export default function TreatmentCard({ treatment }: TreatmentCardProps) {
-  const isUploadedImage = typeof treatment.image === 'string' && treatment.image.startsWith('/uploads/');
+  const [imgSrc, setImgSrc] = useState(treatment.image || '/treatment-img.png');
   
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
@@ -17,12 +20,13 @@ export default function TreatmentCard({ treatment }: TreatmentCardProps) {
         {/* Image Section */}
         <div className="relative sm:w-64 h-52 sm:h-auto shrink-0 overflow-hidden bg-gray-100">
           <Image
-            src={treatment.image}
+            src={imgSrc}
             alt={treatment.title}
             width={256}
             height={208}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            unoptimized={isUploadedImage}
+            unoptimized
+            onError={() => setImgSrc('/treatment-img.png')}
           />
           {treatment.featured && (
             <div className="absolute top-4 right-4 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">

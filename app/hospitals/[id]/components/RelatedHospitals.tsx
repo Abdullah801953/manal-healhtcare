@@ -1,8 +1,25 @@
+"use client";
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Hospital } from '../../types';
 import { ArrowRight, Star, Bed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+
+function HospitalImageFallback({ src, alt }: { src?: string; alt: string }) {
+  const [imgSrc, setImgSrc] = useState(src || '/indra.avif');
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      fill
+      unoptimized
+      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+      onError={() => setImgSrc('/indra.avif')}
+    />
+  );
+}
 
 interface RelatedHospitalsProps {
   hospitals: Hospital[];
@@ -27,7 +44,6 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
           {/* Hospitals Grid */}
           <div className="grid md:grid-cols-3 gap-8">
             {hospitals.map((hospital) => {
-              const isUploadedImage = typeof hospital.image === 'string' && hospital.image.startsWith('/uploads/');
               return (
               <div
                 key={hospital.id}
@@ -35,13 +51,7 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
               >
                 {/* Image */}
                 <div className="relative h-100 overflow-hidden bg-gray-100">
-                  <Image
-                    src={hospital.image}
-                    alt={hospital.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    fill
-                    unoptimized={isUploadedImage}
-                  />
+                  <HospitalImageFallback src={hospital.image} alt={hospital.name} />
                   {hospital.featured && (
                     <div className="absolute top-3 right-3 bg-[#209f00] text-white px-3 py-1 rounded-full text-xs font-semibold">
                       Featured

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import { Treatment } from '../../types';
 import { ArrowLeft, Clock, DollarSign, Star } from 'lucide-react';
 import Link from 'next/link';
@@ -9,7 +12,7 @@ interface TreatmentDetailHeroProps {
 }
 
 export default function TreatmentDetailHero({ treatment }: TreatmentDetailHeroProps) {
-  const isUploadedImage = typeof treatment.image === 'string' && treatment.image.startsWith('/uploads/');
+  const [imgSrc, setImgSrc] = useState(treatment.image || '/treatment-img.png');
   
   return (
     <section className="relative bg-linear-to-br from-[#209f00] via-emerald-600 to-teal-700 text-white py-16 overflow-hidden">
@@ -72,11 +75,12 @@ export default function TreatmentDetailHero({ treatment }: TreatmentDetailHeroPr
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <Image
-                src={treatment.image}
+                src={imgSrc}
                 alt={treatment.title}
-                className="w-full h-[500px] object-cover"
+                className="w-full h-125 object-cover"
                 fill
-                unoptimized={isUploadedImage}
+                unoptimized
+                onError={() => setImgSrc('/treatment-img.png')}
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
             </div>

@@ -72,6 +72,8 @@ export async function POST(request: Request) {
       uploadFolder = 'blogs';
     } else if (type === 'doctor') {
       uploadFolder = 'doctors';
+    } else if (type === 'hospital' || type === 'hospitals') {
+      uploadFolder = 'hospitals';
     } else if (type === 'achievement') {
       uploadFolder = 'achievements';
     }
