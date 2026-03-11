@@ -5,10 +5,11 @@ import Link from 'next/link';
 import { Treatment } from '../../types';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 
-function TreatmentImageFallback({ src, alt }: { src?: string; alt: string }) {
-  const [imgSrc, setImgSrc] = useState(src || '/treatment-img.png');
+function TreatmentImageFallback({ src, alt }: { src?: string | StaticImageData; alt: string }) {
+  const resolvedSrc = typeof src === 'string' ? src : (src?.src ?? '/treatment-img.png');
+  const [imgSrc, setImgSrc] = useState(resolvedSrc || '/treatment-img.png');
   return (
     <Image
       src={imgSrc}
