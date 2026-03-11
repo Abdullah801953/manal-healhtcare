@@ -3,6 +3,7 @@ import { ContactForm } from './components/ContactForm';
 import { ContactInfo } from './components/ContactInfo';
 import { ContactFAQ } from './components/ContactFAQ';
 import { SocialConnect } from './components/SocialConnect';
+import { QueryForm } from '../components/QueryForm';
 
 export const metadata = {
   title: 'Contact Us - Get in Touch with Manal Healthcare | 24/7 Support',
@@ -41,7 +42,8 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Contact Form - Takes 3 columns */}
             <div className="lg:col-span-3">
-              <ContactForm />
+             <QueryForm/>
+            
             </div>
             
             {/* Contact Info - Takes 2 columns */}
