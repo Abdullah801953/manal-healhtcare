@@ -24,18 +24,6 @@ export default function CategoryFilter({
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
-  // Update dropdown position when input ref changes or suggestions change
-  useEffect(() => {
-    if (inputRef.current && filteredSuggestions.length > 0) {
-      const rect = inputRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: rect.width,
-      });
-    }
-  }, [filteredSuggestions.length]);
-
   // Get unique treatment titles and categories for suggestions
   const allSuggestions = Array.from(
     new Set([
@@ -53,6 +41,18 @@ export default function CategoryFilter({
         suggestion.toLowerCase().includes(searchQuery.toLowerCase())
       ).slice(0, 8) // Limit to 8 suggestions
     : [];
+
+  // Update dropdown position when input ref changes or suggestions change
+  useEffect(() => {
+    if (inputRef.current && filteredSuggestions.length > 0) {
+      const rect = inputRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + 4,
+        left: rect.left,
+        width: rect.width,
+      });
+    }
+  }, [filteredSuggestions.length]);
 
   // Handle input change
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
