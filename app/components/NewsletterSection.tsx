@@ -28,7 +28,7 @@ export function NewsletterSection({
   ctaButtonText = "Get a quote",
   newsletterBadge = "Subscribe to Newsletter",
   newsletterHeading = "Let's Subscribe to Get Our Newsletter.",
-  newsletterDescription = "Experience comprehensive healthcare at Meca, where your well-being is our priority. We provide personalized, compassionate medical services, ensuring exceptional care tailored to your",
+  newsletterDescription = "At Manal Health Care, your health and well-being always come first. Our goal is to provide personalized and compassionate healthcare so that every patient receives the care, support, and attention they truly deserve.",
   emailPlaceholder = "Your email address",
   subscribeButtonText = "Subscribe Now",
 }: NewsletterSectionProps) {
