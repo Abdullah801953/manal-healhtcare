@@ -9,14 +9,14 @@ export interface Blog {
   content: string;
   content2?: string;
   content3?: string;
-  image: StaticImageData;
+  image: string | StaticImageData;
 
   // SEO + UI fields
   date: string;
   category: string;
   bullets: string[];
   subheading: string;
-  extraImages: StaticImageData[];
+  extraImages: (string | StaticImageData)[];
 }
 
 export const blogsData: Blog[] = [
