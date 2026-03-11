@@ -167,7 +167,7 @@ const Footer = () => {
 
           {/* Our Treatments */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Our Treatments</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Top Treatments</h3>
             <ul className="space-y-3">
               {treatments.length > 0 ? (
                 treatments.map((treatment) => (

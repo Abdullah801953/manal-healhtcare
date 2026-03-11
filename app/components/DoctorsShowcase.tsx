@@ -37,7 +37,7 @@ interface DoctorsShowcaseProps {
 }
 
 export const DoctorsShowcase = ({
-  badge = "Our Top Doctors",
+  badge = "Top Doctors",
   heading = "Highly Skilled Doctors, Committed to Excellence",
 }: DoctorsShowcaseProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");

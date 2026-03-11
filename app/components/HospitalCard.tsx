@@ -17,7 +17,7 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className=" rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       {/* Image */}
       {hospital.image && (

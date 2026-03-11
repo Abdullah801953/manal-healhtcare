@@ -3,18 +3,18 @@ import { Bone, Brain, Heart } from "lucide-react";
 import { QuoteCard } from "./QuoteCard";
 
 const quoteData = [
-  { title: "Knee Replacement", price: "$4000", icon: Bone },
-  { title: "Hip Replacement", price: "$5500", icon: Bone },
-  { title: "Brain Tumor", price: "$5000", icon: Brain },
+  { title: "Knee Replacement", price: "$3700", icon: Bone },
+  { title: "Hip Replacement", price: "$5000", icon: Bone },
+  { title: "Brain Tumor", price: "$4800", icon: Brain },
   { title: "Heart Bypass Surgery", price: "$4500", icon: Heart },
-  { title: "Valve Replacement", price: "$9500", icon: Heart },
+  { title: "Valve Replacement", price: "$7500", icon: Heart },
   { title: "Breast Cancer", price: "$5000", icon: Heart },
   { title: "Lung Cancer", price: "$5500", icon: Brain },
-  { title: "Rhinoplasty", price: "$1800", icon: Brain },
-  { title: "Breast Implants", price: "$2750", icon: Heart },
-  { title: "Hair Transplant", price: "$1400", icon: Brain },
-  { title: "Cervical Cancer", price: "$4500", icon: Heart },
-  { title: "Hysterectomy", price: "$3000", icon: Bone },
+  { title: "Rhinoplasty", price: "$1700", icon: Brain },
+  { title: "Kidney transplant ", price: "$14500", icon: Heart },
+  { title: "Pediatric Cardiac Surgery", price: "$6000", icon: Brain },
+  { title: "Cervical Cancer", price: "$4000", icon: Heart },
+  { title: "Hysterectomy", price: "$2800", icon: Bone },
 ];
 
 export default function QuoteSection() {
