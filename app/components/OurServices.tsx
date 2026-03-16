@@ -30,14 +30,14 @@ interface AboutSectionProps {
 
 // Default features data
 const defaultFeatures: Feature[] = [
-  { id: 1, text: "World-Class Medical Facilities" },
-  { id: 2, text: "Board-Certified Specialist Doctors" },
-  { id: 3, text: "24/7 Emergency Medical Care" },
-  { id: 4, text: "Advanced Diagnostic Technology" },
-  { id: 5, text: "Personalized Treatment Plans" },
-  { id: 6, text: "International Patient Support" },
-  { id: 7, text: "Post-Treatment Care Programs" },
-  { id: 8, text: "Multilingual Medical Staff" },
+  { id: 1, text: "Free Medical Opinion & Second Opinion" },
+  { id: 2, text: "End-to-End Treatment Coordination" },
+  { id: 3, text: "Visa & Travel Assistance" },
+  { id: 4, text: "Airport Pickup & Local Transport" },
+  { id: 5, text: "Accommodation & Stay Arrangements" },
+  { id: 6, text: "24/7 Patient Support in Multiple Languages" },
+  { id: 7, text: "Expert Network of Top Indian Hospitals" },
+  { id: 8, text: "Affordable & Transparent Pricing" },
 ];
 
 export const OurServices = ({

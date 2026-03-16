@@ -20,22 +20,8 @@ const afterTreatmentsLinks = [
   { href: "/contact", label: "Contact Us" },
 ];
 
-const infoSubmenu = [
-  { href: "/info/plan-your-travel", label: "Plan Your Travel" },
-  { href: "/info/medical-tourism-india", label: "Medical Tourism in India" },
-  { href: "/info/advantages-medical-tourism", label: "Advantages of Medical Tourism" },
-  { href: "/info/halal-certification", label: "Halal Certification" },
-  { href: "/info/second-opinion", label: "Second Opinion" },
-  { href: "/info/faqs-for-patient", label: "FAQs for Patient" },
-  { href: "/info/medical-tourism", label: "Medical Tourism" },
-  { href: "/info/best-hospital", label: "Best Hospital" },
-  { href: "/info/privacy-policy", label: "Privacy Policy" },
-  { href: "/info/terms-conditions", label: "Terms & Conditions" },
-];
-
 export const MobileNav = () => {
   const [open, setOpen] = useState(false);
-  const [infoOpen, setInfoOpen] = useState(false);
   const [treatmentsOpen, setTreatmentsOpen] = useState(false);
   const [settings, setSettings] = useState<any>(null);
 
@@ -213,53 +199,17 @@ export const MobileNav = () => {
             </Link>
           ))}
 
-          {/* Info Menu with Submenu */}
-          <div className="border-b border-gray-100">
-            <button
-              onClick={() => setInfoOpen(!infoOpen)}
-              className="flex items-center justify-between py-3 text-base font-medium text-gray-800 hover:text-green-600 transition-colors duration-200 px-3 rounded-lg hover:bg-gray-50 w-full"
-            >
-              <span>Info</span>
-              {infoOpen ? (
-                <ChevronDown className="w-5 h-5 text-green-600" />
-              ) : (
-                <ChevronRight className="w-5 h-5 text-gray-400" />
-              )}
-            </button>
-            
-            {infoOpen && (
-              <div className="ml-2 mb-2 flex flex-col bg-gray-50 rounded-lg max-h-[200px] overflow-y-auto">
-                {infoSubmenu.map((subLink) => (
-                  <Link
-                    key={subLink.href}
-                    href={subLink.href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center py-2 text-sm text-gray-700 hover:text-green-600 transition-colors duration-200 px-4 hover:bg-gray-100"
-                  >
-                    <span>{subLink.label}</span>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
         </nav>
 
         {/* Bottom Actions */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200">
-          <Button 
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium"
-            onClick={() => {
-              setOpen(false);
-              setTimeout(() => {
-                const queryForm = document.getElementById('query-form');
-                if (queryForm) {
-                  queryForm.scrollIntoView({ behavior: 'smooth' });
-                }
-              }, 300);
-            }}
-          >
-            Get Free Quote
-          </Button>
+          <Link href="/contact" onClick={() => setOpen(false)}>
+            <Button 
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-base rounded-full font-medium"
+            >
+              Get Free Quote
+            </Button>
+          </Link>
         </div>
       </SheetContent>
     </Sheet>

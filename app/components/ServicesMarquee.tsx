@@ -11,14 +11,18 @@ export interface ServiceItem {
 
 // Default services data
 const defaultServices: ServiceItem[] = [
-  { id: 1, name: "Ophthalmology" },
-  { id: 2, name: "Ophthalmology" },
-  { id: 3, name: "Ophthalmology" },
+  { id: 1, name: "Cardiology" },
+  { id: 2, name: "Neurology" },
+  { id: 3, name: "Pediatrics" },
   { id: 4, name: "Ophthalmology" },
-  { id: 5, name: "Ophthalmology" },
-  { id: 6, name: "Cardiology" },
-  { id: 7, name: "Neurology" },
-  { id: 8, name: "Pediatrics" },
+  { id: 5, name: "Orthopedics" },
+  { id: 6, name: "Oncology" },
+  { id: 7, name: "Organ Transplant" },
+  { id: 8, name: "Urology" },
+  { id: 9, name: "Gastroenterology" },
+  { id: 10, name: "Nephrology" },
+  { id: 11, name: "Pulmonology" },
+  { id: 12, name: "Robotic Surgery" },
 ];
 
 interface ServicesMarqueeProps {

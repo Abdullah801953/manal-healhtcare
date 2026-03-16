@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { HospitalCardMotion } from "./HospitalCard";
 
 interface Hospital {
@@ -107,10 +108,11 @@ export const Hospitals = ({
             ) : hospitals.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {hospitals.map((hospital) => (
-                  <HospitalCardMotion
-                    key={hospital._id}
-                    hospital={hospital}
-                  />
+                  <Link key={hospital._id} href={`/hospitals/${hospital.slug || hospital._id}`}>
+                    <HospitalCardMotion
+                      hospital={hospital}
+                    />
+                  </Link>
                 ))}
               </div>
             ) : (

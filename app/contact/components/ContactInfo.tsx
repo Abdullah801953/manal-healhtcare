@@ -1,6 +1,6 @@
 'use client';
 
-import { Phone, Mail, MapPin, Clock, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { useSettings } from '@/app/contexts/SettingsContext';
 
 export function ContactInfo() {
@@ -44,15 +44,6 @@ export function ContactInfo() {
       link: null,
     },
   ];
-
-  const departments = settings?.departments && settings.departments.length > 0 
-    ? settings.departments 
-    : [
-        { name: 'Emergency Department', phone: '(00) 875 784 5683', available: '24/7' },
-        { name: 'Appointment Booking', phone: '(00) 875 784 5684', available: 'Mon-Fri, 8AM-6PM' },
-        { name: 'Patient Records', phone: '(00) 875 784 5685', available: 'Mon-Fri, 9AM-5PM' },
-        { name: 'Billing & Insurance', phone: '(00) 875 784 5686', available: 'Mon-Fri, 9AM-5PM' },
-      ];
 
   if (loading) {
     return (
@@ -108,34 +99,6 @@ export function ContactInfo() {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* Departments */}
-      <div className="bg-white rounded-3xl shadow-xl p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <MessageCircle className="w-8 h-8 text-[#209f00]" />
-          <h3 className="text-2xl font-bold text-gray-900">Department Direct Lines</h3>
-        </div>
-        
-        <div className="space-y-4">
-          {departments.map((dept, index) => (
-            <div
-              key={index}
-              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-[#209f00] transition-colors"
-            >
-              <div>
-                <h4 className="font-semibold text-gray-900">{dept.name}</h4>
-                <p className="text-sm text-gray-500">{dept.available}</p>
-              </div>
-              <a
-                href={`tel:${dept.phone.replace(/\D/g, '')}`}
-                className="text-[#209f00] font-semibold hover:underline mt-2 sm:mt-0"
-              >
-                {dept.phone}
-              </a>
-            </div>
-          ))}
         </div>
       </div>
 

@@ -228,7 +228,7 @@ export const DoctorsShowcase = ({
               {/* Scrollable on mobile, slider on desktop */}
               <div className="overflow-x-auto sm:overflow-hidden scrollbar-hide">
                 <div 
-                  className="flex sm:transition-transform sm:duration-500 sm:ease-out gap-3 xs:gap-4 sm:gap-5 lg:gap-6 min-w-max sm:min-w-0"
+                  className="flex sm:transition-transform sm:duration-500 sm:ease-out gap-3 xs:gap-4 sm:gap-5 lg:gap-6 min-w-max sm:min-w-0 pb-5"
                   style={{
                     transform: `translateX(-${startIndex * (100 / visibleCards)}%)`
                   }}

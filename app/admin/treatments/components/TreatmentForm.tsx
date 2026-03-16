@@ -96,6 +96,56 @@ const EMPTY: TreatmentFormData = {
   neuroplasticity: "", areas: "", causes: "", tumors: "", clinical: "", surgery: "",
 };
 
+// Defined outside TreatmentForm to prevent remount-on-render focus loss
+function ArraySection({
+  serial, title, placeholder, mandatory = false,
+  items, onItemChange, onItemRemove, onItemAdd,
+}: {
+  serial: number; title: string; placeholder: string; mandatory?: boolean;
+  items: string[];
+  onItemChange: (index: number, value: string) => void;
+  onItemRemove: (index: number) => void;
+  onItemAdd: () => void;
+}) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          {serial > 0 && (
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-100 text-green-700 text-sm font-bold">
+              {serial}
+            </span>
+          )}
+          {title}
+          {mandatory && <span className="text-red-500 ml-1">*</span>}
+          {!mandatory && <span className="text-xs text-gray-400 font-normal ml-1">(optional)</span>}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {items.map((item, index) => (
+          <div key={index} className="flex gap-2">
+            <Input
+              value={item}
+              onChange={(e) => onItemChange(index, e.target.value)}
+              placeholder={`${placeholder} ${index + 1}`}
+            />
+            {items.length > 1 && (
+              <Button type="button" variant="outline" size="icon"
+                onClick={() => onItemRemove(index)}>
+                <X className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+        ))}
+        <Button type="button" variant="outline" onClick={onItemAdd}
+          className="w-full border-dashed">
+          <Plus className="w-4 h-4 mr-2" /> Add {title}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function TreatmentForm({ id }: { id?: string }) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -265,50 +315,6 @@ export default function TreatmentForm({ id }: { id?: string }) {
     }
   };
 
-  // Helper to render an array section card
-  const ArraySection = ({
-    serial, title, field, placeholder, mandatory = false,
-  }: {
-    serial: number; title: string; field: ArrayField;
-    placeholder: string; mandatory?: boolean;
-  }) => (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          {serial > 0 && (
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-green-100 text-green-700 text-sm font-bold">
-              {serial}
-            </span>
-          )}
-          {title}
-          {mandatory && <span className="text-red-500 ml-1">*</span>}
-          {!mandatory && <span className="text-xs text-gray-400 font-normal ml-1">(optional)</span>}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {formData[field].map((item, index) => (
-          <div key={index} className="flex gap-2">
-            <Input
-              value={item}
-              onChange={(e) => handleArrayChange(field, index, e.target.value)}
-              placeholder={`${placeholder} ${index + 1}`}
-            />
-            {formData[field].length > 1 && (
-              <Button type="button" variant="outline" size="icon"
-                onClick={() => removeArrayItem(field, index)}>
-                <X className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
-        ))}
-        <Button type="button" variant="outline" onClick={() => addArrayItem(field)}
-          className="w-full border-dashed">
-          <Plus className="w-4 h-4 mr-2" /> Add {title}
-        </Button>
-      </CardContent>
-    </Card>
-  );
-
   if (fetchingData) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -454,56 +460,95 @@ export default function TreatmentForm({ id }: { id?: string }) {
         </Card>
 
         {/* ── Key Benefits ── */}
-        <ArraySection serial={0} title="Key Benefits" field="benefits"
-          placeholder="Benefit" />
+        <ArraySection serial={0} title="Key Benefits" placeholder="Benefit"
+          items={formData.benefits}
+          onItemChange={(i, v) => handleArrayChange('benefits', i, v)}
+          onItemRemove={(i) => removeArrayItem('benefits', i)}
+          onItemAdd={() => addArrayItem('benefits')} />
 
         {/* ── Treatment Procedures ── */}
-        <ArraySection serial={0} title="Treatment Procedures" field="procedures"
-          placeholder="Procedure step" />
+        <ArraySection serial={0} title="Treatment Procedures" placeholder="Procedure step"
+          items={formData.procedures}
+          onItemChange={(i, v) => handleArrayChange('procedures', i, v)}
+          onItemRemove={(i) => removeArrayItem('procedures', i)}
+          onItemAdd={() => addArrayItem('procedures')} />
 
         {/* ── Section 1: Overview (MANDATORY) ── */}
-        <ArraySection serial={1} title="Overview" field="overviewList"
-          placeholder="Overview point" mandatory />
+        <ArraySection serial={1} title="Overview" placeholder="Overview point" mandatory
+          items={formData.overviewList}
+          onItemChange={(i, v) => handleArrayChange('overviewList', i, v)}
+          onItemRemove={(i) => removeArrayItem('overviewList', i)}
+          onItemAdd={() => addArrayItem('overviewList')} />
 
         {/* ── Section 2: Additional Information ── */}
-        <ArraySection serial={2} title="Additional Information" field="additionalInfo"
-          placeholder="Additional info" />
+        <ArraySection serial={2} title="Additional Information" placeholder="Additional info"
+          items={formData.additionalInfo}
+          onItemChange={(i, v) => handleArrayChange('additionalInfo', i, v)}
+          onItemRemove={(i) => removeArrayItem('additionalInfo', i)}
+          onItemAdd={() => addArrayItem('additionalInfo')} />
 
         {/* ── Section 3: Signs and Symptoms ── */}
-        <ArraySection serial={3} title="Signs and Symptoms" field="signsAndSymptoms"
-          placeholder="Sign / Symptom" />
+        <ArraySection serial={3} title="Signs and Symptoms" placeholder="Sign / Symptom"
+          items={formData.signsAndSymptoms}
+          onItemChange={(i, v) => handleArrayChange('signsAndSymptoms', i, v)}
+          onItemRemove={(i) => removeArrayItem('signsAndSymptoms', i)}
+          onItemAdd={() => addArrayItem('signsAndSymptoms')} />
 
         {/* ── Section 4: Condition ── */}
-        <ArraySection serial={4} title="Condition" field="conditionList"
-          placeholder="Condition" />
+        <ArraySection serial={4} title="Condition" placeholder="Condition"
+          items={formData.conditionList}
+          onItemChange={(i, v) => handleArrayChange('conditionList', i, v)}
+          onItemRemove={(i) => removeArrayItem('conditionList', i)}
+          onItemAdd={() => addArrayItem('conditionList')} />
 
         {/* ── Section 5: Diagnosis ── */}
-        <ArraySection serial={5} title="Diagnosis" field="diagnosisList"
-          placeholder="Diagnosis point" />
+        <ArraySection serial={5} title="Diagnosis" placeholder="Diagnosis point"
+          items={formData.diagnosisList}
+          onItemChange={(i, v) => handleArrayChange('diagnosisList', i, v)}
+          onItemRemove={(i) => removeArrayItem('diagnosisList', i)}
+          onItemAdd={() => addArrayItem('diagnosisList')} />
 
         {/* ── Section 6: Types of Treatments ── */}
-        <ArraySection serial={6} title="Types of Treatments" field="treatmentTypes"
-          placeholder="Treatment type" />
+        <ArraySection serial={6} title="Types of Treatments" placeholder="Treatment type"
+          items={formData.treatmentTypes}
+          onItemChange={(i, v) => handleArrayChange('treatmentTypes', i, v)}
+          onItemRemove={(i) => removeArrayItem('treatmentTypes', i)}
+          onItemAdd={() => addArrayItem('treatmentTypes')} />
 
         {/* ── Section 7: Types of Surgery ── */}
-        <ArraySection serial={7} title="Types of Surgery" field="surgeryTypes"
-          placeholder="Surgery type" />
+        <ArraySection serial={7} title="Types of Surgery" placeholder="Surgery type"
+          items={formData.surgeryTypes}
+          onItemChange={(i, v) => handleArrayChange('surgeryTypes', i, v)}
+          onItemRemove={(i) => removeArrayItem('surgeryTypes', i)}
+          onItemAdd={() => addArrayItem('surgeryTypes')} />
 
         {/* ── Section 8: How It's Done ── */}
-        <ArraySection serial={8} title="How It's Done" field="howItIsDone"
-          placeholder="Step" />
+        <ArraySection serial={8} title="How It's Done" placeholder="Step"
+          items={formData.howItIsDone}
+          onItemChange={(i, v) => handleArrayChange('howItIsDone', i, v)}
+          onItemRemove={(i) => removeArrayItem('howItIsDone', i)}
+          onItemAdd={() => addArrayItem('howItIsDone')} />
 
         {/* ── Section 9: Purpose ── */}
-        <ArraySection serial={9} title="Purpose" field="purposeList"
-          placeholder="Purpose point" />
+        <ArraySection serial={9} title="Purpose" placeholder="Purpose point"
+          items={formData.purposeList}
+          onItemChange={(i, v) => handleArrayChange('purposeList', i, v)}
+          onItemRemove={(i) => removeArrayItem('purposeList', i)}
+          onItemAdd={() => addArrayItem('purposeList')} />
 
         {/* ── Section 10: Recovery ── */}
-        <ArraySection serial={10} title="Recovery" field="recovery"
-          placeholder="Recovery detail" />
+        <ArraySection serial={10} title="Recovery" placeholder="Recovery detail"
+          items={formData.recovery}
+          onItemChange={(i, v) => handleArrayChange('recovery', i, v)}
+          onItemRemove={(i) => removeArrayItem('recovery', i)}
+          onItemAdd={() => addArrayItem('recovery')} />
 
         {/* ── Section 11: Risk ── */}
-        <ArraySection serial={11} title="Risk" field="riskList"
-          placeholder="Risk / Complication" />
+        <ArraySection serial={11} title="Risk" placeholder="Risk / Complication"
+          items={formData.riskList}
+          onItemChange={(i, v) => handleArrayChange('riskList', i, v)}
+          onItemRemove={(i) => removeArrayItem('riskList', i)}
+          onItemAdd={() => addArrayItem('riskList')} />
 
         {/* ── Section 12: Success Rate ── */}
         <Card>
@@ -524,12 +569,18 @@ export default function TreatmentForm({ id }: { id?: string }) {
         </Card>
 
         {/* ── Section 13: Summary ── */}
-        <ArraySection serial={13} title="Summary" field="summaryList"
-          placeholder="Summary point" />
+        <ArraySection serial={13} title="Summary" placeholder="Summary point"
+          items={formData.summaryList}
+          onItemChange={(i, v) => handleArrayChange('summaryList', i, v)}
+          onItemRemove={(i) => removeArrayItem('summaryList', i)}
+          onItemAdd={() => addArrayItem('summaryList')} />
 
         {/* ── Section 14: Why Choose India ── */}
-        <ArraySection serial={14} title="Why Choose India" field="whyIndiaList"
-          placeholder="Reason" />
+        <ArraySection serial={14} title="Why Choose India" placeholder="Reason"
+          items={formData.whyIndiaList}
+          onItemChange={(i, v) => handleArrayChange('whyIndiaList', i, v)}
+          onItemRemove={(i) => removeArrayItem('whyIndiaList', i)}
+          onItemAdd={() => addArrayItem('whyIndiaList')} />
 
         {/* ── Additional Information (Optional) ── */}
         <Card>
