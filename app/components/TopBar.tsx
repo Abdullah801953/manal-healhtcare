@@ -58,7 +58,7 @@ export const TopBar = () => {
     <Link href="/contact">
     <button
       className="px-6 py-2 text-sm xl:text-base font-semibold
-                 bg-gradient-to-r from-red-600 to-red-600
+                 bg-gradient-to-r from-red-900 to-red-600
                  text-white rounded-full shadow-md
                  hover:from-red-700 hover:to-red-700
                  hover:scale-105

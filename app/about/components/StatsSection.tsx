@@ -14,25 +14,25 @@ export function StatsSection() {
   const stats: StatItem[] = [
     {
       icon: Users,
-      value: 50000,
+      value: 1000,
       label: 'Patients Treated',
       suffix: '+',
     },
     {
       icon: Award,
-      value: 25,
+      value: 7,
       label: 'Years of Excellence',
       suffix: '+',
     },
     {
       icon: Building2,
-      value: 15,
+      value: 40,
       label: 'Healthcare Facilities',
       suffix: '',
     },
     {
       icon: Heart,
-      value: 98,
+      value: 90,
       label: 'Patient Satisfaction',
       suffix: '%',
     },

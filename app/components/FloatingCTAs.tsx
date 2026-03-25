@@ -10,7 +10,7 @@ export function FreeQuoteButton() {
         <button
           className="flex items-center gap-2 px-4 py-3
                      text-sm font-semibold text-white
-                     bg-gradient-to-r from-red-600 via-rose-600 to-red-700
+                     bg-gradient-to-r from-red-900 via-rose-600 to-red-700
                      rounded-full shadow-lg shadow-red-500/30
                      hover:shadow-red-500/50
                      hover:scale-105

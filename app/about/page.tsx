@@ -16,7 +16,7 @@ export const metadata = {
   keywords: 'about manal healthcare, healthcare provider, medical services, patient care, healthcare excellence, certified hospital, community health, medical tourism India, healthcare awards, accredited hospital',
   openGraph: {
     title: 'About Manal Healthcare - 25 Years of Healthcare Excellence',
-    description: 'Leading healthcare provider trusted by 50,000+ patients. Award-winning medical services with certified professionals.',
+    description: 'Leading healthcare provider trusted by 1000+ patients. Award-winning medical services with certified professionals.',
     type: 'website',
     images: [{
       url: '/doctor-img 1.png',
@@ -28,7 +28,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'About Manal Healthcare - Healthcare Excellence',
-    description: 'Leading healthcare provider trusted by 50,000+ patients.',
+    description: 'Leading healthcare provider trusted by 1000+ patients.',
     images: ['/doctor-img 1.png'],
   },
   alternates: {

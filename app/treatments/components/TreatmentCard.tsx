@@ -72,12 +72,14 @@ export default function TreatmentCard({ treatment }: TreatmentCardProps) {
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </Link>
-            <Button 
-              variant="outline" 
-              className="flex-1 min-w-40 hover:bg-gray-50"
-            >
-              Book Appointment
-            </Button>
+            <Link href="/contact" className="flex-1 min-w-40">
+  <Button 
+    variant="outline" 
+    className="w-full hover:bg-gray-50"
+  >
+    Book Appointment
+  </Button>
+</Link>
           </div>
         </div>
       </div>

@@ -445,7 +445,7 @@ I would like to discuss my treatment options.`;
       <Input
         id="country-code"
         type="text"
-        placeholder="+1"
+        placeholder="+"
         value={formData.countryCode}
         onChange={(e) => {
           // Allow only + and numbers

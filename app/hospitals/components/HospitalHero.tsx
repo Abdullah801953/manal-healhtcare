@@ -30,7 +30,7 @@ export default function HospitalHero() {
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             <div className="text-center">
-              <div className="text-4xl font-bold mb-1">8+</div>
+              <div className="text-4xl font-bold mb-1">50+</div>
               <div className="text-white/80 text-sm">Medical Facilities</div>
             </div>
             <div className="text-center">

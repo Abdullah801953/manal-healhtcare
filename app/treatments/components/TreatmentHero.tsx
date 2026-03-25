@@ -30,7 +30,7 @@ export default function TreatmentHero() {
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             <div className="text-center">
-              <div className="text-4xl font-bold mb-1">50+</div>
+              <div className="text-4xl font-bold mb-1">100+</div>
               <div className="text-white/80 text-sm">Treatment Options</div>
             </div>
             <div className="text-center">

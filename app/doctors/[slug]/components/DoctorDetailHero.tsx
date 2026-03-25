@@ -5,6 +5,7 @@ import { Doctor } from '../../types';
 import { Button } from '@/components/ui/button';
 import { MapPin, Calendar, Briefcase } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface DoctorDetailHeroProps {
   doctor: Doctor;
@@ -61,13 +62,20 @@ export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
             </p> */}
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Button className="bg-white hover:bg-gray-50 text-[#209f00] rounded-full px-8 py-6 text-lg shadow-lg font-semibold cursor-pointer">
-                <Calendar className="w-5 h-5 mr-2" />
-                Book Appointment
-              </Button>
-              <Button variant="outline" className="bg-transparent hover:bg-white/10 text-white border-white border-2 rounded-full px-8 py-6 text-lg cursor-pointer">
-                Contact
-              </Button>
+             <Link href="/contact">
+  <Button className="bg-white hover:bg-gray-50 text-[#209f00] rounded-full px-8 py-6 text-lg shadow-lg font-semibold cursor-pointer">
+    <Calendar className="w-5 h-5 mr-2" />
+    Book Appointment
+  </Button>
+</Link>
+             <Link href="/contact">
+  <Button 
+    variant="outline" 
+    className="bg-transparent hover:bg-white/10 text-white border-white border-2 rounded-full px-8 py-6 text-lg cursor-pointer"
+  >
+    Contact
+  </Button>
+</Link>
             </div>
           </div>
         </div>

@@ -35,6 +35,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Plan Your Medical Travel to India 2026 | Complete Guide - Manal Healthcare",
@@ -467,9 +468,11 @@ const PlanYourTravelPage = () => {
                           </li>
                         ))}
                       </ul>
-                      <Button className="w-full mt-6 bg-green-600 hover:bg-green-700">
-                        Book Now
-                      </Button>
+                    <Link href="/contact" className="flex-1">
+  <Button className="w-full bg-[#209F00] hover:bg-[#1a7f00] text-white rounded-full transition-colors">
+    Book Now
+  </Button>
+</Link>
                     </CardContent>
                   </Card>
                 ))}

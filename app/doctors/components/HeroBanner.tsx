@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function HeroBanner() {
   return (
@@ -20,9 +21,11 @@ export function HeroBanner() {
           <p className="text-xl text-white/90 font-medium mb-6">
             Experts Team
           </p>
-          <Button className="bg-white text-[#209F00] hover:bg-gray-50 rounded-full px-6 py-3 font-medium shadow-lg">
-            Schedule Meeting
-          </Button>
+<Link href="/contact">
+  <Button className="bg-white text-[#209F00] hover:bg-gray-50 rounded-full px-6 py-3 font-medium shadow-lg">
+    Schedule Meeting
+  </Button>
+</Link>
         </div>
 
        

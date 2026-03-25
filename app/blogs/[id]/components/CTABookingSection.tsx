@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
+import Link from "next/link";
 
 export function CTABookingSection() {
   return (
@@ -16,10 +17,14 @@ export function CTABookingSection() {
               Get expert medical care from our experienced doctors. Schedule your visit today.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 rounded-full">
-                Book Appointment
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+             <Link href="/contact" className="flex-1 min-w-40">
+  <Button 
+    variant="outline" 
+    className="w-full hover:bg-gray-50"
+  >
+    Book Appointment
+  </Button>
+</Link>
               <Button 
                 size="lg" 
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 rounded-full"

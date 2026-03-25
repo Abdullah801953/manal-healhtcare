@@ -82,9 +82,11 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
               View Profile
             </Button>
           </Link>
-          <Button className="flex-1 bg-[#209F00] hover:bg-[#1a7f00] text-white rounded-full transition-colors">
-            Book Now
-          </Button>
+        <Link href="/contact" className="flex-1">
+  <Button className="w-full bg-[#209F00] hover:bg-[#1a7f00] text-white rounded-full transition-colors">
+    Book Now
+  </Button>
+</Link>
         </div>
       </div>
     </div>
