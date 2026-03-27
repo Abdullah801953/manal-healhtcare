@@ -4,6 +4,7 @@ import Translate from '@/app/components/Translate';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function TranslationDemoPage() {
   const { currentLanguage } = useLanguage();
@@ -42,9 +43,11 @@ export default function TranslationDemoPage() {
               <Translate>Your trusted partner in Medical Tourism in India, connecting you with top hospitals and experienced doctors.</Translate>
             </p>
             
-            <Button className="bg-[#209F00] hover:bg-green-700">
-              <Translate>Get a quote</Translate>
-            </Button>
+           <Link href="/contact">
+  <Button className="bg-[#209F00] hover:bg-green-700">
+    <Translate>Get a quote</Translate>
+  </Button>
+</Link>
           </Card>
 
           {/* Services Demo */}

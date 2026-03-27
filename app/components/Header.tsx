@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import logo from "@/public/logo.png";
+import logo2 from "@/public/logo2.png";
+
 import Image from "next/image";
 import Link from "next/link";
 import { TopBar } from "./TopBar";
@@ -55,30 +57,39 @@ const Header = () => {
         <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
           <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20 gap-2">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 shrink-0">
-              <Image
-                src={logo}
-                alt="Manal Healthcare Logo"
-                width={120}
-                height={120}
-                className="w-[90px] sm:w-[60px] lg:w-[80px] xl:w-[100px]"
-                style={{ height: 'auto' }}
-                priority
-              />
-            </Link>
+           {/* Logo */}
+<Link href="/" className="flex items-center gap-2.5 shrink-0">
+  {/* Desktop logo - hidden on mobile */}
+  <Image
+    src={logo}
+    alt="Manal Healthcare Logo"
+    width={120}
+    height={120}
+    className="hidden sm:block w-[60px] lg:w-[80px] xl:w-[100px]"
+    style={{ height: 'auto' }}
+    priority
+  />
+  {/* Mobile logo2 - shown only on mobile */}
+  <Image
+    src={logo2}
+    alt="Manal Healthcare Logo"
+    width={120}
+    height={120}
+    className="block sm:hidden w-[75px]"
+    style={{ height: 'auto' }}
+    priority
+  />
+</Link>
 <div className="md:hidden">
   <Link href="/contact">
     <button
       className="group relative flex items-center gap-2
-                 px-4 py-2
-                 text-sm font-semibold
-                 text-white
-                 bg-red-600
-                 rounded-full
-                 shadow-md
+                px-6 py-2 text-sm xl:text-base font-semibold
+                 bg-gradient-to-r from-red-900 to-red-600
+                 text-white rounded-full shadow-md
+                 hover:from-red-700 hover:to-red-700
+                 hover:scale-105
                  transition-all duration-300
-                 hover:bg-red-700
-                 hover:shadow-lg
                  active:scale-95"
     >
       <Phone className="w-4 h-4 opacity-90 group-hover:rotate-12 transition duration-300" />
