@@ -7,8 +7,8 @@ interface SpecialtiesServicesProps {
 
 export default function SpecialtiesServices({ hospital }: SpecialtiesServicesProps) {
   return (
-    <section className="py-16 bg-gray-50 px-3 xs:px-4 sm:px-6 lg:px-10">
-      <div className="container mx-auto">
+    <section className="py-16 bg-gray-50">
+      <div className="mx-6">
           {/* Section Header */}
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-[#209f00]/10 rounded-2xl mb-4">

@@ -6,8 +6,8 @@ interface SEOContentProps {
 
 export default function HospitalSEOContent({ hospital }: SEOContentProps) {
   return (
-    <section className="py-16 bg-gray-50 px-3 xs:px-4 sm:px-6 lg:px-10">
-      <div className="container mx-auto prose prose-lg">
+    <section className="py-16 bg-gray-50">
+      <div className="mx-6 prose prose-lg">
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               About {hospital.name}

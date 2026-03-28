@@ -72,7 +72,7 @@ export const InfoCards = () => {
 
   return (
     <section className=" bg-gray-50 ">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 mt-[15vh] md:mt-[10vh]">
+      <div className="mx-6 mt-[15vh] md:mt-[10vh]">
         {/* Scrollable on mobile, grid on larger screens */}
         <div className="overflow-x-auto sm:overflow-visible scrollbar-hide">
           <motion.div

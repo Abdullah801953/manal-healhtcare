@@ -20,7 +20,7 @@ const quoteData = [
 export default function QuoteSection() {
   return (
     <section className="py-5">
-      <div className="container mx-auto px-6">
+      <div className="mx-6">
         
         {/* Heading */}
         <div className="text-center mb-12">

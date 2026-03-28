@@ -117,8 +117,8 @@ export default function HospitalDoctorsSection({ doctors }: HospitalDoctorsSecti
   if (!doctors || doctors.length === 0) return null;
 
   return (
-    <section className="py-16 bg-gray-50 px-3 xs:px-4 sm:px-6 lg:px-10">
-      <div className="container mx-auto">
+    <section className="py-16 bg-gray-50">
+      <div className="mx-6">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

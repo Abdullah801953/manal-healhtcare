@@ -308,7 +308,7 @@ I would like to discuss my treatment options.`;
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden ">
+    <section className="relative min-h-screen flex items-center overflow-x-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -328,14 +328,14 @@ I would like to discuss my treatment options.`;
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       </div>
 
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-6 xs:py-8 sm:py-10 md:py-14 lg:py-16 xl:py-20 overflow-hidden relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+      <div className="mx-6 py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center">
           {/* Left Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left order-2 lg:order-1 text-white"
+            className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left order-1 text-white"
           >
             <motion.div className="space-y-3 sm:space-y-4 lg:space-y-5">
               {/* Main Hero Heading with enhanced styling */}
@@ -357,7 +357,7 @@ I would like to discuss my treatment options.`;
               {/* Subheading */}
               <motion.h2 
                 variants={itemVariants}
-                className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-200 leading-relaxed px-1 xs:px-2 sm:px-0"
+                className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-200 leading-relaxed"
               >
                 <Translate>Your trusted partner in Medical Tourism in India, connecting you with top hospitals and experienced doctors.</Translate>
               </motion.h2>
@@ -365,13 +365,13 @@ I would like to discuss my treatment options.`;
               {/* Description */}
               <motion.p
                 variants={itemVariants}
-                className="text-gray-300 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 px-1 xs:px-2 sm:px-0"
+                className="text-gray-300 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0"
               >
                 <Translate>Discover world-class healthcare services where your well-being comes first. At Manal Healthcare, we provide personalized, compassionate medical care and seamless medical tourism services in India, ensuring safe, affordable, and high-quality treatment for every patient.</Translate>
               </motion.p>
             </motion.div>
 
-       <motion.div variants={itemVariants} className="pt-2 px-1 xs:px-2 sm:px-0">
+       <motion.div variants={itemVariants} className="pt-2">
   <Button
     size="lg"
     onClick={() => router.push("/contact")}
@@ -388,9 +388,9 @@ I would like to discuss my treatment options.`;
   variants={formVariants}
   initial="hidden"
   animate="visible"
-  className="hidden lg:block order-1 lg:order-2 px-2 xs:px-4 sm:px-0"
+  className="block order-2"
 >
-            <div className="bg-white/95 block md:hidden lg:block order-1 lg:order-2 px-2 xs:px-4 sm:px-0 backdrop-blur-sm rounded-2xl xs:rounded-3xl shadow-xl xs:shadow-2xl border border-white/20 overflow-hidden  sm:blocked md:blocked">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl xs:rounded-3xl shadow-xl xs:shadow-2xl border border-white/20 overflow-hidden">
               {/* Form Header */}
               <div className="bg-gradient-to-r from-green-600 to-green-700 px-4 xs:px-6 py-4 xs:py-5">
                 <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white text-center">
@@ -598,7 +598,7 @@ I would like to discuss my treatment options.`;
           variants={searchBarVariants}
           initial="hidden"
           animate="visible"
-          className="mt-4 xs:mt-6 sm:mt-8 lg:mt-10 xl:mt-14 max-w-5xl mx-auto px-1 xs:px-2 sm:px-0 mb-8 xs:mb-12 sm:mb-16 lg:mb-20"
+          className="mt-4 xs:mt-6 sm:mt-8 lg:mt-10 xl:mt-14 mb-8 xs:mb-12 sm:mb-16 lg:mb-20"
           ref={searchRef}
         >
           <form onSubmit={handleSearch} className="relative">

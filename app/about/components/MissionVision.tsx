@@ -24,8 +24,8 @@ export function MissionVision() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
-      <div className="container mx-auto">
+    <section className="py-20  bg-gray-50">
+      <div className="mx-6">
 
         {/* Heading */}
         <div className="text-center mb-16">

@@ -9,8 +9,8 @@ export default function InfrastructureSection({ hospital }: InfrastructureSectio
   if (!hospital.infrastructure || hospital.infrastructure.length === 0) return null;
 
   return (
-    <section className="py-16 bg-gray-50 px-3 xs:px-4 sm:px-6 lg:px-10">
-      <div className="container mx-auto">
+    <section className="py-16 bg-gray-50">
+      <div className="mx-6">
         {/* Section Header */}
         <div className="flex items-center gap-3 mb-8">
           <div className="p-3 bg-[#209f00]/10 rounded-xl">

@@ -155,7 +155,7 @@ export const DoctorsShowcase = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-gray-50 overflow-hidden">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="mx-6">
         <motion.div
           variants={containerVariants}
           initial="hidden"

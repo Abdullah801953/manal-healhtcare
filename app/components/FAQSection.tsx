@@ -45,7 +45,7 @@ const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
   if (loading) {
     return (
       <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="mx-6">
           <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 xs:mb-6 sm:mb-8 text-gray-900">
             Frequently Asked Questions
           </h2>
@@ -57,7 +57,7 @@ const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-16 lg:py-10 xl:py-24 bg-white" >
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 max-w-8xl" aria-labelledby="faq-heading">
+      <div className="mx-6" aria-labelledby="faq-heading">
         {/* Action Buttons */}
         <div className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4 mb-8 xs:mb-10 sm:mb-12">
           <Link href="/contact">
