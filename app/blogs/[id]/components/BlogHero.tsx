@@ -48,7 +48,7 @@ const BlogHero = ({ title, image }: BlogHeroProps) => {
               </div>
               <div className="whitespace-nowrap">
                 <p className="text-xs xs:text-sm text-gray-500">Need help?</p>
-                <p className="text-sm xs:text-base font-semibold">+91 98765 43210</p>
+                <p className="text-sm xs:text-base font-semibold">+91 73949 66566</p>
               </div>
             </div>
           </div>
