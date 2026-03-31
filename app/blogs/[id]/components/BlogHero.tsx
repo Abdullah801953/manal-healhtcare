@@ -42,15 +42,20 @@ const BlogHero = ({ title, image }: BlogHeroProps) => {
             </div>
 
             {/* RIGHT */}
-            <div className="flex items-center gap-3 xs:gap-4 bg-white px-4 xs:px-5 sm:px-6 py-3 xs:py-4 rounded-xl shadow-sm flex-shrink-0">
-              <div className="h-10 w-10 xs:h-12 xs:w-12 bg-[#209F00] text-white rounded-full flex items-center justify-center flex-shrink-0">
-                <Phone size={18} className="xs:w-5 xs:h-5" />
-              </div>
-              <div className="whitespace-nowrap">
-                <p className="text-xs xs:text-sm text-gray-500">Need help?</p>
-                <p className="text-sm xs:text-base font-semibold">+91 73949 66566</p>
-              </div>
-            </div>
+  <Link
+  href="/contact"
+  className="flex items-center gap-3 xs:gap-4 bg-white px-4 xs:px-5 sm:px-6 py-3 xs:py-4 rounded-xl shadow-sm flex-shrink-0 group hover:shadow-md transition-shadow duration-200 no-underline"
+>
+  <div className="h-10 w-10 xs:h-12 xs:w-12 bg-[#209F00] text-white rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-[#1a8500] transition-colors duration-200">
+    <Phone size={18} className="xs:w-5 xs:h-5" />
+  </div>
+  <div className="whitespace-nowrap">
+    <p className="text-xs xs:text-sm text-gray-500">Need help?</p>
+    <p className="text-sm xs:text-base font-semibold text-[#209F00] group-hover:text-[#1a8500] transition-colors duration-200">
+      Contact Us →
+    </p>
+  </div>
+</Link>
           </div>
         </div>
       </div>
