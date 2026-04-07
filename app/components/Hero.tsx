@@ -308,7 +308,7 @@ I would like to discuss my treatment options.`;
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden ">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image

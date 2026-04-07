@@ -74,7 +74,7 @@ export const Hospitals = ({
   };
 
   return (
-    <section className="py-10 md:py-16 bg-white">
+    <section className="py-10 md:py-16 bg-white ">
       <div className="container mx-auto px-4 lg:px-10">
         <motion.div
           variants={containerVariants}

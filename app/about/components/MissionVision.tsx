@@ -20,13 +20,7 @@ export function MissionVision() {
         "To be the leading healthcare provider recognized for exceptional patient care, medical innovation, and commitment to community health and wellbeing.",
       color: "from-teal-500 to-cyan-600",
     },
-    {
-      icon: Heart,
-      title: "Our Values",
-      description:
-        "Compassion, integrity, excellence, innovation, and respect guide every decision we make and every interaction we have with our patients and community.",
-      color: "from-green-500 to-emerald-600",
-    },
+   
   ];
 
   return (

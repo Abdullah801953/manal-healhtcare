@@ -20,9 +20,9 @@ import { useState, useEffect } from "react";
 const quickLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact US" },
-  { href: "/blogs", label: "Blogs" },
-  { href: "/doctors", label: "Doctors" },
+  { href: "/info/privacy-policy", label: "Privacy Policy" },
+  { href: "/info/terms-conditions", label: "Terms & Conditions" },
+  { href: "/info/disclaimer", label: "Disclaimer" },
 ];
 
 const Footer = () => {
@@ -39,8 +39,8 @@ const Footer = () => {
         if (treatmentData.success) {
           const uniqueCategories = Array.from(
             new Map(
-              treatmentData.data.map((t: any) => [t.category, t])
-            ).values()
+              treatmentData.data.map((t: any) => [t.category, t]),
+            ).values(),
           ).slice(0, 6);
           setTreatments(uniqueCategories);
         }
@@ -60,36 +60,36 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 border-t">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10 py-12">
+      <div className="container  mx-auto  px-2 sm:px-2 lg:px-2 py-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-
           {/* Company Info */}
           <div>
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
+            <Link href="/" className="flex items-center gap-2.5 ">
               <Image
                 src={logo}
                 alt="Manal Healthcare Logo"
                 width={120}
                 height={40}
                 priority
-                style={{ height: 'auto' }}
+                style={{ height: "auto" }}
                 className="object-contain"
               />
             </Link>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Manal Healthcare provides trusted Medical Tourism services in
-              India, connecting patients with top hospitals and experienced
-              doctors.{" "}
-              <Link href="/contact" className="text-[#209F00] underline">
-                Book your consultation today
-              </Link>
-              .
+              At Manal Healthcare  we are committed to
+              protecting your privacy and ensuring the security of your personal
+              and medical information. This Privacy Policy explains how we
+              collect, use, disclose, and safeguard your information when you
+              use our medical tourism services and website. 1. Information We
+            
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Links</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
+              Quick Links
+            </h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -107,7 +107,9 @@ const Footer = () => {
 
           {/* Get In Touch */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Get In Touch</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
+              Get In Touch
+            </h3>
             <div className="space-y-4">
               <div>
                 <h4 className="font-semibold text-gray-900 mb-2">Location</h4>
@@ -144,7 +146,9 @@ const Footer = () => {
 
           {/* Top Hospitals */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Top Hospitals</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
+              Top Hospitals
+            </h3>
             <ul className="space-y-3">
               {hospitals.length > 0 ? (
                 hospitals.map((hospital) => (
@@ -155,7 +159,9 @@ const Footer = () => {
                     >
                       <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       <span className="text-sm">
-                        {hospital.name === "Cosmoden" ? "Metro Hospital" : hospital.name}
+                        {hospital.name === "Cosmoden"
+                          ? "Metro Hospital"
+                          : hospital.name}
                       </span>
                     </Link>
                   </li>
@@ -168,7 +174,9 @@ const Footer = () => {
 
           {/* Our Treatments */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Top Treatments</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
+              Top Treatments
+            </h3>
             <ul className="space-y-3">
               {treatments.length > 0 ? (
                 treatments.map((treatment) => (
@@ -187,14 +195,14 @@ const Footer = () => {
               )}
             </ul>
           </div>
-
         </div>
       </div>
 
       <div className="bg-gray-200 border-t border-gray-300">
         <div className="container mx-auto px-4 sm:px-6 lg:px-10 py-4">
           <p className="text-center text-sm text-gray-700">
-            Copyright © <span className="font-semibold">FAAB</span> | Designed & Powered by <span className="font-semibold">FAAB</span>
+            Copyright © <span className="font-semibold">FAAB</span> | Designed &
+            Powered by <span className="font-semibold">FAAB</span>
           </p>
         </div>
       </div>

@@ -225,14 +225,17 @@ const Page = async () => {
       <ContactButton />
    
 
-      <main id="main-content" >
+      <main id="main-content">
         {/* ✅ SINGLE H1 FOR SEO */}
         <h1 className="sr-only ">
           Medical Tourism in India – Top Hospitals & Doctors | Manal Healthcare
         </h1>
 
+      
+    
         <Hero />
-        <Services />
+       
+         <Services />
         <QuoteSection/>
         <DoctorsShowcase />
         <Hospitals />
@@ -245,6 +248,7 @@ const Page = async () => {
         <BlogSection />
          {/* <InfoCards /> */}
         <FAQSection />
+  
       </main>
 
      
