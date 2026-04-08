@@ -10,7 +10,7 @@ const carouselImages = [
   {
     src: t1,
     alt: "Patient recovery success",
-    caption: "Ahmed from UAE — Cardiac Surgery",
+    caption: "Alhaji Abdulai Bah Sierra leone from UAE — Hiatus Hernia",
   },
   {
     src: t2,

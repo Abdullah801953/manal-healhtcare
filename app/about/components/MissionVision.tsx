@@ -10,14 +10,14 @@ export function MissionVision() {
       icon: Target,
       title: "Our Mission",
       description:
-        "To deliver world-class healthcare services that improve the quality of life for our patients through innovative treatments, compassionate care, and medical excellence.",
+        "Make quality healthcare in India accessible, clear, and stress-free for every international patient.We remove the barriers — language gaps, hospital confusion, visa paperwork, logistical overwhelm — so patients can focus entirely on their recovery and well-being. Every patient who reaches out to us deserves honest guidance, not a sales pitch. That's how we work.",
       color: "from-emerald-500 to-teal-600",
     },
     {
       icon: Eye,
       title: "Our Vision",
       description:
-        "To be the leading healthcare provider recognized for exceptional patient care, medical innovation, and commitment to community health and wellbeing.",
+        "We strive to simplify the complexities of cross border healthcare, ensuring that every individual, regardless of their location, can access the world's best medical facilities and specialists. We are dedicated to using modern technology and streamlined processes to provide clear, honest and efficient healthcare solutions, making the path to recovery as smooth as possible.",
       color: "from-teal-500 to-cyan-600",
     },
    

@@ -16,7 +16,7 @@ const BlogHero = ({ title, image }: BlogHeroProps) => {
   
   return (
     <section className="mb-6 xs:mb-7 sm:mb-8 lg:mb-10">
-      <div className="relative w-full h-[300px] sm:h-[350px] md:h-[380px] overflow-hidden rounded-2xl sm:rounded-3xl">
+      <div className="relative w-full h-[350px] sm:h-[390px] md:h-[480px] overflow-hidden rounded-xl sm:rounded-xl">
         <Image
           src={imageUrl}
           alt={title}
