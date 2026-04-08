@@ -1,21 +1,24 @@
 "use client";
-
+import Image from "next/image";
 import { Heart, Users, Globe, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import t1 from "@/public/t1.jpeg";
+import t2 from "@/public/t2.jpeg";
+import t3 from "@/public/t3.jpeg";
 
 const carouselImages = [
   {
-    src: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&q=80",
+    src: t1,
     alt: "Patient recovery success",
     caption: "Ahmed from UAE — Cardiac Surgery",
   },
   {
-    src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80",
+    src: t2,
     alt: "Medical consultation",
     caption: "Maria from UK — Orthopedic Treatment",
   },
   {
-    src: "https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?w=800&q=80",
+    src: t3,
     alt: "Happy patient",
     caption: "James from Canada — Cancer Care",
   },
@@ -101,10 +104,10 @@ export function TestimonialsHero() {
                   className="absolute inset-0 transition-opacity duration-500"
                   style={{ opacity: i === current && !animating ? 1 : 0 }}
                 >
-                  <img
+                  <Image
                     src={img.src}
                     alt={img.alt}
-                    className="w-full h-full object-cover"
+                    className="w-full  object-cover"
                   />
                   {/* Caption overlay */}
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-5">
@@ -143,7 +146,7 @@ export function TestimonialsHero() {
                   }`}
                   aria-label={`Go to slide ${i + 1}`}
                 >
-                  <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+                  <Image src={img.src} alt={img.alt} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
