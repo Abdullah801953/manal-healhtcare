@@ -314,14 +314,14 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       className="h-full flex flex-col"
     >
       {/* Doctor Image */}
-      <div className="relative h-64 xs:h-72 sm:h-60 lg:h-64 bg-linear-to-br from-green-50 to-blue-50 overflow-hidden">
+      <div className="relative h-72 xs:h-80 sm:h-72 lg:h-80 bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden">
         <Image
           src={imgSrc}
           alt={doctor.name}
           fill
           unoptimized
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
           onError={() => setImgSrc('/doctor-img 1.png')}
         />
         

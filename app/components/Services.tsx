@@ -153,7 +153,7 @@ export const Services = ({
             </motion.p>
             <motion.h2
               variants={itemVariants}
-              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
+              className="font-semibold text-sm xs:text-base sm:text-lg md:text-2xl"
             >
               {subheading}
             </motion.h2>  
@@ -166,7 +166,7 @@ export const Services = ({
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#209f00] border-t-transparent"></div>
               </div>
             ) : services.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 xs:gap-5 sm:gap-6">
                 {services.map((service) => {
                   const Icon = service.icon;
                   return (
@@ -222,8 +222,8 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
     <div className="flex items-start gap-4">
       
       {/* Icon */}
-      <div className="w-12 h-12 flex items-center justify-center">
-        <Icon className="w-10 h-10 text-green-700" />
+      <div style={{width: '48px', height: '48px', minWidth: '48px', minHeight: '48px'}} className="flex items-center justify-center rounded-full bg-gray-200 shrink-0 overflow-hidden">
+        <Icon style={{width: '24px', height: '24px'}} className="text-green-700" />
       </div>
 
       {/* Text */}

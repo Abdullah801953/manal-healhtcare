@@ -10,13 +10,33 @@ interface HospitalCardProps {
     name: string;
     city?: string;
     country?: string;
+    location?: string;
     image?: string;
-    description?: string;
+    description?: string | string[];
   };
 }
 
 export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
-  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
+  const originalImage = hospital.image || '/indra.avif';
+  const [imgSrc, setImgSrc] = useState(originalImage);
+  const [fallbackStage, setFallbackStage] = useState(0);
+
+  const handleImageError = () => {
+    if (fallbackStage === 0 && hospital.image) {
+      // Try serving via API route
+      setFallbackStage(1);
+      setImgSrc(`/api${hospital.image}`);
+    } else {
+      // Final fallback
+      setFallbackStage(2);
+      setImgSrc('/indra.avif');
+    }
+  };
+
+  const locationText = hospital.location || [hospital.city, hospital.country].filter(Boolean).join(', ');
+  const descriptionText = Array.isArray(hospital.description) 
+    ? hospital.description.join(' ') 
+    : hospital.description;
 
   return (
     <motion.div
@@ -31,7 +51,7 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
           fill
           unoptimized
           className="object-cover"
-          onError={() => setImgSrc('/indra.avif')}
+          onError={handleImageError}
         />
       </div>
 
@@ -39,15 +59,15 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
       <div className="p-5">
         <h3 className="text-xl font-semibold mb-2">{hospital.name}</h3>
 
-        {(hospital.city || hospital.country) && (
+        {locationText && (
           <p className="text-sm text-gray-500 mb-2">
-            {hospital.city} {hospital.country && `, ${hospital.country}`}
+            {locationText}
           </p>
         )}
 
-        {hospital.description && hospital.description.length > 0 && (
+        {descriptionText && descriptionText.length > 0 && (
           <p className="text-gray-600 text-sm line-clamp-3">
-            {Array.isArray(hospital.description) ? hospital.description.join(' ') : hospital.description}
+            {descriptionText}
           </p>
         )}
       </div>

@@ -27,14 +27,14 @@ export default function QuoteSection() {
           <h2 className="text-[#209F00] text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold max-w-4xl mx-auto">
             Lowest Quotes Assured
           </h2>
-          <p className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl">
+          <p className="font-semibold text-sm xs:text-base sm:text-lg md:text-2xl">
             We constantly negotiate better prices and alternatives without
             compromising treatment quality.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
           {quoteData.map((item, index) => (
             <QuoteCard
               key={index}
