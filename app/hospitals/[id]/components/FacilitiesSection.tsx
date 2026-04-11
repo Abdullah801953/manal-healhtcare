@@ -10,7 +10,7 @@ export default function FacilitiesSection({ hospital }: FacilitiesSectionProps) 
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         {/* Section Header */}
         <div className="flex items-center gap-3 mb-8">
           <div className="p-3 bg-[#209f00]/10 rounded-xl">

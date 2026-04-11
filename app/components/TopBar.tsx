@@ -25,7 +25,7 @@ export const TopBar = () => {
 
   return (
     <div className="hidden md:block bg-white border-b backdrop-blur-md">
-      <div className="container mx-auto px-6 py-3 flex items-center justify-between">
+      <div className="mx-5 lg:mx-24 py-3 flex items-center justify-between">
 
 {/* LEFT - Premium Brand Block */}
 <div className="flex flex-col shrink-0">

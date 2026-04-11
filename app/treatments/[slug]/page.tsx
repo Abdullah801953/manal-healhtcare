@@ -158,7 +158,7 @@ export default async function TreatmentDetailPage({
     <main className="min-h-screen bg-white">
       <>
         <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16">
-          <div className="mx-6">
+          <div className="mx-5 lg:mx-24">
           {/* HERO SECTION */}
           <div className="bg-gradient-to-br from-[#e6f9ed] to-[#d2f5e3] rounded-3xl shadow-lg p-6 xs:p-7 sm:p-8 mb-6 xs:mb-7 sm:mb-8 flex flex-col md:flex-row items-center gap-6 xs:gap-7 sm:gap-8 border border-[#209f00]/20">
             {treatment.image && (

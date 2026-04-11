@@ -8,7 +8,7 @@ interface DepartmentsSectionProps {
 export default function DepartmentsSection({ hospital }: DepartmentsSectionProps) {
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12">

@@ -135,7 +135,7 @@ export const Services = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"

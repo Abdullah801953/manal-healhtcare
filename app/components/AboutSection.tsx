@@ -89,7 +89,7 @@ export const AboutSection = ({
 
   return (
     <section className="py-16 bg-white">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
           
           {/* LEFT CONTENT */}
           <motion.div

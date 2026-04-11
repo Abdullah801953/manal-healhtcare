@@ -39,7 +39,7 @@ const testimonials: Testimonial[] = [
 export default function PatientTestimonials() {
   return (
     <section className="py-16 bg-white">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12">

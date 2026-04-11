@@ -1,7 +1,7 @@
 export function ContactHero() {
   return (
     <section className="relative bg-linear-to-r from-emerald-500 via-[#209f00] to-green-600 py-16">
-      <div className="mx-6 text-center">
+      <div className="mx-5 lg:mx-24 text-center">
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
           Get in Touch
         </h1>

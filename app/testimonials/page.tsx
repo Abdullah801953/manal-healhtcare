@@ -50,7 +50,7 @@ export default function TestimonialsPage() {
 
       {/* Main Content */}
       <section className="py-16 bg-white">
-        <div className="mx-6">
+        <div className="mx-5 lg:mx-24">
           {/* Results Count */}
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-gray-900">
@@ -109,7 +109,7 @@ export default function TestimonialsPage() {
 
       {/* SEO Content */}
       <section className="py-16 bg-white">
-        <div className="mx-6">
+        <div className="mx-5 lg:mx-24">
           <div className="prose prose-lg">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Authentic Patient Testimonials from Around the World

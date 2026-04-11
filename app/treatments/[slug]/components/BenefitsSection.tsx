@@ -8,7 +8,7 @@ interface BenefitsSectionProps {
 export default function BenefitsSection({ treatment }: BenefitsSectionProps) {
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}
           <div className="flex items-center gap-3 mb-8">

@@ -95,7 +95,7 @@ export default function DoctorsContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Container */}
-      <div className="mx-6 py-8">
+      <div className="mx-5 lg:mx-24 py-8">
         {/* Hero Banner */}
         <HeroBanner />
 

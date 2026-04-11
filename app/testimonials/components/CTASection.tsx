@@ -6,7 +6,7 @@ import Link from 'next/link';
 export function CTASection() {
   return (
     <section className="py-16 bg-linear-to-br from-[#209f00] to-[#1a8000]">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <div className="text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Begin Your Medical Journey?

@@ -118,7 +118,7 @@ export default function HospitalDoctorsSection({ doctors }: HospitalDoctorsSecti
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

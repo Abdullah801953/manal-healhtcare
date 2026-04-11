@@ -23,7 +23,7 @@ export function BlogListHero() {
       </div>
 
       {/* Content */}
-      <div className="relative h-full flex flex-col items-start justify-center z-10">
+      <div className="relative h-full flex flex-col items-start justify-center z-10 px-5 lg:px-24">
         <motion.p 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -88,7 +88,7 @@ export default async function DoctorDetailPage({ params }: DoctorDetailPageProps
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Container */}
-      <div className="mx-6 py-8">
+      <div className="mx-5 lg:mx-24 py-8">
         {/* Back Button */}
         <div className="mb-6">
           <Link href="/doctors">

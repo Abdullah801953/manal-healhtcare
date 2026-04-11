@@ -19,7 +19,7 @@ export function DoctorDetailHero({ doctor }: DoctorDetailHeroProps) {
       <div className="absolute inset-0 bg-[url('/clouds.svg')] opacity-20 bg-cover bg-center"></div>
       
       {/* Content Container */}
-      <div className="relative mx-6 py-16">
+      <div className="relative mx-5 lg:mx-24 py-16">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           {/* Left: Doctor Image */}
           <div className="shrink-0">

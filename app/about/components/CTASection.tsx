@@ -5,7 +5,7 @@ import { Calendar, ArrowRight } from 'lucide-react';
 export function CTASection() {
   return (
     <section className="py-20 bg-white">
-      <div className="mx-6 text-center">
+      <div className="mx-5 lg:mx-24 text-center">
         <h2 className="text-4xl font-bold text-gray-900 mb-6">
           Ready to Experience Quality Healthcare?
         </h2>

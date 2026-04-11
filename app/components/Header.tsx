@@ -54,7 +54,7 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="">
-        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="mx-5 lg:mx-24">
           <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20 gap-2">
             {/* Logo */}
            {/* Logo */}

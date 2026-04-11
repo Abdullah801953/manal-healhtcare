@@ -35,7 +35,7 @@ const faqs: FAQItem[] = [
 export default function TreatmentFAQ() {
   return (
     <section className="py-16 bg-gray-50">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12">

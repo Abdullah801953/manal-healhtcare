@@ -135,7 +135,7 @@ export function BlogSection({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 xs:gap-4 sm:gap-6 mb-6 xs:mb-8 sm:mb-10 lg:mb-12">
           <div>

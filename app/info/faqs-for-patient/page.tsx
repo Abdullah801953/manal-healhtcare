@@ -492,7 +492,7 @@ export default function PatientFAQsPage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10"></div>
-        <div className="mx-auto relative z-10">
+        <div className="mx-5 lg:mx-24 relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block p-3 bg-blue-100 rounded-full mb-6">
               <HelpCircle className="w-12 h-12 text-blue-600" />

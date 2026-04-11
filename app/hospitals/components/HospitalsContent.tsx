@@ -133,7 +133,7 @@ export default function HospitalsContent() {
 
       {/* Main Content */}
       <section className="py-16">
-        <div className="mx-6">
+        <div className="mx-5 lg:mx-24">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar Filters */}
             <aside className="lg:w-80 shrink-0">

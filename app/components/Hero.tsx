@@ -328,7 +328,7 @@ I would like to discuss my treatment options.`;
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       </div>
 
-      <div className="mx-6 py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 relative z-10">
+      <div className="mx-5 lg:mx-24 py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center">
           {/* Left Content */}
           <motion.div

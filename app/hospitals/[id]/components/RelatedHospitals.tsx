@@ -30,7 +30,7 @@ export default function RelatedHospitals({ hospitals }: RelatedHospitalsProps) {
 
   return (
     <section className="py-16 bg-white">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">

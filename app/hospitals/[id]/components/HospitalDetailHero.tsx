@@ -22,7 +22,7 @@ export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
       </div>
 
-      <div className="mx-6 relative z-10">
+      <div className="mx-5 lg:mx-24 relative z-10">
         {/* Back Button */}
         <Link href="/hospitals">
           <Button variant="ghost" className="mb-6 text-white hover:bg-white/20 hover:text-white cursor-pointer">

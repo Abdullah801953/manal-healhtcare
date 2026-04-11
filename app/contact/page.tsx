@@ -37,7 +37,7 @@ export default function ContactPage() {
       
       {/* Main Contact Section */}
       <section className="py-16">
-        <div className="mx-6">
+        <div className="mx-5 lg:mx-24">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Contact Form - Takes 3 columns */}
             <div className="lg:col-span-3">
@@ -57,7 +57,7 @@ export default function ContactPage() {
 
       {/* Additional SEO Content */}
       <section className="py-16 bg-gray-50">
-        <div className="mx-6">
+        <div className="mx-5 lg:mx-24">
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-lg">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Why Contact Manal Healthcare?

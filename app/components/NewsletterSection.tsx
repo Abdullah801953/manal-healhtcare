@@ -68,7 +68,7 @@ export function NewsletterSection({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="mx-6">
+      <div className="mx-5 lg:mx-24">
         <div className="grid lg:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Side - Doctor Card */}
           <motion.div

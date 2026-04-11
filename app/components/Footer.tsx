@@ -60,7 +60,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 border-t">
-      <div className="container  mx-auto  px-2 sm:px-2 lg:px-2 py-5">
+      <div className="mx-5 lg:mx-24 py-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div>
@@ -202,7 +202,7 @@ const Footer = () => {
       </div>
 
       <div className="bg-gray-200 border-t border-gray-300">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10 py-4">
+        <div className="mx-5 lg:mx-24 py-4">
           <p className="text-center text-sm text-gray-700">
             Copyright © <span className="font-semibold">FAAB</span> | Designed &
             Powered by <span className="font-semibold">FAAB</span>
