@@ -1,203 +1,286 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | Manal Healthcare - Halal Certification & Medical Tourism",
-  description: "Read the disclaimer for Manal Healthcare's halal-certified medical tourism services. Important legal information about certifications, medical advice, liability, and third-party information.",
+  title: "Disclaimer | Manal Healthcare - Medical Tourism Services",
+  description:
+    "Read the medical disclaimer for Manal Healthcare. Important legal information about our role as a facilitator, medical advice, liability, and third-party providers.",
   robots: "index, follow",
   alternates: {
     canonical: "https://manalhealthcare.com/info/disclaimer",
   },
 };
 
+const sections = [
+  {
+    number: "01",
+    title: "General Information",
+    icon: "ℹ️",
+    content:
+      "All information on this website is provided for general informational purposes only. We aim to keep it helpful and updated, but it may not always be complete or current.",
+  },
+  {
+    number: "02",
+    title: "No Medical Advice",
+    icon: "🩺",
+    content:
+      "The content on this platform is not medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional for medical concerns.",
+  },
+  {
+    number: "03",
+    title: "No Doctor–Patient Relationship",
+    icon: "🤝",
+    content:
+      "Using this website does not create a doctor–patient relationship between you and Manal Healthcare or any listed provider.",
+  },
+  {
+    number: "04",
+    title: "Our Role",
+    icon: "🏢",
+    content:
+      "Manal Healthcare is only a facilitator. We are not a hospital, clinic, or medical provider. We simply help connect patients with independent doctors and healthcare institutions.",
+  },
+  {
+    number: "05",
+    title: "Independent Providers",
+    icon: "🏥",
+    content:
+      "All doctors, hospitals, and clinics listed on this platform operate independently and are fully responsible for the care and services they provide.",
+  },
+  {
+    number: "06",
+    title: "No Verification or Endorsement",
+    icon: "✅",
+    content:
+      "We do not verify or guarantee the qualifications, credentials, or services of any listed provider.",
+  },
+  {
+    number: "07",
+    title: "No Guarantees",
+    icon: "⚠️",
+    items: [
+      "Treatment outcomes",
+      "Accuracy of information",
+      "Expected results",
+    ],
+    intro: "We do not guarantee:",
+  },
+  {
+    number: "08",
+    title: "Use at Your Own Risk",
+    icon: "⚡",
+    content:
+      "Any action you take based on the information on this website is strictly at your own risk.",
+  },
+  {
+    number: "09",
+    title: "Medical Risks",
+    icon: "💊",
+    content:
+      "All medical treatments and procedures involve risks. It is important to understand these risks before proceeding.",
+  },
+  {
+    number: "10",
+    title: "Results May Vary",
+    icon: "📊",
+    content:
+      "Every patient is different. Treatment outcomes can vary from person to person.",
+  },
+  {
+    number: "11",
+    title: "Cost Estimates",
+    icon: "💰",
+    content:
+      "Any cost information shared is approximate and may change depending on the provider and treatment.",
+  },
+  {
+    number: "12",
+    title: "Limitation of Responsibility",
+    icon: "📋",
+    content:
+      "Manal Healthcare is not responsible for medical decisions, outcomes, complications, or any issues arising from services provided by third parties.",
+  },
+  {
+    number: "13",
+    title: "Emergency Notice",
+    icon: "🚨",
+    content:
+      "This platform is not meant for emergencies. If you need urgent care, please contact a doctor or visit the nearest hospital immediately.",
+    isEmergency: true,
+  },
+  {
+    number: "14",
+    title: "Acceptance of Terms",
+    icon: "📝",
+    content:
+      "By using this website, you acknowledge that you have read and agree to this disclaimer.",
+  },
+];
+
 export default function DisclaimerPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <div className="mx-auto px-25  py-20">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Disclaimer</h1>
-        <p className="text-gray-600 mb-8">Last Updated: April 8, 2026</p>
+    <div className="min-h-screen bg-gray-50">
 
-        <div className="prose prose-lg max-w-none">
-          <p className="lead">
-            The information provided on this website and through Manal Healthcare (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) regarding halal certification, Islamic healthcare standards, and medical tourism services in India is for general informational purposes only. By using our services or accessing this website, you acknowledge and agree to the terms of this Disclaimer.
-          </p>
+      {/* Hero Header */}
+      <div className="relative bg-gradient-to-br from-[#209f00] via-emerald-600 to-teal-700 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+        <div className="absolute -top-10 -left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 right-20 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl" />
 
-          <h2>1. No Medical Advice</h2>
-          <p>
-            The content on this website, including but not limited to text, graphics, images, and information about halal certification standards, medical procedures, hospitals, and treatments, is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of something you have read on this website.
-          </p>
-          <p>
-            Manal Healthcare does not recommend or endorse any specific tests, physicians, products, procedures, opinions, or other information that may be mentioned on the website. Reliance on any information provided by Manal Healthcare, its employees, or others appearing on the website is solely at your own risk.
-          </p>
-
-          <h2>2. Halal Certification Disclaimers</h2>
-          
-          <h3>2.1 Third-Party Certifications</h3>
-          <p>
-            Halal certifications mentioned on our website are issued by third-party Islamic certification bodies. Manal Healthcare does not independently verify or guarantee the validity, accuracy, or current status of any halal certification claimed by hospitals, clinics, or other healthcare providers. Certification standards may vary between certifying authorities and jurisdictions. It is your responsibility to request and review original certification documents directly from the healthcare facility and the issuing authority.
-          </p>
-
-          <h3>2.2 No Guarantee of Compliance</h3>
-          <p>
-            While we strive to work only with facilities that claim halal certification, we make no representations or warranties that any facility will at all times comply with all aspects of halal requirements, including but not limited to food preparation, pharmaceutical ingredients, gender-specific care, prayer facilities, or any other Islamic standard. Compliance may be affected by staffing changes, supply chain issues, or other operational factors beyond our control.
-          </p>
-
-          <h3>2.3 Verification Responsibility</h3>
-          <p>
-            You acknowledge and agree that it is your sole responsibility to verify the halal status of any healthcare facility, service, product, or medication before making any decision or taking any action. We strongly recommend that you:
-          </p>
-          <ul>
-            <li>Request current halal certification documents directly from the facility</li>
-            <li>Contact the certifying Islamic authority to verify certification validity</li>
-            <li>Ask specific questions about halal practices that matter to you (e.g., medication ingredients, kitchen separation, same-gender providers)</li>
-            <li>Consult with your local Islamic scholar or religious authority if you have concerns</li>
-          </ul>
-
-          <h3>2.4 Changes in Certification Status</h3>
-          <p>
-            Halal certifications may expire, be suspended, or be revoked without prior notice. Manal Healthcare does not continuously monitor the certification status of every facility listed on our website or used in our services. Information about certification status may become outdated. You should always confirm current certification directly with the facility and certifying body.
-          </p>
-
-          <h2>3. Medical Tourism Risks</h2>
-          
-          <h3>3.1 General Risks</h3>
-          <p>
-            Medical tourism, including travel to India for healthcare services, carries inherent risks. These risks include but are not limited to:
-          </p>
-          <ul>
-            <li>Differences in medical standards, regulations, and practices between countries</li>
-            <li>Language and cultural barriers affecting communication with healthcare providers</li>
-            <li>Travel-related complications (e.g., deep vein thrombosis, fatigue, exposure to illnesses)</li>
-            <li>Difficulty with follow-up care after returning to your home country</li>
-            <li>Potential lack of legal recourse for medical malpractice in foreign jurisdictions</li>
-            <li>Complications arising from surgery or medical procedures that may require extended stays</li>
-            <li>Financial losses from cancelled or changed travel arrangements</li>
-          </ul>
-          <p>
-            You assume full responsibility for evaluating and accepting these risks before deciding to travel for medical treatment.
-          </p>
-
-          <h3>3.2 No Outcome Guarantee</h3>
-          <p>
-            Manal Healthcare does not guarantee any specific medical outcome, result, or cure from any treatment, procedure, or service arranged through us. Medical outcomes depend on numerous factors including your individual health condition, the skill of healthcare providers, adherence to post-treatment care, and other variables outside our control.
-          </p>
-
-          <h2>4. Limitation of Liability</h2>
-          
-          <p>
-            To the maximum extent permitted by applicable law, Manal Healthcare, its directors, officers, employees, agents, and affiliates shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or relating to:
-          </p>
-          <ul>
-            <li>Your use or inability to use our website or services</li>
-            <li>Any medical treatment, procedure, or service provided by third-party healthcare facilities</li>
-            <li>Any halal compliance or non-compliance by any facility, provider, or product</li>
-            <li>Any travel-related issues including flight delays, cancellations, visa denials, or accommodation problems</li>
-            <li>Any errors or omissions in the information provided on our website</li>
-            <li>Any unauthorized access to or use of your personal or medical information</li>
-          </ul>
-          <p>
-            Our total liability to you for any claim arising out of or relating to our services shall not exceed the total fees you have paid to us, if any, for the specific service giving rise to the claim.
-          </p>
-
-          <h2>5. No Doctor-Patient Relationship</h2>
-          <p>
-            Manal Healthcare is a medical tourism facilitation service, not a healthcare provider. We do not provide medical diagnosis, treatment, or direct patient care. No doctor-patient relationship is created between you and Manal Healthcare or any of our employees or representatives through your use of our website or services. Any relationship with healthcare providers in India is strictly between you and those providers.
-          </p>
-
-          <h2>6. Third-Party Information and Links</h2>
-          
-          <h3>6.1 Hospital and Provider Information</h3>
-          <p>
-            Information about hospitals, doctors, treatments, costs, success rates, and other data provided on our website is collected from third-party sources, including the healthcare facilities themselves. We do not independently verify the accuracy, completeness, or currency of this information. Statistics such as patient satisfaction rates, annual Muslim patient numbers, and success rates are provided by the facilities and may be self-reported, unverified, or calculated using different methodologies.
-          </p>
-
-          <h3>6.2 External Links</h3>
-          <p>
-            Our website may contain links to external websites or resources operated by third parties. These links are provided for your convenience only. We have no control over the content, privacy practices, or availability of those sites and assume no responsibility for them. Inclusion of a link does not imply endorsement or verification of the linked site.
-          </p>
-
-          <h2>7. Testimonials Disclaimer</h2>
-          <p>
-            Testimonials appearing on our website are individual experiences from patients who have used our services or received treatment at halal-certified facilities. They are not necessarily representative of all patients. Individual results and experiences may vary. Testimonials are provided voluntarily and may have been edited for clarity, length, or grammar. We do not verify the accuracy of all statements made in testimonials, and they should not be considered as guarantees of similar outcomes or experiences.
-          </p>
-
-          <h2>8. No Warranties</h2>
-          <p>
-            Our website and services are provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis without any warranties of any kind, either express or implied. To the fullest extent permitted by law, we disclaim all warranties, including but not limited to:
-          </p>
-          <ul>
-            <li>Implied warranties of merchantability, fitness for a particular purpose, and non-infringement</li>
-            <li>Warranties that our website will be uninterrupted, secure, or error-free</li>
-            <li>Warranties regarding the accuracy, reliability, or completeness of any information</li>
-            <li>Warranties that any halal certification or compliance will meet your religious expectations</li>
-          </ul>
-
-          <h2>9. Indemnification</h2>
-          <p>
-            You agree to indemnify, defend, and hold harmless Manal Healthcare and its officers, directors, employees, agents, and affiliates from and against any and all claims, liabilities, damages, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to:
-          </p>
-          <ul>
-            <li>Your violation of this Disclaimer or any applicable laws or regulations</li>
-            <li>Your use of our website or services</li>
-            <li>Any medical treatment or procedure you receive from third-party providers</li>
-            <li>Your reliance on any halal certification information provided by us or third parties</li>
-            <li>Any dispute between you and a healthcare facility or provider</li>
-          </ul>
-
-          <h2>10. Compliance with Religious Requirements</h2>
-          <p>
-            While we strive to accommodate Islamic principles, individual interpretations of halal and Sharia compliance may vary. What is considered acceptable by one Islamic authority, school of thought, or individual may not be acceptable to another. You are solely responsible for determining whether our services and the facilities we work with meet your personal religious standards. We recommend consulting with your own religious advisor before making decisions about halal healthcare.
-          </p>
-
-          <h2>11. Information Accuracy and Updates</h2>
-          <p>
-            The information on our website, including details about halal certification standards, facility amenities, treatment options, and costs, is subject to change without notice. We make reasonable efforts to keep information current, but we do not guarantee that all information is up-to-date at the time you access it. You should verify all critical information directly with the relevant healthcare facility before making decisions.
-          </p>
-
-          <h2>12. Geographic Limitations</h2>
-          <p>
-            Our website and services are intended for users worldwide seeking medical tourism information about India. However, we do not represent that our content is appropriate or available for use in all locations. Access to our website from jurisdictions where content is illegal is prohibited. You are responsible for compliance with local laws in your jurisdiction.
-          </p>
-
-          <h2>13. No Waiver</h2>
-          <p>
-            Our failure to enforce any right or provision of this Disclaimer shall not constitute a waiver of such right or provision. Any waiver of any provision of this Disclaimer will be effective only if in writing and signed by an authorized representative of Manal Healthcare.
-          </p>
-
-          <h2>14. Severability</h2>
-          <p>
-            If any provision of this Disclaimer is found to be unenforceable or invalid under any applicable law, such unenforceability or invalidity shall not render this Disclaimer unenforceable or invalid as a whole. The remaining provisions shall remain in full force and effect, and the unenforceable or invalid provision shall be replaced by a provision that most closely achieves the original intent while being enforceable.
-          </p>
-
-          <h2>15. Governing Law and Jurisdiction</h2>
-          <p>
-            This Disclaimer and any dispute arising out of or relating to your use of our website or services shall be governed by and construed in accordance with the laws of India, without regard to its conflict of laws principles. Any legal action or proceeding relating to this Disclaimer shall be brought exclusively in the courts located in [Your City, State], India, and you consent to the personal jurisdiction of such courts.
-          </p>
-
-          <h2>16. Contact Information</h2>
-          <p>
-            If you have any questions about this Disclaimer, please contact us:
-          </p>
-          <div className="bg-gray-50 p-6 rounded-lg mt-4">
-            <p><strong>Manal Healthcare</strong></p>
-            <p>Email: info@manalhealthcare.com</p>
-            <p>Phone: +91-XXX-XXX-XXXX</p>
-            <p>Address: [Company Address]</p>
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-16 py-16">
+          <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6">
+            <span className="w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse" />
+            <span className="text-white/90 text-xs font-medium tracking-wide">Legal Document</span>
           </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 tracking-tight">
+            Medical Disclaimer
+          </h1>
+          <p className="text-white/70 text-base">
+            Last Updated: April 8, 2026 &nbsp;·&nbsp; Manal Health Care
+          </p>
+        </div>
+      </div>
 
-          <div className="bg-amber-50 border-l-4 border-amber-500 p-6 mt-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Important Notice</h3>
-            <p className="text-gray-700 text-sm">
-              This Disclaimer is a legally binding document. By using our website or services, you acknowledge that you have read, understood, and agreed to all terms contained herein. If you do not agree with any part of this Disclaimer, please do not use our website or services.
-            </p>
+      {/* Body */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-16 py-16 max-w-5xl">
+
+        {/* Intro notice */}
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-12 flex gap-4">
+          <div className="flex-shrink-0 w-10 h-10 bg-[#209f00] rounded-full flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+            </svg>
           </div>
+          <p className="text-gray-700 text-sm leading-relaxed">
+            Please read this disclaimer carefully before using the Manal Health Care website or services.
+            This is a legally binding document. If you have any questions, contact us at the details provided below.
+          </p>
+        </div>
 
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mt-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Responsibility</h3>
-            <p className="text-gray-700 text-sm">
-              Medical decisions and matters of religious compliance are highly personal. You are ultimately responsible for your own health and religious observance. We strongly encourage you to conduct your own independent research, consult with qualified medical professionals, and seek religious guidance before proceeding with any medical treatment or travel arrangements.
+        {/* Sections grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {sections.map((section) => (
+            <div
+              key={section.number}
+              className={`bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col ${
+                section.isEmergency
+                  ? "border-red-200 md:col-span-2"
+                  : "border-gray-100"
+              }`}
+            >
+              {/* Card header */}
+              <div
+                className={`flex items-center gap-3 px-6 py-4 border-b ${
+                  section.isEmergency
+                    ? "border-red-100 bg-red-50"
+                    : "border-gray-100"
+                }`}
+              >
+                <span
+                  className={`text-xs font-bold px-3 py-1 rounded-full tracking-widest border ${
+                    section.isEmergency
+                      ? "text-red-600 bg-red-100 border-red-200"
+                      : "text-[#209f00] bg-emerald-50 border-emerald-200"
+                  }`}
+                >
+                  {section.number}
+                </span>
+                <h2
+                  className={`text-sm font-semibold ${
+                    section.isEmergency ? "text-red-700" : "text-gray-900"
+                  }`}
+                >
+                  {section.title}
+                </h2>
+              </div>
+
+              {/* Card body */}
+              <div className="px-6 py-5 flex-1">
+                {"intro" in section && section.intro && (
+                  <p className="text-gray-600 text-sm mb-3">{section.intro}</p>
+                )}
+                {"items" in section && section.items && (
+                  <ul className="space-y-2">
+                    {section.items.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
+                        <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 bg-[#209f00] rounded-full" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {"content" in section && section.content && (
+                  <p
+                    className={`text-sm leading-relaxed ${
+                      section.isEmergency ? "text-red-700 font-medium" : "text-gray-600"
+                    }`}
+                  >
+                    {section.content}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Important Notice */}
+        <div className="mt-8 bg-amber-50 border border-amber-200 rounded-2xl p-6 flex gap-4">
+          <div className="flex-shrink-0 w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-amber-900 mb-1">Your Responsibility</h3>
+            <p className="text-amber-800 text-sm leading-relaxed">
+              Medical decisions are highly personal. You are ultimately responsible for your own health. We strongly encourage you to conduct independent research and consult qualified medical professionals before proceeding with any treatment.
             </p>
           </div>
         </div>
+
+        {/* Contact Section */}
+        <div className="mt-6 bg-gradient-to-br from-[#209f00] via-emerald-600 to-teal-700 rounded-2xl overflow-hidden relative">
+          <div
+            className="absolute inset-0 opacity-[0.07]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+            }}
+          />
+          <div className="relative px-8 py-10">
+            <h2 className="text-xl font-semibold text-white mb-1">Contact Us</h2>
+            <p className="text-white/60 text-sm mb-6">Have questions about this disclaimer? Reach out to us.</p>
+            <p className="text-white font-semibold text-lg mb-6">Manal Health Care</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { icon: "📧", label: "Email", value: "info@manalhealthcare.com" },
+                { icon: "📞", label: "Phone", value: "+91-XXX-XXX-XXXX" },
+                { icon: "🌐", label: "Website", value: "www.manalhealthcare.com" },
+              ].map((contact) => (
+                <div
+                  key={contact.label}
+                  className="bg-white/10 border border-white/20 backdrop-blur-sm rounded-xl px-5 py-4"
+                >
+                  <p className="text-white/60 text-xs mb-1">{contact.icon} {contact.label}</p>
+                  <p className="text-white text-sm font-medium">{contact.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer note */}
+        <p className="text-center text-gray-400 text-xs mt-8">
+          © {new Date().getFullYear()} Manal Health Care. All rights reserved.
+        </p>
+
       </div>
     </div>
   );

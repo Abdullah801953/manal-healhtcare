@@ -76,12 +76,15 @@ const Footer = () => {
               />
             </Link>
             <p className="text-sm text-gray-600 leading-relaxed">
-              At Manal Healthcare  we are committed to
-              protecting your privacy and ensuring the security of your personal
-              and medical information. This Privacy Policy explains how we
-              collect, use, disclose, and safeguard your information when you
-              use our medical tourism services and website. 1. Information We
-            
+              Manal Health Care acts solely as a medical tourism facilitator and
+              does not provide medical advice, diagnosis, or treatment. All
+              healthcare services are rendered exclusively by independent
+              hospitals and licensed medical professionals. We make no
+              representations or warranties regarding treatment outcomes and
+              expressly disclaim any liability for complications, losses, or
+              damages arising from such services. Use of our services does not
+              establish a doctor–patient relationship. By using our services,
+              you agree to and accept our Terms & Conditions.
             </p>
           </div>
 
