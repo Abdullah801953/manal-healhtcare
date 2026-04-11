@@ -13,15 +13,9 @@ export function AboutHero() {
           </h1>
 
           <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed">
-            At Manal Healthcare, our team is made up of caring and dedicated
-            people who are here to support you at every step. We work closely
-            with trusted doctors and hospitals across India to help you get the
-            right treatment without confusion or stress. From your first message
-            to your return home, we stay connected and ready to help whenever
-            you need us. Whether it’s explaining your treatment, arranging your
-            travel, or just checking in on you—our team is always there. For us,
-            it’s not just work. We truly care about you and your journey to
-            better health.
+          My journey began with people — their stories, their courage, and their distance from home. I saw patients arrive alone, confused, and overwhelmed. Doctors healed their bodies — but who was taking care of the person?
+That question became Manal Healthcare.
+<b> You are not just a patient to us. You are someone's whole world — and you deserve to be treated that way</b>
           </p>
         </div>
 
