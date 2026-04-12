@@ -6,11 +6,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Upload, ArrowRight } from "lucide-react";
-import { useSettings } from "../contexts/SettingsContext";
+import { toast } from "sonner";
 import Translate from "./Translate";
 
 export const QueryForm = () => {
-  const { settings } = useSettings();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,7 +44,7 @@ export const QueryForm = () => {
         if (uploadData.success) {
           reportUrl = uploadData.url;
         } else {
-          alert('Failed to upload medical report: ' + uploadData.message);
+          toast.error('Failed to upload medical report. Please try again.');
           setIsSubmitting(false);
           return;
         }
@@ -71,21 +70,6 @@ export const QueryForm = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Prepare WhatsApp message
-        const message = `Hello! I'm ${formData.name} from ${formData.country}.
-
-Medical Condition: ${formData.medicalCondition}
-
-${formData.email ? `Email: ${formData.email}` : ''}
-${reportUrl ? `Medical Report: ${window.location.origin}${reportUrl}` : 'No medical report attached'}
-
-I would like to discuss my treatment options.`;
-
-        // Redirect to WhatsApp
-        const phoneNumber = settings?.whatsappNumber?.replace(/\D/g, '') || '918287508755';
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-
         // Reset form
         setFormData({
           name: '',
@@ -101,13 +85,16 @@ I would like to discuss my treatment options.`;
         const fileInput = document.getElementById('query-medical-report') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
 
-        alert('Thank you! Your inquiry has been submitted successfully.');
+        toast.success('Thank you! Your inquiry has been submitted successfully.', {
+          description: 'Our team will contact you .',
+          duration: 5000,
+        });
       } else {
-        alert('Failed to submit inquiry. Please try again.');
+        toast.error('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -131,7 +118,7 @@ I would like to discuss my treatment options.`;
           <Translate>Get Free Consultation</Translate>
         </h3>
         <p className="text-white/90 text-sm text-center mt-1.5">
-          <Translate>Fill out the form and our team will contact you within 24 hours</Translate>
+          <Translate>Our team will contact you</Translate>
         </p>
       </div>
 

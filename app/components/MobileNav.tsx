@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Phone, Mail, Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import { Menu, X, ChevronRight, ChevronDown, ArrowRight, Phone, Mail, Facebook, Instagram, Linkedin, Twitter, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { treatmentsData } from "@/app/treatments/data";
 
 const mobileNavigationLinks = [
   { href: "/", label: "Home" },
@@ -20,12 +19,19 @@ const afterTreatmentsLinks = [
   { href: "/contact", label: "Contact Us" },
 ];
 
+interface MobileCategoryGroup {
+  category: string;
+  treatments: { _id: string; slug: string; title: string }[];
+}
+
 export const MobileNav = () => {
   const [open, setOpen] = useState(false);
   const [treatmentsOpen, setTreatmentsOpen] = useState(false);
+  const [openCategorySlug, setOpenCategorySlug] = useState<string | null>(null);
+  const [categoryGroups, setCategoryGroups] = useState<MobileCategoryGroup[]>([]);
   const [settings, setSettings] = useState<any>(null);
 
-  // Fetch settings from API
+  // Fetch settings and treatments from API
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -39,7 +45,32 @@ export const MobileNav = () => {
       }
     };
 
+    const fetchTreatments = async () => {
+      try {
+        const response = await fetch('/api/treatments');
+        const data = await response.json();
+        if (data.success) {
+          const active = data.data.filter((t: any) => t.status === 'active');
+          const groupMap = new Map<string, MobileCategoryGroup>();
+          active.forEach((t: any) => {
+            if (!groupMap.has(t.category)) {
+              groupMap.set(t.category, { category: t.category, treatments: [] });
+            }
+            groupMap.get(t.category)!.treatments.push({
+              _id: t._id,
+              slug: t.slug,
+              title: t.title,
+            });
+          });
+          setCategoryGroups(Array.from(groupMap.values()));
+        }
+      } catch (error) {
+        console.error('Error fetching treatments:', error);
+      }
+    };
+
     fetchSettings();
+    fetchTreatments();
   }, []);
 
   return (
@@ -163,7 +194,7 @@ export const MobileNav = () => {
             </button>
             
             {treatmentsOpen && (
-              <div className="ml-2 mb-2 flex flex-col bg-gray-50 rounded-lg max-h-[200px] overflow-y-auto">
+              <div className="ml-2 mb-2 flex flex-col bg-gray-50 rounded-lg overflow-hidden">
                 <Link
                   href="/treatments"
                   onClick={() => setOpen(false)}
@@ -172,16 +203,39 @@ export const MobileNav = () => {
                   <span>View All Treatments</span>
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
-                {treatmentsData.slice(0, 10).map((treatment) => (
-                  <Link
-                    key={treatment.id}
-                    href={`/treatments/${treatment.slug || treatment.id}`}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center py-2 text-sm text-gray-700 hover:text-green-600 transition-colors duration-200 px-4 hover:bg-gray-100"
-                  >
-                    <span>{treatment.title}</span>
-                  </Link>
-                ))}
+                {categoryGroups.map((group) => {
+                  const isOpen = openCategorySlug === group.category;
+                  return (
+                    <div key={group.category} className="border-b border-gray-200 last:border-b-0">
+                      <button
+                        onClick={() => setOpenCategorySlug(isOpen ? null : group.category)}
+                        className="flex items-center justify-between w-full py-2.5 px-4 text-sm font-medium text-gray-700 hover:text-green-600 hover:bg-white transition-colors"
+                      >
+                        <span className="text-left leading-snug">{group.category}</span>
+                        {isOpen ? (
+                          <Minus className="w-4 h-4 shrink-0 ml-2 text-green-600" />
+                        ) : (
+                          <Plus className="w-4 h-4 shrink-0 ml-2 text-gray-400" />
+                        )}
+                      </button>
+                      {isOpen && (
+                        <div className="bg-white border-t border-gray-100">
+                          {group.treatments.map((t) => (
+                            <Link
+                              key={t._id}
+                              href={`/treatments/${t.slug}`}
+                              onClick={() => setOpen(false)}
+                              className="flex items-center gap-2 py-2 pl-6 pr-4 text-sm text-gray-600 hover:text-green-600 hover:bg-green-50 transition-colors"
+                            >
+                              <ChevronRight className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                              <span>{t.title}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

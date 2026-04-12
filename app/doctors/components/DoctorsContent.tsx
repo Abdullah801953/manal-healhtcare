@@ -58,7 +58,12 @@ export default function DoctorsContent() {
 
     // Filter by category
     if (selectedCategory !== 'All Doctors') {
-      filtered = filtered.filter((doctor) => doctor.category === selectedCategory);
+      filtered = filtered.filter((doctor) =>
+        doctor.specialization?.some(
+          (s) => s.toLowerCase() === selectedCategory.toLowerCase()
+        ) ||
+        doctor.designation?.toLowerCase().includes(selectedCategory.toLowerCase())
+      );
     }
 
     // Filter by search query
@@ -95,7 +100,7 @@ export default function DoctorsContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Container */}
-      <div className="mx-5 lg:mx-24 py-8">
+      <div className="mx-5 lg:mx-24 py-10">
         {/* Hero Banner */}
         <HeroBanner />
 

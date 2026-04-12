@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Plus, Edit, Trash2, Eye, Star, Loader2 } from "lucide-react";
+import { Search, Plus, Edit, Trash2, Eye, Star, Loader2, Home } from "lucide-react";
 import Link from "next/link";
 
 interface Treatment {
@@ -16,6 +16,7 @@ interface Treatment {
   duration?: string;
   price?: string;
   featured: boolean;
+  showOnHomepage: boolean;
   status: string;
   shortDescription?: string;
 }
@@ -27,6 +28,7 @@ export default function TreatmentsPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [treatmentToDelete, setTreatmentToDelete] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [togglingHomepage, setTogglingHomepage] = useState<string | null>(null);
 
   // Fetch treatments from API
   useEffect(() => {
@@ -57,6 +59,27 @@ export default function TreatmentsPage() {
   const handleDeleteClick = (id: string) => {
     setTreatmentToDelete(id);
     setDeleteDialogOpen(true);
+  };
+
+  const handleToggleHomepage = async (id: string, current: boolean) => {
+    try {
+      setTogglingHomepage(id);
+      const response = await fetch(`/api/treatments/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ showOnHomepage: !current }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setTreatments((prev) =>
+          prev.map((t) => (t._id === id ? { ...t, showOnHomepage: !current } : t))
+        );
+      }
+    } catch (error) {
+      console.error('Error toggling homepage visibility:', error);
+    } finally {
+      setTogglingHomepage(null);
+    }
   };
 
   const handleDeleteConfirm = async () => {
@@ -142,12 +165,32 @@ export default function TreatmentsPage() {
                           {treatment.featured && (
                             <Star className="w-4 h-4 text-yellow-500 fill-current" />
                           )}
+                          {treatment.showOnHomepage && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                              <Home className="w-3 h-3" />
+                              Homepage
+                            </span>
+                          )}
                         </div>
                         <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded">
                           {treatment.category}
                         </span>
                       </div>
                       <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          title={treatment.showOnHomepage ? 'Remove from Homepage' : 'Show on Homepage'}
+                          className={treatment.showOnHomepage ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-green-600'}
+                          onClick={() => handleToggleHomepage(treatment._id, treatment.showOnHomepage)}
+                          disabled={togglingHomepage === treatment._id}
+                        >
+                          {togglingHomepage === treatment._id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Home className="w-4 h-4" />
+                          )}
+                        </Button>
                         <Link href={`/treatments/${treatment.slug}`} target="_blank">
                           <Button variant="ghost" size="icon-sm" title="View">
                             <Eye className="w-4 h-4" />

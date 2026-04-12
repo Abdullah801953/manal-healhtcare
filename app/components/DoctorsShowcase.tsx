@@ -195,6 +195,8 @@ export const DoctorsShowcase = ({
           {loading && (
             <motion.div
               variants={itemVariants}
+              initial="hidden"
+              animate="visible"
               className="flex justify-center items-center py-20"
             >
               <div className="text-center">
@@ -208,6 +210,8 @@ export const DoctorsShowcase = ({
           {error && !loading && (
             <motion.div
               variants={itemVariants}
+              initial="hidden"
+              animate="visible"
               className="text-center py-12"
             >
               <div className="bg-red-50 border border-red-200 rounded-2xl p-6 max-w-md mx-auto">
@@ -224,7 +228,7 @@ export const DoctorsShowcase = ({
 
           {/* Doctors Slider with Navigation */}
           {!loading && !error && filteredDoctors.length > 0 && (
-            <motion.div variants={itemVariants} className="relative">
+            <motion.div variants={itemVariants} initial="hidden" animate="visible" className="relative">
               {/* Scrollable on mobile, slider on desktop */}
               <div className="overflow-x-auto sm:overflow-hidden scrollbar-hide">
                 <div 
@@ -238,7 +242,7 @@ export const DoctorsShowcase = ({
                       key={doctor._id}
                       className="shrink-0 w-70 xs:w-75 sm:w-auto"
                       style={{ 
-                        width: window.innerWidth >= 640 ? `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)` : undefined
+                        width: visibleCards > 1 ? `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)` : undefined
                       }}
                     >
                       <DoctorCard doctor={doctor} index={index} />

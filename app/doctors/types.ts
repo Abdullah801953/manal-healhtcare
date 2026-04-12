@@ -44,14 +44,50 @@ export type DoctorCategory =
   | 'Neurologist'
   | 'Urologist'
   | 'Medical Oncologist'
-  | 'Neurosurgeon';
+  | 'Neurosurgeon'
+  | 'Gynecologist'
+  | 'Oncologist'
+  | 'Gastroenterologist'
+  | 'Pulmonologist'
+  | 'Ophthalmologist'
+  | 'Dermatologist'
+  | 'Pediatrician'
+  | 'Nephrologist'
+  | 'Endocrinologist'
+  | 'Rheumatologist'
+  | 'ENT Specialist'
+  | 'Plastic Surgeon'
+  | 'Spine Surgeon'
+  | 'Vascular Surgeon'
+  | 'Transplant Surgeon'
+  | 'Hematologist'
+  | 'Interventional Cardiologist'
+  | 'Radiologist';
 
 export const DOCTOR_CATEGORIES: DoctorCategory[] = [
   'All Doctors',
   'Orthopedic',
   'Cardiologist',
+  'Interventional Cardiologist',
   'Neurologist',
+  'Neurosurgeon',
   'Urologist',
   'Medical Oncologist',
-  'Neurosurgeon',
+  'Oncologist',
+  'Gynecologist',
+  'Gastroenterologist',
+  'Pulmonologist',
+  'Ophthalmologist',
+  'Dermatologist',
+  'Pediatrician',
+  'Nephrologist',
+  'Endocrinologist',
+  'Rheumatologist',
+  'ENT Specialist',
+  'Plastic Surgeon',
+  'Spine Surgeon',
+  'Vascular Surgeon',
+  'Transplant Surgeon',
+  'Hematologist',
+  'Radiologist',
 ];

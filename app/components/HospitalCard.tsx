@@ -17,21 +17,26 @@ interface HospitalCardProps {
 }
 
 export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
-  const originalImage = hospital.image || '/indra.avif';
-  const [imgSrc, setImgSrc] = useState(originalImage);
-  const [fallbackStage, setFallbackStage] = useState(0);
+  const [imgError, setImgError] = useState(false);
 
   const handleImageError = () => {
-    if (fallbackStage === 0 && hospital.image) {
-      // Try serving via API route
-      setFallbackStage(1);
-      setImgSrc(`/api${hospital.image}`);
-    } else {
-      // Final fallback
-      setFallbackStage(2);
-      setImgSrc('/indra.avif');
-    }
+    setImgError(true);
   };
+
+  // Generate a consistent color from the hospital name
+  const colors = [
+    'from-emerald-500 to-green-600',
+    'from-blue-500 to-cyan-600',
+    'from-purple-500 to-indigo-600',
+    'from-orange-500 to-amber-600',
+    'from-rose-500 to-pink-600',
+    'from-teal-500 to-cyan-500',
+    'from-violet-500 to-purple-600',
+    'from-sky-500 to-blue-600',
+  ];
+  const colorIndex = hospital.name.charCodeAt(0) % colors.length;
+  const gradientClass = colors[colorIndex];
+  const initial = hospital.name.charAt(0).toUpperCase();
 
   const locationText = hospital.location || [hospital.city, hospital.country].filter(Boolean).join(', ');
   const descriptionText = Array.isArray(hospital.description) 
@@ -45,14 +50,21 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
     >
       {/* Image */}
       <div className="relative h-56 w-full overflow-hidden">
-        <Image
-          src={imgSrc}
-          alt={hospital.name}
-          fill
-          unoptimized
-          className="object-cover"
-          onError={handleImageError}
-        />
+        {hospital.image && !imgError ? (
+          <Image
+            src={hospital.image}
+            alt={hospital.name}
+            fill
+            unoptimized
+            className="object-cover"
+            onError={handleImageError}
+          />
+        ) : (
+          <div className={`w-full h-full bg-linear-to-br ${gradientClass} flex flex-col items-center justify-center gap-2`}>
+            <span className="text-white text-6xl font-bold opacity-80">{initial}</span>
+            <span className="text-white/70 text-sm font-medium text-center px-4 line-clamp-2">{hospital.name}</span>
+          </div>
+        )}
       </div>
 
       {/* Content */}

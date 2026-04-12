@@ -27,7 +27,7 @@ export function BlogNavigating({ blog }: { blog: Blog }) {
       </h1>
 
       {/* First Content Paragraph */}
-      <p className="text-gray-700 leading-relaxed text-justify text-sm xs:text-base">
+      <p className="text-gray-700 leading-relaxed text-justify text-lg l">
         {blog.content}
       </p>
 
@@ -49,7 +49,7 @@ export function BlogNavigating({ blog }: { blog: Blog }) {
 
       {/* Second Content Paragraph */}
       {blog.content2 && (
-        <p className="text-gray-700 leading-relaxed text-justify text-sm xs:text-base">
+        <p className="text-gray-700 leading-relaxed text-justify text-lg">
           {blog.content2}
         </p>
       )}

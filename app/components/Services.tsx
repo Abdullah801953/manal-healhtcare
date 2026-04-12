@@ -23,6 +23,7 @@ export interface Treatment {
   shortDescription: string;
   image?: string;
   status: string;
+  showOnHomepage: boolean;
 }
 
 // Service card data type
@@ -83,20 +84,21 @@ export const Services = ({
         
         if (result.success && result.data) {
           const activeTreatments = result.data.filter((t: Treatment) => t.status === 'active');
-             
           setTotalTreatments(activeTreatments.length);
-          
-          // Convert treatments to service cards
-          const serviceCards: ServiceCard[] = activeTreatments
+
+          const homepageTreatments = activeTreatments.filter((t: Treatment) => t.showOnHomepage === true);
+          // If admin has selected specific ones, show only those; otherwise show all active
+          const sourceList = homepageTreatments.length > 0 ? homepageTreatments : activeTreatments;
+
+          const serviceCards: ServiceCard[] = sourceList
           .map((treatment: Treatment) => ({
-            
             id: treatment._id,
             icon: treatmentIcons[treatment.category] || Activity,
             title: treatment.title,
             description: treatment.shortDescription || treatment.description.slice(0, 150) + '...',
             link: `/treatments/${treatment.slug}`,
           }));
-          
+
           setServices(serviceCards);
         }
       } catch (err) {
@@ -216,10 +218,10 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
       className="h-full"
     >
 <Card className="h-full bg-[#eef3f7] border-none rounded-xl p-4 sm:p-5 hover:shadow-md transition-all duration-300">
-  <div className="flex items-start justify-between gap-4">
+  <div className="flex items-center justify-between gap-3">
     
     {/* Left Side Content */}
-    <div className="flex items-start gap-4">
+    <div className="flex items-center gap-3 min-w-0">
       
       {/* Icon */}
       <div style={{width: '48px', height: '48px', minWidth: '48px', minHeight: '48px'}} className="flex items-center justify-center rounded-full bg-gray-200 shrink-0 overflow-hidden">
@@ -227,18 +229,17 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
       </div>
 
       {/* Text */}
-      <div>
-        <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+      <div className="min-w-0">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 leading-snug">
           {service.title}
         </h3>
-      
       </div>
     </div>
 
     {/* Right Side Plus Button */}
-    <Link href={service.link}>
-      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 transition">
-        <Plus className="w-3 h-3 text-white" />
+    <Link href={service.link} className="shrink-0">
+      <div className="w-7 h-7 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 transition">
+        <Plus className="w-3.5 h-3.5 text-white" />
       </div>
     </Link>
 

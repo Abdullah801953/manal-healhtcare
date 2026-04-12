@@ -6,6 +6,7 @@ import { ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import Link from "next/link";
 
 interface NewsletterSectionProps {
   doctorName?: string;
@@ -101,19 +102,14 @@ export function NewsletterSection({
                 <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white mb-2 xs:mb-3 sm:mb-4 lg:mb-6">
                   {doctorHeading}
                 </h3>
+                <Link href="/contact">
                 <Button
                   variant="secondary"
-                  onClick={() => {
-                    const queryForm = document.getElementById('query-form');
-                    if (queryForm) {
-                      queryForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                  }}
-                  className="bg-white hover:bg-gray-100 text-gray-900 rounded-full px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 md:py-3.5 text-xs xs:text-sm sm:text-base font-semibold h-auto shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-1.5 xs:gap-2 cursor-pointer"
-                >
+                  className="bg-white hover:bg-gray-100 text-gray-900 rounded-full px-4 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-3 md:py-3.5 text-xs xs:text-sm sm:text-base font-semibold h-auto shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-1.5 xs:gap-2 cursor-pointer">
                   {ctaButtonText}
                   <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
+                </Link>
               </div>
             </div>
           </motion.div>

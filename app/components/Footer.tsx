@@ -204,8 +204,8 @@ const Footer = () => {
       <div className="bg-gray-200 border-t border-gray-300">
         <div className="mx-5 lg:mx-24 py-4">
           <p className="text-center text-sm text-gray-700">
-            Copyright © <span className="font-semibold">FAAB</span> | Designed &
-            Powered by <span className="font-semibold">FAAB</span>
+            Copyright © <span className="font-semibold"><a href="https://www.faab.com" target="_blank" rel="noopener noreferrer">FAAB</a></span> | Designed &
+            Powered by <span className="font-semibold"><a href="https://www.faab.com" target="_blank" rel="noopener noreferrer">FAAB</a></span>
           </p>
         </div>
       </div>

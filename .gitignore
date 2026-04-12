@@ -40,6 +40,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# uploaded images
+# uploaded images — ignore files but keep folder structure
 /public/uploads/treatments/*
 !/public/uploads/treatments/.gitkeep
+/public/uploads/hospitals/*
+!/public/uploads/hospitals/.gitkeep
+/public/uploads/doctors/*
+!/public/uploads/doctors/.gitkeep
+/public/uploads/blogs/*
+!/public/uploads/blogs/.gitkeep
+/public/uploads/medical-reports/*
+!/public/uploads/medical-reports/.gitkeep
+/public/uploads/achievements/*
+!/public/uploads/achievements/.gitkeep

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useSettings } from "@/app/contexts/SettingsContext";
 import Translate from "./Translate";
+import { toast } from "sonner";
 
 export const HeroQueryForm = () => {
   const { settings } = useSettings();
@@ -97,11 +98,14 @@ I would like to discuss my treatment options.`;
           medicalReport: null,
         });
 
-        alert("Inquiry submitted successfully!");
+        toast.success('Inquiry submitted successfully!', {
+          description: 'Our team will contact you .',
+          duration: 5000,
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -116,7 +120,7 @@ I would like to discuss my treatment options.`;
           <Translate>Get Free Consultation</Translate>
         </h3>
         <p className="text-white/90 text-sm text-center mt-1.5">
-          <Translate>Our team will contact you within 24 hours</Translate>
+          <Translate>Our team will contact you .</Translate>
         </p>
       </div>
 
