@@ -5,6 +5,38 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Loader2 } from "lucide-react";
 
+function RelatedCard({ item }: { item: any }) {
+  const [imgError, setImgError] = useState(false);
+  const src = imgError || !item.image ? '/blog-hero.jpg' : item.image;
+
+  return (
+    <Link
+      href={`/blogs/${item.slug}`}
+      className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+    >
+      <div className="relative h-48 bg-gray-100 overflow-hidden">
+        <Image
+          src={src}
+          alt={item.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={() => setImgError(true)}
+          unoptimized
+        />
+      </div>
+      <div className="p-6">
+        <h4 className="text-base font-bold mb-2 text-gray-900 group-hover:text-[#209F00] transition-colors line-clamp-2">
+          {item.title}
+        </h4>
+        <p className="text-gray-600 text-xs leading-relaxed line-clamp-2">
+          {item.excerpt}
+        </p>
+      </div>
+    </Link>
+  );
+}
+
 const RelatedArticles = ({ currentId }: { currentId: string }) => {
   const [related, setRelated] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,31 +94,7 @@ const RelatedArticles = ({ currentId }: { currentId: string }) => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
         {related.map((item) => (
-          <Link
-            key={item._id}
-            href={`/blogs/${item.slug}`}
-            className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
-          >
-            {/* Image */}
-            <div className="relative h-48 overflow-hidden">
-              <Image
-                src={item.image || '/blog-hero.jpg'}
-                alt={item.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            
-            {/* Content */}
-            <div className="p-6">
-              <h4 className="text-base font-bold mb-2 text-gray-900 group-hover:text-[#209F00] transition-colors line-clamp-2">
-                {item.title}
-              </h4>
-              <p className="text-gray-600 text-xs leading-relaxed line-clamp-2">
-                {item.excerpt}
-              </p>
-            </div>
-          </Link>
+          <RelatedCard key={item._id} item={item} />
         ))}
       </div>
     </section>

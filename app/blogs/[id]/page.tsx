@@ -72,16 +72,16 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         />
         
         <div className="mt-6 xs:mt-7 sm:mt-8 lg:mt-10">
-          <BlogNavigating blog={{
-            ...blog,
-            id: blog._id,
-            image: blog.image || '/blog-hero.jpg',
-          }} />
-        </div>
-        
-        <RelatedArticles currentId={blog._id} />
-        
-        <BlogListCTA />
+            <BlogNavigating blog={{
+              ...blog,
+              id: blog._id,
+              image: blog.image || '/blog-hero.jpg',
+            }} />
+          </div>
+          
+          <RelatedArticles currentId={blog._id} />
+          
+          <BlogListCTA />
        
       </div>
     </div>

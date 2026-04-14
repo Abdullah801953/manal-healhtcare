@@ -21,13 +21,13 @@ export function BlogCardItem({ blog }: BlogCardProps) {
       className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
     >
       {/* Image */}
-      <div className="relative h-56 overflow-hidden bg-gray-200">
+      <div className="relative h-56 overflow-hidden bg-gray-100">
         <Image
           src={imageUrl}
           alt={blog.title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          className="object-contain group-hover:scale-105 transition-transform duration-500"
           onError={() => setImageError(true)}
           unoptimized
         />
