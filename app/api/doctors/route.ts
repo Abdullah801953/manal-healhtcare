@@ -61,19 +61,33 @@ export async function POST(request: Request) {
 
   // Retry up to 3 times on timeout errors
   const MAX_RETRIES = 3;
+  let slug = body.slug || '';
+
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       await connectDB();
 
-      // Generate slug if not provided
-      if (!body.slug) {
-        body.slug = generateSlug(body.name);
-        let slugExists = await Doctor.findOne({ slug: body.slug });
+      // Generate slug once (not on every retry)
+      if (!slug) {
+        slug = generateSlug(body.name);
+        let slugExists = await Doctor.findOne({ slug });
         let counter = 1;
         while (slugExists) {
-          body.slug = `${generateSlug(body.name)}-${counter}`;
-          slugExists = await Doctor.findOne({ slug: body.slug });
+          slug = `${generateSlug(body.name)}-${counter}`;
+          slugExists = await Doctor.findOne({ slug });
           counter++;
+        }
+        body.slug = slug;
+      }
+
+      // On retry, check if previous attempt actually saved the doctor
+      if (attempt > 1) {
+        const existing = await Doctor.findOne({ slug });
+        if (existing) {
+          return NextResponse.json(
+            { success: true, message: 'Doctor created successfully', data: existing },
+            { status: 201 }
+          );
         }
       }
 

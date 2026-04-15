@@ -38,7 +38,7 @@ async function connectDB() {
       bufferCommands: false,
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 5000,
-      socketTimeoutMS: 10000,
+      socketTimeoutMS: 30000,
       heartbeatFrequencyMS: 10000,
       autoIndex: false,
       readPreference: 'nearest' as const,
