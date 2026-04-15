@@ -62,4 +62,14 @@ async function connectDB() {
   return cached.conn;
 }
 
+/**
+ * Reset the cached MongoDB connection. Call this after a timeout error
+ * to force a fresh connection on the next request.
+ */
+function resetConnection() {
+  cached.conn = null;
+  cached.promise = null;
+}
+
 export default connectDB;
+export { resetConnection };
