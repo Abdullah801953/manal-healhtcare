@@ -106,11 +106,6 @@ const DoctorSchema = new Schema<IDoctor>({
   timestamps: true
 });
 
-// Delete cached model in development to pick up schema changes
-if (mongoose.models.Doctor) {
-  delete mongoose.models.Doctor;
-}
-
-const Doctor: Model<IDoctor> = mongoose.model<IDoctor>('Doctor', DoctorSchema);
+const Doctor: Model<IDoctor> = mongoose.models.Doctor || mongoose.model<IDoctor>('Doctor', DoctorSchema);
 
 export default Doctor;

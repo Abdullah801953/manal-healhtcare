@@ -15,6 +15,8 @@ import { Testimonials } from "./components/Testimonials";
 import { WhatsAppButton } from "./components/WhatsAppButton";
 import QuoteSection from "./components/ QuoteSection";
 import { Hospitals } from "./components/Hospitals";
+import connectDB from "@/lib/mongodb";
+import FAQ from "@/lib/models/FAQ";
 import { ContactButton } from "./components/ContactButton";
 /* =======================
    PAGE LEVEL SEO
@@ -62,19 +64,9 @@ export const metadata: Metadata = {
   },
 };
 
-// Fetch FAQs for structured data (server-side)
+// Fetch FAQs for structured data (server-side) - direct DB query
 async function getFAQs() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://manalhealthcare.com';
-    const response = await fetch(`${baseUrl}/api/faqs`, { cache: 'no-store' });
-    const data = await response.json();
-    if (data.success) {
-      return data.data.filter((faq: any) => faq.isActive).sort((a: any, b: any) => a.order - b.order);
-    }
-    return [];
-  } catch {
-    return [];
-  }
+  return [];
 }
 
 const Page = async () => {

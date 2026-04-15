@@ -73,11 +73,30 @@ export const DoctorsShowcase = ({
 
   // Fetch doctors from API
   useEffect(() => {
+    const controller = new AbortController();
+    let cancelled = false;
+
     const fetchDoctors = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/doctors');
-        const result = await response.json();
+        
+        const response = await fetch('/api/doctors', { signal: controller.signal });
+        
+        if (cancelled) return;
+        
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+        
+        const text = await response.text();
+        if (cancelled) return;
+        
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch {
+          throw new Error('Invalid JSON response from API');
+        }
         
         if (result.success && result.data) {
           const activeDoctors = result.data.filter((doc: Doctor) => doc.status === 'active');
@@ -102,15 +121,21 @@ export const DoctorsShowcase = ({
         } else {
           setError('Failed to fetch doctors');
         }
-      } catch (err) {
+      } catch (err: any) {
+        if (cancelled || err.name === 'AbortError') return;
         console.error('Error fetching doctors:', err);
         setError('Failed to load doctors');
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchDoctors();
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
   }, []);
 
   // Filter doctors based on selected category

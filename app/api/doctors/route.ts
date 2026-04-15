@@ -22,13 +22,16 @@ export async function GET(request: Request) {
       query.hospital = { $regex: hospital, $options: 'i' };
     }
 
-    const doctors = await Doctor.find(query).sort({ createdAt: -1 });
+    const doctors = await Doctor.find(query)
+      .sort({ createdAt: -1 })
+      .lean();
     
     return NextResponse.json({
       success: true,
       data: doctors
     });
   } catch (error: any) {
+    console.error('GET /api/doctors error:', error.message);
     return NextResponse.json(
       {
         success: false,
