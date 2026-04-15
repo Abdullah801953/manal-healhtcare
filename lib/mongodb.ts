@@ -23,16 +23,23 @@ async function connectDB() {
 
   const MONGODB_URI: string = process.env.MONGODB_URI;
 
+  // If we have a cached connection, verify it's still alive
   if (cached.conn) {
-    return cached.conn;
+    if (cached.conn.connection.readyState === 1) {
+      return cached.conn;
+    }
+    // Connection is not ready, reset cache
+    cached.conn = null;
+    cached.promise = null;
   }
 
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 10000,
-      connectTimeoutMS: 10000,
-      socketTimeoutMS: 20000,
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
+      socketTimeoutMS: 10000,
+      heartbeatFrequencyMS: 10000,
       autoIndex: false,
       readPreference: 'nearest' as const,
       retryReads: true,
