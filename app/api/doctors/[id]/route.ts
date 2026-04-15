@@ -114,5 +114,6 @@ export async function DELETE(
         { success: false, message: 'Failed to delete doctor', error: error.message },
         { status: 500 }
       );
+    }
   }
 }
