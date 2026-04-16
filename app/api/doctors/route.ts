@@ -28,10 +28,10 @@ export async function GET(request: Request) {
         .sort({ createdAt: -1 })
         .lean();
       
-      // Add default placeholder image for list view
+      // Use image API endpoint instead of embedding base64
       const cleaned = doctors.map((doc: any) => ({
         ...doc,
-        image: '/doctor-img 1.png',
+        image: `/api/doctors/${doc._id}/image`,
       }));
       
       return NextResponse.json({ success: true, data: cleaned });

@@ -94,10 +94,10 @@ async function getDoctors() {
       .select('name slug designation hospital experienceYears specialization status')
       .sort({ createdAt: -1 })
       .lean();
-    // Add default image since DB images are base64 (too large for SSR)
+    // Use image API endpoint instead of embedding base64 in HTML
     const cleaned = doctors.map((doc: any) => ({
       ...doc,
-      image: '/doctor-img 1.png',
+      image: `/api/doctors/${doc._id}/image`,
     }));
     return JSON.parse(JSON.stringify(cleaned));
   } catch (error) {
