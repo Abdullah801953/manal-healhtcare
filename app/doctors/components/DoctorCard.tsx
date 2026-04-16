@@ -13,9 +13,10 @@ interface DoctorCardProps {
 
 export function DoctorCard({ doctor }: DoctorCardProps) {
   const [imgSrc, setImgSrc] = useState(doctor.image || '/doctor.png');
-  const shortOverview = doctor.overview.length > 120 
-    ? doctor.overview.slice(0, 120) + '...' 
-    : doctor.overview;
+  const overview = doctor.overview || '';
+  const shortOverview = overview.length > 120 
+    ? overview.slice(0, 120) + '...' 
+    : overview;
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100 flex flex-col h-full">
