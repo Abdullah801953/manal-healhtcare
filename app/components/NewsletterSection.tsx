@@ -85,7 +85,6 @@ export function NewsletterSection({
                 alt={doctorName}
                 width={600}
                 height={600}
-                unoptimized
                 style={{ width: '100%', height: 'auto' }}
                 className="h-70 xs:h-80 sm:h-95 md:h-105 lg:h-125 object-cover"
               />

@@ -17,9 +17,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import herobg from "@/public/herobg.png";
 
-import { treatmentsData } from "../treatments/data"
-import { doctorsData } from "@/app/doctors/data";
-import { hospitalsData } from "@/app/hospitals/data";
 import Translate from "./Translate";
 import { toast } from "sonner";
 

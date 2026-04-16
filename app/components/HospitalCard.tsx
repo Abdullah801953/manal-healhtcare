@@ -55,7 +55,6 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
             src={hospital.image}
             alt={hospital.name}
             fill
-            unoptimized
             className="object-cover"
             onError={handleImageError}
           />

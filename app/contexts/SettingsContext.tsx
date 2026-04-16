@@ -80,28 +80,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   const fetchSettings = async () => {
     try {
-      console.log('Fetching settings from API...');
-      const response = await fetch(`/api/settings?t=${Date.now()}`, {
-        cache: 'no-store',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('API Response status:', response.status);
+      const response = await fetch('/api/settings', {
+        next: { revalidate: 300 },
+      } as any);
       const data = await response.json();
-      console.log('API Response data:', data);
 
       if (data.success && data.data) {
-        console.log('Setting settings to:', data.data);
-        console.log('Social links:', {
-          facebook: data.data.facebook,
-          twitter: data.data.twitter,
-          instagram: data.data.instagram,
-          linkedin: data.data.linkedin,
-        });
         setSettings(data.data);
       } else {
-        console.error('API returned success: false or no data');
         setSettings(defaultSettings);
       }
     } catch (error) {

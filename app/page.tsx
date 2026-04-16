@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import { Hero } from "./components/Hero";
-import { InfoCards } from "./components/InfoCards";
 import { Services } from "./components/Services";
-import { AboutSection } from "./components/AboutSection";
-import { ServicesMarquee } from "./components/ServicesMarquee";
-import { LabTestBooking } from "./components/LabTestBooking";
 import { DoctorsShowcase } from "./components/DoctorsShowcase";
-import { NewsletterSection } from "./components/NewsletterSection";
-import { BlogSection } from "./components/BlogSection";
-import { FAQSection } from "./components/FAQSection";
-import { OurServices } from "./components/OurServices";
-import { Testimonials } from "./components/Testimonials";
-import { WhatsAppButton } from "./components/WhatsAppButton";
-import QuoteSection from "./components/ QuoteSection";
 import { Hospitals } from "./components/Hospitals";
+
+// Lazy load below-the-fold components
+const AboutSection = dynamic(() => import("./components/AboutSection").then(m => ({ default: m.AboutSection })));
+const ServicesMarquee = dynamic(() => import("./components/ServicesMarquee").then(m => ({ default: m.ServicesMarquee })));
+const OurServices = dynamic(() => import("./components/OurServices").then(m => ({ default: m.OurServices })));
+const Testimonials = dynamic(() => import("./components/Testimonials").then(m => ({ default: m.Testimonials })));
+const NewsletterSection = dynamic(() => import("./components/NewsletterSection").then(m => ({ default: m.NewsletterSection })));
+const BlogSection = dynamic(() => import("./components/BlogSection").then(m => ({ default: m.BlogSection })));
+const FAQSection = dynamic(() => import("./components/FAQSection").then(m => ({ default: m.FAQSection })));
+const QuoteSection = dynamic(() => import("./components/ QuoteSection"));
+const WhatsAppButton = dynamic(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
+const ContactButton = dynamic(() => import("./components/ContactButton").then(m => ({ default: m.ContactButton })));
+
 import connectDB from "@/lib/mongodb";
 import FAQ from "@/lib/models/FAQ";
 import Doctor from "@/lib/models/Doctor";
@@ -22,7 +25,9 @@ import Treatment from "@/lib/models/Treatment";
 import Hospital from "@/lib/models/Hospital";
 import Testimonial from "@/lib/models/Testimonial";
 import Blog from "@/lib/models/Blog";
-import { ContactButton } from "./components/ContactButton";
+
+// Revalidate homepage data every 60 seconds (ISR)
+export const revalidate = 60;
 /* =======================
    PAGE LEVEL SEO
 ======================= */
@@ -72,7 +77,6 @@ export const metadata: Metadata = {
 // Fetch FAQs server-side
 async function getFAQs() {
   try {
-    await connectDB();
     const faqs = await FAQ.find({ isActive: true })
       .sort({ order: 1 })
       .lean();
@@ -86,11 +90,9 @@ async function getFAQs() {
 // Fetch doctors server-side for instant rendering
 async function getDoctors() {
   try {
-    await connectDB();
     const doctors = await Doctor.find({ status: 'active' })
       .sort({ createdAt: -1 })
       .lean();
-    // Serialize MongoDB documents to plain objects
     return JSON.parse(JSON.stringify(doctors));
   } catch (error) {
     console.error('Failed to fetch doctors server-side:', error);
@@ -101,7 +103,6 @@ async function getDoctors() {
 // Fetch treatments server-side for instant rendering
 async function getTreatments() {
   try {
-    await connectDB();
     const treatments = await Treatment.find({ status: 'active' })
       .sort({ createdAt: -1 })
       .lean();
@@ -115,7 +116,6 @@ async function getTreatments() {
 // Fetch hospitals server-side for instant rendering
 async function getHospitals() {
   try {
-    await connectDB();
     const hospitals = await Hospital.find({ status: 'active' })
       .sort({ createdAt: -1 })
       .lean();
@@ -129,7 +129,6 @@ async function getHospitals() {
 // Fetch testimonials server-side for instant rendering
 async function getTestimonials() {
   try {
-    await connectDB();
     const testimonials = await Testimonial.find({ status: 'approved' })
       .sort({ createdAt: -1 })
       .lean();
@@ -143,7 +142,6 @@ async function getTestimonials() {
 // Fetch blogs server-side for instant rendering
 async function getBlogs() {
   try {
-    await connectDB();
     const blogs = await Blog.find({ status: 'published' })
       .sort({ date: -1, createdAt: -1 })
       .limit(3)
@@ -258,10 +256,10 @@ const Page = async () => {
     ]
   };
 
-  // Fetch FAQs server-side for structured data
-  const faqs = await getFAQs();
-  // Fetch all data server-side for instant rendering
-  const [doctors, treatments, hospitals, testimonials, blogs] = await Promise.all([
+  // Connect to DB once, then fetch all data in parallel
+  await connectDB();
+  const [faqs, doctors, treatments, hospitals, testimonials, blogs] = await Promise.all([
+    getFAQs(),
     getDoctors(),
     getTreatments(),
     getHospitals(),
