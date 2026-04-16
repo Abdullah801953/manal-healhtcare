@@ -257,15 +257,20 @@ const Page = async () => {
   };
 
   // Connect to DB once, then fetch all data in parallel
-  await connectDB();
-  const [faqs, doctors, treatments, hospitals, testimonials, blogs] = await Promise.all([
-    getFAQs(),
-    getDoctors(),
-    getTreatments(),
-    getHospitals(),
-    getTestimonials(),
-    getBlogs(),
-  ]);
+  let faqs: any[] = [], doctors: any[] = [], treatments: any[] = [], hospitals: any[] = [], testimonials: any[] = [], blogs: any[] = [];
+  try {
+    await connectDB();
+    [faqs, doctors, treatments, hospitals, testimonials, blogs] = await Promise.all([
+      getFAQs(),
+      getDoctors(),
+      getTreatments(),
+      getHospitals(),
+      getTestimonials(),
+      getBlogs(),
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch homepage data (DB may be unreachable during build):', error);
+  }
   const faqData = faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
