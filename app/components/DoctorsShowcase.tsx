@@ -34,17 +34,20 @@ export interface Category {
 interface DoctorsShowcaseProps {
   badge?: string;
   heading?: string;
+  initialDoctors?: Doctor[];
 }
 
 export const DoctorsShowcase = ({
   badge = "Top Doctors",
   heading = "Highly Skilled Doctors, Committed to Excellence",
+  initialDoctors,
 }: DoctorsShowcaseProps) => {
+  const hasInitialData = initialDoctors && initialDoctors.length > 0;
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [startIndex, setStartIndex] = useState(0);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [doctors, setDoctors] = useState<Doctor[]>(hasInitialData ? initialDoctors : []);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!hasInitialData);
   const [error, setError] = useState<string | null>(null);
   const [visibleCards, setVisibleCards] = useState(4);
 
@@ -71,8 +74,28 @@ export const DoctorsShowcase = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Fetch doctors from API
+  // Extract categories from doctors
   useEffect(() => {
+    if (doctors.length > 0) {
+      const specializations = new Set<string>();
+      doctors.forEach((doc: Doctor) => {
+        if (doc.specialization && doc.specialization.length > 0) {
+          doc.specialization.forEach(spec => specializations.add(spec));
+        }
+      });
+      const categoryList = Array.from(specializations).map((spec, index) => ({
+        id: index + 1,
+        name: spec,
+        slug: spec.toLowerCase().replace(/\s+/g, '-')
+      }));
+      setCategories(categoryList.slice(0, 5));
+    }
+  }, [doctors]);
+
+  // Fetch doctors from API only if no initial data provided
+  useEffect(() => {
+    if (hasInitialData) return;
+
     const controller = new AbortController();
     let cancelled = false;
 
@@ -101,22 +124,6 @@ export const DoctorsShowcase = ({
         if (result.success && result.data) {
           const activeDoctors = result.data.filter((doc: Doctor) => doc.status === 'active');
           setDoctors(activeDoctors);
-          
-          // Extract unique specializations for categories
-          const specializations = new Set<string>();
-          activeDoctors.forEach((doc: Doctor) => {
-            if (doc.specialization && doc.specialization.length > 0) {
-              doc.specialization.forEach(spec => specializations.add(spec));
-            }
-          });
-          
-          const categoryList = Array.from(specializations).map((spec, index) => ({
-            id: index + 1,
-            name: spec,
-            slug: spec.toLowerCase().replace(/\s+/g, '-')
-          }));
-          
-          setCategories(categoryList.slice(0, 5));
           setError(null);
         } else {
           setError('Failed to fetch doctors');
@@ -136,7 +143,7 @@ export const DoctorsShowcase = ({
       cancelled = true;
       controller.abort();
     };
-  }, []);
+  }, [hasInitialData]);
 
   // Filter doctors based on selected category
   const filteredDoctors =

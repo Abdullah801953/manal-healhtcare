@@ -17,6 +17,7 @@ import QuoteSection from "./components/ QuoteSection";
 import { Hospitals } from "./components/Hospitals";
 import connectDB from "@/lib/mongodb";
 import FAQ from "@/lib/models/FAQ";
+import Doctor from "@/lib/models/Doctor";
 import { ContactButton } from "./components/ContactButton";
 /* =======================
    PAGE LEVEL SEO
@@ -67,6 +68,21 @@ export const metadata: Metadata = {
 // Fetch FAQs for structured data (server-side) - direct DB query
 async function getFAQs() {
   return [];
+}
+
+// Fetch doctors server-side for instant rendering
+async function getDoctors() {
+  try {
+    await connectDB();
+    const doctors = await Doctor.find({ status: 'active' })
+      .sort({ createdAt: -1 })
+      .lean();
+    // Serialize MongoDB documents to plain objects
+    return JSON.parse(JSON.stringify(doctors));
+  } catch (error) {
+    console.error('Failed to fetch doctors server-side:', error);
+    return [];
+  }
 }
 
 const Page = async () => {
@@ -174,6 +190,8 @@ const Page = async () => {
 
   // Fetch FAQs server-side for structured data
   const faqs = await getFAQs();
+  // Fetch doctors server-side for instant rendering
+  const doctors = await getDoctors();
   const faqData = faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -229,7 +247,7 @@ const Page = async () => {
        
          <Services />
         <QuoteSection/>
-        <DoctorsShowcase />
+        <DoctorsShowcase initialDoctors={doctors} />
         <Hospitals />
         <AboutSection />
         <OurServices />
