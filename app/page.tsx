@@ -19,6 +19,9 @@ import connectDB from "@/lib/mongodb";
 import FAQ from "@/lib/models/FAQ";
 import Doctor from "@/lib/models/Doctor";
 import Treatment from "@/lib/models/Treatment";
+import Hospital from "@/lib/models/Hospital";
+import Testimonial from "@/lib/models/Testimonial";
+import Blog from "@/lib/models/Blog";
 import { ContactButton } from "./components/ContactButton";
 /* =======================
    PAGE LEVEL SEO
@@ -66,9 +69,18 @@ export const metadata: Metadata = {
   },
 };
 
-// Fetch FAQs for structured data (server-side) - direct DB query
+// Fetch FAQs server-side
 async function getFAQs() {
-  return [];
+  try {
+    await connectDB();
+    const faqs = await FAQ.find({ isActive: true })
+      .sort({ order: 1 })
+      .lean();
+    return JSON.parse(JSON.stringify(faqs));
+  } catch (error) {
+    console.error('Failed to fetch FAQs server-side:', error);
+    return [];
+  }
 }
 
 // Fetch doctors server-side for instant rendering
@@ -96,6 +108,49 @@ async function getTreatments() {
     return JSON.parse(JSON.stringify(treatments));
   } catch (error) {
     console.error('Failed to fetch treatments server-side:', error);
+    return [];
+  }
+}
+
+// Fetch hospitals server-side for instant rendering
+async function getHospitals() {
+  try {
+    await connectDB();
+    const hospitals = await Hospital.find({ status: 'active' })
+      .sort({ createdAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(hospitals));
+  } catch (error) {
+    console.error('Failed to fetch hospitals server-side:', error);
+    return [];
+  }
+}
+
+// Fetch testimonials server-side for instant rendering
+async function getTestimonials() {
+  try {
+    await connectDB();
+    const testimonials = await Testimonial.find({ status: 'approved' })
+      .sort({ createdAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(testimonials));
+  } catch (error) {
+    console.error('Failed to fetch testimonials server-side:', error);
+    return [];
+  }
+}
+
+// Fetch blogs server-side for instant rendering
+async function getBlogs() {
+  try {
+    await connectDB();
+    const blogs = await Blog.find({ status: 'published' })
+      .sort({ date: -1, createdAt: -1 })
+      .limit(3)
+      .lean();
+    return JSON.parse(JSON.stringify(blogs));
+  } catch (error) {
+    console.error('Failed to fetch blogs server-side:', error);
     return [];
   }
 }
@@ -205,9 +260,14 @@ const Page = async () => {
 
   // Fetch FAQs server-side for structured data
   const faqs = await getFAQs();
-  // Fetch doctors and treatments server-side for instant rendering
-  const doctors = await getDoctors();
-  const treatments = await getTreatments();
+  // Fetch all data server-side for instant rendering
+  const [doctors, treatments, hospitals, testimonials, blogs] = await Promise.all([
+    getDoctors(),
+    getTreatments(),
+    getHospitals(),
+    getTestimonials(),
+    getBlogs(),
+  ]);
   const faqData = faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -264,16 +324,16 @@ const Page = async () => {
          <Services initialTreatments={treatments} />
         <QuoteSection/>
         <DoctorsShowcase initialDoctors={doctors} />
-        <Hospitals />
+        <Hospitals initialHospitals={hospitals} />
         <AboutSection />
         <OurServices />
         <ServicesMarquee />
-      <Testimonials/>
+      <Testimonials initialTestimonials={testimonials} />
         {/* <LabTestBooking /> */}
         <NewsletterSection />
-        <BlogSection />
+        <BlogSection initialBlogs={blogs} />
          {/* <InfoCards /> */}
-        <FAQSection />
+        <FAQSection initialFaqs={faqs} />
   
       </main>
 

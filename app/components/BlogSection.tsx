@@ -26,6 +26,7 @@ interface BlogSectionProps {
   badge?: string;
   heading?: string;
   viewAllText?: string;
+  initialBlogs?: Blog[];
 }
 
 // Format date helper
@@ -107,12 +108,16 @@ export function BlogSection({
   badge = "Latest News & Articles",
   heading = "Trending Topics in Medicine and Wellness",
   viewAllText = "View All Blogs",
+  initialBlogs,
 }: BlogSectionProps) {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
+  const hasInitialData = initialBlogs && initialBlogs.length > 0;
+  const [blogs, setBlogs] = useState<Blog[]>(hasInitialData ? initialBlogs : []);
+  const [loading, setLoading] = useState(!hasInitialData);
 
-  // Fetch blogs from API
+  // Fetch blogs from API only if no initial data
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchBlogs = async () => {
       try {
         setLoading(true);
@@ -120,7 +125,6 @@ export function BlogSection({
         const result = await response.json();
         
         if (result.success && result.data) {
-          // Get first 3 published blogs
           setBlogs(result.data.slice(0, 3));
         }
       } catch (err) {
@@ -131,7 +135,7 @@ export function BlogSection({
     };
 
     fetchBlogs();
-  }, []);
+  }, [hasInitialData]);
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">

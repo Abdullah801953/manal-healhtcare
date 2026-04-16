@@ -25,17 +25,22 @@ interface HospitalsProps {
   heading?: string;
   subheading?: string;
   showViewAll?: boolean;
+  initialHospitals?: Hospital[];
 }
 
 export const Hospitals = ({
   heading = "Top Hospitals in India",
   subheading = "World-Class Infrastructure & Expert Medical Care",
   showViewAll = true,
+  initialHospitals,
 }: HospitalsProps) => {
-  const [hospitals, setHospitals] = useState<Hospital[]>([]);
-  const [loading, setLoading] = useState(true);
+  const hasInitialData = initialHospitals && initialHospitals.length > 0;
+  const [hospitals, setHospitals] = useState<Hospital[]>(hasInitialData ? initialHospitals : []);
+  const [loading, setLoading] = useState(!hasInitialData);
 
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchHospitals = async () => {
       try {
         setLoading(true);
@@ -57,7 +62,7 @@ export const Hospitals = ({
     };
 
     fetchHospitals();
-  }, []);
+  }, [hasInitialData]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },

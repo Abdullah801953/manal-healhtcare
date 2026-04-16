@@ -51,7 +51,9 @@ export default function AdminLayout({
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // Clear server-side session cookie
+    try { await fetch('/api/admin/logout', { method: 'POST' }); } catch {}
     // Clear admin data from localStorage
     localStorage.removeItem("admin");
     // Redirect to login page

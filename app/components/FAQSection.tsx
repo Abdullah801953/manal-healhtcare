@@ -14,19 +14,26 @@ interface FAQ {
   isActive: boolean;
 }
 
-export const FAQSection = () => {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [loading, setLoading] = useState(true);
-const leftFaqs = faqs.filter((_, index) => index % 2 === 0);
-const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
+interface FAQSectionProps {
+  initialFaqs?: FAQ[];
+}
+
+export const FAQSection = ({ initialFaqs }: FAQSectionProps) => {
+  const hasInitialData = initialFaqs && initialFaqs.length > 0;
+  const [faqs, setFaqs] = useState<FAQ[]>(hasInitialData ? initialFaqs : []);
+  const [loading, setLoading] = useState(!hasInitialData);
+  const leftFaqs = faqs.filter((_, index) => index % 2 === 0);
+  const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
+
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchFAQs = async () => {
       try {
         const response = await fetch('/api/faqs');
         const data = await response.json();
         
         if (data.success) {
-          // Filter only active FAQs and sort by order
           const activeFAQs = data.data
             .filter((faq: FAQ) => faq.isActive)
             .sort((a: FAQ, b: FAQ) => a.order - b.order);
@@ -40,7 +47,7 @@ const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
     };
 
     fetchFAQs();
-  }, []);
+  }, [hasInitialData]);
 
   if (loading) {
     return (

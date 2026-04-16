@@ -30,19 +30,24 @@ interface TestimonialsProps {
   badge?: string;
   heading?: string;
   googleRating?: number;
+  initialTestimonials?: Testimonial[];
 }
 
 export const Testimonials = ({
   badge = "Testimonials",
   heading = "Stories of Healing and Trust From Our Valued Patients",
   googleRating = 4.8,
+  initialTestimonials,
 }: TestimonialsProps) => {
+  const hasInitialData = initialTestimonials && initialTestimonials.length > 0;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(hasInitialData ? initialTestimonials : []);
+  const [loading, setLoading] = useState(!hasInitialData);
 
-  // Fetch testimonials from API
+  // Fetch testimonials from API only if no initial data
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchTestimonials = async () => {
       try {
         setLoading(true);
@@ -60,7 +65,7 @@ export const Testimonials = ({
     };
 
     fetchTestimonials();
-  }, []);
+  }, [hasInitialData]);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
