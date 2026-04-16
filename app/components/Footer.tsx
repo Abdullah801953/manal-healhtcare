@@ -27,36 +27,77 @@ const quickLinks = [
 
 const Footer = () => {
   const { settings } = useSettings();
-  const [treatments, setTreatments] = useState<any[]>([]);
-  const [hospitals, setHospitals] = useState<any[]>([]);
+  const [treatments, setTreatments] = useState<any[]>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem('footerData');
+        if (cached) {
+          const { treatments: t, timestamp } = JSON.parse(cached);
+          if (Date.now() - timestamp < 10 * 60 * 1000) return t || [];
+        }
+      } catch {}
+    }
+    return [];
+  });
+  const [hospitals, setHospitals] = useState<any[]>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem('footerData');
+        if (cached) {
+          const { hospitals: h, timestamp } = JSON.parse(cached);
+          if (Date.now() - timestamp < 10 * 60 * 1000) return h || [];
+        }
+      } catch {}
+    }
+    return [];
+  });
 
   useEffect(() => {
+    // Skip fetch if we have cached data
+    if (treatments.length > 0 && hospitals.length > 0) return;
+
     const fetchData = async () => {
       try {
-        // Fetch Treatments
-        const treatmentRes = await fetch("/api/treatments?status=active");
-        const treatmentData = await treatmentRes.json();
+        const [treatmentRes, hospitalRes] = await Promise.all([
+          fetch("/api/treatments?status=active"),
+          fetch("/api/hospitals?status=active"),
+        ]);
+        const [treatmentData, hospitalData] = await Promise.all([
+          treatmentRes.json(),
+          hospitalRes.json(),
+        ]);
+
+        let newTreatments: any[] = [];
+        let newHospitals: any[] = [];
+
         if (treatmentData.success) {
-          const uniqueCategories = Array.from(
+          newTreatments = Array.from(
             new Map(
               treatmentData.data.map((t: any) => [t.category, t]),
             ).values(),
-          ).slice(0, 6);
-          setTreatments(uniqueCategories);
+          ).slice(0, 6) as any[];
+          setTreatments(newTreatments);
         }
 
-        // Fetch Hospitals
-        const hospitalRes = await fetch("/api/hospitals?status=active");
-        const hospitalData = await hospitalRes.json();
         if (hospitalData.success) {
-          setHospitals(hospitalData.data.slice(0, 6));
+          newHospitals = hospitalData.data.slice(0, 6);
+          setHospitals(newHospitals);
         }
+
+        // Cache in localStorage
+        try {
+          localStorage.setItem('footerData', JSON.stringify({
+            treatments: newTreatments,
+            hospitals: newHospitals,
+            timestamp: Date.now(),
+          }));
+        } catch {}
       } catch (error) {
         console.error("Error fetching footer data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [treatments.length, hospitals.length]);
 
   return (
     <footer className="bg-gray-100 border-t">

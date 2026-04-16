@@ -74,19 +74,39 @@ export function useSettings() {
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<Settings | null>(defaultSettings);
+  const [settings, setSettings] = useState<Settings | null>(() => {
+    // Try to load cached settings from localStorage on initial render
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem('siteSettings');
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          // Use cached data if less than 5 minutes old
+          if (Date.now() - timestamp < 5 * 60 * 1000) {
+            return data;
+          }
+        }
+      } catch {}
+    }
+    return defaultSettings;
+  });
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch('/api/settings', {
-        next: { revalidate: 300 },
-      } as any);
+      const response = await fetch('/api/settings');
       const data = await response.json();
 
       if (data.success && data.data) {
         setSettings(data.data);
+        // Cache in localStorage
+        try {
+          localStorage.setItem('siteSettings', JSON.stringify({
+            data: data.data,
+            timestamp: Date.now(),
+          }));
+        } catch {}
       } else {
         setSettings(defaultSettings);
       }

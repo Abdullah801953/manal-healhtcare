@@ -15,7 +15,7 @@ import {
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import herobg from "@/public/herobg.png";
+import herobg from "@/public/herobg.webp";
 
 import Translate from "./Translate";
 import { toast } from "sonner";
@@ -301,7 +301,7 @@ const [formData, setFormData] = useState({
           fill
           className="object-cover"
           priority
-          quality={100}
+          quality={80}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
       </div>

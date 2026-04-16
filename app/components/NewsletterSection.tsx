@@ -25,7 +25,7 @@ export function NewsletterSection({
   doctorName = "Dr. Rasika",
   doctorExperience = "08+ Years of Experience",
   doctorHeading = "Dr. Rasika Is Dedicated to Helping Others Heal.",
-  doctorImage = "/subscribe-img.png",
+  doctorImage = "/subscribe-img.webp",
   ctaButtonText = "Get a quote",
   newsletterBadge = "Subscribe to Newsletter",
   newsletterHeading = "Let's Subscribe to Get Our Newsletter.",
