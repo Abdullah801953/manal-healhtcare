@@ -18,6 +18,7 @@ import { Hospitals } from "./components/Hospitals";
 import connectDB from "@/lib/mongodb";
 import FAQ from "@/lib/models/FAQ";
 import Doctor from "@/lib/models/Doctor";
+import Treatment from "@/lib/models/Treatment";
 import { ContactButton } from "./components/ContactButton";
 /* =======================
    PAGE LEVEL SEO
@@ -81,6 +82,20 @@ async function getDoctors() {
     return JSON.parse(JSON.stringify(doctors));
   } catch (error) {
     console.error('Failed to fetch doctors server-side:', error);
+    return [];
+  }
+}
+
+// Fetch treatments server-side for instant rendering
+async function getTreatments() {
+  try {
+    await connectDB();
+    const treatments = await Treatment.find({ status: 'active' })
+      .sort({ createdAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(treatments));
+  } catch (error) {
+    console.error('Failed to fetch treatments server-side:', error);
     return [];
   }
 }
@@ -190,8 +205,9 @@ const Page = async () => {
 
   // Fetch FAQs server-side for structured data
   const faqs = await getFAQs();
-  // Fetch doctors server-side for instant rendering
+  // Fetch doctors and treatments server-side for instant rendering
   const doctors = await getDoctors();
+  const treatments = await getTreatments();
   const faqData = faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -245,7 +261,7 @@ const Page = async () => {
     
         <Hero />
        
-         <Services />
+         <Services initialTreatments={treatments} />
         <QuoteSection/>
         <DoctorsShowcase initialDoctors={doctors} />
         <Hospitals />

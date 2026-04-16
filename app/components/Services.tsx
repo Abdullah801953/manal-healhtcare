@@ -62,6 +62,19 @@ interface ServicesProps {
   subheading?: string;
   showViewAll?: boolean;
   viewAllLink?: string;
+  initialTreatments?: Treatment[];
+}
+
+function treatmentsToCards(treatments: Treatment[]): ServiceCard[] {
+  const homepageTreatments = treatments.filter((t: Treatment) => t.showOnHomepage === true);
+  const sourceList = homepageTreatments.length > 0 ? homepageTreatments : treatments;
+  return sourceList.map((treatment: Treatment) => ({
+    id: treatment._id,
+    icon: treatmentIcons[treatment.category] || Activity,
+    title: treatment.title,
+    description: treatment.shortDescription || treatment.description.slice(0, 150) + '...',
+    link: `/treatments/${treatment.slug}`,
+  }));
 }
 
 export const Services = ({
@@ -69,13 +82,17 @@ export const Services = ({
   subheading = "Innovative Medical Treatments for Modern Healthcare",
   showViewAll = true,
   viewAllLink = "/treatments",
+  initialTreatments,
 }: ServicesProps) => {
-  const [services, setServices] = useState<ServiceCard[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalTreatments, setTotalTreatments] = useState(0);
+  const hasInitialData = initialTreatments && initialTreatments.length > 0;
+  const [services, setServices] = useState<ServiceCard[]>(hasInitialData ? treatmentsToCards(initialTreatments) : []);
+  const [loading, setLoading] = useState(!hasInitialData);
+  const [totalTreatments, setTotalTreatments] = useState(hasInitialData ? initialTreatments.length : 0);
 
-  // Fetch treatments from API
+  // Fetch treatments from API only if no initial data
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchTreatments = async () => {
       try {
         setLoading(true);
@@ -85,21 +102,7 @@ export const Services = ({
         if (result.success && result.data) {
           const activeTreatments = result.data.filter((t: Treatment) => t.status === 'active');
           setTotalTreatments(activeTreatments.length);
-
-          const homepageTreatments = activeTreatments.filter((t: Treatment) => t.showOnHomepage === true);
-          // If admin has selected specific ones, show only those; otherwise show all active
-          const sourceList = homepageTreatments.length > 0 ? homepageTreatments : activeTreatments;
-
-          const serviceCards: ServiceCard[] = sourceList
-          .map((treatment: Treatment) => ({
-            id: treatment._id,
-            icon: treatmentIcons[treatment.category] || Activity,
-            title: treatment.title,
-            description: treatment.shortDescription || treatment.description.slice(0, 150) + '...',
-            link: `/treatments/${treatment.slug}`,
-          }));
-
-          setServices(serviceCards);
+          setServices(treatmentsToCards(activeTreatments));
         }
       } catch (err) {
         console.error('Error fetching treatments:', err);
@@ -109,7 +112,7 @@ export const Services = ({
     };
 
     fetchTreatments();
-  }, []);
+  }, [hasInitialData]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
