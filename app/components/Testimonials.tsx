@@ -222,6 +222,7 @@ export const Testimonials = ({
                         src={currentTestimonial.image}
                         alt={currentTestimonial.name}
                         fill
+                        unoptimized
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         priority

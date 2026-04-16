@@ -91,9 +91,15 @@ async function getFAQs() {
 async function getDoctors() {
   try {
     const doctors = await Doctor.find({ status: 'active' })
+      .select('name slug designation hospital experienceYears specialization status')
       .sort({ createdAt: -1 })
       .lean();
-    return JSON.parse(JSON.stringify(doctors));
+    // Add default image since DB images are base64 (too large for SSR)
+    const cleaned = doctors.map((doc: any) => ({
+      ...doc,
+      image: '/doctor-img 1.png',
+    }));
+    return JSON.parse(JSON.stringify(cleaned));
   } catch (error) {
     console.error('Failed to fetch doctors server-side:', error);
     return [];
@@ -104,6 +110,7 @@ async function getDoctors() {
 async function getTreatments() {
   try {
     const treatments = await Treatment.find({ status: 'active' })
+      .select('title slug category shortDescription description showOnHomepage status')
       .sort({ createdAt: -1 })
       .lean();
     return JSON.parse(JSON.stringify(treatments));
@@ -117,6 +124,7 @@ async function getTreatments() {
 async function getHospitals() {
   try {
     const hospitals = await Hospital.find({ status: 'active' })
+      .select('name slug image location rating reviewCount beds parking specialties featured emergency status')
       .sort({ createdAt: -1 })
       .lean();
     return JSON.parse(JSON.stringify(hospitals));
@@ -130,6 +138,7 @@ async function getHospitals() {
 async function getTestimonials() {
   try {
     const testimonials = await Testimonial.find({ status: 'approved' })
+      .select('name age country countryFlag treatment hospital doctor rating testimonial image videoUrl verified featured category status')
       .sort({ createdAt: -1 })
       .lean();
     return JSON.parse(JSON.stringify(testimonials));
@@ -143,6 +152,7 @@ async function getTestimonials() {
 async function getBlogs() {
   try {
     const blogs = await Blog.find({ status: 'published' })
+      .select('title slug excerpt image category author date status featured')
       .sort({ date: -1, createdAt: -1 })
       .limit(3)
       .lean();

@@ -24,10 +24,17 @@ export async function GET(request: Request) {
     try {
       await connectDB();
       const doctors = await Doctor.find(query)
+        .select('-overview -overviewList -qualifications -experience -experienceDetails -achievements -treatments -additionalInfo -whyChoose -researchPublications -clinicalFocus -image')
         .sort({ createdAt: -1 })
         .lean();
       
-      return NextResponse.json({ success: true, data: doctors });
+      // Add default placeholder image for list view
+      const cleaned = doctors.map((doc: any) => ({
+        ...doc,
+        image: '/doctor-img 1.png',
+      }));
+      
+      return NextResponse.json({ success: true, data: cleaned });
     } catch (error: any) {
       const isTimeout = error.message?.includes('timed out') || error.message?.includes('ETIMEDOUT');
       if (isTimeout && attempt < MAX_RETRIES) {
