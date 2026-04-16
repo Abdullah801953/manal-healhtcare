@@ -102,8 +102,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Return the public URL
-    const publicUrl = `/uploads/${uploadFolder}/${filename}`;
+    // Return the API-served URL (works with standalone output)
+    const publicUrl = `/api/uploads/${uploadFolder}/${filename}`;
     console.log('[Upload API] Success, URL:', publicUrl);
 
     return NextResponse.json({

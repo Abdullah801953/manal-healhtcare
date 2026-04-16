@@ -8,7 +8,12 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 function HospitalImageFallback({ src, alt }: { src?: string; alt: string }) {
-  const [imgSrc, setImgSrc] = useState(src || '/indra.avif');
+  const normalizedSrc = src
+    ? src.startsWith('/uploads/')
+      ? `/api${src}`
+      : src
+    : '';
+  const [imgSrc, setImgSrc] = useState(normalizedSrc || '/indra.avif');
   return (
     <Image
       src={imgSrc}

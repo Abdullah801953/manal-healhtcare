@@ -12,7 +12,13 @@ interface HospitalDetailHeroProps {
 }
 
 export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps) {
-  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
+  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
+  const normalizedImage = hospital.image
+    ? hospital.image.startsWith('/uploads/')
+      ? `/api${hospital.image}`
+      : hospital.image
+    : '';
+  const [imgSrc, setImgSrc] = useState(normalizedImage || '/indra.avif');
   
   return (
     <section className="relative bg-linear-to-br from-[#209f00] via-emerald-600 to-teal-700 text-white py-16 overflow-hidden">

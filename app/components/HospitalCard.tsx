@@ -23,6 +23,13 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
     setImgError(true);
   };
 
+  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
+  const imageUrl = hospital.image
+    ? hospital.image.startsWith('/uploads/')
+      ? `/api${hospital.image}`
+      : hospital.image
+    : '';
+
   // Generate a consistent color from the hospital name
   const colors = [
     'from-emerald-500 to-green-600',
@@ -50,9 +57,9 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
     >
       {/* Image */}
       <div className="relative h-56 w-full overflow-hidden">
-        {hospital.image && !imgError ? (
+        {imageUrl && !imgError ? (
           <Image
-            src={hospital.image}
+            src={imageUrl}
             alt={hospital.name}
             fill
             unoptimized
