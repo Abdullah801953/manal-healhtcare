@@ -30,6 +30,7 @@ export default function NewDoctorPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingAchievement, setUploadingAchievement] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
@@ -54,14 +55,40 @@ export default function NewDoctorPage() {
   const [whyChoose, setWhyChoose] = useState<string[]>([""]);
   const [achievements, setAchievements] = useState<Achievement[]>([{ title: "" }]);
 
-  const handleImageSelect = (file: File) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      setImagePreview(base64String);
-      setFormData(prev => ({ ...prev, image: base64String }));
-    };
-    reader.readAsDataURL(file);
+  const handleImageSelect = async (file: File) => {
+    setUploadingImage(true);
+    setError("");
+    try {
+      // Create preview locally for immediate feedback
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to server
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      uploadFormData.append('type', 'doctor');
+      
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFormData,
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        // Store only the URL, not base64
+        setFormData(prev => ({ ...prev, image: data.url }));
+      } else {
+        setError(data.message || 'Failed to upload image');
+      }
+    } catch (err) {
+      setError('Failed to upload image');
+      console.error(err);
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -98,28 +125,47 @@ export default function NewDoctorPage() {
         setAchievements(prev => {
           const a = [...prev];
           a[index] = { ...a[index], file: data.url, fileType: file.type, fileName: file.name };
-          return a;
-        });
-      } else setError(data.message || 'Failed to upload file');
-    } catch { setError('Failed to upload file'); }
-    finally { setUploadingAchievement(null); }
-  };
+          return a;: any = {
+        name: formData.name,
+        designation: formData.designation,
+        hospital: formData.hospital,
+        overview: formData.overview,
+        experience: formData.experience,
+        experienceYears: formData.experienceYears,
+        status: formData.status,
+        qualifications: qualifications.filter(q => q.trim() !== ""),
+        specialization: specializations.filter(s => s.trim() !== ""),
+        clinicalFocus: clinicalFocus.filter(c => c.trim() !== ""),
+        treatments: treatments.filter(t => t.trim() !== ""),
+        overviewList: overviewList.filter(o => o.trim() !== ""),
+        experienceDetails: experienceDetails.filter(d => d.trim() !== ""),
+        additionalInfo: additionalInfo.filter(a => a.trim() !== ""),
+        researchPublications: researchPublications.filter(r => r.trim() !== ""),
+        whyChoose: whyChoose.filter(w => w.trim() !== ""),
+        achievements: achievements.filter(a => a.title.trim() !== ""),
+      };
 
-  const removeAchievementFile = (index: number) =>
-    setAchievements(prev => {
-      const a = [...prev];
-      a[index] = { ...a[index], file: undefined, fileType: undefined, fileName: undefined };
-      return a;
-    });
+      // Only include image if it was uploaded
+      if (formData.image) {
+        doctorData.image = formData.image;
+      }
 
-  const getFileIcon = (fileType?: string) => {
-    if (!fileType) return <File className="w-4 h-4" />;
-    if (fileType.startsWith('image/')) return <ImageIcon className="w-4 h-4" />;
-    if (fileType === 'application/pdf') return <FileText className="w-4 h-4 text-red-500" />;
-    return <FileText className="w-4 h-4 text-blue-500" />;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+      const res = await fetch('/api/doctors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(doctorData),
+      });
+      const data = await res.json();
+      if (data.success) {
+        router.push('/admin/doctors');
+      } else {
+        console.error('API Error:', data);
+        setError(data.message || 'Failed to create doctor');
+      }
+    } catch (err) {
+      console.error('Submit Error:', err);
+      setError('An error occurred while creating doctor');
+   
     e.preventDefault();
     setLoading(true);
     setError("");

@@ -48,9 +48,19 @@ export async function PUT(
   const { id } = await params;
   const body = await request.json();
   const MAX_RETRIES = 3;
+  
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       await connectDB();
+      
+      // Validate object ID format
+      if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return NextResponse.json(
+          { success: false, message: 'Invalid doctor ID format' },
+          { status: 400 }
+        );
+      }
+
       const doctor = await Doctor.findByIdAndUpdate(
         id,
         body,
@@ -70,16 +80,26 @@ export async function PUT(
         data: doctor
       });
     } catch (error: any) {
+      console.error(`PUT /api/doctors/${id} attempt ${attempt} error:`, error.message, error.stack);
+      
       if (isTimeoutError(error) && attempt < MAX_RETRIES) {
+        console.warn(`Timeout on attempt ${attempt}, retrying...`);
         resetConnection();
         continue;
       }
+      
       return NextResponse.json(
         { success: false, message: 'Failed to update doctor', error: error.message },
         { status: 500 }
       );
     }
   }
+  
+  // Fallback - should never reach here, but just in case
+  return NextResponse.json(
+    { success: false, message: 'Failed to update doctor after maximum retries' },
+    { status: 500 }
+  );
 }
 
 // DELETE single doctor
