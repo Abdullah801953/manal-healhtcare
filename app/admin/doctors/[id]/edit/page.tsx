@@ -34,6 +34,7 @@ export default function EditDoctorPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingAchievement, setUploadingAchievement] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
@@ -97,14 +98,40 @@ export default function EditDoctorPage() {
     finally { setFetching(false); }
   };
 
-  const handleImageSelect = (file: File) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      setImagePreview(base64String);
-      setFormData(prev => ({ ...prev, image: base64String }));
-    };
-    reader.readAsDataURL(file);
+  const handleImageSelect = async (file: File) => {
+    setUploadingImage(true);
+    setError("");
+    try {
+      // Create preview locally for immediate feedback
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to server
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', 'doctor');
+      
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        // Store only the URL, not base64
+        setFormData(prev => ({ ...prev, image: data.url }));
+      } else {
+        setError(data.message || 'Failed to upload image');
+      }
+    } catch (err) {
+      setError('Failed to upload image');
+      console.error(err);
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
