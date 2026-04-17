@@ -125,7 +125,33 @@ export default function NewDoctorPage() {
         setAchievements(prev => {
           const a = [...prev];
           a[index] = { ...a[index], file: data.url, fileType: file.type, fileName: file.name };
-          return a;: any = {
+          return a;
+        });
+      } else setError(data.message || 'Failed to upload file');
+    } catch { setError('Failed to upload file'); }
+    finally { setUploadingAchievement(null); }
+  };
+
+  const removeAchievementFile = (index: number) =>
+    setAchievements(prev => {
+      const a = [...prev];
+      a[index] = { ...a[index], file: undefined, fileType: undefined, fileName: undefined };
+      return a;
+    });
+
+  const getFileIcon = (fileType?: string) => {
+    if (!fileType) return <File className="w-4 h-4" />;
+    if (fileType.startsWith('image/')) return <ImageIcon className="w-4 h-4" />;
+    if (fileType === 'application/pdf') return <FileText className="w-4 h-4 text-red-500" />;
+    return <FileText className="w-4 h-4 text-blue-500" />;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      const doctorData: any = {
         name: formData.name,
         designation: formData.designation,
         hospital: formData.hospital,
@@ -165,33 +191,7 @@ export default function NewDoctorPage() {
     } catch (err) {
       console.error('Submit Error:', err);
       setError('An error occurred while creating doctor');
-   
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      const doctorData = {
-        ...formData,
-        qualifications: qualifications.filter(q => q.trim() !== ""),
-        specialization: specializations.filter(s => s.trim() !== ""),
-        clinicalFocus: clinicalFocus.filter(c => c.trim() !== ""),
-        treatments: treatments.filter(t => t.trim() !== ""),
-        overviewList: overviewList.filter(o => o.trim() !== ""),
-        experienceDetails: experienceDetails.filter(d => d.trim() !== ""),
-        additionalInfo: additionalInfo.filter(a => a.trim() !== ""),
-        researchPublications: researchPublications.filter(r => r.trim() !== ""),
-        whyChoose: whyChoose.filter(w => w.trim() !== ""),
-        achievements: achievements.filter(a => a.title.trim() !== ""),
-      };
-      const res = await fetch('/api/doctors', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(doctorData),
-      });
-      const data = await res.json();
-      if (data.success) router.push('/admin/doctors');
-      else setError(data.message || 'Failed to create doctor');
-    } catch { setError('An error occurred while creating doctor'); }
+    }
     finally { setLoading(false); }
   };
 
