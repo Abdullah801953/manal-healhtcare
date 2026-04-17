@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { readFile } from 'fs/promises';
 import path from 'path';
 
+// Use UPLOAD_DIR env var or fall back to /app/public/uploads (Docker) or process.cwd()/public/uploads (dev)
+const UPLOAD_BASE = process.env.UPLOAD_DIR || path.join(process.cwd(), 'public', 'uploads');
+
 const MIME_TYPES: Record<string, string> = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
@@ -25,7 +28,7 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid path' }, { status: 400 });
   }
 
-  const fullPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+  const fullPath = path.join(UPLOAD_BASE, filePath);
 
   try {
     const fileBuffer = await readFile(fullPath);

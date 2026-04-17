@@ -11,6 +11,7 @@ services:
       - MONGODB_URI=${MONGODB_URI}
       - NEXT_PUBLIC_BASE_URL=https://manalhealthcare.com
       - JWT_SECRET=${JWT_SECRET}
+      - UPLOAD_DIR=/app/public/uploads
     volumes:
       - ./uploads:/app/public/uploads
     healthcheck:
