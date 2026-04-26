@@ -112,6 +112,12 @@ jobs:
           # Navigate to project directory
           cd ${{ env.PROJECT_PATH }}
           
+          # Backup .env before git clean
+          if [ -f .env ]; then
+            cp .env /tmp/.env.backup
+            echo "📄 Backed up .env"
+          fi
+          
           # Fetch latest changes
           echo "📥 Fetching latest code..."
           git fetch origin main
@@ -122,6 +128,13 @@ jobs:
           
           # Clean untracked files
           git clean -fd
+          
+          # Restore .env after git clean
+          if [ -f /tmp/.env.backup ]; then
+            cp /tmp/.env.backup .env
+            rm /tmp/.env.backup
+            echo "📄 Restored .env"
+          fi
           
           # Pull latest Docker image
           echo "🐳 Pulling latest Docker image..."
