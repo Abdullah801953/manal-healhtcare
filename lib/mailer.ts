@@ -30,6 +30,7 @@ export interface InquiryEmailData {
 export async function sendInquiryEmail(data: InquiryEmailData) {
   const toEmail = process.env.INQUIRY_RECIPIENT_EMAIL || 'support@manalhealthcare.com';
   const ccEmail = process.env.INQUIRY_CC_EMAIL || '';
+  const recipients = ccEmail ? `${toEmail}, ${ccEmail}` : toEmail;
 
   const reportLine = data.medicalReport
     ? `<tr><td style="padding:8px 0;color:#555;font-weight:600;width:160px">Medical Report:</td><td style="padding:8px 0"><a href="${data.medicalReport}" style="color:#209f00">${data.medicalReport}</a></td></tr>`
@@ -99,8 +100,7 @@ export async function sendInquiryEmail(data: InquiryEmailData) {
 
   await transporter.sendMail({
     from: `"Manal Healthcare Website" <${process.env.SMTP_USER}>`,
-    to: toEmail,
-    cc: ccEmail || undefined,
+    to: recipients,
     replyTo: data.email || undefined,
     subject: `New Inquiry from ${data.name} — ${data.medicalCondition}`,
     html,
