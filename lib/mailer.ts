@@ -156,7 +156,7 @@ export async function sendUserConfirmationEmail(data: InquiryEmailData) {
               <ul style="margin:0 0 20px;padding:0 0 0 20px;color:#333;font-size:14px;line-height:1.8">
                 <li>Our medical coordinator will review your inquiry within 24 hours.</li>
                 <li>You will receive a detailed response with treatment options and cost estimates.</li>
-                <li>For urgent queries, you can reach us on WhatsApp at <strong>+91-9990633299</strong>.</li>
+                <li>For urgent queries, you can reach us on WhatsApp at <strong>+91-7394966566</strong>.</li>
               </ul>
               <p style="margin:0;color:#888;font-size:13px">If you did not submit this inquiry, please disregard this email.</p>
             </td>
