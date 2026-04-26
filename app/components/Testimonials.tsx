@@ -219,7 +219,7 @@ export const Testimonials = ({
                   >
                     {currentTestimonial.image ? (
                       <Image
-                        src={currentTestimonial.image}
+                        src={currentTestimonial.image.startsWith('/uploads/') ? `/api${currentTestimonial.image}` : currentTestimonial.image}
                         alt={currentTestimonial.name}
                         fill
                         unoptimized
