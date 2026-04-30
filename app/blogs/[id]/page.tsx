@@ -5,6 +5,9 @@ import RelatedArticles from "@/app/blogs/[id]/components/RelatedArticles";
 import { CTABookingSection } from "@/app/blogs/[id]/components/CTABookingSection";
 import { BlogListCTA } from "./components/BlogListCTA";
 
+// Revalidate this page every 60 seconds as a fallback (on-demand revalidation via revalidatePath is the primary mechanism)
+export const revalidate = 60;
+
 interface BlogDetailPageProps {
   params: Promise<{
     id: string;
