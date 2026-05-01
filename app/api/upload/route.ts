@@ -79,6 +79,8 @@ export async function POST(request: Request) {
       uploadFolder = 'hospitals';
     } else if (type === 'achievement') {
       uploadFolder = 'achievements';
+    } else if (type === 'testimonial') {
+      uploadFolder = 'testimonials';
     }
     
     const uploadsDir = path.join(UPLOAD_BASE, uploadFolder);

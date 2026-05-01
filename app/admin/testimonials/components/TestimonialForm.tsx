@@ -124,6 +124,7 @@ export function TestimonialForm({ testimonialId, onSuccess, onCancel }: Testimon
 
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
+    formDataUpload.append("type", "testimonial");
 
     try {
       setUploading(true);

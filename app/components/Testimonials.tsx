@@ -204,9 +204,9 @@ export const Testimonials = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center h-full"
           >
-            <div className="relative w-64 xs:w-72 sm:w-80">
+            <div className="relative w-full">
               <AnimatePresence mode="wait">
                 {currentTestimonial ? (
                   <motion.div
@@ -215,7 +215,7 @@ export const Testimonials = ({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.92, y: -20 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-4/5 bg-gray-100"
+                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-square bg-gray-100"
                   >
                     {currentTestimonial.image ? (
                       <Image
@@ -259,7 +259,7 @@ export const Testimonials = ({
                     </div>
                   </motion.div>
                 ) : (
-                  <div className="rounded-2xl xs:rounded-3xl bg-gray-100 aspect-4/5 flex items-center justify-center">
+                  <div className="rounded-2xl xs:rounded-3xl bg-gray-100 aspect-square flex items-center justify-center">
                     <User className="w-24 h-24 text-gray-300" />
                   </div>
                 )}

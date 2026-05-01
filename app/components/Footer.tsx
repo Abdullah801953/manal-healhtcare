@@ -198,9 +198,18 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="bg-gray-200 text-center py-3 text-sm">
-      Copyright © FAAB | Designed & Powered by FAAB
-      </div>
+
+ <div className="bg-gray-200 text-center py-3 text-sm">
+  © 2025 Manal Healthcare. All Rights Reserved. | Designed & Powered by{" "}
+  <a
+    href="https://www.faab.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-black-600 font-bold hover:underline"
+  >
+    FAAB
+  </a>
+</div>
     </footer>
   );
 };
