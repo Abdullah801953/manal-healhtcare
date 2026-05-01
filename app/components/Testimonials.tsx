@@ -43,6 +43,7 @@ export const Testimonials = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [testimonials, setTestimonials] = useState<Testimonial[]>(hasInitialData ? initialTestimonials : []);
   const [loading, setLoading] = useState(!hasInitialData);
+  const [imageError, setImageError] = useState(false);
 
   // Fetch testimonials from API only if no initial data
   useEffect(() => {
@@ -69,10 +70,12 @@ export const Testimonials = ({
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setImageError(false);
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setImageError(false);
   };
 
   const currentTestimonial = testimonials[currentIndex];
@@ -217,15 +220,21 @@ export const Testimonials = ({
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-square bg-gray-100"
                   >
-                    {currentTestimonial.image ? (
+                    {currentTestimonial.image && !imageError ? (
                       <Image
-                        src={currentTestimonial.image.startsWith('/uploads/') ? `/api${currentTestimonial.image}` : currentTestimonial.image}
+                        src={currentTestimonial.image.startsWith('/uploads/')
+                          ? `/api${currentTestimonial.image}`
+                          : currentTestimonial.image.startsWith('/')
+                          ? currentTestimonial.image
+                          : `/${currentTestimonial.image}`
+                        }
                         alt={currentTestimonial.name}
                         fill
                         unoptimized
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         priority
+                        onError={() => setImageError(true)}
                       />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center bg-linear-to-br from-green-50 to-green-100">

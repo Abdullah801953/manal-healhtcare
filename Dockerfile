@@ -21,6 +21,7 @@ RUN mkdir -p /app/public/uploads/treatments && \
     mkdir -p /app/public/uploads/doctors && \
     mkdir -p /app/public/uploads/blogs && \
     mkdir -p /app/public/uploads/medical-reports && \
+    mkdir -p /app/public/uploads/testimonials && \
     chmod -R 755 /app/public/uploads
 
 # Set build-time env var for Next.js build
