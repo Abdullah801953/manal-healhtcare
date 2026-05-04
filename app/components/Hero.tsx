@@ -219,10 +219,7 @@ const [formData, setFormData] = useState({
         const fileInput = document.getElementById('hero-medical-report') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
 
-        toast.success('Thank you! Your inquiry has been submitted successfully.', {
-          description: 'Our team will contact you.',
-          duration: 5000,
-        });
+        window.location.href = '/thank-you';
       } else {
         toast.error('Failed to submit inquiry. Please try again.');
       }
