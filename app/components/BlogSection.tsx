@@ -59,14 +59,14 @@ function BlogCard({ blog }: BlogCardProps) {
         className="group bg-white rounded-lg xs:rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block"
       >
         {/* Image */}
-        <div className="relative h-36 xs:h-40 sm:h-48 md:h-56 overflow-hidden">
+        <div className="relative h-48 xs:h-52 sm:h-56 md:h-60 w-full overflow-hidden bg-gray-100">
           <Image
             src={imgSrc}
             alt={blog.title}
             fill
             unoptimized
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
             onError={() => setImgSrc('/blog-hero.jpg')}
           />
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,7 @@ import { toast } from "sonner";
 
 export const HeroQueryForm = () => {
   const { settings } = useSettings();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -98,10 +100,8 @@ I would like to discuss my treatment options.`;
           medicalReport: null,
         });
 
-        toast.success('Inquiry submitted successfully!', {
-          description: 'Our team will contact you .',
-          duration: 5000,
-        });
+        toast.success('Inquiry submitted successfully!');
+        router.push('/thank-you');
       }
     } catch (error) {
       console.error("Error:", error);

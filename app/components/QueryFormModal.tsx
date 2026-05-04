@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { X, Send, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -15,6 +16,7 @@ export function QueryFormModal({
   onClose,
 }: QueryFormModalProps) {
 
+  const router = useRouter();
   const [setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -91,10 +93,8 @@ const handleClose = () => {
         });
 
         handleClose();
-        toast.success('Thank you! Your inquiry has been submitted successfully.', {
-          description: 'Our team will contact you within 24 hours.',
-          duration: 5000,
-        });
+        toast.success('Thank you! Your inquiry has been submitted successfully.');
+        router.push('/thank-you');
       } else {
         toast.error('Failed to submit inquiry. Please try again.');
       }

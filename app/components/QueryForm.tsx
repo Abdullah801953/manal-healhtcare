@@ -85,10 +85,8 @@ export const QueryForm = () => {
         const fileInput = document.getElementById('query-medical-report') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
 
-        toast.success('Thank you! Your inquiry has been submitted successfully.', {
-          description: 'Our team will contact you .',
-          duration: 5000,
-        });
+        toast.success('Thank you! Your inquiry has been submitted successfully.');
+        router.push('/thank-you');
       } else {
         toast.error('Failed to submit inquiry. Please try again.');
       }
