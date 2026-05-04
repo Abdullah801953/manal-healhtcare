@@ -1,18 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { ArrowRight, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useSettings } from "@/app/contexts/SettingsContext";
 import Translate from "./Translate";
 import { toast } from "sonner";
 
 export const HeroQueryForm = () => {
-  const { settings } = useSettings();
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -73,26 +69,6 @@ export const HeroQueryForm = () => {
       const data = await response.json();
 
       if (data.success) {
-        const message = `Hello! I'm ${formData.name} from ${formData.country}.
-
-Medical Condition: ${formData.medicalCondition}
-
-${formData.email ? `Email: ${formData.email}` : ""}
-${reportUrl ? `Medical Report: ${window.location.origin}${reportUrl}` : ""}
-
-I would like to discuss my treatment options.`;
-
-        const phoneNumber =
-          settings?.whatsappNumber?.replace(/\D/g, "") || "918287508755";
-
-        // Open WhatsApp in new tab (non-blocking)
-        try {
-          window.open(
-            `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-            "_blank"
-          );
-        } catch (_) {}
-
         setFormData({
           name: "",
           email: "",
