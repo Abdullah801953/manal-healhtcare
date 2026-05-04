@@ -103,8 +103,6 @@ I would like to discuss my treatment options.`;
           medicalReport: null,
         });
 
-        toast.success('Inquiry submitted successfully!');
-        // Use hard navigation to guarantee redirect works
         window.location.href = '/thank-you';
       } else {
         toast.error('Failed to submit inquiry. Please try again.');
