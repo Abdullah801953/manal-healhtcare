@@ -17,6 +17,7 @@ const PUBLIC_API_ROUTES = [
   '/api/newsletter',
   '/api/translate',
   '/api/settings',
+  '/api/uploads',  // serve uploaded images publicly
 ];
 
 // Check if a route is public for GET requests
@@ -54,6 +55,11 @@ export async function middleware(request: NextRequest) {
 
   // Allow POST to translate (public feature)
   if (method === 'POST' && pathname === '/api/translate') {
+    return NextResponse.next();
+  }
+
+  // Allow POST to upload (needed for public form medical report uploads)
+  if (method === 'POST' && pathname === '/api/upload') {
     return NextResponse.next();
   }
 
