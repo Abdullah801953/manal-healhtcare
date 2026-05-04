@@ -85,10 +85,13 @@ I would like to discuss my treatment options.`;
         const phoneNumber =
           settings?.whatsappNumber?.replace(/\D/g, "") || "918287508755";
 
-        window.open(
-          `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-          "_blank"
-        );
+        // Open WhatsApp in new tab (non-blocking)
+        try {
+          window.open(
+            `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+            "_blank"
+          );
+        } catch (_) {}
 
         setFormData({
           name: "",
@@ -101,7 +104,10 @@ I would like to discuss my treatment options.`;
         });
 
         toast.success('Inquiry submitted successfully!');
+        // Always redirect regardless of WhatsApp popup
         router.push('/thank-you');
+      } else {
+        toast.error('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error("Error:", error);

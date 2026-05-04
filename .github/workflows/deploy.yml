@@ -126,8 +126,8 @@ jobs:
           echo "🔄 Resetting to remote main..."
           git reset --hard origin/main
           
-          # Clean untracked files
-          git clean -fd
+          # Clean untracked files (preserve uploads directory)
+          git clean -fd --exclude=uploads/
           
           # Restore .env after git clean
           if [ -f /tmp/.env.backup ]; then
