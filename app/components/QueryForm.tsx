@@ -86,7 +86,7 @@ export const QueryForm = () => {
         if (fileInput) fileInput.value = '';
 
         toast.success('Thank you! Your inquiry has been submitted successfully.');
-        router.push('/thank-you');
+        window.location.href = '/thank-you';
       } else {
         toast.error('Failed to submit inquiry. Please try again.');
       }
