@@ -136,6 +136,10 @@ jobs:
             echo "📄 Restored .env"
           fi
           
+          # Ensure all upload subdirectories exist on host (persists across deploys)
+          mkdir -p uploads/treatments uploads/hospitals uploads/doctors uploads/blogs uploads/medical-reports uploads/achievements uploads/testimonials
+          chmod -R 755 uploads
+
           # Pull latest Docker image
           echo "🐳 Pulling latest Docker image..."
           docker compose pull

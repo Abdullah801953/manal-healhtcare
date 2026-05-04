@@ -53,3 +53,5 @@ next-env.d.ts
 !/public/uploads/medical-reports/.gitkeep
 /public/uploads/achievements/*
 !/public/uploads/achievements/.gitkeep
+/public/uploads/testimonials/*
+!/public/uploads/testimonials/.gitkeep
