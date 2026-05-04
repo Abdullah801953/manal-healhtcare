@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface HospitalCardProps {
   hospital: {
@@ -19,6 +19,11 @@ interface HospitalCardProps {
 export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
   const [imgError, setImgError] = useState(false);
 
+  // Reset error state when hospital changes
+  useEffect(() => {
+    setImgError(false);
+  }, [hospital._id, hospital.image]);
+
   const handleImageError = () => {
     setImgError(true);
   };
@@ -27,6 +32,8 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
   const imageUrl = hospital.image
     ? hospital.image.startsWith('/uploads/')
       ? `/api${hospital.image}`
+      : hospital.image.startsWith('/api/uploads/')
+      ? hospital.image
       : hospital.image
     : '';
 
