@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
@@ -13,6 +13,13 @@ interface ImageUploadProps {
 
 export function ImageUpload({ onImageSelect, currentImage, label = "Upload Image" }: ImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(currentImage || null);
+
+  // Sync preview when parent async-loads currentImage (e.g. edit page fetch)
+  useEffect(() => {
+    if (currentImage) {
+      setPreview(currentImage);
+    }
+  }, [currentImage]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 

@@ -1,8 +1,21 @@
 import { NextResponse } from 'next/server';
+import { readFile } from 'fs/promises';
+import path from 'path';
 import connectDB from '@/lib/mongodb';
 import Doctor from '@/lib/models/Doctor';
 
-// GET doctor image - serves base64 as binary image with caching
+const UPLOAD_BASE = process.env.UPLOAD_DIR || path.join(process.cwd(), 'public', 'uploads');
+
+const MIME_TYPES: Record<string, string> = {
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.avif': 'image/avif',
+  '.gif': 'image/gif',
+};
+
+// GET doctor image - serves image as binary with caching
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -14,17 +27,43 @@ export async function GET(
     const doctor = await Doctor.findById(id).select('image').lean();
 
     if (!doctor || !doctor.image || typeof doctor.image !== 'string') {
-      // Redirect to placeholder if no image
       return NextResponse.redirect(new URL('/doctor-img 1.png', request.url));
     }
 
-    // If image is a file path (uploaded to server), redirect to it directly
-    if (!doctor.image.startsWith('data:')) {
-      return NextResponse.redirect(new URL(doctor.image, request.url));
+    const img = doctor.image as string;
+
+    // File path stored by the upload API (e.g. /api/uploads/doctors/file.jpg or /uploads/doctors/file.jpg)
+    if (!img.startsWith('data:')) {
+      // Strip /api/uploads/ or /uploads/ prefix to get the relative path inside UPLOAD_BASE
+      const relativePath = img
+        .replace(/^\/api\/uploads\//, '')
+        .replace(/^\/uploads\//, '');
+
+      const fullPath = path.join(UPLOAD_BASE, relativePath);
+
+      // Security: prevent directory traversal
+      if (!fullPath.startsWith(UPLOAD_BASE)) {
+        return NextResponse.redirect(new URL('/doctor-img 1.png', request.url));
+      }
+
+      try {
+        const fileBuffer = await readFile(fullPath);
+        const ext = path.extname(fullPath).toLowerCase();
+        const contentType = MIME_TYPES[ext] || 'image/jpeg';
+        return new NextResponse(fileBuffer, {
+          headers: {
+            'Content-Type': contentType,
+            'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+          },
+        });
+      } catch {
+        // File not found on disk — fall back to placeholder
+        return NextResponse.redirect(new URL('/doctor-img 1.png', request.url));
+      }
     }
 
-    // Parse base64 data URI: data:image/png;base64,xxxxx
-    const matches = (doctor.image as string).match(/^data:([^;]+);base64,(.+)$/);
+    // Base64 data URI: data:image/png;base64,xxxxx
+    const matches = img.match(/^data:([^;]+);base64,(.+)$/);
     if (!matches) {
       return NextResponse.redirect(new URL('/doctor-img 1.png', request.url));
     }
