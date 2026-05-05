@@ -65,144 +65,71 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -T 30 -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
-          cat >> ~/.ssh/config << EOC
-          Host vps
-            HostName $VPS_HOST
-            User $VPS_USER
-            Port ${VPS_PORT:-22}
-            IdentityFile ~/.ssh/id_rsa
-            StrictHostKeyChecking no
-            ConnectTimeout 30
-            ServerAliveInterval 15
-            ServerAliveCountMax 3
-          EOC
-        env:
-          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PORT: ${{ secrets.VPS_PORT }}
-
-      - name: Test SSH connection
-        run: |
-          for i in 1 2 3; do
-            echo "SSH attempt $i..."
-            ssh vps "echo 'SSH connected successfully'" && exit 0
-            echo "Attempt $i failed, waiting 10s..."
-            sleep 10
-          done
-          echo "All SSH attempts failed"
-          exit 1
-
       - name: Deploy to VPS
-        run: |
-          ssh vps << 'EOF'
-          set -e
-          
-          echo "📦 Starting deployment..."
-          
-          # Navigate to project directory
-          cd ${{ env.PROJECT_PATH }}
-          
-          # Backup .env before git clean
-          if [ -f .env ]; then
-            cp .env /tmp/.env.backup
-            echo "📄 Backed up .env"
-          fi
-          
-          # Fetch latest changes
-          echo "📥 Fetching latest code..."
-          git fetch origin main
-          
-          # Force reset to remote main (discard local changes)
-          echo "🔄 Resetting to remote main..."
-          git reset --hard origin/main
-          
-          # Clean untracked files (preserve uploads directory)
-          git clean -fd --exclude=uploads/
-          
-          # Restore .env after git clean
-          if [ -f /tmp/.env.backup ]; then
-            cp /tmp/.env.backup .env
-            rm /tmp/.env.backup
-            echo "📄 Restored .env"
-          fi
-          
-          # Ensure all upload subdirectories exist on host (persists across deploys)
-          mkdir -p uploads/treatments uploads/hospitals uploads/doctors uploads/blogs uploads/medical-reports uploads/achievements uploads/testimonials
-          chmod -R 755 uploads
-
-          # Pull latest Docker image
-          echo "🐳 Pulling latest Docker image..."
-          docker compose pull
-          
-          # Stop old container
-          echo "🛑 Stopping old container..."
-          docker compose down
-          
-          # Start new container
-          echo "🚀 Starting new container..."
-          docker compose up -d
-          
-          # Wait for container to be healthy
-          echo "⏳ Waiting for container to be healthy..."
-          sleep 10
-          
-          # Check container status
-          if docker compose ps | grep -q "healthy"; then
-            echo "✅ Container is healthy"
-          else
-            echo "❌ Container health check failed"
-            docker compose logs
-            exit 1
-          fi
-          
-          # Prune old images
-          echo "🧹 Cleaning up old images..."
-          docker image prune -f
-          
-          echo "✅ Deployment completed successfully!"
-          EOF
-
-      - name: Verify deployment
-        run: |
-          ssh vps << 'EOF'
-          echo "🔍 Verifying deployment..."
-          
-          # Check container status
-          docker compose -f ${{ env.PROJECT_PATH }}/docker-compose.yml ps
-          
-          # Check logs
-          echo ""
-          echo "📝 Recent logs:"
-          docker compose -f ${{ env.PROJECT_PATH }}/docker-compose.yml logs --tail 20
-          
-          # Check health endpoint
-          echo ""
-          echo "🏥 Health check:"
-          curl -s http://localhost:3000/api/health | jq '.'
-          
-          echo "✅ Verification complete!"
-          EOF
-
-      - name: Deployment notification
-        if: always()
-        uses: actions/github-script@v7
+        uses: appleboy/ssh-action@v1.0.3
         with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          timeout: 60s
+          command_timeout: 10m
           script: |
-            const status = context.payload.pull_request ? 'completed' : 'completed';
-            const emoji = '${{ job.status }}' === 'success' ? '✅' : '❌';
-            const message = `${emoji} Deployment ${status} on VPS`;
-            
-            console.log(message);
+            set -e
+
+            echo "📦 Starting deployment..."
+
+            cd ${{ env.PROJECT_PATH }}
+
+            # Backup .env before git clean
+            if [ -f .env ]; then
+              cp .env /tmp/.env.backup
+              echo "📄 Backed up .env"
+            fi
+
+            # Fetch latest changes
+            echo "📥 Fetching latest code..."
+            git fetch origin main
+            git reset --hard origin/main
+            git clean -fd --exclude=uploads/
+
+            # Restore .env
+            if [ -f /tmp/.env.backup ]; then
+              cp /tmp/.env.backup .env
+              rm /tmp/.env.backup
+              echo "📄 Restored .env"
+            fi
+
+            # Ensure upload dirs exist
+            mkdir -p uploads/treatments uploads/hospitals uploads/doctors uploads/blogs uploads/medical-reports uploads/achievements uploads/testimonials
+            chmod -R 755 uploads
+
+            # Pull latest Docker image and redeploy
+            echo "🐳 Pulling latest Docker image..."
+            docker compose pull
+
+            echo "🛑 Stopping old container..."
+            docker compose down
+
+            echo "🚀 Starting new container..."
+            docker compose up -d
+
+            echo "⏳ Waiting for container to start..."
+            sleep 15
+
+            # Check container status
+            if docker compose ps | grep -q "healthy\|Up"; then
+              echo "✅ Container is running"
+            else
+              echo "❌ Container failed to start"
+              docker compose logs --tail 50
+              exit 1
+            fi
+
+            # Prune old images
+            docker image prune -f
+
+            echo "✅ Deployment completed successfully!"
 
   test:
     runs-on: ubuntu-latest
