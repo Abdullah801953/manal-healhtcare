@@ -335,13 +335,19 @@ export default function DoctorsPage() {
                           <img 
                             src={doctor.image} 
                             alt={doctor.name}
-                            className="w-12 h-12 rounded-full object-cover"
+                            className="w-12 h-12 rounded-full object-cover bg-gray-100"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              target.style.display = 'none';
+                              const sibling = target.nextElementSibling as HTMLElement;
+                              if (sibling) sibling.style.display = 'flex';
+                            }}
                           />
-                        ) : (
-                          <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-semibold">
-                            {doctor.name.charAt(0)}
-                          </div>
-                        )}
+                        ) : null}
+                        <div className="w-12 h-12 rounded-full bg-gray-200 items-center justify-center text-gray-500 font-semibold"
+                          style={{ display: doctor.image ? 'none' : 'flex' }}>
+                          {doctor.name.charAt(0)}
+                        </div>
                         <div>
                           <p className="font-medium text-gray-900">{doctor.name}</p>
                           <p className="text-sm text-gray-600">{doctor.designation}</p>

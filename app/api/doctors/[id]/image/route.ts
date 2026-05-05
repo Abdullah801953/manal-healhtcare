@@ -53,7 +53,7 @@ export async function GET(
         return new NextResponse(fileBuffer, {
           headers: {
             'Content-Type': contentType,
-            'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+            'Cache-Control': 'no-cache, must-revalidate',
           },
         });
       } catch {
@@ -75,7 +75,7 @@ export async function GET(
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+        'Cache-Control': 'no-cache, must-revalidate',
         'Content-Length': buffer.length.toString(),
       },
     });
