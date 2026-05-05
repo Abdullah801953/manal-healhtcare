@@ -13,9 +13,14 @@ export async function GET(
     await connectDB();
     const doctor = await Doctor.findById(id).select('image').lean();
 
-    if (!doctor || !doctor.image || typeof doctor.image !== 'string' || !doctor.image.startsWith('data:')) {
+    if (!doctor || !doctor.image || typeof doctor.image !== 'string') {
       // Redirect to placeholder if no image
       return NextResponse.redirect(new URL('/doctor-img 1.png', request.url));
+    }
+
+    // If image is a file path (uploaded to server), redirect to it directly
+    if (!doctor.image.startsWith('data:')) {
+      return NextResponse.redirect(new URL(doctor.image, request.url));
     }
 
     // Parse base64 data URI: data:image/png;base64,xxxxx
