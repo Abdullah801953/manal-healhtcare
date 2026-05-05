@@ -119,35 +119,3 @@ export function ImageUpload({ onImageSelect, currentImage, label = "Upload Image
     </div>
   );
 }
-        <div
-          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-            isDragging
-              ? "border-green-500 bg-green-50"
-              : "border-gray-300 hover:border-gray-400"
-          }`}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onClick={handleClick}
-        >
-          <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-sm text-gray-600 mb-1">
-            <span className="text-green-600 font-medium">Click to upload</span> or drag and drop
-          </p>
-          <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-        </div>
-      )}
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) handleFileSelect(file);
-        }}
-      />
-    </div>
-  );
-}
