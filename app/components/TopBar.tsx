@@ -167,7 +167,7 @@ export const TopBar = () => {
         </div>
 
         {/* RIGHT – Search */}
-        <div ref={wrapperRef} className="relative w-[600px]">
+        <div ref={wrapperRef} className="relative w-[600px] z-[9999]">
           <form
             onSubmit={handleSearch}
             className="flex items-center bg-white shadow-sm border border-gray-200
@@ -232,7 +232,7 @@ export const TopBar = () => {
 
           {/* ── Suggestions Dropdown ── */}
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-2xl shadow-xl z-auto overflow-hidden">
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-2xl z-[9999] overflow-hidden">
               {suggestions.map((item, i) => {
                 const Icon = activeCategory.icon;
                 return (
