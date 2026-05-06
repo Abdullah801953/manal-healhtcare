@@ -49,8 +49,12 @@ export const TopBar = () => {
   useEffect(() => {
     if (showSuggestions && wrapperRef.current) {
       const rect = wrapperRef.current.getBoundingClientRect();
+      // Position below the full header (not just the TopBar row) to avoid
+      // overlapping the MainNav row which has its own stacking context
+      const headerEl = document.querySelector('header');
+      const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : rect.bottom;
       setDropdownPos({
-        top:   rect.bottom + 8,   // fixed positioning — viewport-relative, no scroll offset needed
+        top:   headerBottom + 4,
         left:  rect.left,
         width: rect.width,
       });
