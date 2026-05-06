@@ -10,15 +10,11 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   IMAGE_NAME: manal-healthcare-docker
-  VPS_HOST: ${{ secrets.VPS_HOST }}
-  VPS_USER: ${{ secrets.VPS_USER }}
-  VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-  PROJECT_PATH: /var/www/htdocs/manal-healhtcare
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,84 +52,12 @@ jobs:
 
       - name: Notify build success
         run: |
-          echo "✅ Docker image built and pushed successfully!"
           echo "Image: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
-
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT || 22 }}
-          timeout: 60s
-          command_timeout: 10m
-          script: |
-            set -e
-
-            echo "📦 Starting deployment..."
-
-            cd ${{ env.PROJECT_PATH }}
-
-            # Backup .env before git clean
-            if [ -f .env ]; then
-              cp .env /tmp/.env.backup
-              echo "📄 Backed up .env"
-            fi
-
-            # Fetch latest changes
-            echo "📥 Fetching latest code..."
-            git fetch origin main
-            git reset --hard origin/main
-            git clean -fd --exclude=uploads/
-
-            # Restore .env
-            if [ -f /tmp/.env.backup ]; then
-              cp /tmp/.env.backup .env
-              rm /tmp/.env.backup
-              echo "📄 Restored .env"
-            fi
-
-            # Ensure upload dirs exist
-            mkdir -p uploads/treatments uploads/hospitals uploads/doctors uploads/blogs uploads/medical-reports uploads/achievements uploads/testimonials
-            chmod -R 755 uploads
-
-            # Pull latest Docker image and redeploy
-            echo "🐳 Pulling latest Docker image..."
-            docker compose pull
-
-            echo "🛑 Stopping old container..."
-            docker compose down
-
-            echo "🚀 Starting new container..."
-            docker compose up -d
-
-            echo "⏳ Waiting for container to start..."
-            sleep 15
-
-            # Check container status
-            if docker compose ps | grep -q "healthy\|Up"; then
-              echo "✅ Container is running"
-            else
-              echo "❌ Container failed to start"
-              docker compose logs --tail 50
-              exit 1
-            fi
-
-            # Prune old images
-            docker image prune -f
-
-            echo "✅ Deployment completed successfully!"
+          echo "Watchtower on the VPS will detect the new image and redeploy within 60 seconds."
 
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -141,8 +65,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -159,20 +83,3 @@ jobs:
           MONGODB_URI: mongodb://fake:fake@localhost/test
           NEXT_PUBLIC_BASE_URL: http://localhost:3000
           JWT_SECRET: test-secret
-
-  notify:
-    needs: [build-and-push, deploy, test]
-    runs-on: ubuntu-latest
-    if: always()
-    
-    steps:
-      - name: Send notification
-        run: |
-          STATUS="${{ job.status }}"
-          if [ "$STATUS" = "success" ]; then
-            echo "✅ CI/CD Pipeline completed successfully!"
-            echo "📦 Docker image: ${{ secrets.DOCKER_USERNAME }}/manal-healthcare-docker:latest"
-            echo "🚀 Deployed to: ${{ secrets.VPS_HOST }}"
-          else
-            echo "❌ CI/CD Pipeline failed!"
-          fi

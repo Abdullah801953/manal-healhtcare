@@ -27,3 +27,18 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  # Watchtower: automatically pulls and restarts the web container
+  # whenever a new image is pushed to Docker Hub — no SSH needed.
+  watchtower:
+    image: containrrr/watchtower
+    container_name: manal-watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true          # remove old images after update
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_POLL_INTERVAL=60      # check Docker Hub every 60 seconds
+      - WATCHTOWER_LABEL_ENABLE=false    # watch all containers
+    command: manal-healthcare              # only watch this container
