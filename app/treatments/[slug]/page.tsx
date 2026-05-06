@@ -18,12 +18,16 @@ import Image from 'next/image';
 
 // Renders an array of strings OR a newline-joined string as a bullet list.
 function BulletList({ content, items }: { content?: string; items?: string[] }) {
-  // Prefer the array field if it has real content
   const lines: string[] = [];
+  // Helper: split a string on \n and push non-empty trimmed lines
+  const pushLines = (str: string) =>
+    str.split('\n').forEach(l => { if (l.trim()) lines.push(l.trim()); });
+
   if (items && items.length > 0 && items.some(i => i.trim())) {
-    items.forEach(i => { if (i.trim()) lines.push(i.trim()); });
+    // Items may themselves contain embedded \n (e.g. when admin wraps a legacy string)
+    items.forEach(i => { if (i.trim()) pushLines(i); });
   } else if (content) {
-    content.split('\n').forEach(l => { if (l.trim()) lines.push(l.trim()); });
+    pushLines(content);
   }
 
   if (lines.length === 0) return null;
