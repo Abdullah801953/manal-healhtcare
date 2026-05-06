@@ -16,6 +16,35 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
+// Renders newline-joined strings as a proper bullet list.
+// Falls back to ReactMarkdown for content that already contains markdown syntax.
+function BulletList({ content }: { content: string }) {
+  if (!content) return null;
+  const lines = content.split('\n').map(l => l.trim()).filter(Boolean);
+  // If any line already starts with a markdown list marker, use ReactMarkdown
+  const isMarkdown = lines.some(l => /^[-*•]\s/.test(l) || /^\d+\.\s/.test(l) || l.startsWith('#'));
+  if (isMarkdown) {
+    return (
+      <div className="prose prose-sm xs:prose-base max-w-none text-gray-700">
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </div>
+    );
+  }
+  if (lines.length === 1) {
+    return <p className="text-gray-700 text-sm xs:text-base">{lines[0]}</p>;
+  }
+  return (
+    <ul className="space-y-2">
+      {lines.map((line, i) => (
+        <li key={i} className="flex items-start gap-2 text-sm xs:text-base text-gray-700">
+          <span className="mt-1.5 w-2 h-2 rounded-full bg-[#209f00] shrink-0" />
+          <span>{line}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 interface TreatmentDetailPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -258,129 +287,129 @@ export default async function TreatmentDetailPage({
             {treatment.disorders && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Disorders</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.disorders}</ReactMarkdown></div>
+                <BulletList content={treatment.disorders} />
               </div>
             )}
             {treatment.oncologyTypes && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Types of Oncology</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.oncologyTypes}</ReactMarkdown></div>
+                <BulletList content={treatment.oncologyTypes} />
               </div>
             )}
             {treatment.domains && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Core Domains</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.domains}</ReactMarkdown></div>
+                <BulletList content={treatment.domains} />
               </div>
             )}
             {treatment.reasons && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Reasons</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.reasons}</ReactMarkdown></div>
+                <BulletList content={treatment.reasons} />
               </div>
             )}
             {/* Purpose */}
             {treatment.purpose && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Purpose</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.purpose}</ReactMarkdown></div>
+                <BulletList content={treatment.purpose} />
               </div>
             )}
             {/* Diseases Treated / Cancer Types / Conditions / Diagnosis / Functions / Specialized / Tests / Neuroplasticity / Areas / Causes / Tumors */}
             {treatment.diseasesTreated && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Diseases Treated</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.diseasesTreated}</ReactMarkdown></div>
+                <BulletList content={treatment.diseasesTreated} />
               </div>
             )}
             {treatment.cancerTypes && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Types of Cancer</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.cancerTypes}</ReactMarkdown></div>
+                <BulletList content={treatment.cancerTypes} />
               </div>
             )}
             {treatment.conditions && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Conditions Treated</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.conditions}</ReactMarkdown></div>
+                <BulletList content={treatment.conditions} />
               </div>
             )}
             {treatment.diagnosis && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Diagnosis & Evaluation</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.diagnosis}</ReactMarkdown></div>
+                <BulletList content={treatment.diagnosis} />
               </div>
             )}
             {treatment.functions && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Functions</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.functions}</ReactMarkdown></div>
+                <BulletList content={treatment.functions} />
               </div>
             )}
             {treatment.specialized && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Specialized Treatments</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.specialized}</ReactMarkdown></div>
+                <BulletList content={treatment.specialized} />
               </div>
             )}
             {treatment.tests && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Medical Tests Required</h2>
-                <div className="prose prose-lg text-gray-700"><ReactMarkdown>{treatment.tests}</ReactMarkdown></div>
+                <BulletList content={treatment.tests} />
               </div>
             )}
             {treatment.neuroplasticity && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Neuroplasticity</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.neuroplasticity}</ReactMarkdown></div>
+                <BulletList content={treatment.neuroplasticity} />
               </div>
             )}
             {treatment.areas && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Areas of Neurology</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.areas}</ReactMarkdown></div>
+                <BulletList content={treatment.areas} />
               </div>
             )}
             {treatment.causes && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Causes</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.causes}</ReactMarkdown></div>
+                <BulletList content={treatment.causes} />
               </div>
             )}
             {treatment.tumors && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Types of Tumors</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.tumors}</ReactMarkdown></div>
+                <BulletList content={treatment.tumors} />
               </div>
             )}
             {treatment.clinical && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Clinical Functions</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.clinical}</ReactMarkdown></div>
+                <BulletList content={treatment.clinical} />
               </div>
             )}
             {treatment.surgery && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Surgical Treatments</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.surgery}</ReactMarkdown></div>
+                <BulletList content={treatment.surgery} />
               </div>
             )}
             {/* Risks */}
             {treatment.risks && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Risks</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.risks}</ReactMarkdown></div>
+                <BulletList content={treatment.risks} />
               </div>
             )}
             {/* GVHD */}
             {treatment.gvhd && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Graft-Versus-Host Disease (GVHD)</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.gvhd}</ReactMarkdown></div>
+                <BulletList content={treatment.gvhd} />
                 {treatment.gvhdSymptoms && (
                   <>
                     <h3 className="text-lg xs:text-xl font-semibold mt-5 xs:mt-6 mb-2 xs:mb-3">Symptoms of GVHD</h3>
-                    <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.gvhdSymptoms}</ReactMarkdown></div>
+                    <BulletList content={treatment.gvhdSymptoms} />
                   </>
                 )}
               </div>
@@ -389,35 +418,35 @@ export default async function TreatmentDetailPage({
             {treatment.preTransplant && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Pre-Transplant Evaluation and Clinical Procedure</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.preTransplant}</ReactMarkdown></div>
+                <BulletList content={treatment.preTransplant} />
               </div>
             )}
             {/* Autologous Stem Cell Harvesting */}
             {treatment.autologous && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Autologous Stem Cell Harvesting Process</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.autologous}</ReactMarkdown></div>
+                <BulletList content={treatment.autologous} />
               </div>
             )}
             {/* Conditioning Procedure */}
             {treatment.conditioning && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Conditioning Procedure</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.conditioning}</ReactMarkdown></div>
+                <BulletList content={treatment.conditioning} />
               </div>
             )}
             {/* Summary */}
             {treatment.summary && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Summary</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.summary}</ReactMarkdown></div>
+                <BulletList content={treatment.summary} />
               </div>
             )}
             {/* Why India */}
             {treatment.whyIndia && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Why Choose India?</h2>
-                <div className="prose prose-sm xs:prose-base max-w-none text-gray-700"><ReactMarkdown>{treatment.whyIndia}</ReactMarkdown></div>
+                <BulletList content={treatment.whyIndia} />
               </div>
             )}
 
