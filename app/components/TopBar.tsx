@@ -232,7 +232,7 @@ export const TopBar = () => {
 
           {/* ── Suggestions Dropdown ── */}
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-2xl shadow-xl z-auto overflow-hidden">
               {suggestions.map((item, i) => {
                 const Icon = activeCategory.icon;
                 return (
