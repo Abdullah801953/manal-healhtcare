@@ -16,17 +16,24 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
-// Renders newline-joined strings as a proper bullet list.
-// Falls back to ReactMarkdown for content that already contains markdown syntax.
-function BulletList({ content }: { content: string }) {
-  if (!content) return null;
-  const lines = content.split('\n').map(l => l.trim()).filter(Boolean);
+// Renders an array of strings OR a newline-joined string as a bullet list.
+function BulletList({ content, items }: { content?: string; items?: string[] }) {
+  // Prefer the array field if it has real content
+  const lines: string[] = [];
+  if (items && items.length > 0 && items.some(i => i.trim())) {
+    items.forEach(i => { if (i.trim()) lines.push(i.trim()); });
+  } else if (content) {
+    content.split('\n').forEach(l => { if (l.trim()) lines.push(l.trim()); });
+  }
+
+  if (lines.length === 0) return null;
+
   // If any line already starts with a markdown list marker, use ReactMarkdown
   const isMarkdown = lines.some(l => /^[-*•]\s/.test(l) || /^\d+\.\s/.test(l) || l.startsWith('#'));
   if (isMarkdown) {
     return (
       <div className="prose prose-sm xs:prose-base max-w-none text-gray-700">
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown>{lines.join('\n')}</ReactMarkdown>
       </div>
     );
   }
@@ -309,10 +316,10 @@ export default async function TreatmentDetailPage({
               </div>
             )}
             {/* Purpose */}
-            {treatment.purpose && (
+            {(treatment.purposeList?.length > 0 || treatment.purpose) && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Purpose</h2>
-                <BulletList content={treatment.purpose} />
+                <BulletList items={treatment.purposeList} content={treatment.purpose} />
               </div>
             )}
             {/* Diseases Treated / Cancer Types / Conditions / Diagnosis / Functions / Specialized / Tests / Neuroplasticity / Areas / Causes / Tumors */}
@@ -328,16 +335,16 @@ export default async function TreatmentDetailPage({
                 <BulletList content={treatment.cancerTypes} />
               </div>
             )}
-            {treatment.conditions && (
+            {(treatment.conditionList?.length > 0 || treatment.conditions) && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Conditions Treated</h2>
-                <BulletList content={treatment.conditions} />
+                <BulletList items={treatment.conditionList} content={treatment.conditions} />
               </div>
             )}
-            {treatment.diagnosis && (
+            {(treatment.diagnosisList?.length > 0 || treatment.diagnosis) && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Diagnosis & Evaluation</h2>
-                <BulletList content={treatment.diagnosis} />
+                <BulletList items={treatment.diagnosisList} content={treatment.diagnosis} />
               </div>
             )}
             {treatment.functions && (
@@ -395,10 +402,10 @@ export default async function TreatmentDetailPage({
               </div>
             )}
             {/* Risks */}
-            {treatment.risks && (
+            {(treatment.riskList?.length > 0 || treatment.risks) && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Risks</h2>
-                <BulletList content={treatment.risks} />
+                <BulletList items={treatment.riskList} content={treatment.risks} />
               </div>
             )}
             {/* GVHD */}
@@ -436,17 +443,17 @@ export default async function TreatmentDetailPage({
               </div>
             )}
             {/* Summary */}
-            {treatment.summary && (
+            {(treatment.summaryList?.length > 0 || treatment.summary) && (
               <div className="bg-gradient-to-br from-[#f6fff9] to-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00]/70 hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Summary</h2>
-                <BulletList content={treatment.summary} />
+                <BulletList items={treatment.summaryList} content={treatment.summary} />
               </div>
             )}
             {/* Why India */}
-            {treatment.whyIndia && (
+            {(treatment.whyIndiaList?.length > 0 || treatment.whyIndia) && (
               <div className="bg-white rounded-2xl shadow-md p-5 xs:p-6 border-l-4 border-[#209f00] hover:shadow-lg transition-shadow">
                 <h2 className="text-xl xs:text-2xl font-bold text-gray-900 mb-3 xs:mb-4">Why Choose India?</h2>
-                <BulletList content={treatment.whyIndia} />
+                <BulletList items={treatment.whyIndiaList} content={treatment.whyIndia} />
               </div>
             )}
 
