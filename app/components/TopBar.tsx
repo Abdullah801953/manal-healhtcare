@@ -50,8 +50,8 @@ export const TopBar = () => {
     if (showSuggestions && wrapperRef.current) {
       const rect = wrapperRef.current.getBoundingClientRect();
       setDropdownPos({
-        top:   rect.bottom + window.scrollY + 8,
-        left:  rect.left   + window.scrollX,
+        top:   rect.bottom + 8,   // fixed positioning — viewport-relative, no scroll offset needed
+        left:  rect.left,
         width: rect.width,
       });
     }
@@ -127,7 +127,7 @@ export const TopBar = () => {
   const activeCategory = categories.find((c) => c.id === category)!;
 
   return (
-    <div className="hidden md:block bg-white border-b backdrop-blur-md">
+    <div className="hidden md:block bg-white border-b">
       <div className="container mx-auto px-6 py-3 flex items-center justify-between">
 
         {/* LEFT – Brand */}
@@ -202,7 +202,7 @@ export const TopBar = () => {
       {mounted && showSuggestions && suggestions.length > 0 && dropdownPos && createPortal(
         <div
           style={{
-            position: "absolute",
+            position: "fixed",
             top:   dropdownPos.top,
             left:  dropdownPos.left,
             width: dropdownPos.width,
