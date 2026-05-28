@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -23,17 +22,19 @@ const quickLinks = [
   { href: "/info/privacy-policy", label: "Privacy Policy" },
   { href: "/info/terms-conditions", label: "Terms & Conditions" },
   { href: "/info/disclaimer", label: "Disclaimer" },
+   { href: "/info/thankyou", label: "thankyou" },
 ];
 
 const Footer = () => {
   const { settings } = useSettings();
+
+  const [showFullText, setShowFullText] = useState(false);
   const [treatments, setTreatments] = useState<any[]>([]);
   const [hospitals, setHospitals] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch Treatments
         const treatmentRes = await fetch("/api/treatments?status=active");
         const treatmentData = await treatmentRes.json();
         if (treatmentData.success) {
@@ -45,7 +46,6 @@ const Footer = () => {
           setTreatments(uniqueCategories);
         }
 
-        // Fetch Hospitals
         const hospitalRes = await fetch("/api/hospitals?status=active");
         const hospitalData = await hospitalRes.json();
         if (hospitalData.success) {
@@ -60,47 +60,55 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 border-t">
-      <div className="container  mx-auto  px-2 sm:px-2 lg:px-2 py-5">
+      <div className="container mx-auto px-2 sm:px-2 lg:px-2 py-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+
           {/* Company Info */}
           <div>
-            <Link href="/" className="flex items-center gap-2.5 ">
-              <Image
-                src={logo}
-                alt="Manal Healthcare Logo"
-                width={120}
-                height={40}
-                priority
-                style={{ height: "auto" }}
-                className="object-contain"
-              />
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image src={logo} alt="Logo" width={120} height={40} />
             </Link>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Manal Health Care acts solely as a medical tourism facilitator and
-              does not provide medical advice, diagnosis, or treatment. All
-              healthcare services are rendered exclusively by independent
-              hospitals and licensed medical professionals. We make no
-              representations or warranties regarding treatment outcomes and
-              expressly disclaim any liability for complications, losses, or
-              damages arising from such services. Use of our services does not
-              establish a doctor–patient relationship. By using our services,
-              you agree to and accept our Terms & Conditions.
-            </p>
+
+            {/* ✅ FIXED DISCLAIMER */}
+            <div className="mt-3">
+              <p
+                className={`text-sm text-gray-600 leading-relaxed transition-all duration-300 ${
+                  showFullText ? "" : "line-clamp-5"
+                }`}
+              >
+                Manal Health Care acts solely as a medical tourism facilitator and
+                does not provide medical advice, diagnosis, or treatment. All
+                healthcare services are rendered exclusively by independent
+                hospitals and licensed medical professionals. We make no
+                representations or warranties regarding treatment outcomes and
+                expressly disclaim any liability for complications, losses, or
+                damages arising from such services. Use of our services does not
+                establish a doctor–patient relationship. By using our services,
+                you agree to and accept our Terms & Conditions.
+              </p>
+
+              <button
+                onClick={() => setShowFullText(!showFullText)}
+                className="mt-2 text-xs font-semibold text-[#209F00] hover:underline flex items-center gap-1"
+              >
+                {showFullText ? "View Less" : "View More"}
+                <ChevronRight
+                  className={`w-3 h-3 transition ${
+                    showFullText ? "rotate-90" : ""
+                  }`}
+                />
+              </button>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Quick Links
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="flex items-center gap-2 text-gray-600 hover:text-[#209F00] transition-colors group"
-                  >
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Link href={link.href} className="flex items-center gap-2 text-gray-600 hover:text-[#209F00]">
+                    <ChevronRight className="w-4 h-4" />
                     <span className="text-sm">{link.label}</span>
                   </Link>
                 </li>
@@ -108,107 +116,100 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Get In Touch */}
+          {/* Contact */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Get In Touch
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-2">Location</h4>
-                <div className="flex items-start gap-2 text-sm text-gray-600">
-                  <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-                  <span>{settings?.address || "Loading..."}</span>
-                </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Get In Touch</h3>
+            <div className="space-y-3 text-sm text-gray-600">
+              <div className="flex gap-2">
+                <MapPin size={16} /> {settings?.address}
               </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-2">Contact</h4>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Phone className="w-4 h-4 shrink-0" />
-                    <Link
-                      href={`tel:${settings?.sitePhone?.replace(/\D/g, "")}`}
-                      className="hover:text-[#209F00] transition-colors"
-                    >
-                      {settings?.sitePhone || "Loading..."}
-                    </Link>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Mail className="w-4 h-4 shrink-0" />
-                    <Link
-                      href={`mailto:${settings?.siteEmail}`}
-                      className="hover:text-[#209F00] transition-colors"
-                    >
-                      {settings?.siteEmail || "Loading..."}
-                    </Link>
-                  </div>
-                </div>
+              <div className="flex gap-2">
+                <Phone size={16} /> {settings?.sitePhone}
+              </div>
+              <div className="flex gap-2">
+                <Mail size={16} /> {settings?.siteEmail}
               </div>
             </div>
           </div>
 
-          {/* Top Hospitals */}
+          {/* Hospitals */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Top Hospitals
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Top Hospitals</h3>
             <ul className="space-y-3">
-              {hospitals.length > 0 ? (
-                hospitals.map((hospital) => (
-                  <li key={hospital._id}>
-                    <Link
-                      href={`/hospitals/${hospital.slug}`}
-                      className="flex items-center gap-2 text-gray-600 hover:text-[#209F00] transition-colors group"
-                    >
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      <span className="text-sm">
-                        {hospital.name === "Cosmoden"
-                          ? "Metro Hospital"
-                          : hospital.name}
-                      </span>
-                    </Link>
-                  </li>
-                ))
-              ) : (
-                <li className="text-sm text-gray-500">Loading hospitals...</li>
-              )}
+              {hospitals.map((h) => (
+                <li key={h._id}>
+                  <Link href={`/hospitals/${h.slug}`} className="flex gap-2 text-sm text-gray-600 hover:text-[#209F00]">
+                    <ChevronRight size={14} />
+                    {h.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Our Treatments */}
+          {/* Treatments */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              Top Treatments
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Top Treatments</h3>
             <ul className="space-y-3">
-              {treatments.length > 0 ? (
-                treatments.map((treatment) => (
-                  <li key={treatment._id}>
-                    <Link
-                      href={`/treatments/${treatment.slug}`}
-                      className="flex items-center gap-2 text-gray-600 hover:text-[#209F00] transition-colors group"
-                    >
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      <span className="text-sm">{treatment.category}</span>
-                    </Link>
-                  </li>
-                ))
-              ) : (
-                <li className="text-sm text-gray-500">Loading treatments...</li>
-              )}
+              {treatments.map((t) => (
+                <li key={t._id}>
+                  <Link href={`/treatments/${t.slug}`} className="flex gap-2 text-sm text-gray-600 hover:text-[#209F00]">
+                    <ChevronRight size={14} />
+                    {t.category}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
         </div>
       </div>
 
-      <div className="bg-gray-200 border-t border-gray-300">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-10 py-4">
-          <p className="text-center text-sm text-gray-700">
-            Copyright © <span className="font-semibold">FAAB</span> | Designed &
-            Powered by <span className="font-semibold">FAAB</span>
-          </p>
+      {/* Social Banner */}
+      <div className="bg-[#b8d9f0] border-t">
+        <div className="container mx-auto px-4 py-4 flex flex-wrap justify-between gap-4">
+
+          <div className="flex items-center gap-3">
+  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow">
+    <Mail className="w-5 h-5 text-gray-700" />
+  </div>
+  <span className="text-sm text-gray-800 font-medium">
+    {settings?.siteEmail}
+  </span>
+</div>
+          <div className="text-sm">📞 {settings?.sitePhone}</div>
+
+          <a
+            href={`https://wa.me/${settings?.sitePhone?.replace(/\D/g, "")}`}
+            target="_blank"
+            className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm"
+          >
+            Chat Now
+          </a>
+
+          <div className="flex gap-2">
+            <Youtube />
+            <Linkedin />
+            <Facebook />
+            <Instagram />
+            <Twitter />
+          </div>
+
         </div>
       </div>
+
+      {/* Copyright */}
+     <div className="bg-gray-200 text-center py-3 text-sm">
+  © 2025 Manal Healthcare. All Rights Reserved. | Designed & Powered by{" "}
+  <a
+    href="https://www.faab.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-black-600 font-bold hover:underline"
+  >
+    FAAB
+  </a>
+</div>
     </footer>
   );
 };
