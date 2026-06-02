@@ -55,10 +55,19 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
 
-      - name: Notify build success
-        run: |
-          echo "Image: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
-          echo "Watchtower on the VPS will detect the new image and redeploy within 60 seconds."
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22
+          script: |
+            cd /docker/manal-healthcare
+            docker compose pull
+            docker compose up -d --force-recreate
+            docker image prune -f
+            echo "✅ Deployed successfully"
 
   test:
     runs-on: ubuntu-latest
