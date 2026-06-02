@@ -22,7 +22,11 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 ENV UPLOAD_DIR=/app/public/uploads
+
+# Install wget for healthcheck (curl not in node:alpine)
+RUN apk add --no-cache wget
 
 # Copy the standalone server output
 COPY --from=builder /app/.next/standalone ./
