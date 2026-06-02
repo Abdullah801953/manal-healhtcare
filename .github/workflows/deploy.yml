@@ -55,18 +55,10 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
 
-      - name: Deploy to VPS via webhook
+      - name: Notify deployment
         run: |
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST \
-            -H "X-Deploy-Token: manal-deploy-secret-2026" \
-            http://${{ secrets.VPS_HOST }}:9000/hooks/deploy)
-          echo "Webhook response: $RESPONSE"
-          if [ "$RESPONSE" != "200" ]; then
-            echo "Webhook failed with status $RESPONSE"
-            exit 1
-          fi
-          echo "✅ Deploy triggered on VPS"
+          echo "✅ Image pushed to Docker Hub."
+          echo "🔄 Watchtower on VPS will pull and redeploy within 5 minutes automatically."
 
   test:
     runs-on: ubuntu-latest
