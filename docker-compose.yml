@@ -6,39 +6,38 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - MONGODB_URI=${MONGODB_URI}
-      - NEXT_PUBLIC_BASE_URL=https://manalhealthcare.com
-      - JWT_SECRET=${JWT_SECRET}
-      - UPLOAD_DIR=/app/public/uploads
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_SECURE=${SMTP_SECURE}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASS=${SMTP_PASS}
-      - INQUIRY_RECIPIENT_EMAIL=${INQUIRY_RECIPIENT_EMAIL}
-      - INQUIRY_CC_EMAIL=${INQUIRY_CC_EMAIL}
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: ${MONGODB_URI}
+      NEXT_PUBLIC_BASE_URL: https://manalhealthcare.com
+      JWT_SECRET: ${JWT_SECRET}
+      UPLOAD_DIR: /app/public/uploads
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURE: ${SMTP_SECURE}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      INQUIRY_RECIPIENT_EMAIL: ${INQUIRY_RECIPIENT_EMAIL}
+      INQUIRY_CC_EMAIL: ${INQUIRY_CC_EMAIL}
     volumes:
       - ./uploads:/app/public/uploads
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://localhost:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
-  # Watchtower: automatically pulls and restarts the web container
-  # whenever a new image is pushed to Docker Hub — no SSH needed.
   watchtower:
-    image: containrrr/watchtower
-    container_name: manal-watchtower
+    image: containrrr/watchtower:latest
+    container_name: manal-healthcare-watchtower
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - WATCHTOWER_CLEANUP=true          # remove old images after update
-      - WATCHTOWER_INCLUDE_RESTARTING=true
-      - WATCHTOWER_POLL_INTERVAL=60      # check Docker Hub every 60 seconds
-      - WATCHTOWER_LABEL_ENABLE=false    # watch all containers
-    command: manal-healthcare              # only watch this container
+    command: --interval 300 --cleanup --label-enable
