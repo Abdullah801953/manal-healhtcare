@@ -12,11 +12,13 @@ A full-stack medical tourism platform built with **Next.js 16**, **TypeScript**,
 | Language | TypeScript 5 |
 | Styling | Tailwind CSS v4 |
 | UI Components | shadcn/ui (Radix UI) |
-| Animations | Framer Motion 12 |
-| Database | MongoDB + Mongoose 9 |
-| Auth | bcryptjs |
+| Animations | Framer Motion |
+| Database | MongoDB + Mongoose |
+| Auth | bcryptjs + JWT |
 | Icons | Lucide React |
 | File Upload | react-dropzone |
+| Container | Docker + Docker Compose |
+| CI/CD | GitHub Actions → Docker Hub → Watchtower |
 
 ---
 
@@ -61,6 +63,7 @@ app/
 │   ├── newsletter/
 │   └── settings/
 ├── api/                 # API routes
+│   ├── admin/
 │   ├── doctors/
 │   ├── hospitals/
 │   ├── treatments/
@@ -71,19 +74,22 @@ app/
 │   ├── newsletter/
 │   ├── settings/
 │   ├── translate/
-│   └── upload/
+│   ├── upload/
+│   └── uploads/
 ├── blogs/[id]/
 ├── contact/
 ├── doctors/[slug]/
 ├── hospitals/[id]/
-├── info/                # Static info pages
+├── info/                # Static info pages (privacy, terms, disclaimer, etc.)
 ├── testimonials/
 ├── treatments/[slug]/
-└── components/          # Shared components
+└── components/          # Shared page components
 
 components/ui/           # shadcn/ui components
 lib/
-├── mongodb.ts           # DB connection
+├── auth.ts
+├── mailer.ts
+├── mongodb.ts
 ├── utils.ts
 └── models/              # Mongoose models
     ├── Admin.ts
@@ -95,8 +101,7 @@ lib/
     ├── Newsletter.ts
     ├── Settings.ts
     ├── Testimonial.ts
-    ├── Treatment.ts
-    └── User.ts
+    └── Treatment.ts
 
 scripts/                 # DB seeding scripts
 public/uploads/          # Uploaded files (mapped as Docker volume)
@@ -123,16 +128,23 @@ cp .env.local.example .env.local
 Edit `.env.local`:
 ```env
 MONGODB_URI=mongodb://localhost:27017/manal-healthcare
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=your_secure_password
+JWT_SECRET=your_jwt_secret_here
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your@email.com
+SMTP_PASS=your_smtp_password
+INQUIRY_RECIPIENT_EMAIL=recipient@email.com
+INQUIRY_CC_EMAIL=cc@email.com
 ```
 
 ```bash
 # 3. Seed the database (optional)
-npm run seed:admin
-npm run seed:treatments
-npm run seed:testimonials
-npm run seed:blogs
+npx tsx scripts/seed-admin.ts
+npx tsx scripts/seed-treatments.ts
+npx tsx scripts/seed-testimonials.ts
+npx tsx scripts/seed-blogs.ts
+npx tsx scripts/seed-faqs.ts
 
 # 4. Start development server
 npm run dev
@@ -151,27 +163,52 @@ npm run build            # Production build
 npm run start            # Start production server
 npm run lint             # Run ESLint
 
-npm run seed:admin       # Create admin user
-npm run seed:treatments  # Seed treatments
-npm run seed:testimonials # Seed testimonials
-npm run seed:blogs       # Seed blog posts
+# Database seeding (run once on fresh installs)
+npx tsx scripts/seed-admin.ts        # Create admin user
+npx tsx scripts/seed-treatments.ts   # Seed treatments
+npx tsx scripts/seed-testimonials.ts # Seed testimonials
+npx tsx scripts/seed-blogs.ts        # Seed blog posts
+npx tsx scripts/seed-faqs.ts         # Seed FAQs
 ```
 
 ---
 
-## Docker Deployment
+## Docker & Deployment
+
+### Local Docker
 
 ```bash
-# Build and run with Docker Compose
 docker-compose up -d --build
 ```
 
-The `docker-compose.yml` maps `./uploads` to `/app/public/uploads` so uploaded images persist across container restarts.
+### Production CI/CD
 
-Environment variables required in production:
-- `MONGODB_URI`
-- `ADMIN_USERNAME`
-- `ADMIN_PASSWORD`
+1. **Push to `main`** → GitHub Actions builds the Docker image and pushes it to Docker Hub (`abdullahdkc/manal-healthcare-docker:latest`).
+2. **Watchtower** (running on VPS) polls Docker Hub every 5 minutes, pulls the new image, and restarts the container automatically.
+
+No manual SSH or webhook is needed — deployment is fully automatic after `git push`.
+
+### Environment Variables (VPS)
+
+Stored in `/docker/manal-healthcare/.env` on the server:
+
+```env
+MONGODB_URI=...
+JWT_SECRET=...
+SMTP_HOST=...
+SMTP_PORT=...
+SMTP_SECURE=...
+SMTP_USER=...
+SMTP_PASS=...
+INQUIRY_RECIPIENT_EMAIL=...
+INQUIRY_CC_EMAIL=...
+DOCKER_USERNAME=...
+DOCKER_PASSWORD=...
+```
+
+### Uploaded Files
+
+The `docker-compose.yml` maps `./uploads` → `/app/public/uploads` so hospital, doctor, and blog images persist across container restarts. Files are stored at `/docker/manal-healthcare/uploads/` on the VPS host.
 
 ---
 
@@ -191,13 +228,14 @@ Environment variables required in production:
 | GET | `/api/blogs/[id]` | Get blog by ID |
 | GET | `/api/faqs` | List FAQs |
 | GET | `/api/settings` | Get website settings |
+| GET | `/api/health` | Health check (used by Docker healthcheck) |
 | POST | `/api/inquiries` | Submit patient inquiry |
 | POST | `/api/newsletter` | Subscribe to newsletter |
 | POST | `/api/translate` | Translate text (Google Translate) |
-| POST | `/api/upload` | Upload file (types: doctors, hospitals, treatments, blogs, medical-reports) |
+| POST | `/api/upload` | Upload file (doctors, hospitals, treatments, blogs, medical-reports) |
 
 ### Admin (Protected — require valid session)
-All public routes also accept `POST`, `PUT`, `DELETE` when authenticated.
+All public routes also accept `POST`, `PUT`, `DELETE` when authenticated via the admin session cookie.
 
 ---
 
@@ -215,9 +253,11 @@ To add a language, add it to the `languages` array in `app/components/LanguageSe
 ## Security Notes
 
 - Admin passwords are hashed with bcryptjs
-- Sensitive config lives in `.env.local` (excluded from git)
+- Sessions are managed with signed JWT cookies
+- Sensitive config lives in `.env.local` / `.env` (excluded from git)
 - File uploads are validated for type and size (10MB max)
 - MongoDB queries use Mongoose ODM (no raw query injection)
+- Production container runs on `127.0.0.1:3000` (nginx reverse proxy only — not exposed publicly)
 
 ---
 
