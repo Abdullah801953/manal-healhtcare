@@ -44,6 +44,8 @@ services:
     restart: unless-stopped
     environment:
       - DOCKER_API_VERSION=1.44
+      - REPO_USER=${DOCKER_USERNAME}
+      - REPO_PASS=${DOCKER_PASSWORD}
     deploy:
       resources:
         limits:
