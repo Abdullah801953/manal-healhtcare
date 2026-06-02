@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { LayoutWrapper } from "./components/LayoutWrapper";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -12,10 +10,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-/* =======================
-   SEO METADATA (GLOBAL)
-======================= */
 
 export const metadata: Metadata = {
   title: {
@@ -88,19 +82,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://manalhealthcare.com",
   },
-  
+
   verification: {
-    // Google Search Console verification code - Added from GSC
     google: "gsT0fpMiOLJLaHFtCijlaMzm1GTjnsxhGfTH1VFLEVw",
   },
-  
+
   other: {
     "google-site-verification": "gsT0fpMiOLJLaHFtCijlaMzm1GTjnsxhGfTH1VFLEVw",
-    "msvalidate.01": "REPLACE_WITH_BING_VERIFICATION_CODE", // Optional: Bing Webmaster
+    "msvalidate.01": "REPLACE_WITH_BING_VERIFICATION_CODE",
     "brand": "Manal Healthcare",
     "company": "manalhealthcare",
   },
-  
+
   manifest: "/site.webmanifest",
 };
 
@@ -109,7 +102,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Enhanced Structured Data for SEO (JSON-LD)
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "MedicalOrganization",
@@ -126,7 +118,7 @@ export default function RootLayout({
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+91-8287508755",
+      "telephone": "+91-7394966566",
       "contactType": "Customer Service",
       "email": "info@manalhealthcare.com",
       "availableLanguage": ["English", "Arabic", "Hindi", "Russian", "French", "Spanish", "Bengali"]
@@ -179,6 +171,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* ✅ GTM Script - First in <head> */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-5GKVN8HZ');`,
+          }}
+        />
+
+        {/* Existing JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -191,6 +195,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* ✅ GTM Noscript - First in <body> */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GKVN8HZ"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+          }}
+        />
+
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
