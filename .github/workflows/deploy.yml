@@ -55,19 +55,18 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
 
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          port: 22
-          script: |
-            cd /docker/manal-healthcare
-            docker compose pull
-            docker compose up -d --force-recreate
-            docker image prune -f
-            echo "✅ Deployed successfully"
+      - name: Deploy to VPS via webhook
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "X-Deploy-Token: manal-deploy-secret-2026" \
+            http://${{ secrets.VPS_HOST }}:9000/hooks/deploy)
+          echo "Webhook response: $RESPONSE"
+          if [ "$RESPONSE" != "200" ]; then
+            echo "Webhook failed with status $RESPONSE"
+            exit 1
+          fi
+          echo "✅ Deploy triggered on VPS"
 
   test:
     runs-on: ubuntu-latest
