@@ -1,19 +1,37 @@
-# Use Node.js base image
-FROM node:20-alpine
+# ---- Build stage ----
+FROM node:20-alpine AS builder
 
 # Accept build args
 ARG MONGODB_URI
+ENV MONGODB_URI=${MONGODB_URI}
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and install all deps (including devDeps needed for build)
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies (npm ci is faster with lockfile)
-RUN npm ci --only=production=false
-
-# Copy all files
+# Copy source and build
 COPY . .
+RUN npm run build
+
+# ---- Production stage ----
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV UPLOAD_DIR=/app/public/uploads
+
+# Copy the standalone server output
+COPY --from=builder /app/.next/standalone ./
+
+# Copy static assets (CSS, JS chunks) — required for standalone mode
+COPY --from=builder /app/.next/static ./.next/static
+
+# Copy public folder (images, fonts, etc.)
+COPY --from=builder /app/public ./public
 
 # Create uploads directory with proper permissions
 RUN mkdir -p /app/public/uploads/treatments && \
@@ -24,20 +42,8 @@ RUN mkdir -p /app/public/uploads/treatments && \
     mkdir -p /app/public/uploads/testimonials && \
     chmod -R 755 /app/public/uploads
 
-# Set build-time env var for Next.js build
-ENV MONGODB_URI=${MONGODB_URI}
-
-# Build the application
-RUN npm run build
-
 # Expose port
 EXPOSE 3000
 
-# Set environment
-ENV NODE_ENV=production
-ENV PORT=3000
-ENV UPLOAD_DIR=/app/public/uploads
-
-# Start the application
-WORKDIR /app
-CMD ["npm", "start"]
+# Run the standalone Node server (not next start)
+CMD ["node", "server.js"]
