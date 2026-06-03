@@ -218,7 +218,7 @@ export const MainNav = () => {
                   "focus:bg-transparent px-2 xl:px-3 2xl:px-4",
                 )}
               >
-                About Usd
+                About Us
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
