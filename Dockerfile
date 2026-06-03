@@ -1,10 +1,6 @@
 # ---- Build stage ----
 FROM node:20-alpine AS builder
 
-# Accept build args
-ARG MONGODB_URI
-ENV MONGODB_URI=${MONGODB_URI}
-
 WORKDIR /app
 
 # Copy package files and install all deps (including devDeps needed for build)
