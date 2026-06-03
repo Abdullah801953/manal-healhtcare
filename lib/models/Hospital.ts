@@ -151,8 +151,8 @@ const HospitalSchema = new Schema<IHospital>(
 );
 
 // Add indexes for better query performance
+// Note: slug index is already created by unique: true on the field
 HospitalSchema.index({ name: 'text', city: 'text', description: 'text' });
-HospitalSchema.index({ slug: 1 });
 HospitalSchema.index({ city: 1 });
 HospitalSchema.index({ type: 1 });
 HospitalSchema.index({ featured: 1 });

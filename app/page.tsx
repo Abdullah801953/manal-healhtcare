@@ -1,22 +1,21 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-
+import nextDynamic from "next/dynamic";
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
 import { DoctorsShowcase } from "./components/DoctorsShowcase";
 import { Hospitals } from "./components/Hospitals";
 
 // Lazy load below-the-fold components
-const AboutSection = dynamic(() => import("./components/AboutSection").then(m => ({ default: m.AboutSection })));
-const ServicesMarquee = dynamic(() => import("./components/ServicesMarquee").then(m => ({ default: m.ServicesMarquee })));
-const OurServices = dynamic(() => import("./components/OurServices").then(m => ({ default: m.OurServices })));
-const Testimonials = dynamic(() => import("./components/Testimonials").then(m => ({ default: m.Testimonials })));
-const NewsletterSection = dynamic(() => import("./components/NewsletterSection").then(m => ({ default: m.NewsletterSection })));
-const BlogSection = dynamic(() => import("./components/BlogSection").then(m => ({ default: m.BlogSection })));
-const FAQSection = dynamic(() => import("./components/FAQSection").then(m => ({ default: m.FAQSection })));
-const QuoteSection = dynamic(() => import("./components/ QuoteSection"));
-const WhatsAppButton = dynamic(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
-const ContactButton = dynamic(() => import("./components/ContactButton").then(m => ({ default: m.ContactButton })));
+const AboutSection = nextDynamic(() => import("./components/AboutSection").then(m => ({ default: m.AboutSection })));
+const ServicesMarquee = nextDynamic(() => import("./components/ServicesMarquee").then(m => ({ default: m.ServicesMarquee })));
+const OurServices = nextDynamic(() => import("./components/OurServices").then(m => ({ default: m.OurServices })));
+const Testimonials = nextDynamic(() => import("./components/Testimonials").then(m => ({ default: m.Testimonials })));
+const NewsletterSection = nextDynamic(() => import("./components/NewsletterSection").then(m => ({ default: m.NewsletterSection })));
+const BlogSection = nextDynamic(() => import("./components/BlogSection").then(m => ({ default: m.BlogSection })));
+const FAQSection = nextDynamic(() => import("./components/FAQSection").then(m => ({ default: m.FAQSection })));
+const QuoteSection = nextDynamic(() => import("./components/ QuoteSection"));
+const WhatsAppButton = nextDynamic(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
+const ContactButton = nextDynamic(() => import("./components/ContactButton").then(m => ({ default: m.ContactButton })));
 
 import connectDB from "@/lib/mongodb";
 import FAQ from "@/lib/models/FAQ";
@@ -26,8 +25,8 @@ import Hospital from "@/lib/models/Hospital";
 import Testimonial from "@/lib/models/Testimonial";
 import Blog from "@/lib/models/Blog";
 
-// Revalidate homepage data every 60 seconds (ISR)
-export const revalidate = 60;
+// Always server-render this page so MongoDB is never queried at build time
+export const dynamic = 'force-dynamic';
 /* =======================
    PAGE LEVEL SEO
 ======================= */
