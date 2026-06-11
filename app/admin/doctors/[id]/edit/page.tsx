@@ -34,6 +34,7 @@ export default function EditDoctorPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingAchievement, setUploadingAchievement] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
@@ -47,6 +48,7 @@ export default function EditDoctorPage() {
     status: "active",
   });
 
+  const [originalImage, setOriginalImage] = useState("");
   const [qualifications, setQualifications] = useState<string[]>([""]);
   const [specializations, setSpecializations] = useState<string[]>([""]);
   const [clinicalFocus, setClinicalFocus] = useState<string[]>([""]);
@@ -77,6 +79,7 @@ export default function EditDoctorPage() {
           image: d.image || "",
           status: d.status || "active",
         });
+        setOriginalImage(d.image || "");
         setImagePreview(d.image || "");
         setQualifications(d.qualifications?.length ? d.qualifications : [""]);
         setSpecializations(d.specialization?.length ? d.specialization : [""]);
@@ -97,14 +100,40 @@ export default function EditDoctorPage() {
     finally { setFetching(false); }
   };
 
-  const handleImageSelect = (file: File) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result as string;
-      setImagePreview(base64String);
-      setFormData(prev => ({ ...prev, image: base64String }));
-    };
-    reader.readAsDataURL(file);
+  const handleImageSelect = async (file: File) => {
+    setUploadingImage(true);
+    setError("");
+    try {
+      // Create preview locally for immediate feedback
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to server
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', 'doctor');
+      
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        // Store only the URL, not base64
+        setFormData(prev => ({ ...prev, image: data.url }));
+      } else {
+        setError(data.message || 'Failed to upload image');
+      }
+    } catch (err) {
+      setError('Failed to upload image');
+      console.error(err);
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -168,8 +197,14 @@ export default function EditDoctorPage() {
     setError("");
     setSuccess("");
     try {
-      const doctorData = {
-        ...formData,
+      const doctorData: any = {
+        name: formData.name,
+        designation: formData.designation,
+        hospital: formData.hospital,
+        overview: formData.overview,
+        experience: formData.experience,
+        experienceYears: formData.experienceYears,
+        status: formData.status,
         qualifications: qualifications.filter(q => q.trim() !== ""),
         specialization: specializations.filter(s => s.trim() !== ""),
         clinicalFocus: clinicalFocus.filter(c => c.trim() !== ""),
@@ -181,6 +216,12 @@ export default function EditDoctorPage() {
         whyChoose: whyChoose.filter(w => w.trim() !== ""),
         achievements: achievements.filter(a => a.title.trim() !== ""),
       };
+
+      // Only include image if it was actually changed (new upload)
+      if (formData.image && formData.image !== originalImage) {
+        doctorData.image = formData.image;
+      }
+
       const res = await fetch(`/api/doctors/${doctorId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -190,8 +231,14 @@ export default function EditDoctorPage() {
       if (data.success) {
         setSuccess("Doctor updated successfully!");
         setTimeout(() => router.push('/admin/doctors'), 2000);
-      } else setError(data.message || 'Failed to update doctor');
-    } catch { setError('An error occurred while updating doctor'); }
+      } else {
+        console.error('API Error:', data);
+        setError(data.message || 'Failed to update doctor');
+      }
+    } catch (err) {
+      console.error('Submit Error:', err);
+      setError('An error occurred while updating doctor');
+    }
     finally { setLoading(false); }
   };
 

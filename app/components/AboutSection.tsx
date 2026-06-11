@@ -47,7 +47,7 @@ export const AboutSection = ({
   features = defaultFeatures,
   buttonText = "More About Us",
   buttonLink = "/about",
-  imageUrl = "/about-us-img.png",
+  imageUrl = "/about-us-img.webp",
   imageAlt = "Medical professionals providing healthcare",
   phoneLabel = "Need help?",
   showPhone = true,
@@ -89,7 +89,7 @@ export const AboutSection = ({
 
   return (
     <section className="py-16 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="mx-5 lg:mx-24">
           
           {/* LEFT CONTENT */}
           <motion.div

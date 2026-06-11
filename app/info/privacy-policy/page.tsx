@@ -327,7 +327,6 @@ export default function PrivacyPolicyPage() {
         <p className="text-center text-gray-400 text-xs mt-8">
           © {new Date().getFullYear()} Manal Health Care. All rights reserved.
         </p>
-
       </div>
     </div>
   );

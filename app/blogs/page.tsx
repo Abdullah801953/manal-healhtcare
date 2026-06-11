@@ -7,9 +7,8 @@ import { getBlogById } from "./utils";
 export default function BlogsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="">
         <BlogListHero />
-        
+      <div className="mx-5 lg:mx-24">
         <BlogGrid />
         
         <BlogListCTA />

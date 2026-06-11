@@ -23,6 +23,7 @@ export interface Treatment {
   shortDescription: string;
   image?: string;
   status: string;
+  showOnHomepage: boolean;
 }
 
 // Service card data type
@@ -61,6 +62,19 @@ interface ServicesProps {
   subheading?: string;
   showViewAll?: boolean;
   viewAllLink?: string;
+  initialTreatments?: Treatment[];
+}
+
+function treatmentsToCards(treatments: Treatment[]): ServiceCard[] {
+  const homepageTreatments = treatments.filter((t: Treatment) => t.showOnHomepage === true);
+  const sourceList = homepageTreatments.length > 0 ? homepageTreatments : treatments;
+  return sourceList.map((treatment: Treatment) => ({
+    id: treatment._id,
+    icon: treatmentIcons[treatment.category] || Activity,
+    title: treatment.title,
+    description: treatment.shortDescription || treatment.description.slice(0, 150) + '...',
+    link: `/treatments/${treatment.slug}`,
+  }));
 }
 
 export const Services = ({
@@ -68,13 +82,17 @@ export const Services = ({
   subheading = "Innovative Medical Treatments for Modern Healthcare",
   showViewAll = true,
   viewAllLink = "/treatments",
+  initialTreatments,
 }: ServicesProps) => {
-  const [services, setServices] = useState<ServiceCard[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [totalTreatments, setTotalTreatments] = useState(0);
+  const hasInitialData = initialTreatments && initialTreatments.length > 0;
+  const [services, setServices] = useState<ServiceCard[]>(hasInitialData ? treatmentsToCards(initialTreatments) : []);
+  const [loading, setLoading] = useState(!hasInitialData);
+  const [totalTreatments, setTotalTreatments] = useState(hasInitialData ? initialTreatments.length : 0);
 
-  // Fetch treatments from API
+  // Fetch treatments from API only if no initial data
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchTreatments = async () => {
       try {
         setLoading(true);
@@ -83,21 +101,8 @@ export const Services = ({
         
         if (result.success && result.data) {
           const activeTreatments = result.data.filter((t: Treatment) => t.status === 'active');
-             
           setTotalTreatments(activeTreatments.length);
-          
-          // Convert treatments to service cards
-          const serviceCards: ServiceCard[] = activeTreatments
-          .map((treatment: Treatment) => ({
-            
-            id: treatment._id,
-            icon: treatmentIcons[treatment.category] || Activity,
-            title: treatment.title,
-            description: treatment.shortDescription || treatment.description.slice(0, 150) + '...',
-            link: `/treatments/${treatment.slug}`,
-          }));
-          
-          setServices(serviceCards);
+          setServices(treatmentsToCards(activeTreatments));
         }
       } catch (err) {
         console.error('Error fetching treatments:', err);
@@ -107,7 +112,7 @@ export const Services = ({
     };
 
     fetchTreatments();
-  }, []);
+  }, [hasInitialData]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -135,7 +140,7 @@ export const Services = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="mx-5 lg:mx-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -153,7 +158,7 @@ export const Services = ({
             </motion.p>
             <motion.h2
               variants={itemVariants}
-              className="font-semibold text-[30px] xs:text-sm sm:text-md md:text-2xl"
+              className="font-semibold text-sm xs:text-base sm:text-lg md:text-2xl"
             >
               {subheading}
             </motion.h2>  
@@ -166,7 +171,7 @@ export const Services = ({
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#209f00] border-t-transparent"></div>
               </div>
             ) : services.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 xs:gap-5 sm:gap-6">
                 {services.map((service) => {
                   const Icon = service.icon;
                   return (
@@ -216,29 +221,28 @@ const ServiceCard = ({ service, Icon }: ServiceCardProps) => {
       className="h-full"
     >
 <Card className="h-full bg-[#eef3f7] border-none rounded-xl p-4 sm:p-5 hover:shadow-md transition-all duration-300">
-  <div className="flex items-start justify-between gap-4">
+  <div className="flex items-center justify-between gap-3">
     
     {/* Left Side Content */}
-    <div className="flex items-start gap-4">
+    <div className="flex items-center gap-3 min-w-0">
       
       {/* Icon */}
-      <div className="w-12 h-12 flex items-center justify-center">
-        <Icon className="w-10 h-10 text-green-700" />
+      <div style={{width: '48px', height: '48px', minWidth: '48px', minHeight: '48px'}} className="flex items-center justify-center rounded-full bg-gray-200 shrink-0 overflow-hidden">
+        <Icon style={{width: '24px', height: '24px'}} className="text-green-700" />
       </div>
 
       {/* Text */}
-      <div>
-        <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+      <div className="min-w-0">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 leading-snug">
           {service.title}
         </h3>
-      
       </div>
     </div>
 
     {/* Right Side Plus Button */}
-    <Link href={service.link}>
-      <div className="w-6 h-6 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 transition">
-        <Plus className="w-3 h-3 text-white" />
+    <Link href={service.link} className="shrink-0">
+      <div className="w-7 h-7 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 transition">
+        <Plus className="w-3.5 h-3.5 text-white" />
       </div>
     </Link>
 

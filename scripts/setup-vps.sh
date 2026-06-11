@@ -41,8 +41,14 @@ echo "📁 Creating application directory..."
 mkdir -p /opt/manal-healthcare
 cd /opt/manal-healthcare
 
-# Create uploads directory
-mkdir -p public/uploads
+# Create uploads directory (matches docker-compose volume: ./uploads:/app/public/uploads)
+mkdir -p uploads/treatments
+mkdir -p uploads/hospitals
+mkdir -p uploads/doctors
+mkdir -p uploads/blogs
+mkdir -p uploads/medical-reports
+mkdir -p uploads/testimonials
+chmod -R 755 uploads
 
 # Create .env file template
 echo "📝 Creating .env file template..."

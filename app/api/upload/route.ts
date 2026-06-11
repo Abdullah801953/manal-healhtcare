@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { writeFile, mkdir, access, constants } from 'fs/promises';
 import path from 'path';
 
+// Use UPLOAD_DIR env var or fall back to /app/public/uploads (Docker) or process.cwd()/public/uploads (dev)
+const UPLOAD_BASE = process.env.UPLOAD_DIR || path.join(process.cwd(), 'public', 'uploads');
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -76,9 +79,11 @@ export async function POST(request: Request) {
       uploadFolder = 'hospitals';
     } else if (type === 'achievement') {
       uploadFolder = 'achievements';
+    } else if (type === 'testimonial') {
+      uploadFolder = 'testimonials';
     }
     
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads', uploadFolder);
+    const uploadsDir = path.join(UPLOAD_BASE, uploadFolder);
     
     // Ensure uploads directory exists
     try {
@@ -102,8 +107,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Return the public URL
-    const publicUrl = `/uploads/${uploadFolder}/${filename}`;
+    // Return the API-served URL (works with standalone output)
+    const publicUrl = `/api/uploads/${uploadFolder}/${filename}`;
     console.log('[Upload API] Success, URL:', publicUrl);
 
     return NextResponse.json({

@@ -50,7 +50,7 @@ export function TestimonialsHero() {
       <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[#209f00]/10 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-[#209f00]/8 blur-3xl" />
 
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="mx-5 lg:mx-24">
         {/* Two-column grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 

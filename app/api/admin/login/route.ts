@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Admin from '@/lib/models/Admin';
 import bcrypt from 'bcryptjs';
+import { setAdminCookie } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
     await admin.save();
 
     // Return success response (without password)
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       message: 'Login successful',
       data: {
@@ -64,6 +65,9 @@ export async function POST(request: Request) {
         role: admin.role
       }
     });
+
+    // Set HTTP-only session cookie
+    return await setAdminCookie(response, admin._id.toString(), admin.email);
   } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json(

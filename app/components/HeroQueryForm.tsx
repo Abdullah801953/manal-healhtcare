@@ -5,11 +5,10 @@ import { ArrowRight, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useSettings } from "@/app/contexts/SettingsContext";
 import Translate from "./Translate";
+import { toast } from "sonner";
 
 export const HeroQueryForm = () => {
-  const { settings } = useSettings();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -70,23 +69,6 @@ export const HeroQueryForm = () => {
       const data = await response.json();
 
       if (data.success) {
-        const message = `Hello! I'm ${formData.name} from ${formData.country}.
-
-Medical Condition: ${formData.medicalCondition}
-
-${formData.email ? `Email: ${formData.email}` : ""}
-${reportUrl ? `Medical Report: ${window.location.origin}${reportUrl}` : ""}
-
-I would like to discuss my treatment options.`;
-
-        const phoneNumber =
-          settings?.whatsappNumber?.replace(/\D/g, "") || "918287508755";
-
-        window.open(
-          `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-          "_blank"
-        );
-
         setFormData({
           name: "",
           email: "",
@@ -97,11 +79,13 @@ I would like to discuss my treatment options.`;
           medicalReport: null,
         });
 
-        alert("Inquiry submitted successfully!");
+        window.location.href = '/thank-you';
+      } else {
+        toast.error('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -116,7 +100,7 @@ I would like to discuss my treatment options.`;
           <Translate>Get Free Consultation</Translate>
         </h3>
         <p className="text-white/90 text-sm text-center mt-1.5">
-          <Translate>Our team will contact you within 24 hours</Translate>
+          <Translate>Our team will contact you .</Translate>
         </p>
       </div>
 

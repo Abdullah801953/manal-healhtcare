@@ -33,11 +33,15 @@ const defaultFeatures: Feature[] = [
   { id: 1, text: "Free Medical Opinion & Second Opinion" },
   { id: 2, text: "End-to-End Treatment Coordination" },
   { id: 3, text: "Visa & Travel Assistance" },
-  { id: 4, text: "Airport Pickup " },
+  { id: 4, text: "Airport Pickup and Drop " },
   { id: 5, text: "Accommodation & Stay Arrangements" },
   { id: 6, text: "24/7 Patient Support in Multiple Languages" },
   { id: 7, text: "Expert Network of Top Indian Hospitals" },
   { id: 8, text: "Affordable & Transparent Pricing" },
+  { id: 9, text: "Money exchange" },
+  { id: 10, text: "Interpreters & translators" },
+  { id: 11, text: "Pre-Travel consultation" },
+  
 ];
 
 export const OurServices = ({
@@ -93,7 +97,7 @@ export const OurServices = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="mx-5 lg:mx-24">
           {/* Right Side - Content */}
           <motion.div
             variants={containerVariants}

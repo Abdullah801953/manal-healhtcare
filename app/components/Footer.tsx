@@ -22,7 +22,6 @@ const quickLinks = [
   { href: "/info/privacy-policy", label: "Privacy Policy" },
   { href: "/info/terms-conditions", label: "Terms & Conditions" },
   { href: "/info/disclaimer", label: "Disclaimer" },
-   { href: "/info/thankyou", label: "thankyou" },
 ];
 
 const Footer = () => {
@@ -199,7 +198,8 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-     <div className="bg-gray-200 text-center py-3 text-sm">
+
+ <div className="bg-gray-200 text-center py-3 text-sm">
   © 2025 Manal Healthcare. All Rights Reserved. | Designed & Powered by{" "}
   <a
     href="https://www.faab.com"

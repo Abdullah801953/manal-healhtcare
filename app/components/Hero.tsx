@@ -15,16 +15,12 @@ import {
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import herobg from "@/public/herobg.png";
+import herobg from "@/public/herobg.webp";
 
-import { treatmentsData } from "../treatments/data"
-import { doctorsData } from "@/app/doctors/data";
-import { hospitalsData } from "@/app/hospitals/data";
 import Translate from "./Translate";
-import { useSettings } from "../contexts/SettingsContext";
+import { toast } from "sonner";
 
 export const Hero = () => {
-  const { settings } = useSettings();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("treatments");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -182,7 +178,7 @@ const [formData, setFormData] = useState({
         if (uploadData.success) {
           reportUrl = uploadData.url;
         } else {
-          alert('Failed to upload medical report: ' + uploadData.message);
+          toast.error('Failed to upload medical report. Please try again.');
           setIsSubmitting(false);
           return;
         }
@@ -208,21 +204,6 @@ const [formData, setFormData] = useState({
       const data = await response.json();
 
       if (data.success) {
-        // Prepare WhatsApp message
-        const message = `Hello! I'm ${formData.name} from ${formData.country}.
-
-Medical Condition: ${formData.medicalCondition}
-
-${formData.email ? `Email: ${formData.email}` : ''}
-${reportUrl ? `Medical Report: ${window.location.origin}${reportUrl}` : 'No medical report attached'}
-
-I would like to discuss my treatment options.`;
-
-        // Redirect to WhatsApp
-        const phoneNumber = settings?.whatsappNumber?.replace(/\D/g, '') || '918287508755';
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-
         // Reset form
         setFormData({
           name: '',
@@ -238,13 +219,13 @@ I would like to discuss my treatment options.`;
         const fileInput = document.getElementById('hero-medical-report') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
 
-        alert('Thank you! Your inquiry has been submitted successfully.');
+        window.location.href = '/thank-you';
       } else {
-        alert('Failed to submit inquiry. Please try again.');
+        toast.error('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -308,7 +289,7 @@ I would like to discuss my treatment options.`;
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden ">
+    <section className="relative min-h-screen flex items-center overflow-x-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -317,7 +298,7 @@ I would like to discuss my treatment options.`;
           fill
           className="object-cover"
           priority
-          quality={100}
+          quality={80}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
       </div>
@@ -328,14 +309,14 @@ I would like to discuss my treatment options.`;
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       </div>
 
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-6 xs:py-8 sm:py-10 md:py-14 lg:py-16 xl:py-20 overflow-hidden relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+      <div className="mx-5 lg:mx-24 py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center">
           {/* Left Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left order-2 lg:order-1 text-white"
+            className="space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left order-1 text-white"
           >
             <motion.div className="space-y-3 sm:space-y-4 lg:space-y-5">
               {/* Main Hero Heading with enhanced styling */}
@@ -357,7 +338,7 @@ I would like to discuss my treatment options.`;
               {/* Subheading */}
               <motion.h2 
                 variants={itemVariants}
-                className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-200 leading-relaxed px-1 xs:px-2 sm:px-0"
+                className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-gray-200 leading-relaxed"
               >
                 <Translate>Your trusted partner in Medical Tourism in India, connecting you with top hospitals and experienced doctors.</Translate>
               </motion.h2>
@@ -365,13 +346,13 @@ I would like to discuss my treatment options.`;
               {/* Description */}
               <motion.p
                 variants={itemVariants}
-                className="text-gray-300 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 px-1 xs:px-2 sm:px-0"
+                className="text-gray-300 text-xs xs:text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0"
               >
                 <Translate>Discover world-class healthcare services where your well-being comes first. At Manal Healthcare, we provide personalized, compassionate medical care and seamless medical tourism services in India, ensuring safe, affordable, and high-quality treatment for every patient.</Translate>
               </motion.p>
             </motion.div>
 
-       <motion.div variants={itemVariants} className="pt-2 px-1 xs:px-2 sm:px-0">
+       <motion.div variants={itemVariants} className="pt-2">
   <Button
     size="lg"
     onClick={() => router.push("/contact")}
@@ -388,16 +369,16 @@ I would like to discuss my treatment options.`;
   variants={formVariants}
   initial="hidden"
   animate="visible"
-  className="hidden lg:block order-1 lg:order-2 px-2 xs:px-4 sm:px-0"
+  className="block order-2"
 >
-            <div className="bg-white/95 block md:hidden lg:block order-1 lg:order-2 px-2 xs:px-4 sm:px-0 backdrop-blur-sm rounded-2xl xs:rounded-3xl shadow-xl xs:shadow-2xl border border-white/20 overflow-hidden  sm:blocked md:blocked">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl xs:rounded-3xl shadow-xl xs:shadow-2xl border border-white/20 overflow-hidden">
               {/* Form Header */}
               <div className="bg-gradient-to-r from-green-600 to-green-700 px-4 xs:px-6 py-4 xs:py-5">
                 <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white text-center">
                   <Translate>Get Free Consultation</Translate>
                 </h3>
                 <p className="text-white/90 text-sm text-center mt-1.5">
-                  <Translate>Fill out the form and our team will contact you within 24 hours</Translate>
+                  <Translate>Our team will contact you</Translate>
                 </p>
               </div>
 
@@ -598,7 +579,7 @@ I would like to discuss my treatment options.`;
           variants={searchBarVariants}
           initial="hidden"
           animate="visible"
-          className="mt-4 xs:mt-6 sm:mt-8 lg:mt-10 xl:mt-14 max-w-5xl mx-auto px-1 xs:px-2 sm:px-0 mb-8 xs:mb-12 sm:mb-16 lg:mb-20"
+          className="mt-4 xs:mt-6 sm:mt-8 lg:mt-10 xl:mt-14 mb-8 xs:mb-12 sm:mb-16 lg:mb-20"
           ref={searchRef}
         >
           <form onSubmit={handleSearch} className="relative">

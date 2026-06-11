@@ -48,13 +48,15 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
-      {/* Top Bar - Hidden on mobile and tablet */}
-      <TopBar />
+    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-white border-b border-gray-200">
+      {/* Top Bar - wrapped in relative+z-10 so its dropdown renders above the nav row */}
+      <div className="relative z-10">
+        <TopBar />
+      </div>
 
       {/* Main Header */}
-      <div className="">
-        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="relative z-0">
+        <div className="mx-5 lg:mx-24">
           <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20 gap-2">
             {/* Logo */}
            {/* Logo */}

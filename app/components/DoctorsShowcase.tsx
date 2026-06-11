@@ -34,17 +34,20 @@ export interface Category {
 interface DoctorsShowcaseProps {
   badge?: string;
   heading?: string;
+  initialDoctors?: Doctor[];
 }
 
 export const DoctorsShowcase = ({
   badge = "Top Doctors",
   heading = "Highly Skilled Doctors, Committed to Excellence",
+  initialDoctors,
 }: DoctorsShowcaseProps) => {
+  const hasInitialData = initialDoctors && initialDoctors.length > 0;
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [startIndex, setStartIndex] = useState(0);
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [doctors, setDoctors] = useState<Doctor[]>(hasInitialData ? initialDoctors : []);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!hasInitialData);
   const [error, setError] = useState<string | null>(null);
   const [visibleCards, setVisibleCards] = useState(4);
 
@@ -71,47 +74,76 @@ export const DoctorsShowcase = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Fetch doctors from API
+  // Extract categories from doctors
   useEffect(() => {
+    if (doctors.length > 0) {
+      const specializations = new Set<string>();
+      doctors.forEach((doc: Doctor) => {
+        if (doc.specialization && doc.specialization.length > 0) {
+          doc.specialization.forEach(spec => specializations.add(spec));
+        }
+      });
+      const categoryList = Array.from(specializations).map((spec, index) => ({
+        id: index + 1,
+        name: spec,
+        slug: spec.toLowerCase().replace(/\s+/g, '-')
+      }));
+      setCategories(categoryList.slice(0, 5));
+    }
+  }, [doctors]);
+
+  // Fetch doctors from API only if no initial data provided
+  useEffect(() => {
+    if (hasInitialData) return;
+
+    const controller = new AbortController();
+    let cancelled = false;
+
     const fetchDoctors = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/doctors');
-        const result = await response.json();
+        
+        const response = await fetch('/api/doctors', { signal: controller.signal });
+        
+        if (cancelled) return;
+        
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+        
+        const text = await response.text();
+        if (cancelled) return;
+        
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch {
+          throw new Error('Invalid JSON response from API');
+        }
         
         if (result.success && result.data) {
           const activeDoctors = result.data.filter((doc: Doctor) => doc.status === 'active');
           setDoctors(activeDoctors);
-          
-          // Extract unique specializations for categories
-          const specializations = new Set<string>();
-          activeDoctors.forEach((doc: Doctor) => {
-            if (doc.specialization && doc.specialization.length > 0) {
-              doc.specialization.forEach(spec => specializations.add(spec));
-            }
-          });
-          
-          const categoryList = Array.from(specializations).map((spec, index) => ({
-            id: index + 1,
-            name: spec,
-            slug: spec.toLowerCase().replace(/\s+/g, '-')
-          }));
-          
-          setCategories(categoryList.slice(0, 5));
           setError(null);
         } else {
           setError('Failed to fetch doctors');
         }
-      } catch (err) {
+      } catch (err: any) {
+        if (cancelled || err.name === 'AbortError') return;
         console.error('Error fetching doctors:', err);
         setError('Failed to load doctors');
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchDoctors();
-  }, []);
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, [hasInitialData]);
 
   // Filter doctors based on selected category
   const filteredDoctors =
@@ -155,7 +187,7 @@ export const DoctorsShowcase = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-gray-50 overflow-hidden">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="mx-5 lg:mx-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -195,6 +227,8 @@ export const DoctorsShowcase = ({
           {loading && (
             <motion.div
               variants={itemVariants}
+              initial="hidden"
+              animate="visible"
               className="flex justify-center items-center py-20"
             >
               <div className="text-center">
@@ -208,6 +242,8 @@ export const DoctorsShowcase = ({
           {error && !loading && (
             <motion.div
               variants={itemVariants}
+              initial="hidden"
+              animate="visible"
               className="text-center py-12"
             >
               <div className="bg-red-50 border border-red-200 rounded-2xl p-6 max-w-md mx-auto">
@@ -224,7 +260,7 @@ export const DoctorsShowcase = ({
 
           {/* Doctors Slider with Navigation */}
           {!loading && !error && filteredDoctors.length > 0 && (
-            <motion.div variants={itemVariants} className="relative">
+            <motion.div variants={itemVariants} initial="hidden" animate="visible" className="relative">
               {/* Scrollable on mobile, slider on desktop */}
               <div className="overflow-x-auto sm:overflow-hidden scrollbar-hide">
                 <div 
@@ -238,7 +274,7 @@ export const DoctorsShowcase = ({
                       key={doctor._id}
                       className="shrink-0 w-70 xs:w-75 sm:w-auto"
                       style={{ 
-                        width: window.innerWidth >= 640 ? `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)` : undefined
+                        width: visibleCards > 1 ? `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)` : undefined
                       }}
                     >
                       <DoctorCard doctor={doctor} index={index} />
@@ -314,14 +350,14 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
       className="h-full flex flex-col"
     >
       {/* Doctor Image */}
-      <div className="relative h-64 xs:h-72 sm:h-60 lg:h-64 bg-linear-to-br from-green-50 to-blue-50 overflow-hidden">
+      <div className="relative h-72 xs:h-80 sm:h-72 lg:h-80 bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden">
         <Image
           src={imgSrc}
           alt={doctor.name}
           fill
           unoptimized
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
+          className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
           onError={() => setImgSrc('/doctor-img 1.png')}
         />
         

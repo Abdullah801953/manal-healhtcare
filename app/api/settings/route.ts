@@ -10,14 +10,6 @@ export async function GET() {
     // Get the most recently updated settings document
     let settings = await Settings.findOne().sort({ updatedAt: -1 }).lean();
 
-    console.log('=== Settings API Debug ===');
-    console.log('Settings found:', settings);
-    console.log('Facebook:', settings?.facebook);
-    console.log('Twitter:', settings?.twitter);
-    console.log('Instagram:', settings?.instagram);
-    console.log('LinkedIn:', settings?.linkedin);
-    console.log('========================');
-
     // If no settings exist, create default
     if (!settings) {
       const newSettings = await Settings.create({
@@ -48,6 +40,10 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: responseData,
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
     });
   } catch (error: any) {
     console.error('Error fetching settings:', error);

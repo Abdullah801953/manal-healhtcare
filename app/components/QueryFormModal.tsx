@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { X, Send, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSettings } from "../contexts/SettingsContext";
+import { toast } from "sonner";
 
 interface QueryFormModalProps {
   isOpen: boolean;
@@ -14,8 +15,8 @@ export function QueryFormModal({
   isOpen,
   onClose,
 }: QueryFormModalProps) {
-  const { settings } = useSettings();
 
+  const router = useRouter();
   const [setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -55,9 +56,7 @@ const handleClose = () => {
         if (uploadData.success) {
           reportUrl = uploadData.url;
         } else {
-          alert(
-            "Failed to upload medical report: " + uploadData.message
-          );
+          toast.error('Failed to upload medical report. Please try again.');
           setIsSubmitting(false);
           return;
         }
@@ -83,31 +82,6 @@ const handleClose = () => {
       const data = await response.json();
 
       if (data.success) {
-        // WhatsApp message
-        const message = `Hello! I'm ${formData.name} from ${formData.country}.
-
-Medical Condition: ${formData.problem}
-
-${formData.email ? `Email: ${formData.email}` : ""}
-
-${
-  reportUrl
-    ? `Medical Report: ${window.location.origin}${reportUrl}`
-    : "No medical report attached"
-}
-
-I would like to discuss my treatment options.`;
-
-        const phoneNumber =
-          settings?.whatsappNumber?.replace(/\D/g, "") ||
-          "918287508755";
-
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-          message
-        )}`;
-
-        window.open(whatsappUrl, "_blank");
-
         // Reset form
         setFormData({
           name: "",
@@ -119,12 +93,13 @@ I would like to discuss my treatment options.`;
         });
 
         handleClose();
+        window.location.href = '/thank-you';
       } else {
-        alert("Failed to submit inquiry. Please try again.");
+        toast.error('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred. Please try again.");
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

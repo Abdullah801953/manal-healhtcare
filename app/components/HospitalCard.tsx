@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface HospitalCardProps {
   hospital: {
@@ -10,13 +10,52 @@ interface HospitalCardProps {
     name: string;
     city?: string;
     country?: string;
+    location?: string;
     image?: string;
-    description?: string;
+    description?: string | string[];
   };
 }
 
 export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
-  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
+  const [imgError, setImgError] = useState(false);
+
+  // Reset error state when hospital changes
+  useEffect(() => {
+    setImgError(false);
+  }, [hospital._id, hospital.image]);
+
+  const handleImageError = () => {
+    setImgError(true);
+  };
+
+  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
+  const imageUrl = hospital.image
+    ? hospital.image.startsWith('/uploads/')
+      ? `/api${hospital.image}`
+      : hospital.image.startsWith('/api/uploads/')
+      ? hospital.image
+      : hospital.image
+    : '';
+
+  // Generate a consistent color from the hospital name
+  const colors = [
+    'from-emerald-500 to-green-600',
+    'from-blue-500 to-cyan-600',
+    'from-purple-500 to-indigo-600',
+    'from-orange-500 to-amber-600',
+    'from-rose-500 to-pink-600',
+    'from-teal-500 to-cyan-500',
+    'from-violet-500 to-purple-600',
+    'from-sky-500 to-blue-600',
+  ];
+  const colorIndex = hospital.name.charCodeAt(0) % colors.length;
+  const gradientClass = colors[colorIndex];
+  const initial = hospital.name.charAt(0).toUpperCase();
+
+  const locationText = hospital.location || [hospital.city, hospital.country].filter(Boolean).join(', ');
+  const descriptionText = Array.isArray(hospital.description) 
+    ? hospital.description.join(' ') 
+    : hospital.description;
 
   return (
     <motion.div
@@ -25,29 +64,36 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
     >
       {/* Image */}
       <div className="relative h-56 w-full overflow-hidden">
-        <Image
-          src={imgSrc}
-          alt={hospital.name}
-          fill
-          unoptimized
-          className="object-cover"
-          onError={() => setImgSrc('/indra.avif')}
-        />
+        {imageUrl && !imgError ? (
+          <Image
+            src={imageUrl}
+            alt={hospital.name}
+            fill
+            unoptimized
+            className="object-cover"
+            onError={handleImageError}
+          />
+        ) : (
+          <div className={`w-full h-full bg-linear-to-br ${gradientClass} flex flex-col items-center justify-center gap-2`}>
+            <span className="text-white text-6xl font-bold opacity-80">{initial}</span>
+            <span className="text-white/70 text-sm font-medium text-center px-4 line-clamp-2">{hospital.name}</span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
       <div className="p-5">
         <h3 className="text-xl font-semibold mb-2">{hospital.name}</h3>
 
-        {(hospital.city || hospital.country) && (
+        {locationText && (
           <p className="text-sm text-gray-500 mb-2">
-            {hospital.city} {hospital.country && `, ${hospital.country}`}
+            {locationText}
           </p>
         )}
 
-        {hospital.description && hospital.description.length > 0 && (
+        {descriptionText && descriptionText.length > 0 && (
           <p className="text-gray-600 text-sm line-clamp-3">
-            {Array.isArray(hospital.description) ? hospital.description.join(' ') : hospital.description}
+            {descriptionText}
           </p>
         )}
       </div>

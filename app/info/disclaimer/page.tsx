@@ -260,8 +260,8 @@ export default function DisclaimerPage() {
             <p className="text-white font-semibold text-lg mb-6">Manal Health Care</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: "📧", label: "Email", value: "info@manalhealthcare.com" },
-                { icon: "📞", label: "Phone", value: "+91-XXX-XXX-XXXX" },
+                { icon: "📧", label: "Email", value: "support@manalhealthcare.com" },
+                { icon: "📞", label: "Phone", value: "+91-7395966566" },
                 { icon: "🌐", label: "Website", value: "www.manalhealthcare.com" },
               ].map((contact) => (
                 <div

@@ -12,7 +12,13 @@ interface HospitalDetailHeroProps {
 }
 
 export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps) {
-  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
+  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
+  const normalizedImage = hospital.image
+    ? hospital.image.startsWith('/uploads/')
+      ? `/api${hospital.image}`
+      : hospital.image
+    : '';
+  const [imgSrc, setImgSrc] = useState(normalizedImage || '/indra.avif');
   
   return (
     <section className="relative bg-linear-to-br from-[#209f00] via-emerald-600 to-teal-700 text-white py-16 overflow-hidden">
@@ -22,7 +28,7 @@ export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 relative z-10">
+      <div className="mx-5 lg:mx-24 relative z-10">
         {/* Back Button */}
         <Link href="/hospitals">
           <Button variant="ghost" className="mb-6 text-white hover:bg-white/20 hover:text-white cursor-pointer">

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Inquiry from '@/lib/models/Inquiry';
+import { sendInquiryEmail, sendUserConfirmationEmail } from '@/lib/mailer';
 
 // GET all inquiries
 export async function GET(request: NextRequest) {
@@ -39,6 +40,29 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const inquiry = await Inquiry.create(body);
+
+    // Send email notification (non-blocking — don't fail the request if email fails)
+    const emailData = {
+      name: body.name || '',
+      email: body.email || '',
+      phone: body.phone || '',
+      country: body.country || '',
+      medicalCondition: body.medicalCondition || '',
+      medicalReport: body.medicalReport || '',
+    };
+
+    try {
+      await sendInquiryEmail(emailData);
+    } catch (emailErr) {
+      console.error('Admin email notification failed (inquiry still saved):', emailErr);
+    }
+
+    // Send confirmation email to user
+    try {
+      await sendUserConfirmationEmail(emailData);
+    } catch (emailErr) {
+      console.error('User confirmation email failed (inquiry still saved):', emailErr);
+    }
 
     return NextResponse.json({
       success: true,

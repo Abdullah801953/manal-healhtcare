@@ -10,7 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 
 const categories = [
@@ -19,22 +20,118 @@ const categories = [
   { id: "hospitals",  label: "Hospitals",  icon: Building2  },
 ];
 
+interface Suggestion {
+  label: string;
+  slug: string;
+}
+
+interface DropdownPos {
+  top: number;
+  left: number;
+  width: number;
+}
+
 export const TopBar = () => {
   const router = useRouter();
-  const [query, setQuery]       = useState("");
-  const [category, setCategory] = useState("treatments");
+  const [query, setQuery]             = useState("");
+  const [category, setCategory]       = useState("treatments");
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [allItems, setAllItems]       = useState<Suggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [highlighted, setHighlighted] = useState(-1);
+  const [dropdownPos, setDropdownPos] = useState<DropdownPos | null>(null);
+  const [mounted, setMounted]         = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  // Recalculate dropdown position whenever it should show
+  useEffect(() => {
+    if (showSuggestions && wrapperRef.current) {
+      const rect = wrapperRef.current.getBoundingClientRect();
+      // Position below the full header (not just the TopBar row) to avoid
+      // overlapping the MainNav row which has its own stacking context
+      const headerEl = document.querySelector('header');
+      const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : rect.bottom;
+      setDropdownPos({
+        top:   headerBottom + 4,
+        left:  rect.left,
+        width: rect.width,
+      });
+    }
+  }, [showSuggestions, suggestions]);
+
+  // Fetch all items whenever category changes
+  useEffect(() => {
+    setAllItems([]);
+    setSuggestions([]);
+    setQuery("");
+
+    const fetchItems = async () => {
+      try {
+        if (category === "treatments") {
+          const res  = await fetch("/api/treatments");
+          const data = await res.json();
+          setAllItems((data.data || data || []).map((t: any) => ({ label: t.title, slug: t.slug || t._id })));
+        } else if (category === "doctors") {
+          const res  = await fetch("/api/doctors");
+          const data = await res.json();
+          setAllItems((data.data || []).map((d: any) => ({ label: d.name, slug: d.slug || d._id })));
+        } else if (category === "hospitals") {
+          const res  = await fetch("/api/hospitals");
+          const data = await res.json();
+          setAllItems((data.data || data || []).map((h: any) => ({ label: h.name, slug: h.slug || h._id })));
+        }
+      } catch { /* ignore */ }
+    };
+
+    fetchItems();
+  }, [category]);
+
+  // Filter suggestions as user types
+  useEffect(() => {
+    if (!query.trim()) { setSuggestions([]); return; }
+    const q = query.toLowerCase();
+    setSuggestions(allItems.filter((item) => item.label?.toLowerCase().includes(q)).slice(0, 8));
+    setHighlighted(-1);
+  }, [query, allItems]);
+
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
+    setShowSuggestions(false);
     router.push(`/${category}?search=${encodeURIComponent(query)}`);
   };
 
+  const handleSelect = useCallback((item: Suggestion) => {
+    setQuery(item.label);
+    setShowSuggestions(false);
+    router.push(`/${category}/${item.slug}`);
+  }, [category, router]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showSuggestions || suggestions.length === 0) return;
+    if (e.key === "ArrowDown") { e.preventDefault(); setHighlighted((h) => Math.min(h + 1, suggestions.length - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setHighlighted((h) => Math.max(h - 1, -1)); }
+    else if (e.key === "Enter" && highlighted >= 0) { e.preventDefault(); handleSelect(suggestions[highlighted]); }
+    else if (e.key === "Escape") { setShowSuggestions(false); }
+  };
+
   const activeCategory = categories.find((c) => c.id === category)!;
-  const ActiveIcon = activeCategory.icon;
 
   return (
-    <div className="hidden md:block bg-white border-b backdrop-blur-md">
+    <div className="hidden md:block bg-white border-b">
       <div className="container mx-auto px-6 py-3 flex items-center justify-between">
 
         {/* LEFT – Brand */}
@@ -42,12 +139,10 @@ export const TopBar = () => {
           <span className="text-2xl xl:text-3xl 2xl:text-4xl font-bold tracking-tight text-green-600">
             Manal Healthcare
           </span>
-
           <div className="relative">
             <div className="h-[3px] w-full bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 rounded-full" />
             <div className="absolute inset-0 blur-sm opacity-30 bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 rounded-full" />
           </div>
-
           <span className="text-md xl:text-lg uppercase tracking-[0.25em] text-gray-500 font-medium">
             For Medical care
           </span>
@@ -56,81 +151,87 @@ export const TopBar = () => {
         {/* CENTER – CTA */}
         <div className="flex justify-center flex-1">
           <Link href="/contact">
-            <button
-              className="px-6 py-2 text-sm xl:text-base font-semibold
-                         bg-gradient-to-r from-red-900 to-red-600
-                         text-white rounded-full shadow-md
-                         hover:from-red-700 hover:to-red-700
-                         hover:scale-105 transition-all duration-300"
-            >
+            <button className="px-6 py-2 text-sm xl:text-base font-semibold bg-gradient-to-r from-red-900 to-red-600 text-white rounded-full shadow-md hover:from-red-700 hover:to-red-700 hover:scale-105 transition-all duration-300">
               Get a FREE Quote
             </button>
           </Link>
         </div>
 
         {/* RIGHT – Search */}
-        <form
-          onSubmit={handleSearch}
-          className="flex items-center bg-white shadow-sm border border-gray-200
-                     rounded-full overflow-hidden w-[600px]
-                     transition-all duration-300
-                     focus-within:shadow-lg focus-within:border-green-600"
-        >
-          {/* ── Shadcn Select dropdown ── */}
-          <div className="pl-2 shrink-0">
-            <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger
-                className="
-                  h-9 gap-1.5 pl-3 pr-2 rounded-full border-0 shadow-none
-                  bg-green-50 text-green-700 font-medium text-sm
-                  hover:bg-green-100 focus:ring-0 focus:ring-offset-0
-                  transition-colors duration-200 w-[140px]
-                "
-              >
-                {/* show the icon of the active category inline */}
-               
-                <SelectValue />
-              </SelectTrigger>
-
-              <SelectContent className="rounded-xl shadow-lg border-gray-100">
-                {categories.map(({ id, label, icon: Icon }) => (
-                  <SelectItem
-                    key={id}
-                    value={id}
-                    className="cursor-pointer rounded-lg text-sm font-medium gap-2"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Icon className="w-4 h-4 text-green-600" />
-                      {label}
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* thin divider */}
-          <div className="w-px h-6 bg-gray-200 mx-1 shrink-0" />
-
-          <Input
-            type="text"
-            placeholder={`Search ${activeCategory.label.toLowerCase()}...`}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="border-0 shadow-none focus-visible:ring-0 focus-visible:outline-none h-11 text-sm"
-          />
-
-          <button
-            type="submit"
-            className="bg-gradient-to-r from-green-600 to-green-700
-                       hover:from-green-700 hover:to-green-800
-                       text-white px-6 h-11 flex items-center transition-all duration-300 shrink-0"
+        <div ref={wrapperRef} className="relative w-[600px]">
+          <form
+            onSubmit={handleSearch}
+            className="flex items-center bg-white shadow-sm border border-gray-200 rounded-full overflow-hidden transition-all duration-300 focus-within:shadow-lg focus-within:border-green-600"
           >
-            <Search className="w-4 h-4" />
-          </button>
-        </form>
+            <div className="pl-2 shrink-0">
+              <Select value={category} onValueChange={(val) => { setCategory(val); setShowSuggestions(false); }}>
+                <SelectTrigger className="h-9 gap-1.5 pl-3 pr-2 rounded-full border-0 shadow-none bg-green-50 text-green-700 font-medium text-sm hover:bg-green-100 focus:ring-0 focus:ring-offset-0 transition-colors duration-200 w-[140px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="rounded-xl shadow-lg border-gray-100">
+                  {categories.map(({ id, label, icon: Icon }) => (
+                    <SelectItem key={id} value={id} className="cursor-pointer rounded-lg text-sm font-medium gap-2">
+                      <span className="flex items-center gap-2">
+                        <Icon className="w-4 h-4 text-green-600" />
+                        {label}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="w-px h-6 bg-gray-200 mx-1 shrink-0" />
+
+            <Input
+              type="text"
+              placeholder={`Search ${activeCategory.label.toLowerCase()}...`}
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setShowSuggestions(true); }}
+              onFocus={() => { if (query.trim()) setShowSuggestions(true); }}
+              onKeyDown={handleKeyDown}
+              className="border-0 shadow-none focus-visible:ring-0 focus-visible:outline-none h-11 text-sm"
+              autoComplete="off"
+            />
+
+            <button type="submit" className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 h-11 flex items-center transition-all duration-300 shrink-0">
+              <Search className="w-4 h-4" />
+            </button>
+          </form>
+        </div>
 
       </div>
+
+      {/* ── Suggestions Dropdown rendered via portal at <body> level ── */}
+      {mounted && showSuggestions && suggestions.length > 0 && dropdownPos && createPortal(
+        <div
+          style={{
+            position: "fixed",
+            top:   dropdownPos.top,
+            left:  dropdownPos.left,
+            width: dropdownPos.width,
+            zIndex: 99999,
+          }}
+          className="bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+        >
+          {suggestions.map((item, i) => {
+            const Icon = activeCategory.icon;
+            return (
+              <button
+                key={item.slug}
+                type="button"
+                onMouseDown={() => handleSelect(item)}
+                className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors
+                  ${i === highlighted ? "bg-green-50 text-green-700" : "hover:bg-gray-50 text-gray-700"}`}
+              >
+                <Icon className="w-4 h-4 text-green-500 shrink-0" />
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

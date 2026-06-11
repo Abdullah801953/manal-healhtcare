@@ -14,19 +14,26 @@ interface FAQ {
   isActive: boolean;
 }
 
-export const FAQSection = () => {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [loading, setLoading] = useState(true);
-const leftFaqs = faqs.filter((_, index) => index % 2 === 0);
-const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
+interface FAQSectionProps {
+  initialFaqs?: FAQ[];
+}
+
+export const FAQSection = ({ initialFaqs }: FAQSectionProps) => {
+  const hasInitialData = initialFaqs && initialFaqs.length > 0;
+  const [faqs, setFaqs] = useState<FAQ[]>(hasInitialData ? initialFaqs : []);
+  const [loading, setLoading] = useState(!hasInitialData);
+  const leftFaqs = faqs.filter((_, index) => index % 2 === 0);
+  const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
+
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchFAQs = async () => {
       try {
         const response = await fetch('/api/faqs');
         const data = await response.json();
         
         if (data.success) {
-          // Filter only active FAQs and sort by order
           const activeFAQs = data.data
             .filter((faq: FAQ) => faq.isActive)
             .sort((a: FAQ, b: FAQ) => a.order - b.order);
@@ -40,12 +47,12 @@ const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
     };
 
     fetchFAQs();
-  }, []);
+  }, [hasInitialData]);
 
   if (loading) {
     return (
       <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-        <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+        <div className="mx-5 lg:mx-24">
           <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 xs:mb-6 sm:mb-8 text-gray-900">
             Frequently Asked Questions
           </h2>
@@ -57,7 +64,7 @@ const rightFaqs = faqs.filter((_, index) => index % 2 !== 0);
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-16 lg:py-10 xl:py-24 bg-white" >
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 max-w-8xl" aria-labelledby="faq-heading">
+      <div className="mx-5 lg:mx-24" aria-labelledby="faq-heading">
         {/* Action Buttons */}
         <div className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4 mb-8 xs:mb-10 sm:mb-12">
           <Link href="/contact">

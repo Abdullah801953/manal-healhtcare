@@ -5,7 +5,7 @@ import Image from "next/image";
 export function AboutHero() {
   return (
     <section className="relative bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 py-20 px-4 sm:px-6 lg:px-10 overflow-hidden">
-      <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
+      <div className="mx-5 lg:mx-24 grid lg:grid-cols-2 gap-12 items-center">
         {/* LEFT CONTENT */}
         <div className="text-left text-white">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
@@ -13,9 +13,15 @@ export function AboutHero() {
           </h1>
 
           <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed">
-          My journey began with people — their stories, their courage, and their distance from home. I saw patients arrive alone, confused, and overwhelmed. Doctors healed their bodies — but who was taking care of the person?
-That question became Manal Healthcare.
-<b> You are not just a patient to us. You are someone's whole world — and you deserve to be treated that way</b>
+            At Manal Healthcare, our team is made up of caring and dedicated
+            people who are here to support you at every step. We work closely
+            with trusted doctors and hospitals across India to help you get the
+            right treatment without confusion or stress. From your first message
+            to your return home, we stay connected and ready to help whenever
+            you need us. Whether it’s explaining your treatment, arranging your
+            travel, or just checking in on you—our team is always there. For us,
+            it’s not just work. We truly care about you and your journey to
+            better health.
           </p>
         </div>
 

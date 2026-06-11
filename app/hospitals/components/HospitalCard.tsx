@@ -12,7 +12,13 @@ interface HospitalCardProps {
 }
 
 export default function HospitalCard({ hospital }: HospitalCardProps) {
-  const [imgSrc, setImgSrc] = useState(hospital.image || '/indra.avif');
+  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
+  const normalizedImage = hospital.image
+    ? hospital.image.startsWith('/uploads/')
+      ? `/api${hospital.image}`
+      : hospital.image
+    : '';
+  const [imgSrc, setImgSrc] = useState(normalizedImage || '/indra.avif');
   const hospitalSlug = hospital.slug || hospital._id || hospital.id;
   
   return (

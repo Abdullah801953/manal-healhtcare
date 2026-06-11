@@ -5,6 +5,9 @@ import RelatedArticles from "@/app/blogs/[id]/components/RelatedArticles";
 import { CTABookingSection } from "@/app/blogs/[id]/components/CTABookingSection";
 import { BlogListCTA } from "./components/BlogListCTA";
 
+// Revalidate this page every 60 seconds as a fallback (on-demand revalidation via revalidatePath is the primary mechanism)
+export const revalidate = 60;
+
 interface BlogDetailPageProps {
   params: Promise<{
     id: string;
@@ -65,23 +68,23 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10 py-8">
+      <div className="mx-6 py-8">
         <BlogHero 
           title={blog.title} 
           image={blog.image || '/blog-hero.jpg'} 
         />
         
         <div className="mt-6 xs:mt-7 sm:mt-8 lg:mt-10">
-          <BlogNavigating blog={{
-            ...blog,
-            id: blog._id,
-            image: blog.image || '/blog-hero.jpg',
-          }} />
-        </div>
-        
-        <RelatedArticles currentId={blog._id} />
-        
-        <BlogListCTA />
+            <BlogNavigating blog={{
+              ...blog,
+              id: blog._id,
+              image: blog.image || '/blog-hero.jpg',
+            }} />
+          </div>
+          
+          <RelatedArticles currentId={blog._id} />
+          
+          <BlogListCTA />
        
       </div>
     </div>

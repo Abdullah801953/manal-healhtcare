@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader2, X, Plus } from "lucide-react";
+import { RichTextEditor } from "./RichTextEditor";
 
 interface BlogFormData {
   title: string;
@@ -97,9 +98,16 @@ export function BlogForm({ blogId, onSuccess, onCancel }: BlogFormProps) {
           title: blog.title,
           slug: blog.slug,
           excerpt: blog.excerpt,
-          content: blog.content,
-          content2: blog.content2 || "",
-          content3: blog.content3 || "",
+          // Merge old plain-text sections into single rich content field
+          content: blog.content
+            ? (blog.content.startsWith('<')
+                ? blog.content
+                : [blog.content, blog.content2, blog.content3]
+                    .filter(Boolean)
+                    .join('\n\n'))
+            : "",
+          content2: "",
+          content3: "",
           image: blog.image,
           category: blog.category,
           author: blog.author,
@@ -320,48 +328,18 @@ export function BlogForm({ blogId, onSuccess, onCancel }: BlogFormProps) {
           {/* Content Sections */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Content</h3>
-            
-            <div className="space-y-2">
-              <Label htmlFor="content">Main Content *</Label>
-              <Textarea
-                id="content"
-                rows={8}
-                value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                placeholder="Main blog content..."
-                required
-              />
-            </div>
+            <p className="text-sm text-gray-500">
+              Use the editor below to write your blog. You can paste content directly from
+              Microsoft Word or a PDF — headings, bold, lists, and other formatting will be
+              preserved automatically.
+            </p>
 
             <div className="space-y-2">
-              <Label htmlFor="content2">Additional Content (Section 2)</Label>
-              <Textarea
-                id="content2"
-                rows={6}
-                value={formData.content2}
-                onChange={(e) => setFormData({ ...formData, content2: e.target.value })}
-                placeholder="Optional second section..."
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="content3">Additional Content (Section 3)</Label>
-              <Textarea
-                id="content3"
-                rows={6}
-                value={formData.content3}
-                onChange={(e) => setFormData({ ...formData, content3: e.target.value })}
-                placeholder="Optional third section..."
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="subheading">Subheading</Label>
-              <Input
-                id="subheading"
-                value={formData.subheading}
-                onChange={(e) => setFormData({ ...formData, subheading: e.target.value })}
-                placeholder="Optional subheading or quote"
+              <Label>Main Content *</Label>
+              <RichTextEditor
+                content={formData.content}
+                onChange={(html) => setFormData({ ...formData, content: html })}
+                placeholder="Start writing your blog content here. You can paste from Word or PDF..."
               />
             </div>
           </div>

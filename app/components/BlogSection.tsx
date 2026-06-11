@@ -26,6 +26,7 @@ interface BlogSectionProps {
   badge?: string;
   heading?: string;
   viewAllText?: string;
+  initialBlogs?: Blog[];
 }
 
 // Format date helper
@@ -58,14 +59,14 @@ function BlogCard({ blog }: BlogCardProps) {
         className="group bg-white rounded-lg xs:rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 block"
       >
         {/* Image */}
-        <div className="relative h-36 xs:h-40 sm:h-48 md:h-56 overflow-hidden">
+        <div className="relative h-48 xs:h-52 sm:h-56 md:h-60 w-full overflow-hidden bg-gray-100">
           <Image
             src={imgSrc}
             alt={blog.title}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
             unoptimized
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
             onError={() => setImgSrc('/blog-hero.jpg')}
           />
         </div>
@@ -107,12 +108,16 @@ export function BlogSection({
   badge = "Latest News & Articles",
   heading = "Trending Topics in Medicine and Wellness",
   viewAllText = "View All Blogs",
+  initialBlogs,
 }: BlogSectionProps) {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
+  const hasInitialData = initialBlogs && initialBlogs.length > 0;
+  const [blogs, setBlogs] = useState<Blog[]>(hasInitialData ? initialBlogs : []);
+  const [loading, setLoading] = useState(!hasInitialData);
 
-  // Fetch blogs from API
+  // Fetch blogs from API only if no initial data
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchBlogs = async () => {
       try {
         setLoading(true);
@@ -120,7 +125,6 @@ export function BlogSection({
         const result = await response.json();
         
         if (result.success && result.data) {
-          // Get first 3 published blogs
           setBlogs(result.data.slice(0, 3));
         }
       } catch (err) {
@@ -131,11 +135,11 @@ export function BlogSection({
     };
 
     fetchBlogs();
-  }, []);
+  }, [hasInitialData]);
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-10">
+      <div className="mx-5 lg:mx-24">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 xs:gap-4 sm:gap-6 mb-6 xs:mb-8 sm:mb-10 lg:mb-12">
           <div>

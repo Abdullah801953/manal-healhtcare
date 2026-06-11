@@ -74,34 +74,40 @@ export function useSettings() {
 }
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<Settings | null>(defaultSettings);
+  const [settings, setSettings] = useState<Settings | null>(() => {
+    // Try to load cached settings from localStorage on initial render
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = localStorage.getItem('siteSettings');
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          // Use cached data if less than 5 minutes old
+          if (Date.now() - timestamp < 5 * 60 * 1000) {
+            return data;
+          }
+        }
+      } catch {}
+    }
+    return defaultSettings;
+  });
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   const fetchSettings = async () => {
     try {
-      console.log('Fetching settings from API...');
-      const response = await fetch(`/api/settings?t=${Date.now()}`, {
-        cache: 'no-store',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('API Response status:', response.status);
+      const response = await fetch('/api/settings');
       const data = await response.json();
-      console.log('API Response data:', data);
 
       if (data.success && data.data) {
-        console.log('Setting settings to:', data.data);
-        console.log('Social links:', {
-          facebook: data.data.facebook,
-          twitter: data.data.twitter,
-          instagram: data.data.instagram,
-          linkedin: data.data.linkedin,
-        });
         setSettings(data.data);
+        // Cache in localStorage
+        try {
+          localStorage.setItem('siteSettings', JSON.stringify({
+            data: data.data,
+            timestamp: Date.now(),
+          }));
+        } catch {}
       } else {
-        console.error('API returned success: false or no data');
         setSettings(defaultSettings);
       }
     } catch (error) {

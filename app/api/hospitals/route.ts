@@ -64,6 +64,10 @@ export async function GET(request: NextRequest) {
       success: true,
       data: hospitals,
       count: hospitals.length,
+    }, {
+      headers: {
+        'Cache-Control': 'no-store',
+      },
     });
   } catch (error: any) {
     console.error('Error fetching hospitals:', error);

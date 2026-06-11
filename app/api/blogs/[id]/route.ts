@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/mongodb';
 import Blog from '@/lib/models/Blog';
 
@@ -69,6 +70,10 @@ export async function PUT(
         { status: 404 }
       );
     }
+
+    // Revalidate the static pages so changes appear immediately
+    revalidatePath('/blogs');
+    revalidatePath(`/blogs/${blog.slug}`);
 
     return NextResponse.json({
       success: true,

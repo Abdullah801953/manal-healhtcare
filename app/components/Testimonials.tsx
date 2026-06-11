@@ -30,19 +30,25 @@ interface TestimonialsProps {
   badge?: string;
   heading?: string;
   googleRating?: number;
+  initialTestimonials?: Testimonial[];
 }
 
 export const Testimonials = ({
   badge = "Testimonials",
   heading = "Stories of Healing and Trust From Our Valued Patients",
   googleRating = 4.8,
+  initialTestimonials,
 }: TestimonialsProps) => {
+  const hasInitialData = initialTestimonials && initialTestimonials.length > 0;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(hasInitialData ? initialTestimonials : []);
+  const [loading, setLoading] = useState(!hasInitialData);
+  const [imageError, setImageError] = useState(false);
 
-  // Fetch testimonials from API
+  // Fetch testimonials from API only if no initial data
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchTestimonials = async () => {
       try {
         setLoading(true);
@@ -60,14 +66,16 @@ export const Testimonials = ({
     };
 
     fetchTestimonials();
-  }, []);
+  }, [hasInitialData]);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setImageError(false);
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setImageError(false);
   };
 
   const currentTestimonial = testimonials[currentIndex];
@@ -96,7 +104,7 @@ export const Testimonials = ({
 
   return (
     <section className="py-8 xs:py-10 sm:py-12 md:py-14 lg:py-16 xl:py-20 bg-white">
-      <div className="container mx-auto px-6 xs:px-8 sm:px-12 lg:px-20 xl:px-28">
+      <div className="mx-5 lg:mx-24">
         <div className="grid lg:grid-cols-2 gap-6 xs:gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
           {/* Left Side - Testimonial Content */}
           <motion.div
@@ -199,9 +207,9 @@ export const Testimonials = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center h-full"
           >
-            <div className="relative w-64 xs:w-72 sm:w-80">
+            <div className="relative w-full">
               <AnimatePresence mode="wait">
                 {currentTestimonial ? (
                   <motion.div
@@ -210,16 +218,23 @@ export const Testimonials = ({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.92, y: -20 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-4/5 bg-gray-100"
+                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-square bg-gray-100"
                   >
-                    {currentTestimonial.image ? (
+                    {currentTestimonial.image && !imageError ? (
                       <Image
-                        src={currentTestimonial.image}
+                        src={currentTestimonial.image.startsWith('/uploads/')
+                          ? `/api${currentTestimonial.image}`
+                          : currentTestimonial.image.startsWith('/')
+                          ? currentTestimonial.image
+                          : `/${currentTestimonial.image}`
+                        }
                         alt={currentTestimonial.name}
                         fill
+                        unoptimized
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         priority
+                        onError={() => setImageError(true)}
                       />
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center bg-linear-to-br from-green-50 to-green-100">
@@ -253,7 +268,7 @@ export const Testimonials = ({
                     </div>
                   </motion.div>
                 ) : (
-                  <div className="rounded-2xl xs:rounded-3xl bg-gray-100 aspect-4/5 flex items-center justify-center">
+                  <div className="rounded-2xl xs:rounded-3xl bg-gray-100 aspect-square flex items-center justify-center">
                     <User className="w-24 h-24 text-gray-300" />
                   </div>
                 )}

@@ -10,29 +10,63 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   IMAGE_NAME: manal-healthcare-docker
-  VPS_HOST: ${{ secrets.VPS_HOST }}
-  VPS_USER: ${{ secrets.VPS_USER }}
-  VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-  PROJECT_PATH: /var/www/htdocs/manal-healhtcare
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint --if-present || echo "No lint script found"
+
+      - name: Run type check
+        run: npx tsc --noEmit || echo "No TypeScript config found"
+
+      - name: Build project
+        run: npm run build
+        env:
+          MONGODB_URI: mongodb://fake:fake@localhost/test
+          NEXT_PUBLIC_BASE_URL: http://localhost:3000
+          JWT_SECRET: test-secret
+          ADMIN_SESSION_SECRET: test-session-secret
+          SMTP_HOST: smtp.example.com
+          SMTP_PORT: 465
+          SMTP_SECURE: true
+          SMTP_USER: test@example.com
+          SMTP_PASS: test-pass
+          INQUIRY_RECIPIENT_EMAIL: test@example.com
+          INQUIRY_CC_EMAIL: test@example.com
+
   build-and-push:
     runs-on: ubuntu-latest
-    
+    needs: test
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Extract version
         id: version
@@ -51,162 +85,10 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            MONGODB_URI=${{ secrets.MONGODB_URI }}
-
-      - name: Notify build success
-        run: |
-          echo "✅ Docker image built and pushed successfully!"
-          echo "Image: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
-
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
-          echo "UserKnownHostsFile ~/.ssh/known_hosts" >> ~/.ssh/config
         env:
-          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
+          DOCKER_BUILDKIT: 1
 
-      - name: Deploy to VPS
+      - name: Notify deployment
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-          set -e
-          
-          echo "📦 Starting deployment..."
-          
-          # Navigate to project directory
-          cd ${{ env.PROJECT_PATH }}
-          
-          # Fetch latest changes
-          echo "📥 Fetching latest code..."
-          git fetch origin main
-          
-          # Force reset to remote main (discard local changes)
-          echo "🔄 Resetting to remote main..."
-          git reset --hard origin/main
-          
-          # Clean untracked files
-          git clean -fd
-          
-          # Pull latest Docker image
-          echo "🐳 Pulling latest Docker image..."
-          docker compose pull
-          
-          # Stop old container
-          echo "🛑 Stopping old container..."
-          docker compose down
-          
-          # Start new container
-          echo "🚀 Starting new container..."
-          docker compose up -d
-          
-          # Wait for container to be healthy
-          echo "⏳ Waiting for container to be healthy..."
-          sleep 10
-          
-          # Check container status
-          if docker compose ps | grep -q "healthy"; then
-            echo "✅ Container is healthy"
-          else
-            echo "❌ Container health check failed"
-            docker compose logs
-            exit 1
-          fi
-          
-          # Prune old images
-          echo "🧹 Cleaning up old images..."
-          docker image prune -f
-          
-          echo "✅ Deployment completed successfully!"
-          EOF
-
-      - name: Verify deployment
-        run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-          echo "🔍 Verifying deployment..."
-          
-          # Check container status
-          docker compose -f ${{ env.PROJECT_PATH }}/docker-compose.yml ps
-          
-          # Check logs
-          echo ""
-          echo "📝 Recent logs:"
-          docker compose -f ${{ env.PROJECT_PATH }}/docker-compose.yml logs --tail 20
-          
-          # Check health endpoint
-          echo ""
-          echo "🏥 Health check:"
-          curl -s http://localhost:3000/api/health | jq '.'
-          
-          echo "✅ Verification complete!"
-          EOF
-
-      - name: Deployment notification
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const status = context.payload.pull_request ? 'completed' : 'completed';
-            const emoji = '${{ job.status }}' === 'success' ? '✅' : '❌';
-            const message = `${emoji} Deployment ${status} on VPS`;
-            
-            console.log(message);
-
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linting
-        run: npm run lint --if-present || echo "No lint script found"
-
-      - name: Run type check
-        run: npx tsc --noEmit || echo "No TypeScript config found"
-
-      - name: Build project
-        run: npm run build
-        env:
-          MONGODB_URI: mongodb://fake:fake@localhost/test
-          NEXT_PUBLIC_BASE_URL: http://localhost:3000
-          JWT_SECRET: test-secret
-
-  notify:
-    needs: [build-and-push, deploy, test]
-    runs-on: ubuntu-latest
-    if: always()
-    
-    steps:
-      - name: Send notification
-        run: |
-          STATUS="${{ job.status }}"
-          if [ "$STATUS" = "success" ]; then
-            echo "✅ CI/CD Pipeline completed successfully!"
-            echo "📦 Docker image: ${{ secrets.DOCKER_USERNAME }}/manal-healthcare-docker:latest"
-            echo "🚀 Deployed to: ${{ secrets.VPS_HOST }}"
-          else
-            echo "❌ CI/CD Pipeline failed!"
-          fi
+          echo "✅ Image pushed to Docker Hub."
+          echo "🔄 Watchtower on VPS will pull and redeploy within 5 minutes automatically."

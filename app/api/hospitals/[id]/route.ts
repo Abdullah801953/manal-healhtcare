@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/mongodb';
 import Hospital from '@/lib/models/Hospital';
 
@@ -70,6 +71,13 @@ export async function PUT(
       );
     }
 
+    // Revalidate cached pages so updated data (including images) appears immediately
+    revalidatePath('/');
+    revalidatePath('/hospitals');
+    if (hospital.slug) {
+      revalidatePath(`/hospitals/${hospital.slug}`);
+    }
+
     return NextResponse.json({
       success: true,
       data: hospital,
@@ -108,6 +116,10 @@ export async function DELETE(
         { status: 404 }
       );
     }
+
+    // Revalidate cached pages after deletion
+    revalidatePath('/');
+    revalidatePath('/hospitals');
 
     return NextResponse.json({
       success: true,

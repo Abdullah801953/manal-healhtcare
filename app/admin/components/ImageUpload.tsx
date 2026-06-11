@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, X, Image as ImageIcon } from "lucide-react";
-import Image from "next/image";
+import { X, Image as ImageIcon } from "lucide-react";
 
 interface ImageUploadProps {
   onImageSelect?: (file: File) => void;
@@ -15,6 +14,13 @@ export function ImageUpload({ onImageSelect, currentImage, label = "Upload Image
   const [preview, setPreview] = useState<string | null>(currentImage || null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync preview when parent async-loads currentImage (e.g. edit page fetch)
+  useEffect(() => {
+    if (currentImage) {
+      setPreview(currentImage);
+    }
+  }, [currentImage]);
 
   const handleFileSelect = (file: File) => {
     if (file && file.type.startsWith("image/")) {
@@ -61,11 +67,13 @@ export function ImageUpload({ onImageSelect, currentImage, label = "Upload Image
       {preview ? (
         <div className="relative">
           <div className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-gray-200">
-            <Image
+            {/* Use plain img tag — works with base64, local API paths and external URLs */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={preview}
               alt="Preview"
-              fill
-              className="object-cover"
+              className="w-full h-full object-cover"
+              onError={() => setPreview(null)}
             />
           </div>
           <Button

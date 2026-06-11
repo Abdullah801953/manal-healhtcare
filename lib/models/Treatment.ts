@@ -21,6 +21,7 @@ export interface ITreatment {
   duration?: string;
   price?: string;
   featured: boolean;
+  showOnHomepage: boolean;
   benefits: string[];
   procedures: string[];
   // Additional fields for various treatment types
@@ -101,6 +102,10 @@ const TreatmentSchema = new Schema<ITreatment>({
   duration: String,
   price: String,
   featured: {
+    type: Boolean,
+    default: false
+  },
+  showOnHomepage: {
     type: Boolean,
     default: false
   },

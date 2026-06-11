@@ -25,17 +25,22 @@ interface HospitalsProps {
   heading?: string;
   subheading?: string;
   showViewAll?: boolean;
+  initialHospitals?: Hospital[];
 }
 
 export const Hospitals = ({
   heading = "Top Hospitals in India",
   subheading = "World-Class Infrastructure & Expert Medical Care",
   showViewAll = true,
+  initialHospitals,
 }: HospitalsProps) => {
-  const [hospitals, setHospitals] = useState<Hospital[]>([]);
-  const [loading, setLoading] = useState(true);
+  const hasInitialData = initialHospitals && initialHospitals.length > 0;
+  const [hospitals, setHospitals] = useState<Hospital[]>(hasInitialData ? initialHospitals : []);
+  const [loading, setLoading] = useState(!hasInitialData);
 
   useEffect(() => {
+    if (hasInitialData) return;
+
     const fetchHospitals = async () => {
       try {
         setLoading(true);
@@ -57,7 +62,7 @@ export const Hospitals = ({
     };
 
     fetchHospitals();
-  }, []);
+  }, [hasInitialData]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -75,7 +80,7 @@ export const Hospitals = ({
 
   return (
     <section className="py-10 md:py-16 bg-white ">
-      <div className="container mx-auto px-4 lg:px-10">
+      <div className="mx-5 lg:mx-24">
         <motion.div
           variants={containerVariants}
           initial="hidden"
