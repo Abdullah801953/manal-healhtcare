@@ -16,9 +16,8 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import herobg from "@/public/herobg.webp";
-
-import Translate from "./Translate";
 import { toast } from "sonner";
+import Translate from "./Translate";
 
 export const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");

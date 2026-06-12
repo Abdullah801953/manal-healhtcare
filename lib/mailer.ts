@@ -1,9 +1,9 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_SECURE === 'true',
+  host: process.env.SMTP_HOST || "smtp.gmail.com",
+  port: parseInt(process.env.SMTP_PORT || "587"),
+  secure: process.env.SMTP_SECURE === "true",
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -11,11 +11,11 @@ const transporter = nodemailer.createTransport({
 });
 
 // Log SMTP config at startup (without password)
-console.log('[Mailer] SMTP config:', {
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || '587',
-  secure: process.env.SMTP_SECURE === 'true',
-  user: process.env.SMTP_USER || '(not set)',
+console.log("[Mailer] SMTP config:", {
+  host: process.env.SMTP_HOST || "smtp.gmail.com",
+  port: process.env.SMTP_PORT || "587",
+  secure: process.env.SMTP_SECURE === "true",
+  user: process.env.SMTP_USER || "(not set)",
 });
 
 export interface InquiryEmailData {
@@ -28,13 +28,14 @@ export interface InquiryEmailData {
 }
 
 export async function sendInquiryEmail(data: InquiryEmailData) {
-  const toEmail = process.env.INQUIRY_RECIPIENT_EMAIL || 'support@manalhealthcare.com';
-  const ccEmail = process.env.INQUIRY_CC_EMAIL || '';
+  const toEmail =
+    process.env.INQUIRY_RECIPIENT_EMAIL || "support@manalhealthcare.com";
+  const ccEmail = process.env.INQUIRY_CC_EMAIL || "";
   const recipients = ccEmail ? `${toEmail}, ${ccEmail}` : toEmail;
 
   const reportLine = data.medicalReport
     ? `<tr><td style="padding:8px 0;color:#555;font-weight:600;width:160px">Medical Report:</td><td style="padding:8px 0"><a href="${data.medicalReport}" style="color:#209f00">${data.medicalReport}</a></td></tr>`
-    : '';
+    : "";
 
   const html = `
 <!DOCTYPE html>
@@ -65,15 +66,15 @@ export async function sendInquiryEmail(data: InquiryEmailData) {
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee">Email:</td>
-                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.email || '—'}</td>
+                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.email || "—"}</td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee">Phone:</td>
-                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.phone || '—'}</td>
+                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.phone || "—"}</td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee">Country:</td>
-                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.country || '—'}</td>
+                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.country || "—"}</td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee;vertical-align:top">Medical Condition:</td>
@@ -141,11 +142,11 @@ export async function sendUserConfirmationEmail(data: InquiryEmailData) {
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee">Phone:</td>
-                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.phone || '—'}</td>
+                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.phone || "—"}</td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee">Country:</td>
-                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.country || '—'}</td>
+                  <td style="padding:10px 0;color:#222;border-bottom:1px solid #eee">${data.country || "—"}</td>
                 </tr>
                 <tr>
                   <td style="padding:10px 0;color:#555;font-weight:600;border-bottom:1px solid #eee;vertical-align:top">Medical Condition:</td>
@@ -154,9 +155,12 @@ export async function sendUserConfirmationEmail(data: InquiryEmailData) {
               </table>
               <p style="margin:24px 0 16px;color:#333;font-size:15px"><strong>What happens next?</strong></p>
               <ul style="margin:0 0 20px;padding:0 0 0 20px;color:#333;font-size:14px;line-height:1.8">
-                <li>Our medical coordinator will review your inquiry within 24 hours.</li>
-                <li>You will receive a detailed response with treatment options and cost estimates.</li>
-                <li>For urgent queries, you can reach us on WhatsApp at <strong>+91-7394966566</strong>.</li>
+                <li>Your case is currently under review and will be assigned to a dedicated Case Manager, who will serve as your single point of contact. You will be contacted shortly via call or WhatsApp with tailored treatment options and indicative cost estimates..</li>
+                <li>Priority Support:</li>
+                <li>Call<strong>+91-7394966566</strong>.</li>
+                <li>WhatsApp: <strong><a href="https://wa.me/917394966566">https://wa.me/917394966566</a></strong></li>
+                <li>Manal Healthcare is committed to providing structured guidance, transparency, and comprehensive support throughout your care journey.</li>
+
               </ul>
               <p style="margin:0;color:#888;font-size:13px">If you did not submit this inquiry, please disregard this email.</p>
             </td>

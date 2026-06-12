@@ -31,11 +31,6 @@ export interface Hospital {
 
 export type HospitalType = 
   | 'All Hospitals'
-  | 'General Hospital'
-  | 'Specialty Hospital'
-  | 'Teaching Hospital'
-  | 'Trauma Center'
-  | 'Rehabilitation Center'
   | 'Multispeciality Hospital'
   | 'IVF Center'
   | 'Eye Hospital'
@@ -43,11 +38,6 @@ export type HospitalType =
 
 export const HOSPITAL_TYPES: HospitalType[] = [
   'All Hospitals',
-  'General Hospital',
-  'Specialty Hospital',
-  'Teaching Hospital',
-  'Trauma Center',
-  'Rehabilitation Center',
   'Multispeciality Hospital',
   'IVF Center',
   'Eye Hospital',
