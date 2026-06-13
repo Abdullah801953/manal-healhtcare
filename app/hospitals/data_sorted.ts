@@ -4,7 +4,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '1',
     name: 'Apollo Fertility Center',
-    type: 'Specialty Hospital',
+    type: 'IVF Center',
     location: '2 & 3 Floor, above Visual Aids Centre, Plot 8, Ring Rd, Nirmal Puri, Nirmal Colony, Block 2, Lajpat Nagar, New Delhi-110024',
     city: 'New Delhi',
     state: 'Delhi',
@@ -27,7 +27,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '2',
     name: 'Artemis Hospital',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Sector 51, Near Unitech Cyber Park, Gurgaon - 122001',
     city: 'Gurgaon',
     state: 'Haryana',
@@ -50,7 +50,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '3',
     name: 'BLK-Max Super Speciality Hospital',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Radha Soami Satsang, Pusa Rd, Rajendra Place, New Delhi - 110005',
     city: 'New Delhi',
     state: 'Delhi',
@@ -73,7 +73,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '4',
     name: 'Centre for Sight',
-    type: 'Specialty Hospital',
+    type: 'Eye Hospital',
     location: 'B-5/24, Safdarjung Enclave, New Delhi - 110029',
     city: 'New Delhi',
     state: 'Delhi',
@@ -96,7 +96,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '5',
     name: 'Cosmodent Dental Clinic',
-    type: 'Specialty Hospital',
+    type: 'Dental Clinic',
     location: '548-SP, Sector 39, Near Medanta Hospital, Gurugram',
     city: 'Gurgaon',
     state: 'Haryana',
@@ -119,7 +119,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '6',
     name: 'Fortis Escorts Heart Institute',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Sukhdev Vihar Metro Station, Okhla Road, New Delhi - 110025',
     city: 'New Delhi',
     state: 'Delhi',
@@ -142,7 +142,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '7',
     name: 'Fortis Memorial Research Institute',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Opposite HUDA City Centre, Sector - 44, Gurgaon - 122002',
     city: 'Gurgaon',
     state: 'Haryana',
@@ -165,7 +165,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '8',
     name: 'Indraprastha Apollo Hospital',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Sarita Vihar, Mathura Road, New Delhi - 110076',
     city: 'New Delhi',
     state: 'Delhi',
@@ -188,7 +188,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '9',
     name: 'Manipal Hospital Dwarka',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Dwarka Sector 6, New Delhi - 110075',
     city: 'New Delhi',
     state: 'Delhi',
@@ -211,7 +211,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '10',
     name: 'Marengo Asia Hospital',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Sector 16, Plot no. 1, Faridabad - 121002',
     city: 'Faridabad',
     state: 'Haryana',
@@ -234,7 +234,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '11',
     name: 'Max Super Speciality Hospital',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Mandir Marg, Press Enclave, Saket Institution Area, Saket, New Delhi - 110017',
     city: 'New Delhi',
     state: 'Delhi',
@@ -257,7 +257,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '12',
     name: 'Medanta - The Medicity Hospital',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Medanta - The Medicity, Gurgaon - 122001',
     city: 'Gurgaon',
     state: 'Haryana',
@@ -280,7 +280,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '13',
     name: 'Metro Hospital and Heart Institute',
-    type: 'General Hospital',
+    type: 'Multispeciality Hospital',
     location: 'Sector 16 A, Faridabad (Delhi - NCR) - 121002',
     city: 'Faridabad',
     state: 'Haryana',
@@ -303,7 +303,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: '14',
     name: 'Nova IVF Fertility',
-    type: 'Specialty Hospital',
+    type: 'IVF Center',
     location: 'Palam Marg, Ground Floor, Building No. 2, Vasant Vihar, New Delhi - 110057',
     city: 'New Delhi',
     state: 'Delhi',
