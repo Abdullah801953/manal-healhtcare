@@ -4,7 +4,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "1",
     name: "Apollo Fertility Center",
-    type: "Specialty Hospital",
+    type: "IVF Center",
     location:
       "2 & 3 Floor, above Visual Aids Centre, Plot 8, Ring Rd, Nirmal Puri, Nirmal Colony, Block 2, Lajpat Nagar, New Delhi-110024",
     city: "New Delhi",
@@ -320,7 +320,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "4",
     name: "Centre for Sight",
-    type: "Specialty Hospital",
+    type: "Eye Hospital",
     location: "B-5/24, Safdarjung Enclave, New Delhi - 110029",
     city: "New Delhi",
     state: "Delhi",
@@ -408,7 +408,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "7",
     name: "Cosmodent Dental Clinic",
-    type: "Specialty Hospital",
+    type: "Dental Clinic",
     location: "548-SP, Sector 39, Near Medanta Hospital, Gurugram",
     city: "Gurgaon",
     state: "Haryana",
@@ -1156,7 +1156,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "18",
     name: "Nova IVF Fertility",
-    type: "Specialty Hospital",
+    type: "IVF Center",
     location:
       "Palam Marg, Ground Floor, Building No. 2, Vasant Vihar, New Delhi - 110057",
     city: "New Delhi",
