@@ -100,7 +100,7 @@ export const HeroQueryForm = () => {
           <Translate>Get Free Consultation</Translate>
         </h3>
         <p className="text-white/90 text-sm text-center mt-1.5">
-          <Translate>Our team will contact you .</Translate>
+          <Translate>Our team will contact you shortly.</Translate>
         </p>
       </div>
 
