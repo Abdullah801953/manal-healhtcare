@@ -68,7 +68,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "11",
     name: "Indraprastha Apollo Hospital",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Sarita Vihar, Mathura Road, New Delhi - 110076",
     city: "New Delhi",
     state: "Delhi",
@@ -144,7 +144,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "2",
     name: "Artemis Hospital",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Sector 51, Near Unitech Cyber Park, Gurgaon - 122001",
     city: "Gurgaon",
     state: "Haryana",
@@ -229,7 +229,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "3",
     name: "BLK-Max Super Speciality Hospital",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location:
       "Radha Soami Satsang, Pusa Rd, Rajendra Place, New Delhi - 110005",
     city: "New Delhi",
@@ -489,7 +489,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "8",
     name: "Fortis Escorts Heart Institute",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Sukhdev Vihar Metro Station, Okhla Road, New Delhi - 110025",
     city: "New Delhi",
     state: "Delhi",
@@ -579,7 +579,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "9",
     name: "Fortis Memorial Research Institute",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Opposite HUDA City Centre, Sector - 44, Gurgaon - 122002",
     city: "Gurgaon",
     state: "Haryana",
@@ -676,7 +676,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "13",
     name: "Manipal Hospital Dwarka",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Dwarka Sector 6, New Delhi - 110075",
     city: "New Delhi",
     state: "Delhi",
@@ -772,7 +772,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "14",
     name: "Marengo Asia Hospital",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Sector 16, Plot no. 1, Faridabad - 121002",
     city: "Faridabad",
     state: "Haryana",
@@ -867,7 +867,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "15",
     name: "Max Super Speciality Hospital",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location:
       "Mandir Marg, Press Enclave, Saket Institution Area, Saket, New Delhi - 110017",
     city: "New Delhi",
@@ -961,7 +961,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "16",
     name: "Medanta - The Medicity Hospital",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Medanta - The Medicity, Gurgaon - 122001",
     city: "Gurgaon",
     state: "Haryana",
@@ -1051,7 +1051,7 @@ export const hospitalsData: Hospital[] = [
   {
     id: "17",
     name: "Metro Hospital and Heart Institute",
-    type: "General Hospital",
+    type: "Multispeciality Hospital",
     location: "Sector 16 A, Faridabad (Delhi - NCR) - 121002",
     city: "Faridabad",
     state: "Haryana",
