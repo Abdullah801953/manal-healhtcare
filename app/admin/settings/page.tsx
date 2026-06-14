@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Save, Globe, Phone, Loader2, MapPin, Clock, Building, Plus, Trash2 } from "lucide-react";
+import { Save, Globe, Phone, Loader2, MapPin, Clock, Building, Plus, Trash2, KeyRound, Eye, EyeOff, CheckCircle, XCircle } from "lucide-react";
 
 interface Department {
   name: string;
@@ -37,6 +37,48 @@ export default function SettingsPage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
+  // Change credentials state
+  const [credentials, setCredentials] = useState({
+    currentPassword: '',
+    newEmail: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [showCurrentPw, setShowCurrentPw] = useState(false);
+  const [showNewPw, setShowNewPw] = useState(false);
+  const [showConfirmPw, setShowConfirmPw] = useState(false);
+  const [credSaving, setCredSaving] = useState(false);
+  const [credMsg, setCredMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleCredChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setCredMsg(null);
+  };
+
+  const handleCredSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCredSaving(true);
+    setCredMsg(null);
+    try {
+      const res = await fetch('/api/admin/change-credentials', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCredMsg({ type: 'success', text: data.message });
+        setCredentials({ currentPassword: '', newEmail: '', newPassword: '', confirmPassword: '' });
+      } else {
+        setCredMsg({ type: 'error', text: data.message });
+      }
+    } catch {
+      setCredMsg({ type: 'error', text: 'Failed to update credentials' });
+    } finally {
+      setCredSaving(false);
+    }
+  };
 
   useEffect(() => {
     fetchSettings();
@@ -621,6 +663,152 @@ export default function SettingsPage() {
                 >
                   Support Center →
                 </a>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </form>
+
+      {/* Change Login Credentials */}
+      <form onSubmit={handleCredSubmit}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <KeyRound className="w-5 h-5" />
+                  Change Login Credentials
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {credMsg && (
+                  <div className={`flex items-center gap-2 p-3 rounded-md text-sm ${
+                    credMsg.type === 'success'
+                      ? 'bg-green-50 text-green-700 border border-green-200'
+                      : 'bg-red-50 text-red-700 border border-red-200'
+                  }`}>
+                    {credMsg.type === 'success'
+                      ? <CheckCircle className="w-4 h-4 shrink-0" />
+                      : <XCircle className="w-4 h-4 shrink-0" />}
+                    {credMsg.text}
+                  </div>
+                )}
+
+                {/* Current Password */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Current Password <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <Input
+                      name="currentPassword"
+                      type={showCurrentPw ? 'text' : 'password'}
+                      value={credentials.currentPassword}
+                      onChange={handleCredChange}
+                      placeholder="Enter current password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPw(v => !v)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showCurrentPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* New Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    New Email{' '}
+                    <span className="text-gray-400 text-xs font-normal">(leave blank to keep current)</span>
+                  </label>
+                  <Input
+                    name="newEmail"
+                    type="email"
+                    value={credentials.newEmail}
+                    onChange={handleCredChange}
+                    placeholder="new@example.com"
+                  />
+                </div>
+
+                {/* New Password */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    New Password{' '}
+                    <span className="text-gray-400 text-xs font-normal">(leave blank to keep current)</span>
+                  </label>
+                  <div className="relative">
+                    <Input
+                      name="newPassword"
+                      type={showNewPw ? 'text' : 'password'}
+                      value={credentials.newPassword}
+                      onChange={handleCredChange}
+                      placeholder="Min 8 characters"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPw(v => !v)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showNewPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Confirm Password */}
+                {credentials.newPassword && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Confirm New Password
+                    </label>
+                    <div className="relative">
+                      <Input
+                        name="confirmPassword"
+                        type={showConfirmPw ? 'text' : 'password'}
+                        value={credentials.confirmPassword}
+                        onChange={handleCredChange}
+                        placeholder="Re-enter new password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPw(v => !v)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      >
+                        {showConfirmPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                    {credentials.confirmPassword && credentials.newPassword !== credentials.confirmPassword && (
+                      <p className="text-xs text-red-500 mt-1">Passwords do not match</p>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Submit sidebar */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Update Credentials</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  type="submit"
+                  disabled={credSaving || !credentials.currentPassword || (!credentials.newEmail && !credentials.newPassword)}
+                  className="w-full bg-green-600 hover:bg-green-700"
+                >
+                  {credSaving ? (
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Updating...</>
+                  ) : (
+                    <><KeyRound className="w-4 h-4 mr-2" />Update Credentials</>
+                  )}
+                </Button>
+                <p className="text-xs text-gray-500 mt-3">
+                  You must enter your current password to make any changes.
+                </p>
               </CardContent>
             </Card>
           </div>
