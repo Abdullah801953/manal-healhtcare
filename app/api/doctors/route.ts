@@ -24,14 +24,16 @@ export async function GET(request: Request) {
     try {
       await connectDB();
       const doctors = await Doctor.find(query)
-        .select('-overview -overviewList -qualifications -experience -experienceDetails -achievements -treatments -additionalInfo -whyChoose -researchPublications -clinicalFocus -image')
+        .select('-overview -overviewList -qualifications -experience -experienceDetails -achievements -treatments -additionalInfo -whyChoose -researchPublications -clinicalFocus')
         .sort({ createdAt: -1 })
         .lean();
-      
-      // Use image API endpoint instead of embedding base64
+
+      // Use Cloudinary URL if available, otherwise fall back to proxy endpoint for legacy records
       const cleaned = doctors.map((doc: any) => ({
         ...doc,
-        image: `/api/doctors/${doc._id}/image`,
+        image: doc.image && (doc.image.startsWith('http://') || doc.image.startsWith('https://'))
+          ? doc.image
+          : `/api/doctors/${doc._id}/image`,
       }));
       
       return NextResponse.json({ success: true, data: cleaned });

@@ -93,10 +93,12 @@ async function getDoctors() {
       .select('name slug designation hospital experienceYears specialization status')
       .sort({ createdAt: -1 })
       .lean();
-    // Use image API endpoint instead of embedding base64 in HTML
+    // Use Cloudinary URL if available, otherwise fall back to proxy endpoint
     const cleaned = doctors.map((doc: any) => ({
       ...doc,
-      image: `/api/doctors/${doc._id}/image`,
+      image: doc.image && (doc.image.startsWith('http://') || doc.image.startsWith('https://'))
+        ? doc.image
+        : `/api/doctors/${doc._id}/image`,
     }));
     return JSON.parse(JSON.stringify(cleaned));
   } catch (error) {

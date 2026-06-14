@@ -39,6 +39,9 @@ jobs:
           NEXT_PUBLIC_BASE_URL: http://localhost:3000
           JWT_SECRET: test-secret
           ADMIN_SESSION_SECRET: test-session-secret
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
           SMTP_HOST: smtp.example.com
           SMTP_PORT: 465
           SMTP_SECURE: true
@@ -52,17 +55,51 @@ jobs:
     needs: test
 
     steps:
+      - name: Open firewall for GitHub runner IP
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          timeout: 60s
+          command_timeout: 2m
+          script: echo "SSH reachable"
+
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ env.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          timeout: 60s
+          command_timeout: 15m
+          envs: CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET,MONGODB_URI,NEXT_PUBLIC_BASE_URL,JWT_SECRET,ADMIN_SESSION_SECRET,SMTP_HOST,SMTP_PORT,SMTP_SECURE,SMTP_USER,SMTP_PASS,INQUIRY_RECIPIENT_EMAIL,INQUIRY_CC_EMAIL
           script: |
+            set -e
             cd /var/www/manal-healhtcare
 
             # Pull latest code
             git pull origin main
+
+            # Write environment file from GitHub secrets
+            cat > .env << 'ENVEOF'
+            MONGODB_URI=${{ secrets.MONGODB_URI }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            ADMIN_SESSION_SECRET=${{ secrets.ADMIN_SESSION_SECRET }}
+            CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
+            CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
+            CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
+            SMTP_HOST=${{ secrets.SMTP_HOST }}
+            SMTP_PORT=${{ secrets.SMTP_PORT }}
+            SMTP_SECURE=${{ secrets.SMTP_SECURE }}
+            SMTP_USER=${{ secrets.SMTP_USER }}
+            SMTP_PASS=${{ secrets.SMTP_PASS }}
+            INQUIRY_RECIPIENT_EMAIL=${{ secrets.INQUIRY_RECIPIENT_EMAIL }}
+            INQUIRY_CC_EMAIL=${{ secrets.INQUIRY_CC_EMAIL }}
+            ENVEOF
 
             # Install dependencies
             npm ci
