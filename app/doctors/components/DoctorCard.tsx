@@ -2,7 +2,7 @@
 
 import { Doctor } from '../types';
 import { Button } from '@/components/ui/button';
-import { MapPin, Briefcase } from 'lucide-react';
+import { MapPin, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -13,6 +13,8 @@ interface DoctorCardProps {
 
 export function DoctorCard({ doctor }: DoctorCardProps) {
   const [imgSrc, setImgSrc] = useState(doctor.image || '/doctor.png');
+  const ratingNum = Number(doctor.rating);
+  const displayRating = (isFinite(ratingNum) && !isNaN(ratingNum) && ratingNum > 0 ? ratingNum : 4.8).toFixed(1);
   const overview = doctor.overview || '';
   const shortOverview = overview.length > 120 
     ? overview.slice(0, 120) + '...' 
@@ -34,6 +36,11 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
               onError={() => setImgSrc('/doctor.png')}
             />
           </div>
+        </div>
+        {/* Rating badge */}
+        <div className="absolute top-3 left-3 bg-[#209F00] text-white px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
+          <Star className="w-3 h-3 fill-white" />
+          <span className="text-xs font-bold">{displayRating}</span>
         </div>
       </div>
 

@@ -21,6 +21,7 @@ export interface Doctor {
   specialization?: string[];
   clinicalFocus?: string[];
   image?: string;
+  rating?: number;
   status: string;
 }
 
@@ -341,6 +342,8 @@ interface DoctorCardProps {
 
 const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
   const [imgSrc, setImgSrc] = useState(doctor.image || '/doctor-img 1.png');
+  const ratingNum = Number(doctor.rating);
+  const displayRating = (isFinite(ratingNum) && !isNaN(ratingNum) && ratingNum > 0 ? ratingNum : 4.8).toFixed(1);
 
   return (
     <div className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 h-full">
@@ -375,7 +378,7 @@ const DoctorCard = ({ doctor, index }: DoctorCardProps) => {
         <div className="absolute top-3 left-3 bg-[#209F00] text-white px-2.5 py-1 rounded-full shadow-lg">
           <div className="flex items-center gap-1">
             <Star className="w-3 h-3 fill-white" />
-            <span className="text-xs font-bold">4.8</span>
+            <span className="text-xs font-bold">{displayRating}</span>
           </div>
         </div>
       </div>

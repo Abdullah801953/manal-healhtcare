@@ -8,11 +8,10 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 function HospitalImageFallback({ src, alt }: { src?: string; alt: string }) {
-  const normalizedSrc = src
-    ? src.startsWith('/uploads/')
-      ? `/api${src}`
-      : src
-    : '';
+  const normalizedSrc =
+    src && (src.startsWith('http://') || src.startsWith('https://'))
+      ? src
+      : '';
   const [imgSrc, setImgSrc] = useState(normalizedSrc || '/indra.avif');
   return (
     <Image

@@ -41,6 +41,7 @@ export default function NewDoctorPage() {
     experience: "",
     experienceYears: "",
     image: "",
+    rating: "",
     status: "active",
   });
 
@@ -159,6 +160,7 @@ export default function NewDoctorPage() {
         experience: formData.experience,
         experienceYears: formData.experienceYears,
         status: formData.status,
+        rating: formData.rating !== "" ? parseFloat(formData.rating as string) : null,
         qualifications: qualifications.filter(q => q.trim() !== ""),
         specialization: specializations.filter(s => s.trim() !== ""),
         clinicalFocus: clinicalFocus.filter(c => c.trim() !== ""),
@@ -594,6 +596,23 @@ export default function NewDoctorPage() {
               <CardContent>
                 <ImageUpload onImageSelect={handleImageSelect} currentImage={imagePreview}
                   label="Upload Doctor Photo" />
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-3xl">
+              <CardHeader><CardTitle>Rating</CardTitle></CardHeader>
+              <CardContent>
+                <Input
+                  type="number"
+                  name="rating"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  placeholder="e.g. 4.8"
+                  value={formData.rating}
+                  onChange={handleInputChange}
+                />
+                <p className="text-xs text-gray-500 mt-1">Between 0 and 5 (e.g. 4.8)</p>
               </CardContent>
             </Card>
 

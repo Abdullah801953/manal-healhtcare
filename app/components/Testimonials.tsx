@@ -222,11 +222,10 @@ export const Testimonials = ({
                   >
                     {currentTestimonial.image && !imageError ? (
                       <Image
-                        src={currentTestimonial.image.startsWith('/uploads/')
-                          ? `/api${currentTestimonial.image}`
-                          : currentTestimonial.image.startsWith('/')
-                          ? currentTestimonial.image
-                          : `/${currentTestimonial.image}`
+                        src={
+                          currentTestimonial.image.startsWith('http://') || currentTestimonial.image.startsWith('https://')
+                            ? currentTestimonial.image
+                            : '/doctor.png'
                         }
                         alt={currentTestimonial.name}
                         fill

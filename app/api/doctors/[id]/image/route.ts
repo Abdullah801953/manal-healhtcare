@@ -26,9 +26,9 @@ export async function GET(
       return NextResponse.redirect(img, { status: 302 });
     }
 
-    // Legacy local path — still serve as redirect so existing records keep working
+    // Legacy local path — files no longer exist after Cloudinary migration, show placeholder
     if (img.startsWith('/')) {
-      return NextResponse.redirect(new URL(img, request.url));
+      return NextResponse.redirect(new URL(PLACEHOLDER, request.url));
     }
 
     // Legacy base64 data URI

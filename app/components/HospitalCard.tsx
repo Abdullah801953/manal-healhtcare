@@ -28,14 +28,11 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
     setImgError(true);
   };
 
-  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
-  const imageUrl = hospital.image
-    ? hospital.image.startsWith('/uploads/')
-      ? `/api${hospital.image}`
-      : hospital.image.startsWith('/api/uploads/')
+  // Use Cloudinary URL directly; fall back to placeholder for legacy local paths
+  const imageUrl =
+    hospital.image && (hospital.image.startsWith('http://') || hospital.image.startsWith('https://'))
       ? hospital.image
-      : hospital.image
-    : '';
+      : '';
 
   // Generate a consistent color from the hospital name
   const colors = [

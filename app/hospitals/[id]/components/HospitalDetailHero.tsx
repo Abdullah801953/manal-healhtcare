@@ -12,12 +12,11 @@ interface HospitalDetailHeroProps {
 }
 
 export default function HospitalDetailHero({ hospital }: HospitalDetailHeroProps) {
-  // Normalize image URL: ensure /uploads/ paths go through /api/uploads/
-  const normalizedImage = hospital.image
-    ? hospital.image.startsWith('/uploads/')
-      ? `/api${hospital.image}`
-      : hospital.image
-    : '';
+  // Use Cloudinary URL directly; fall back to placeholder for legacy local paths
+  const normalizedImage =
+    hospital.image && (hospital.image.startsWith('http://') || hospital.image.startsWith('https://'))
+      ? hospital.image
+      : '';
   const [imgSrc, setImgSrc] = useState(normalizedImage || '/indra.avif');
   
   return (

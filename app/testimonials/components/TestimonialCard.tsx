@@ -11,9 +11,9 @@ interface TestimonialCardProps {
 
 export function TestimonialCard({ testimonial }: TestimonialCardProps) {
   const normalizedImage = testimonial.image
-    ? testimonial.image.startsWith('/uploads/')
-      ? `/api${testimonial.image}`
-      : testimonial.image
+    ? testimonial.image.startsWith('http://') || testimonial.image.startsWith('https://')
+      ? testimonial.image
+      : ''
     : '';
   const [imgSrc, setImgSrc] = useState(normalizedImage || '/doctor.png');
   const formattedDate = new Date(testimonial.date).toLocaleDateString('en-US', {

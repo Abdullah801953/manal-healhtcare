@@ -26,6 +26,7 @@ export interface IDoctor {
   researchPublications?: string[];
   achievements?: IAchievement[];
   image?: string;
+  rating?: number;
   status: 'active' | 'inactive';
   createdAt: Date;
   updatedAt: Date;
@@ -96,6 +97,12 @@ const DoctorSchema = new Schema<IDoctor>({
   }],
   image: { 
     type: String 
+  },
+  rating: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: null,
   },
   status: { 
     type: String, 

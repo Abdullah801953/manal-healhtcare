@@ -28,12 +28,13 @@ export async function GET(request: Request) {
         .sort({ createdAt: -1 })
         .lean();
 
-      // Use Cloudinary URL if available, otherwise fall back to proxy endpoint for legacy records
+      // Use Cloudinary URL if available, otherwise return placeholder directly (no proxy redirect)
       const cleaned = doctors.map((doc: any) => ({
         ...doc,
         image: doc.image && (doc.image.startsWith('http://') || doc.image.startsWith('https://'))
           ? doc.image
-          : `/api/doctors/${doc._id}/image`,
+          : '/indra.avif',
+        rating: (doc.rating !== null && doc.rating !== undefined) ? Number(doc.rating) : null,
       }));
       
       return NextResponse.json({ success: true, data: cleaned });

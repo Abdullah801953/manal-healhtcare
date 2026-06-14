@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import nextDynamic from "next/dynamic";
+
+// Always fetch fresh data — never serve stale cached homepage
+export const revalidate = 0;
 import { Hero } from "./components/Hero";
 import { Services } from "./components/Services";
 import { DoctorsShowcase } from "./components/DoctorsShowcase";
@@ -90,15 +93,17 @@ async function getFAQs() {
 async function getDoctors() {
   try {
     const doctors = await Doctor.find({ status: 'active' })
-      .select('name slug designation hospital experienceYears specialization status')
+      .select('name slug designation hospital experienceYears specialization status rating image')
       .sort({ createdAt: -1 })
       .lean();
-    // Use Cloudinary URL if available, otherwise fall back to proxy endpoint
+    // Use Cloudinary URL if available, otherwise return placeholder directly (no proxy redirect)
     const cleaned = doctors.map((doc: any) => ({
       ...doc,
       image: doc.image && (doc.image.startsWith('http://') || doc.image.startsWith('https://'))
         ? doc.image
-        : `/api/doctors/${doc._id}/image`,
+        : '/indra.avif',
+      // Always coerce rating to a plain number so it serialises safely
+      rating: (doc.rating !== null && doc.rating !== undefined) ? Number(doc.rating) : null,
     }));
     return JSON.parse(JSON.stringify(cleaned));
   } catch (error) {

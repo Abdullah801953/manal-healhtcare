@@ -58,7 +58,15 @@ export async function GET(request: NextRequest) {
       filter.featured = featured === 'true';
     }
 
-    const hospitals = await Hospital.find(filter).sort({ featured: -1, rating: -1 });
+    const rawHospitals = await Hospital.find(filter).sort({ featured: -1, rating: -1 }).lean();
+
+    // Normalize image: use Cloudinary URL directly, return placeholder for legacy local paths
+    const hospitals = rawHospitals.map((h: any) => ({
+      ...h,
+      image: h.image && (h.image.startsWith('http://') || h.image.startsWith('https://'))
+        ? h.image
+        : '/indra.avif',
+    }));
 
     return NextResponse.json({
       success: true,
