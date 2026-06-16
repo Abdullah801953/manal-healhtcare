@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Treatment from '@/lib/models/Treatment';
+import { getCache, setCache, deleteCachePattern, cacheKey, TTL } from '@/lib/cache';
 
 // Helper function to generate slug from title
 function generateSlug(title: string): string {
@@ -11,18 +12,20 @@ function generateSlug(title: string): string {
 }
 
 // GET all treatments
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const key = cacheKey('treatments', searchParams);
+  const cached = await getCache<object[]>(key);
+  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+
   try {
     await connectDB();
     const treatments = await Treatment.find({}).sort({ createdAt: -1 });
-    
+
+    await setCache(key, treatments, TTL.MEDIUM);
     return NextResponse.json({
       success: true,
-      data: treatments
-    }, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
-      },
+      data: treatments,
     });
   } catch (error: any) {
     return NextResponse.json(

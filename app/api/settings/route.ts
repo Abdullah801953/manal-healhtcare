@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Settings from '@/lib/models/Settings';
+import { getCache, setCache, deleteCache, TTL } from '@/lib/cache';
+
+const SETTINGS_KEY = 'settings';
 
 // GET - Fetch settings (returns first/only document)
 export async function GET() {
+  const cached = await getCache(SETTINGS_KEY);
+  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+
   try {
     await connectDB();
-    
+
     // Get the most recently updated settings document
     let settings = await Settings.findOne().sort({ updatedAt: -1 }).lean();
 
@@ -37,13 +43,10 @@ export async function GET() {
       youtube: settings.youtube || '',
     };
 
+    await setCache(SETTINGS_KEY, responseData, TTL.LONG);
     return NextResponse.json({
       success: true,
       data: responseData,
-    }, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
-      },
     });
   } catch (error: any) {
     console.error('Error fetching settings:', error);
@@ -58,6 +61,7 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     await connectDB();
+    await deleteCache(SETTINGS_KEY);
     const body = await request.json();
 
     let settings = await Settings.findOne();

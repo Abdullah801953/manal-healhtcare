@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Testimonial from '@/lib/models/Testimonial';
+import { getCache, setCache, deleteCachePattern, cacheKey, TTL } from '@/lib/cache';
 
 // GET all testimonials
 export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+  const key = cacheKey('testimonials', searchParams);
+  const cached = await getCache<object[]>(key);
+  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+
   try {
     await connectDB();
 
-    const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const verified = searchParams.get('verified');
     const featured = searchParams.get('featured');
@@ -22,6 +27,7 @@ export async function GET(request: NextRequest) {
 
     const testimonials = await Testimonial.find(query).sort({ createdAt: -1 });
 
+    await setCache(key, testimonials, TTL.MEDIUM);
     return NextResponse.json({
       success: true,
       data: testimonials,
@@ -38,10 +44,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST create new testimonial
+// POST create new testimonial — invalidate cache
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
+    await deleteCachePattern('testimonials:*');
+    await deleteCachePattern('testimonials');
 
     const body = await request.json();
 

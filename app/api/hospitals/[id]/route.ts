@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/mongodb';
 import Hospital from '@/lib/models/Hospital';
+import { deleteCachePattern } from '@/lib/cache';
 
 // GET single hospital by ID or slug
 export async function GET(
@@ -52,6 +53,8 @@ export async function PUT(
 ) {
   try {
     await connectDB();
+    await deleteCachePattern('hospitals:*');
+    await deleteCachePattern('hospitals');
     const { id } = await context.params;
     const body = await request.json();
 
@@ -103,6 +106,8 @@ export async function DELETE(
 ) {
   try {
     await connectDB();
+    await deleteCachePattern('hospitals:*');
+    await deleteCachePattern('hospitals');
     const { id } = await context.params;
 
     const hospital = await Hospital.findByIdAndDelete(id);

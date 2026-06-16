@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB, { resetConnection } from '@/lib/mongodb';
 import Doctor from '@/lib/models/Doctor';
+import { deleteCachePattern } from '@/lib/cache';
 
 // Helper: Check if error is a timeout
 function isTimeoutError(error: any): boolean {
@@ -47,6 +48,8 @@ export async function PUT(
 ) {
   const { id } = await params;
   const body = await request.json();
+  await deleteCachePattern('doctors:*');
+  await deleteCachePattern('doctors');
   const MAX_RETRIES = 3;
   
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -108,6 +111,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  await deleteCachePattern('doctors:*');
+  await deleteCachePattern('doctors');
   const MAX_RETRIES = 3;
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {

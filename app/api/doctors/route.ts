@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB, { resetConnection } from '@/lib/mongodb';
 import Doctor from '@/lib/models/Doctor';
+import { getCache, setCache, deleteCachePattern, cacheKey, TTL } from '@/lib/cache';
 
 // Helper function to generate slug from name
 function generateSlug(name: string): string {
@@ -19,6 +20,11 @@ export async function GET(request: Request) {
     query.hospital = { $regex: hospital, $options: 'i' };
   }
 
+  // Check Redis cache first
+  const key = cacheKey('doctors', searchParams);
+  const cached = await getCache<object[]>(key);
+  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+
   const MAX_RETRIES = 3;
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
@@ -36,7 +42,8 @@ export async function GET(request: Request) {
           : '/indra.avif',
         rating: (doc.rating !== null && doc.rating !== undefined) ? Number(doc.rating) : null,
       }));
-      
+
+      await setCache(key, cleaned, TTL.MEDIUM);
       return NextResponse.json({ success: true, data: cleaned });
     } catch (error: any) {
       const isTimeout = error.message?.includes('timed out') || error.message?.includes('ETIMEDOUT');
@@ -54,8 +61,10 @@ export async function GET(request: Request) {
   }
 }
 
-// POST create new doctor
+// POST create new doctor — invalidate cache
 export async function POST(request: Request) {
+  await deleteCachePattern('doctors:*');
+  await deleteCachePattern('doctors');
   const body = await request.json();
 
   // Validate required fields

@@ -38,6 +38,7 @@
     "dotenv": "^17.2.3",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.25.0",
+    "ioredis": "^5.11.1",
     "lucide-react": "^0.562.0",
     "mongoose": "^9.1.5",
     "next": "16.1.1",

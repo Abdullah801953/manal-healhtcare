@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import FAQ from '@/lib/models/FAQ';
+import { getCache, setCache, deleteCachePattern, cacheKey, TTL } from '@/lib/cache';
 
 // GET - Fetch all FAQs
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const key = cacheKey('faqs', searchParams);
+  const cached = await getCache<object[]>(key);
+  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+
   try {
     await connectDB();
-    const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const isActive = searchParams.get('isActive');
 
@@ -16,6 +21,7 @@ export async function GET(request: Request) {
 
     const faqs = await FAQ.find(query).sort({ order: 1, createdAt: -1 });
 
+    await setCache(key, faqs, TTL.LONG);
     return NextResponse.json({
       success: true,
       data: faqs,
@@ -58,6 +64,8 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     await connectDB();
+    await deleteCachePattern('faqs:*');
+    await deleteCachePattern('faqs');
     const { searchParams } = new URL(request.url);
     const ids = searchParams.get('ids')?.split(',');
 

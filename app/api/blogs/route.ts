@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Blog from '@/lib/models/Blog';
+import { getCache, setCache, deleteCachePattern, cacheKey, TTL } from '@/lib/cache';
 
 // GET all blogs
 export async function GET(request: NextRequest) {
+  const { searchParams } = request.nextUrl;
+  const key = cacheKey('blogs', searchParams);
+  const cached = await getCache<object[]>(key);
+  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+
   try {
     await connectDB();
 
-    const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const category = searchParams.get('category');
     const featured = searchParams.get('featured');
@@ -20,6 +25,7 @@ export async function GET(request: NextRequest) {
 
     const blogs = await Blog.find(query).sort({ date: -1, createdAt: -1 });
 
+    await setCache(key, blogs, TTL.MEDIUM);
     return NextResponse.json({
       success: true,
       data: blogs,
@@ -73,6 +79,8 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     await connectDB();
+    await deleteCachePattern('blogs:*');
+    await deleteCachePattern('blogs');
 
     const { searchParams } = new URL(request.url);
     const ids = searchParams.get('ids')?.split(',');

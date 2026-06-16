@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Testimonial from '@/lib/models/Testimonial';
+import { deleteCachePattern } from '@/lib/cache';
 
 // GET single testimonial by ID
 export async function GET(
@@ -47,6 +48,8 @@ export async function PUT(
   const { id } = await context.params;
   try {
     await connectDB();
+    await deleteCachePattern('testimonials:*');
+    await deleteCachePattern('testimonials');
 
     const body = await request.json();
 
@@ -90,6 +93,8 @@ export async function DELETE(
   const { id } = await context.params;
   try {
     await connectDB();
+    await deleteCachePattern('testimonials:*');
+    await deleteCachePattern('testimonials');
 
     const testimonial = await Testimonial.findByIdAndDelete(id);
 

@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Hospital from '@/lib/models/Hospital';
+import { getCache, setCache, deleteCachePattern, cacheKey, TTL } from '@/lib/cache';
 
 // GET all hospitals with filtering
 export async function GET(request: NextRequest) {
-  try {
-    await connectDB();
+  // Check Redis cache first
+  const key = cacheKey('hospitals', request.nextUrl.searchParams);
+  const cached = await getCache<object[]>(key);
+  if (cached) return NextResponse.json({ success: true, data: cached, count: (cached as any[]).length, cached: true });
+
 
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search');
@@ -68,14 +72,11 @@ export async function GET(request: NextRequest) {
         : '/indra.avif',
     }));
 
+    await setCache(key, hospitals, TTL.MEDIUM);
     return NextResponse.json({
       success: true,
       data: hospitals,
       count: hospitals.length,
-    }, {
-      headers: {
-        'Cache-Control': 'no-store',
-      },
     });
   } catch (error: any) {
     console.error('Error fetching hospitals:', error);

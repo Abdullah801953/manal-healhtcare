@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/mongodb';
 import Blog from '@/lib/models/Blog';
+import { deleteCachePattern } from '@/lib/cache';
 
 // GET single blog by ID
 export async function GET(
@@ -51,6 +52,8 @@ export async function PUT(
 ) {
   try {
     await connectDB();
+    await deleteCachePattern('blogs:*');
+    await deleteCachePattern('blogs');
     const { id } = await params;
 
     const body = await request.json();
