@@ -10,6 +10,8 @@ export async function GET(request: NextRequest) {
   const cached = await getCache<object[]>(key);
   if (cached) return NextResponse.json({ success: true, data: cached, count: (cached as any[]).length, cached: true });
 
+  try {
+    await connectDB();
 
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search');
