@@ -1,7 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifySessionToken } from '@/lib/auth';
+import { rateLimit, getClientIp } from '@/lib/rateLimit';
 
 const AUTH_COOKIE_NAME = 'admin_session';
+
+// ---------------------------------------------------------------------------
+// Rate limit tiers (requests per 60 seconds per IP)
+// ---------------------------------------------------------------------------
+const RATE_LIMITS: { pattern: RegExp; limit: number }[] = [
+  // Strictest — login brute-force protection
+  { pattern: /^\/api\/admin\/login$/,             limit: 5   },
+  // Strict — form submissions / uploads
+  { pattern: /^\/api\/inquiries$/,                limit: 10  },
+  { pattern: /^\/api\/newsletter$/,               limit: 10  },
+  { pattern: /^\/api\/upload$/,                   limit: 15  },
+  // Strict — credential changes
+  { pattern: /^\/api\/admin\/change-credentials$/, limit: 5  },
+  // General public GET APIs
+  { pattern: /^\/api\//,                          limit: 100 },
+];
+
+const WINDOW_MS = 60 * 1000; // 1 minute
+
+function getRateLimit(pathname: string): number {
+  for (const rule of RATE_LIMITS) {
+    if (rule.pattern.test(pathname)) return rule.limit;
+  }
+  return 100;
+}
+
+function rateLimitResponse(resetAt: number): NextResponse {
+  const retryAfter = Math.ceil((resetAt - Date.now()) / 1000);
+  return NextResponse.json(
+    { success: false, message: 'Too many requests. Please try again later.' },
+    {
+      status: 429,
+      headers: {
+        'Retry-After': String(retryAfter),
+        'X-RateLimit-Reset': String(Math.ceil(resetAt / 1000)),
+      },
+    }
+  );
+}
 
 // Routes that don't require authentication
 const PUBLIC_API_ROUTES = [
@@ -31,6 +71,17 @@ export async function middleware(request: NextRequest) {
   // Only protect API routes
   if (!pathname.startsWith('/api/')) {
     return NextResponse.next();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Rate limiting — applied to every API route
+  // ---------------------------------------------------------------------------
+  const ip = getClientIp(request);
+  const limit = getRateLimit(pathname);
+  const result = rateLimit(`${ip}:${pathname}`, limit, WINDOW_MS);
+
+  if (!result.allowed) {
+    return rateLimitResponse(result.resetAt);
   }
 
   // Allow all GET requests to public API routes (for frontend data fetching)

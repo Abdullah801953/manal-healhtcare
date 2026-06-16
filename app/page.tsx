@@ -95,6 +95,7 @@ async function getDoctors() {
     const doctors = await Doctor.find({ status: 'active' })
       .select('name slug designation hospital experienceYears specialization status rating image')
       .sort({ createdAt: -1 })
+      .limit(12)
       .lean();
     // Use Cloudinary URL if available, otherwise return placeholder directly (no proxy redirect)
     const cleaned = doctors.map((doc: any) => ({
