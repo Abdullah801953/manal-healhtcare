@@ -29,20 +29,26 @@ export default function DoctorsPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [doctorToDelete, setDoctorToDelete] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const LIMIT = 20;
 
   // Fetch doctors from API
   useEffect(() => {
-    fetchDoctors();
-  }, []);
+    fetchDoctors(page);
+  }, [page]);
 
-  const fetchDoctors = async () => {
+  const fetchDoctors = async (p = 1) => {
     try {
       setLoading(true);
-      const response = await fetch('/api/doctors');
+      const response = await fetch(`/api/doctors?page=${p}&limit=${LIMIT}`);
       const data = await response.json();
       
       if (data.success) {
         setDoctors(data.data);
+        setTotal(data.pagination?.total ?? data.data.length);
+        setTotalPages(data.pagination?.pages ?? 1);
       }
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -184,7 +190,7 @@ export default function DoctorsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-blue-600 font-medium">Total Doctors</p>
-                <p className="text-2xl font-bold text-blue-900">{doctors.length}</p>
+                <p className="text-2xl font-bold text-blue-900">{total}</p>
               </div>
               <Users className="w-8 h-8 text-blue-600 opacity-50" />
             </div>
@@ -406,12 +412,25 @@ export default function DoctorsPage() {
           {filteredDoctors.length > 0 && (
             <div className="border-t bg-gray-50 px-6 py-4">
               <div className="flex items-center justify-between text-sm text-gray-600">
+                <span>Showing {(page - 1) * LIMIT + 1}–{Math.min(page * LIMIT, total)} of {total} doctors</span>
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>Showing {filteredDoctors.length} of {doctors.length} doctors</span>
-                </div>
-                <div className="text-xs text-gray-500">
-                  💡 Tip: Select multiple doctors to perform bulk actions
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page <= 1 || loading}
+                    onClick={() => setPage(p => p - 1)}
+                  >
+                    Previous
+                  </Button>
+                  <span className="px-2">{page} / {totalPages}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page >= totalPages || loading}
+                    onClick={() => setPage(p => p + 1)}
+                  >
+                    Next
+                  </Button>
                 </div>
               </div>
             </div>

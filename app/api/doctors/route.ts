@@ -15,6 +15,10 @@ function generateSlug(name: string): string {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const hospital = searchParams.get('hospital');
+  const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+  const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '20')));
+  const skip = (page - 1) * limit;
+
   const query: Record<string, unknown> = {};
   if (hospital) {
     query.hospital = { $regex: hospital, $options: 'i' };
@@ -22,17 +26,22 @@ export async function GET(request: Request) {
 
   // Check Redis cache first
   const key = cacheKey('doctors', searchParams);
-  const cached = await getCache<object[]>(key);
-  if (cached) return NextResponse.json({ success: true, data: cached, cached: true });
+  const cached = await getCache<object>(key);
+  if (cached) return NextResponse.json({ success: true, ...cached as object, cached: true });
 
   const MAX_RETRIES = 3;
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
       await connectDB();
-      const doctors = await Doctor.find(query)
-        .select('-overview -overviewList -qualifications -experience -experienceDetails -achievements -treatments -additionalInfo -whyChoose -researchPublications -clinicalFocus')
-        .sort({ createdAt: -1 })
-        .lean();
+      const [doctors, total] = await Promise.all([
+        Doctor.find(query)
+          .select('-overview -overviewList -qualifications -experience -experienceDetails -achievements -treatments -additionalInfo -whyChoose -researchPublications -clinicalFocus')
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit)
+          .lean(),
+        Doctor.countDocuments(query),
+      ]);
 
       // Use Cloudinary URL if available, otherwise return placeholder directly (no proxy redirect)
       const cleaned = doctors.map((doc: any) => ({
@@ -43,8 +52,13 @@ export async function GET(request: Request) {
         rating: (doc.rating !== null && doc.rating !== undefined) ? Number(doc.rating) : null,
       }));
 
-      await setCache(key, cleaned, TTL.MEDIUM);
-      return NextResponse.json({ success: true, data: cleaned });
+      const payload = {
+        data: cleaned,
+        pagination: { page, limit, total, pages: Math.ceil(total / limit) },
+      };
+
+      await setCache(key, payload, TTL.MEDIUM);
+      return NextResponse.json({ success: true, ...payload });
     } catch (error: any) {
       const isTimeout = error.message?.includes('timed out') || error.message?.includes('ETIMEDOUT');
       if (isTimeout && attempt < MAX_RETRIES) {
