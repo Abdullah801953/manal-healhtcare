@@ -60,14 +60,14 @@ export const HospitalCardMotion = ({ hospital }: HospitalCardProps) => {
       className=" rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       {/* Image */}
-      <div className="relative h-56 w-full overflow-hidden">
+      <div className="relative w-full aspect-[3/2] bg-white overflow-hidden">
         {imageUrl && !imgError ? (
           <Image
             src={imageUrl}
             alt={hospital.name}
             fill
             unoptimized
-            className="object-cover"
+            className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
             onError={handleImageError}
           />
         ) : (

@@ -24,7 +24,8 @@ export default function DoctorsContent() {
     const fetchDoctors = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/doctors');
+        // Fetch all active doctors for client-side filtering (limit=500 covers all)
+        const response = await fetch('/api/doctors?limit=500&page=1');
         const result = await response.json();
         
         if (result.success) {
@@ -58,12 +59,16 @@ export default function DoctorsContent() {
 
     // Filter by category
     if (selectedCategory !== 'All Doctors') {
-      filtered = filtered.filter((doctor) =>
-        doctor.specialization?.some(
-          (s) => s.toLowerCase() === selectedCategory.toLowerCase()
-        ) ||
-        doctor.designation?.toLowerCase().includes(selectedCategory.toLowerCase())
-      );
+      const cat = selectedCategory.toLowerCase();
+      filtered = filtered.filter((doctor) => {
+        const specs = doctor.specialization?.map(s => s.toLowerCase()) ?? [];
+        const desig = doctor.designation?.toLowerCase() ?? '';
+        return (
+          specs.some(s => s.includes(cat) || cat.includes(s)) ||
+          desig.includes(cat) ||
+          cat.includes(desig)
+        );
+      });
     }
 
     // Filter by search query

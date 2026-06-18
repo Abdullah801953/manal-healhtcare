@@ -218,7 +218,7 @@ export const Testimonials = ({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.92, y: -20 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-square bg-gray-100"
+                    className="relative rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl xs:shadow-2xl aspect-[3/4] bg-white"
                   >
                     {currentTestimonial.image && !imageError ? (
                       <Image
@@ -230,7 +230,7 @@ export const Testimonials = ({
                         alt={currentTestimonial.name}
                         fill
                         unoptimized
-                        className="object-cover"
+                        className="object-contain object-center group-hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         priority
                         onError={() => setImageError(true)}
