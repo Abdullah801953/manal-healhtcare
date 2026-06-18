@@ -10,17 +10,17 @@ const carouselImages = [
   {
     src: t1,
     alt: "Patient recovery success",
-    caption: "Alhaji Abdulai Bah Sierra leone from UAE — Hiatus Hernia",
+    caption: "Alhaji Abdulai Bah Sierra leone-Hiatus Hernia surgery at Metro Hospital Faridabad",
   },
   {
     src: t2,
     alt: "Medical consultation",
-    caption: "Maria from UK — Orthopedic Treatment",
+    caption: "Lison Tafadzwa shumba- (Avr surgery) Aortic Valve replacement surgery  Zimbabwe  Metro Heart institute hospital fridabad Delhi",
   },
   {
     src: t3,
     alt: "Happy patient",
-    caption: "James from Canada — Cancer Care",
+    caption: "Alhaji Abdulai Bah Sierra leone-Hiatus Hernia surgery at Metro Hospital Faridabad",
   },
 ];
 
@@ -111,7 +111,7 @@ export function TestimonialsHero() {
                   />
                   {/* Caption overlay */}
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-5">
-                    <p className="text-white font-semibold text-base">{img.caption}</p>
+                    <p className="text-white font-bold text-base">{img.caption}</p>
                   </div>
                 </div>
               ))}
