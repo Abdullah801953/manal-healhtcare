@@ -50,7 +50,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     // Auto-generate slug if not provided
-    if (!body.slug && body.title) {
+    if (body.slug) {
+      // Strip leading/trailing slashes to prevent URL issues
+      body.slug = body.slug.replace(/^\/+|\/+$/g, '');
+    } else if (body.title) {
       body.slug = body.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')

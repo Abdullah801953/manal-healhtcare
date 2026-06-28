@@ -4,6 +4,7 @@ import { BlogNavigating } from "@/app/blogs/[id]/components/BlogNavigating";
 import RelatedArticles from "@/app/blogs/[id]/components/RelatedArticles";
 import { CTABookingSection } from "@/app/blogs/[id]/components/CTABookingSection";
 import { BlogListCTA } from "./components/BlogListCTA";
+import { blogsData } from "@/app/blogs/data";
 
 // Revalidate this page every 60 seconds as a fallback (on-demand revalidation via revalidatePath is the primary mechanism)
 export const revalidate = 60;
@@ -14,31 +15,46 @@ interface BlogDetailPageProps {
   }>;
 }
 
-// Fetch blog by slug
+// Fetch blog by slug — tries MongoDB first, falls back to static data
 async function getBlogBySlug(slug: string) {
+  // Normalize slug: strip leading/trailing slashes (handles DB slugs stored with leading /)
+  const normalizedSlug = slug.replace(/^\/+|\/+$/g, '');
+
+  // Try MongoDB first
   try {
-    // Direct database query on server-side
     const connectDB = (await import('@/lib/mongodb')).default;
     const Blog = (await import('@/lib/models/Blog')).default;
     
     await connectDB();
-    const blog = await Blog.findOne({ slug, status: 'published' }).lean();
+    const blog = await Blog.findOne({ slug: normalizedSlug, status: 'published' }).lean();
     
-    if (!blog) {
-      return null;
+    if (blog) {
+      // Increment views
+      await Blog.findOneAndUpdate(
+        { slug },
+        { $inc: { views: 1 } }
+      );
+      return JSON.parse(JSON.stringify(blog));
     }
-    
-    // Increment views
-    await Blog.findOneAndUpdate(
-      { slug },
-      { $inc: { views: 1 } }
-    );
-    
-    return JSON.parse(JSON.stringify(blog));
   } catch (error) {
-    console.error('Error fetching blog:', error);
-    return null;
+    console.error('Error fetching blog from DB:', error);
   }
+
+  // Fallback to static data (normalize both sides for comparison)
+  const staticBlog = blogsData.find((b) => b.slug === normalizedSlug);
+  if (staticBlog) {
+    return {
+      ...staticBlog,
+      _id: staticBlog.id,
+      status: 'published',
+      image: typeof staticBlog.image === 'string' ? staticBlog.image : '/blog-hero.jpg',
+      extraImages: staticBlog.extraImages?.map((img) =>
+        typeof img === 'string' ? img : '/blog-hero.jpg'
+      ),
+    };
+  }
+
+  return null;
 }
 
 // Fetch all published blogs
@@ -95,10 +111,16 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
    STATIC GENERATION
 ========================= */
 export async function generateStaticParams() {
-  const blogs = await getAllBlogs();
+  const dbBlogs = await getAllBlogs();
+  const dbSlugs = dbBlogs.map((blog: any) => blog.slug);
   
-  return blogs.map((blog: any) => ({
-    id: blog.slug,
+  // Also include slugs from static data that aren't already in the DB
+  const staticSlugs = blogsData
+    .filter((b) => !dbSlugs.includes(b.slug))
+    .map((b) => b.slug);
+  
+  return [...new Set([...dbSlugs, ...staticSlugs])].map((slug) => ({
+    id: slug,
   }));
 }
 

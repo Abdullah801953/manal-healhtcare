@@ -58,6 +58,11 @@ export async function PUT(
 
     const body = await request.json();
 
+    // Normalize slug: strip leading/trailing slashes
+    if (body.slug) {
+      body.slug = body.slug.replace(/^\/+|\/+$/g, '');
+    }
+
     const blog = await Blog.findByIdAndUpdate(
       id,
       body,
