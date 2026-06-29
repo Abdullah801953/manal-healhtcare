@@ -426,7 +426,7 @@ const benefits = [
     icon: "💰",
     title: "60–80% Lower Cost",
     desc: "India offers the same world-class surgery at 60–80% less than US, UK, or South African hospitals — with absolutely no compromise on quality.",
-    stat: "$3,500",
+    stat: "$4,500",
     statLabel: "CABG starting from",
     color: "text-green-600",
     bg: "bg-green-50",
@@ -637,19 +637,19 @@ function Specialties() {
   View Case Studies <ChevronRight className="w-4 h-4" />
 </a>
           </div>
-          <div className="shrink-0 text-center">
-            <p className="text-green-400 font-black text-4xl">$4,500</p>
-            <p className="text-green-200 text-xs">Starting from</p>
-            <p className="text-gray-400 text-xs line-through mt-1">
-              US $40,000+
-            </p>
-            <Link
-  href="/contact"
-  className="mt-4  bg-white hover:bg-green-50 text-green-900 font-black px-5 py-2.5 rounded-xl text-sm transition-all shadow-sm"
->
-  Get a Quote
-</Link>
-          </div>
+         <div className="shrink-0 text-center flex flex-col items-center gap-1">
+  <p className="text-green-400 font-black text-4xl">$4,500</p>
+  <p className="text-green-200 text-xs">Starting from</p>
+  <p className="text-gray-400 text-xs line-through">
+    US $40,000+
+  </p>
+  <Link
+    href="/contact"
+    className="mt-0.5 bg-white hover:bg-green-50 text-green-900 font-black px-5 py-2 rounded-xl text-sm transition-all shadow-sm"
+  >
+    Get a Quote
+  </Link>
+</div>
         </motion.div>
 
         <p className="text-sm font-bold text-gray-500 mb-4">
@@ -701,7 +701,7 @@ const steps = [
     num: "03",
     icon: <Plane className="w-6 h-6" />,
     title: "Visa & Travel",
-    desc: "We prepare your Indian Medical Visa invitation letter, handle hotel bookings, airport transfers, and ensure a smooth arrival in Delhi or Mumbai.",
+    desc: "We prepare your E-visa & Visa, handle hotel bookings, airport transfers, and ensure a smooth arrival in Delhi, Chennai, Hyderabad, cochin or Mumbai.",
     color: "bg-emerald-600",
   },
   {
@@ -752,29 +752,34 @@ function ProcessSteps() {
           viewport={VP}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
-          {steps.map((s, i) => (
-            <motion.div key={s.num} variants={fadeUp} className="relative">
-              {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gray-100 z-0 -translate-x-4" />
-              )}
-              <div className="relative z-10 flex flex-col items-start">
-                <div
-                  className={`w-16 h-16 ${s.color} rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg`}
-                >
-                  {s.icon}
-                </div>
-                <span className="text-5xl font-black text-gray-100 absolute -top-2 -right-2 leading-none select-none">
-                  {s.num}
-                </span>
-                <h3 className="font-black text-green-900 text-base mb-2">
-                  {s.title}
-                </h3>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  {s.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+         {steps.map((s, i) => (
+  <motion.div key={s.num} variants={fadeUp} className="relative">
+    {i < steps.length - 1 && (
+      <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gray-100 z-0 -translate-x-4" />
+    )}
+    <div className="relative z-10 flex flex-col items-start">
+      
+      {/* icon + number ka apna alag relative container */}
+      <div className="relative mb-4">
+        <div
+          className={`w-16 h-16 ${s.color} rounded-2xl flex items-center justify-center text-white shadow-lg`}
+        >
+          {s.icon}
+        </div>
+        <span className="text-4xl font-black text-gray-200 absolute -top-4 -right-6 leading-none select-none -z-10">
+          {s.num}
+        </span>
+      </div>
+
+      <h3 className="font-black text-green-900 text-base mb-2">
+        {s.title}
+      </h3>
+      <p className="text-gray-500 text-sm leading-relaxed">
+        {s.desc}
+      </p>
+    </div>
+  </motion.div>
+))}
         </motion.div>
         <motion.div
           variants={fadeUp}
@@ -836,26 +841,6 @@ function Doctors() {
           viewport={VP}
           className="mb-12"
         >
-          <motion.p
-            variants={fadeUp}
-            className="text-xs font-black uppercase tracking-widest text-green-600 mb-2"
-          >
-            OUR DOCTORS
-          </motion.p>
-          <motion.h2
-            variants={fadeUp}
-            className="text-3xl md:text-4xl font-black text-green-900 mb-3"
-          >
-            Senior specialists — not junior residents
-          </motion.h2>
-          <motion.p
-            variants={fadeUp}
-            className="text-gray-500 text-sm max-w-xl"
-          >
-            Every patient at Manal Healthcare is treated by top consultant-level
-            surgeons at their respective partner hospitals — with decades of
-            hands-on experience.
-          </motion.p>
         </motion.div>
         <motion.div
           variants={stagger}
